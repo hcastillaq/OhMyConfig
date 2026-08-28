@@ -1,6 +1,8 @@
 # ==============================================================================
-# CONFIGURACIÓN GLOBAL DE GIT (DELTA, ALIAS & TEMA TOKYONIGHT)
+# CONFIGURACIÓN MODULAR DE DELTA & ALIAS TOKYONIGHT PARA GIT
 # ==============================================================================
+# Este archivo es incluido vía include.path en la configuración global de Git.
+# NO contiene credenciales de usuario ni datos personales.
 
 [core]
     pager = delta

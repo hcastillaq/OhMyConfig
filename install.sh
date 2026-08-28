@@ -96,7 +96,7 @@ deploy_config() {
     fi
 }
 
-# 4. Desplegar configuraciones
+# 4. Desplegar configuraciones modulares en ~/.config
 echo ""
 echo "⚙️  Configurando archivos en ${CONFIG_DIR}..."
 
@@ -109,7 +109,18 @@ deploy_config "${DOTFILES_DIR}/config/zellij/plugins/zjstatus.wasm" "${CONFIG_DI
 deploy_config "${DOTFILES_DIR}/config/lazygit/config.yml" "${CONFIG_DIR}/lazygit/config.yml"
 deploy_config "${DOTFILES_DIR}/config/bottom/bottom.toml" "${CONFIG_DIR}/bottom/bottom.toml"
 deploy_config "${DOTFILES_DIR}/config/atuin/config.toml" "${CONFIG_DIR}/atuin/config.toml"
-deploy_config "${DOTFILES_DIR}/config/git/config" "${CONFIG_DIR}/git/config"
+deploy_config "${DOTFILES_DIR}/config/git/delta.gitconfig" "${CONFIG_DIR}/git/delta.gitconfig"
+
+# 5. Configurar inclusión no destructiva de Delta en Git (Preserva usuario, email y claves)
+echo ""
+echo "🐙 Configurando Delta en Git de forma segura (sin sobreescribir usuario)..."
+DELTA_CONFIG_PATH="${CONFIG_DIR}/git/delta.gitconfig"
+if ! git config --global --get-all include.path 2>/dev/null | grep -q "$DELTA_CONFIG_PATH"; then
+    echo "🔗 Vinculando include.path en Git: ${DELTA_CONFIG_PATH}"
+    git config --global --add include.path "$DELTA_CONFIG_PATH"
+else
+    echo "✅ Delta ya está vinculado en Git via include.path."
+fi
 
 echo ""
 echo "=========================================="

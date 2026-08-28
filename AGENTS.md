@@ -38,8 +38,8 @@ OhMyConfig/
     │   └── bottom.toml          # System & process monitor theme/layout
     ├── atuin/
     │   └── config.toml          # Intelligent shell history SQLite database config
-    └── git/
-        └── config               # Global Git configuration with Delta and aliases
+    ├── git/
+    │   └── delta.gitconfig      # Modular Delta & alias configuration (included via include.path)
 ```
 
 ---

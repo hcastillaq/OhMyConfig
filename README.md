@@ -138,7 +138,7 @@ lg
 
 ### 2.4 Paginador y Resaltado de Diffs con Git-Delta
 
-**Git-Delta** está configurado globalmente en `~/.config/git/config` para transformar la salida de `git diff`, `git show` y `git log -p`:
+**Git-Delta** se integra de forma **no destructiva** en tu entorno mediante un archivo modular (`~/.config/git/delta.gitconfig`) enlazado con `include.path`. Esto garantiza que tus datos personales (`user.name`, `user.email`, claves GPG/SSH) se mantengan **100% intactos** en tu `~/.gitconfig`:
 
 * **Resaltado por palabra:** Identifica exactamente qué caracteres cambiaron dentro de una misma línea modificada.
 * **Paleta Tokyonight integrada:** Fondos oscuros no invasivos (`#3b222c` para eliminaciones, `#1c333b` para inserciones) y números de línea coloreados (`#f7768e` / `#9ece6a`).
