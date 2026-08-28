@@ -1,0 +1,17 @@
+# =========================
+# FONT
+# =========================
+font-family = "Dank Mono"
+font-size = 16
+
+# Tema oscuro de alto contraste (combina con tu Starship)
+theme = tokyonight
+
+# UI minimalista sin bordes de macOS
+window-decoration = false
+window-padding-x = 10
+window-padding-y = 10
+
+# Transparencia y efecto blur nativo de Apple
+background-opacity = 0.98
+background-blur-radius = 20
