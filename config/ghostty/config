@@ -1,17 +1,28 @@
-# =========================
-# FONT
-# =========================
-font-family = "Dank Mono"
-font-size = 16
+# ==============================================================================
+# CONFIGURACIÓN DE GHOSTTY (TEMA TOKYONIGHT NIGHT & JETBRAINS NERD FONT)
+# ==============================================================================
 
-# Tema oscuro de alto contraste (combina con tu Starship)
-theme = tokyonight
+# --- TIPOGRAFÍA Y FUENTES ---
+font-family = "JetBrainsMono Nerd Font"
+font-family = "JetBrains Mono"
+font-size = 15
+font-feature = ["liga", "calt"]
 
-# UI minimalista sin bordes de macOS
+# --- TEMA Y PALETA ---
+theme = "tokyonight"
+
+# --- VENTANA Y EFECTOS VISUALES ---
 window-decoration = false
-window-padding-x = 10
+window-padding-x = 12
 window-padding-y = 10
-
-# Transparencia y efecto blur nativo de Apple
 background-opacity = 0.98
 background-blur-radius = 20
+
+# --- CURSOR ---
+cursor-style = "block"
+cursor-style-blink = false
+cursor-color = "#7dcfff"
+cursor-text = "#1a1b26"
+
+# --- INTEGRACIÓN CON FISH ---
+shell-integration = "fish"

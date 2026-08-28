@@ -1,0 +1,14 @@
+# ==============================================================================
+# CONFIGURACIÓN DE ATUIN (HISTORIAL INTELIGENTE CON TOKYONIGHT)
+# ==============================================================================
+
+style = "compact"
+inline_height = 20
+show_preview = true
+enter_accept = false
+keymap_mode = "auto"
+search_mode = "fuzzy"
+filter_mode = "global"
+workspaces = true
+show_help = false
+records = true

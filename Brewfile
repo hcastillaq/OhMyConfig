@@ -11,6 +11,7 @@ cask "font-symbols-only-nerd-font"
 brew "fish"
 brew "starship"
 brew "mise"
+brew "atuin"
 
 # Terminal Multiplexer
 brew "zellij"
@@ -35,10 +36,13 @@ brew "lazygit"
 brew "gh"
 brew "glow"
 brew "tokei"
+brew "onefetch"
+brew "sd"
 
 # Network, APIs & Data Processing
 brew "xh"
 brew "jq"
+brew "jqp"
 
 # Containers & Kubernetes
 brew "lazydocker"

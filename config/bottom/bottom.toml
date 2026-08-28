@@ -1,5 +1,5 @@
 # ==============================================================================
-# CONFIGURACIÓN DE BOTTOM (BTM) - TEMA TOKYONIGHT
+# CONFIGURACIÓN DE BOTTOM (BTM) - TEMA TOKYONIGHT NIGHT
 # ==============================================================================
 
 [flags]
@@ -21,7 +21,7 @@ battery = true
 table_header_color = "#7dcfff"
 all_cpu_color = "#bb9af7"
 avg_cpu_color = "#f7768e"
-cpu_core_colors = ["#7aa2f7", "#9ece6a", "#e0af68", "#ff9e64", "#bb9af7", "#7dcfff"]
+cpu_core_colors = ["#7aa2f7", "#7dcfff", "#9ece6a", "#e0af68", "#ff9e64", "#bb9af7"]
 ram_color = "#9ece6a"
 swap_color = "#ff9e64"
 rx_color = "#7dcfff"
@@ -32,7 +32,7 @@ highlighted_border_color = "#7aa2f7"
 text_color = "#c0caf5"
 graph_color = "#565f89"
 cursor_color = "#7dcfff"
-selected_text_color = "#1a1b26"
+selected_text_color = "#15161e"
 selected_bg_color = "#7aa2f7"
 high_battery_color = "#9ece6a"
 medium_battery_color = "#e0af68"

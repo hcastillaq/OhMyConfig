@@ -1,429 +1,353 @@
-# OhMyConfig
+# ⚡ OhMyConfig
 
-Configuración base para entornos de desarrollo en macOS empleando utilidades modernas de terminal optimizadas en Rust y Go con una estética unificada en **Tokyonight**.
+Entorno de desarrollo moderno, minimalista y de alto rendimiento para **macOS** configurado con utilidades de última generación escritas en **Rust** y **Go**, con una estética unificada bajo la paleta **Tokyonight Night** y glifos **Nerd Font v3**.
 
 ---
 
-## 🚀 Instalación y Configuración Automática
+## 📑 Tabla de Contenidos
 
-El script `install.sh` es idempotente y seguro frente a configuraciones previas:
-1. **Homebrew:** Detecta o instala Homebrew si no está presente en el sistema.
-2. **Dependencias:** Instala todas las utilidades y fuentes Nerd Font declaradas en el `Brewfile`.
-3. **Manejo de `.config` existente:**
-   - Si los directorios ya existen, los preserva sin tocar otros archivos.
-   - Si existían archivos de configuración previos con contenido distinto, genera un respaldo automático (`.bak_YYYYMMDD_HHMMSS`) antes de sobrescribirlos.
-   - Admite modo de enlace simbólico (`--link` o `-l`) si preferís que `~/.config` apunte directamente a este repositorio.
+1. [🚀 Instalación Rápida & Idempotente](#-instalación-rápida--idempotente)
+2. [👑 GUÍA MAESTRA DE GIT Y CONTROL DE VERSIONES (PRIORIDAD)](#-guía-maestra-de-git-y-control-de-versiones-prioridad)
+   - [2.1 Flujo de Trabajo en Terminal y Atajos Esenciales](#21-flujo-de-trabajo-en-terminal-y-atajos-esenciales)
+   - [2.2 Visualización de Historial y Árbol de Commits (`gl`, `glog`, `glp`)](#22-visualización-de-historial-y-árbol-de-commits-gl-glog-glp)
+   - [2.3 Interfaz Visual Interactiva con Lazygit (`lg`)](#23-interfaz-visual-interactiva-con-lazygit-lg)
+   - [2.4 Paginador y Resaltado de Diffs con Git-Delta](#24-paginador-y-resaltado-de-diffs-con-git-delta)
+   - [2.5 Radiografía de Repositorios con Onefetch (`of`)](#25-radiografía-de-repositorios-con-onefetch-of)
+   - [2.6 Integración Remota con GitHub CLI (`gh`)](#26-integración-remota-con-github-cli-gh)
+   - [2.7 Refactorización Rápida en Repositorios (`rg` + `sd` + `fd`)](#27-refactorización-rápida-en-repositorios-rg--sd--fd)
+3. [🖥️ Terminal, Shell y Prompt](#️-terminal-shell-y-prompt)
+4. [🪟 Multiplexor de Terminal (Zellij + zjstatus)](#-multiplexor-de-terminal-zellij--zjstatus)
+5. [🔍 Navegación Inteligente y Búsqueda Difusa](#-navegación-inteligente-y-búsqueda-difusa)
+6. [🌐 APIs, Datos y JSON](#-apis-datos-y-json)
+7. [📊 Monitoreo, Procesos y Contenedores](#-monitoreo-procesos-y-contenedores)
+8. [⚡ Tabla Maestra de Alias y Atajos](#-tabla-maestra-de-alias-y-atajos)
 
-### Ejecución estándar (Copia segura con respaldo)
+---
+
+## 🚀 Instalación Rápida & Idempotente
+
+El script `install.sh` automatiza la instalación de herramientas vía Homebrew y el despliegue seguro de configuraciones en `~/.config/`:
+
+* **Copia Segura (Por Defecto):** Compara los archivos existentes; si detecta modificaciones previas, genera un respaldo automático (`.bak_YYYYMMDD_HHMMSS`) antes de escribir.
+* **Modo Enlaces Simbólicos (`--link` o `-l`):** Enlaza `~/.config/` directamente a este repositorio para desarrollo activo de dotfiles.
+
 ```bash
+# Opción A: Despliegue seguro con respaldos
 chmod +x install.sh
 ./install.sh
-```
 
-### Ejecución en modo desarrollo (Symlinks directos)
-```bash
+# Opción B: Modo Symlinks directos
 ./install.sh --link
 ```
 
 ---
 
-## ⚙️ Configuración Manual (Opcional)
+## 👑 GUÍA MAESTRA DE GIT Y CONTROL DE VERSIONES (PRIORIDAD)
 
-Si preferís realizar los pasos por separado:
+OhMyConfig integra un stack completo para Git donde la terminal rápida, el motor de diffs visuales, el navegador interactivo y las herramientas de refactorización cooperan armónicamente.
 
-### 1. Instalar herramientas
-```bash
-brew bundle --file=Brewfile
 ```
-
-### 2. Copiar y reemplazar archivos de configuración
-```bash
-# Crear directorios base en ~/.config si no existen
-mkdir -p ~/.config/fish ~/.config/ghostty ~/.config/starship ~/.config/zellij ~/.config/lazygit ~/.config/bottom
-
-# Copiar y reemplazar las configuraciones
-cp -f config/fish/config.fish ~/.config/fish/config.fish
-cp -f config/ghostty/config ~/.config/ghostty/config
-cp -f config/starship/starship.toml ~/.config/starship/starship.toml
-cp -f config/zellij/config.kdl ~/.config/zellij/config.kdl
-cp -f config/lazygit/config.yml ~/.config/lazygit/config.yml
-cp -f config/bottom/bottom.toml ~/.config/bottom/bottom.toml
-```
-
-### 3. Establecer Fish como Shell por defecto
-```bash
-echo $(which fish) | sudo tee -a /etc/shells
-chsh -s $(which fish)
+┌────────────────────────────────────────────────────────────────────────┐
+│                        FLUJO INTEGRADO DE GIT                          │
+├──────────────────┬──────────────────┬─────────────────┬────────────────┤
+│   TERMINAL CLI   │    TUI VISUAL    │   DIFFS DELTA   │   TELEMETRÍA   │
+│ g, gs, gc, gl, gd│  lazygit (`lg`)  │   git-delta     │ onefetch (`of`)│
+└──────────────────┴──────────────────┴─────────────────┴────────────────┘
 ```
 
 ---
 
-## 🛠️ Herramientas, Propósito y Ejemplos de Uso
+### 2.1 Flujo de Trabajo en Terminal y Atajos Esenciales
+
+Para operaciones ultrarrápidas tenés atajos memorables configurados en Fish Shell:
+
+| Atajo | Comando Real | Propósito / Caso de Uso |
+| :--- | :--- | :--- |
+| `gs` | `git status` | Ver estado de archivos (staged, unstaged, untracked). |
+| `gaa` | `git add .` | Agregar todos los cambios al staging area. |
+| `gc` | `git commit` | Abrir el editor para redactar un commit estructurado. |
+| `gch <branch>` | `git checkout <branch>` | Cambiar de rama o restaurar archivos de trabajo. |
+| `gd` | `git diff` | Ver cambios pendientes con resaltado de sintaxis **Delta**. |
+| `gp` | `git push` | Subir la rama activa al repositorio remoto. |
+| `g` | `git` | Acceso directo al binario de Git. |
 
 ---
 
-### 🖥️ Emulador, Shell y Fuentes
+### 2.2 Visualización de Historial y Árbol de Commits (`gl`, `glog`, `glp`)
 
-#### **Ghostty**
-* **¿Para qué sirve?** Emulador de terminal nativo para macOS con aceleración por GPU, latencia ultra baja, soporte para ligaduras tipográficas y desenfoque nativo.
-* **Uso:** Se lanza como aplicación de macOS (`Ghostty.app`) o desde terminal:
-  ```bash
-  open -a Ghostty
-  ```
+Visualizá la historia de tu repositorio sin salir de la consola con formato **Tokyonight**:
 
-#### **JetBrains Mono Nerd Font & Symbols Only**
-* **¿Para qué sirve?** Fuentes tipográficas parcheadas con miles de glifos e íconos necesarios para renderizar correctamente prompts, carpetas y estados de Git en Starship, Eza y Lazygit.
-* **Uso:** Configuradas automáticamente en el emulador de terminal (`font-family = "Dank Mono"` o `"JetBrainsMono Nerd Font"`).
+#### **`gl` — Árbol de commits de la rama actual**
+Muestra el grafo de bifurcación, hash corto en azul (`#7aa2f7`), referencias de ramas/tags en púrpura (`#bb9af7`), mensaje en blanco, tiempo relativo en gris y autor en cyan.
+```bash
+gl
+```
 
-#### **Fish Shell**
-* **¿Para qué sirve?** Shell interactiva moderna con resaltado de sintaxis al escribir, sugerencias basadas en historial y autocompletado inteligente sin configuración pesada.
-* **Ejemplos de uso:**
-  ```bash
-  # Escribí cualquier comando y presioná Flecha Derecha (→) para autocompletar la sugerencia gris
-  git che[→]  # autocompleta 'git checkout'
-  ```
+#### **`glog` — Árbol completo de todas las ramas**
+Incluye todas las ramas locales y remotas (`--all`) para entender cómo convergen los merges y rebases.
+```bash
+glog
+```
 
-#### **Starship**
-* **¿Para qué sirve?** Prompt minimalista y ultrarrápido escrito en Rust. Muestra de forma reactiva el directorio actual, rama y estado de Git, runtimes activos (Node, Python, Java) y contexto de Kubernetes.
-* **Ejemplos de uso:**
-  ```bash
-  # Ver el tiempo de respuesta o configurar módulos
-  starship explain
-  starship timings
-  ```
-
-#### **mise**
-* **¿Para qué sirve?** Administrador políglota de versiones y runtimes de lenguajes (Node, Python, Go, Rust, Java, etc.) y variables de entorno por proyecto, reemplazando a `nvm`, `pyenv`, `sdkman`, etc.
-* **Ejemplos de uso:**
-  ```bash
-  # Instalar y fijar una versión de Node y Python en el proyecto actual
-  mise use node@20
-  mise use python@3.12
-
-  # Listar versiones instaladas y activas
-  mise ls
-
-  # Ejecutar un comando con un runtime específico sin instalarlo globalmente
-  mise exec node@18 -- node app.js
-  ```
+#### **`glp` — Historial detallado con diffs en Delta**
+Recorre los commits mostrando el diff completo de código línea por línea con resaltado de sintaxis.
+```bash
+glp
+```
 
 ---
 
-### 🪟 Multiplexor de Terminal
+### 2.3 Interfaz Visual Interactiva con Lazygit (`lg`)
 
-#### **Zellij**
-* **¿Para qué sirve?** Multiplexor de terminal en Rust (alternativa moderna a Tmux) con pestañas, paneles flotantes, layouts predefinidos y menús de ayuda integrados en pantalla.
-* **Ejemplos de uso:**
-  ```bash
-  # Iniciar o reconectar sesión (alias: zj)
-  zj
-  zellij attach mi-sesion
+**Lazygit** es la herramienta central cuando un flujo de Git requiere granularidad visual (hacer staging de líneas sueltas, resolver conflictos o editar commits pasados).
 
-  # Atajos clave dentro de Zellij:
-  # Ctrl + p  -> Modo Paneles (n = nuevo, x = cerrar, f = flotante/fullscreen)
-  # Ctrl + t  -> Modo Pestañas (n = nueva pestaña, 1-9 = cambiar pestaña)
-  # Ctrl + d  -> Desconectar sesión sin cerrarla
-  ```
+```bash
+lg
+```
+
+```
+┌─────────┬───────────────────────────────┬──────────────────────────────┐
+│ [1]     │ [3] Branches                  │ [Main Panel]                 │
+│ Status  │ * main                        │                              │
+├─────────┤   feature/auth                │ Diff enriquecido con Delta   │
+│ [2]     ├───────────────────────────────┤ y opciones de navegación     │
+│ Files   │ [4] Commits                   │                              │
+│ [x] src │ * 008e985 feat: add layout    │                              │
+└─────────┴───────────────────────────────┴──────────────────────────────┘
+```
+
+#### Atajos Clave en Lazygit:
+* **Navegación entre paneles:** Teclas `1`, `2`, `3`, `4`, `5` o `Tab` / `Shift+Tab`.
+* **Staging de líneas individuales:**
+  1. En el panel **[2] Files**, presioná `Enter` sobre un archivo modificado.
+  2. Navegá por los bloques (*hunks*) con `[` y `]`.
+  3. Presioná `Espacio` en las líneas exactas que querés agregar al commit.
+  4. Presioná `Esc` y luego `c` para commitear solo esas líneas.
+* **Manejo de Ramas (Panel [3]):**
+  * `Espacio` -> Checkout de la rama seleccionada.
+  * `n` -> Crear nueva rama a partir de la actual.
+  * `F` -> Fast-forward / Pull de la rama remota.
+  * `M` -> Merge interactivo de la rama seleccionada en la activa.
+* **Edición de Historial (Panel [4]):**
+  * `s` -> Squash (combinar commit hacia abajo).
+  * `r` -> Renombrar mensaje de commit (*reword*).
+  * `d` -> Descartar commit (*drop*).
+  * `e` -> Editar commit (*rebase interactive*).
 
 ---
 
-### 📊 Monitoreo y Procesos
+### 2.4 Paginador y Resaltado de Diffs con Git-Delta
 
-#### **procs**
-* **¿Para qué sirve?** Reemplazo moderno y legible de `ps` que colorea la salida, muestra puertos TCP/UDP asociados a cada proceso y árbol jerárquico de ejecución.
-* **Ejemplos de uso:**
+**Git-Delta** está configurado globalmente en `~/.config/git/config` para transformar la salida de `git diff`, `git show` y `git log -p`:
+
+* **Resaltado por palabra:** Identifica exactamente qué caracteres cambiaron dentro de una misma línea modificada.
+* **Paleta Tokyonight integrada:** Fondos oscuros no invasivos (`#3b222c` para eliminaciones, `#1c333b` para inserciones) y números de línea coloreados (`#f7768e` / `#9ece6a`).
+* **Modo Side-by-Side (Opcional):**
   ```bash
-  # Buscar procesos por nombre
-  procs node
-
-  # Ver qué proceso está escuchando en un puerto específico
-  procs --port 3000
-
-  # Ver árbol jerárquico de procesos
-  procs --tree
-  ```
-
-#### **bottom (`btm`)**
-* **¿Para qué sirve?** Monitor interactivo de recursos del sistema (CPU por núcleo, RAM/Swap, Red, Discos y Procesos) con gráficos en tiempo real en la terminal.
-* **Ejemplos de uso:**
-  ```bash
-  # Abrir monitor gráfico interactivo (alias: btm)
-  btm
-
-  # Dentro de bottom:
-  # 't' -> ordenar procesos por uso de CPU
-  # 'm' -> ordenar procesos por uso de Memoria
-  # 'dd' -> matar proceso seleccionado
-  # '/' -> filtrar procesos
-  ```
-
-#### **dust (`du`)**
-* **¿Para qué sirve?** Analizador visual interactivo de uso de disco en Rust. Permite identificar instantáneamente qué archivos o carpetas están consumiendo más espacio.
-* **Ejemplos de uso:**
-  ```bash
-  # Analizar la carpeta actual (alias: du)
-  dust
-
-  # Limitar la profundidad de análisis a 2 niveles
-  dust -d 2
-
-  # Analizar un directorio específico mostrando los 10 elementos más pesados
-  dust -n 10 /Users/usuario/Downloads
+  git diff | delta --side-by-side
   ```
 
 ---
 
-### 🔍 Navegación, Archivos y Búsqueda
+### 2.5 Radiografía de Repositorios con Onefetch (`of`)
 
-#### **zoxide (`cd` / `z`)**
-* **¿Para qué sirve?** Reemplazo inteligente de `cd` que aprende de los directorios a los que accedes con frecuencia y te permite saltar a ellos con coincidencias parciales.
-* **Ejemplos de uso:**
+Obtené un resumen visual inmediato de cualquier repositorio al clonarlo o ingresar a él:
+
+```bash
+of
+```
+* Muestra el porcentaje de código por lenguaje con barras coloreadas.
+* Cantidad total de commits, ramas, autores principales y antigüedad del repo.
+* Detección automática de licencia (`MIT`, `Apache-2.0`, etc.) y tamaño en disco.
+* Renderizado del logo en arte ASCII del lenguaje predominante.
+
+---
+
+### 2.6 Integración Remota con GitHub CLI (`gh`)
+
+Gestioná el ciclo de vida remoto en GitHub sin abrir el navegador:
+
+```bash
+# Crear un Pull Request interactivo con título y descripción guiada
+gh pr create
+
+# Listar PRs abiertos del repositorio
+gh pr list
+
+# Descargar y colocarse directamente en la rama de un PR abierto
+gh pr checkout 42
+
+# Ver el estado de las revisiones y CI/CD de tu PR actual
+gh pr status
+
+# Clonar repositorios rápidamente
+gh repo clone organizacion/repositorio
+```
+
+---
+
+### 2.7 Refactorización Rápida en Repositorios (`rg` + `sd` + `fd`)
+
+Combiná las utilidades en Rust para realizar cambios masivos seguros en todo el código:
+
+1. **Buscar ocurrencias con Ripgrep (`rg`):**
+   ```bash
+   rg "API_URL_LEGACY"
+   ```
+2. **Reemplazar masivamente en archivos con `sd`:**
+   ```bash
+   # Sintaxis directa sin los problemas de sed en macOS
+   sd 'https://api-v1.internal' 'https://api-v2.internal' src/**/*.ts
+   ```
+3. **Buscar archivos y ejecutar transformaciones con `fd`:**
+   ```bash
+   fd -e json -x prettier --write {}
+   ```
+
+---
+
+## 🖥️ Terminal, Shell y Prompt
+
+### **Ghostty**
+* Emulador de terminal nativo para macOS con aceleración por GPU (Metal).
+* Configurado con desenfoque de fondo (*blur radius 20*), opacidad al 0.98, sin marcos de ventana de macOS y con cursor estilo bloque Tokyonight Cyan (`#7dcfff`).
+
+### **Fish Shell**
+* Shell interactiva con autocompletado en tiempo real y coloreado sintáctico completo (comandos en azul, comillas en verde, variables en púrpura, errores en rojo).
+* Función **`cds`** para purgar recursivamente archivos `.DS_Store` en proyectos macOS.
+
+### **Starship**
+* Prompt reactivo en Rust.
+* Módulos activos:
+  * 📁 Directorio actual (`#7dcfff`) con indicador de solo lectura `󰌾`.
+  *  Rama y estado de Git (`#bb9af7` / `#ff9e64`).
+  * 󰒋 Runtimes activos vía **mise** (Node ``, Python ``, Java ``).
+  * 󱃾 Contexto de Kubernetes (`#7aa2f7`).
+  * ⏱️ Duración de comandos cuando superan los 2 segundos (`󱑂`).
+  * ❯ Carácter de entrada (`#7aa2f7` en éxito, `#f7768e` en error).
+
+### **atuin**
+* Reemplazo del historial tradicional por una base de datos indexada SQLite.
+* Presioná **`Ctrl + r`** o **`↑`** para abrir el buscador difuso con duración, hora, directorio y código de salida.
+* `atuin stats`: Estadísticas de comandos más frecuentes.
+
+---
+
+## 🪟 Multiplexor de Terminal (Zellij + zjstatus)
+
+Zellij está configurado con un layout de **1 sola línea inferior** (`layouts/default.kdl`) utilizando el plugin local **`zjstatus.wasm`** sin dependencias externas ni diálogos de confirmación de red:
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│ [Panel 1: Editor]                    │ [Panel 2: Consola / Logs]       │
+│                                      │                                 │
+│                                      │                                 │
+├────────────────────────────────────────────────────────────────────────┤
+│ NORMAL │ 1: fish  2: lazygit         │ 󰆍 session_name │ 󱑂 14:30        │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+* **Modo Normal:** Pestañas con la activa en formato *Badge* de alto contraste (`#3d59a1` + `#7aa2f7`).
+* **Al entrar a un modo (`Ctrl+p`, `Ctrl+t`, etc.):** La barra inferior muta al instante mostrando los atajos contextuales con código de colores semántico:
+  * `Ctrl + p` (Modo Paneles) -> `n:new`, `d:down`, `r:right`, `x:close`, `f:full`, `w:float`, `z:frames`.
+  * `Ctrl + t` (Modo Pestañas) -> `n:new`, `x:close`, `h/l:move`, `r:rename`, `s:sync`.
+  * `Ctrl + n` (Modo Redimensionar) -> `+/-:size`, `h/j/k/l:dir`.
+  * `Ctrl + s` (Modo Scroll) -> `j/k:scroll`, `d/u:page`, `s:search`, `e:edit`.
+  * `Ctrl + o` (Modo Sesión) -> `d:detach`, `w:manager`.
+
+---
+
+## 🔍 Navegación Inteligente y Búsqueda Difusa
+
+### **zoxide (`cd` / `z`)**
+* `cd <nombre>`: Salta a cualquier directorio frecuente sin importar cuán profundo esté.
+* `zi`: Menú interactivo con FZF para elegir directorios históricos.
+* Abreviaturas: `..` (sube 1 nivel), `...` (sube 2 niveles), `-` (vuelve al previo).
+
+### **fzf**
+* Motor de búsqueda difusa con colores Tokyonight Night y cursor `▶`.
+* `Ctrl + t`: Búsqueda difusa de archivos con `fd` (ignora `.git` y `node_modules`).
+* `Alt + c`: Búsqueda difusa y cambio directo a carpetas.
+
+### **yazi (`y` / `yz`)**
+* Administrador de archivos TUI asíncrono con vista previa de texto e imágenes.
+* Usá el alias `y` para que al salir con `q` tu terminal quede ubicada en la carpeta explorada.
+
+### **eza & bat**
+* `ls`, `ll`, `la`, `tree`: Listados visuales con íconos y carpetas agrupadas primero.
+* `cat`: Visor con sintaxis coloreada Tokyonight y marcas de Git.
+
+---
+
+## 🌐 APIs, Datos y JSON
+
+### **xh**
+* Cliente HTTP ergonómico y veloz (reemplazo de `curl`).
+* `xh GET api.github.com/users/octocat`
+* `xh POST httpbin.org/post name="Gentleman" role="Architect"`
+
+### **jq & jqp**
+* `jq`: Procesamiento y formateo de streams JSON por consola.
+* `jqp`: Playground TUI interactivo para probar filtros de `jq` en tiempo real.
   ```bash
-  # Saltar a un proyecto profundo sin escribir toda la ruta
-  cd OhMyConfig      # Salta directo a ~/Codigos/OhMyConfig
-
-  # Selección interactiva con FZF si hay varias coincidencias
-  zi
-
-  # Atajos rápidos incluidos en la config:
-  ..     # Sube 1 nivel
-  ...    # Sube 2 niveles
-  -      # Vuelve al directorio anterior
-  ```
-
-#### **fzf**
-* **¿Para qué sirve?** Motor de búsqueda difusa interactivo para filtrar rápidamente texto, archivos, comandos del historial o procesos.
-* **Ejemplos de uso:**
-  ```bash
-  # Atajos de teclado en Fish:
-  # Ctrl + r -> Buscar en el historial de comandos
-  # Ctrl + t -> Buscar archivos recursivamente e insertar la ruta
-  # Alt + c  -> Cambiar de directorio mediante búsqueda difusa
-
-  # Filtrar cualquier comando mediante tubería (pipe)
-  git branch | fzf | xargs git checkout
-  ```
-
-#### **yazi (`y` / `yz`)**
-* **¿Para qué sirve?** Administrador de archivos TUI ultrarrápido con arquitectura asíncrona en Rust. Soporta vista previa de código, imágenes (en Ghostty) y cambia el directorio de la consola al salir.
-* **Ejemplos de uso:**
-  ```bash
-  # Abrir explorador (al presionar 'q' te deja ubicado en la carpeta donde navegaste)
-  y
-
-  # Abrir explorando una ruta puntual
-  y ~/Downloads
-
-  # Atajos dentro de Yazi:
-  # Espacio -> Seleccionar archivo
-  # Enter   -> Abrir archivo en tu editor
-  # y / d / p -> Copiar / Cortar / Pegar
-  ```
-
-#### **eza (`ls`, `ll`, `la`, `tree`)**
-* **¿Para qué sirve?** Reemplazo moderno de `ls` con soporte para íconos, agrupamiento de directorios, permisos legibles y vistas de árbol.
-* **Ejemplos de uso:**
-  ```bash
-  ls             # Lista con íconos agrupando carpetas primero
-  ll             # Lista detallada (permisos, tamaño, fechas, archivos ocultos)
-  tree           # Vista en árbol visual de la estructura de directorios
-  eza --git -l   # Lista archivos mostrando su estado individual en Git
-  ```
-
-#### **ripgrep (`rg`)**
-* **¿Para qué sirve?** El buscador de texto dentro de archivos más rápido del ecosistema, respetando `.gitignore` por defecto.
-* **Ejemplos de uso:**
-  ```bash
-  # Buscar una palabra o regex en todos los archivos del proyecto
-  rg "STARSHIP_CONFIG"
-
-  # Buscar solo dentro de archivos de un tipo de lenguaje
-  rg --type rust "fn main"
-  rg --type ts "interface User"
-
-  # Buscar ignorando mayúsculas/minúsculas
-  rg -i "tokyonight"
-  ```
-
-#### **fd**
-* **¿Para qué sirve?** Alternativa intuitiva y ultrarrápida a `find` para localizar archivos y directorios por nombre.
-* **Ejemplos de uso:**
-  ```bash
-  # Buscar archivos por extensión
-  fd -e fish
-  fd -e toml
-
-  # Buscar archivos cuyo nombre contenga un patrón
-  fd config
-
-  # Ejecutar un comando sobre todos los archivos encontrados
-  fd -e png -x optipng {}
+  cat respuesta.json | jqp
   ```
 
 ---
 
-### 📝 Archivos, Git y Documentación
+## 📊 Monitoreo, Procesos y Contenedores
 
-#### **bat (`cat`)**
-* **¿Para qué sirve?** Reemplazo de `cat` con resaltado de sintaxis para cientos de lenguajes, integración con Git (muestra líneas agregadas/modificadas al costado) y paginado automático.
-* **Ejemplos de uso:**
-  ```bash
-  cat config/fish/config.fish   # Muestra el archivo con resaltado de sintaxis Tokyonight
-  bat -A package.json           # Muestra caracteres no imprimibles (espacios, tabs)
-  ```
+### **bottom (`btm`)**
+* Monitor gráfico en tiempo real de CPU por núcleo, Memoria/Swap, Red, Discos y Procesos.
+* `t` (ordenar por CPU), `m` (ordenar por Memoria), `dd` (terminar proceso), `/` (filtrar).
 
-#### **git-delta**
-* **¿Para qué sirve?** Paginador visual para `git diff`, `git log` y `git show` que resalta cambios a nivel de palabra, soporta vista lado a lado (`side-by-side`) y se integra con Lazygit.
-* **Ejemplos de uso:**
-  ```bash
-  git diff                      # Muestra diffs enriquecidos con sintaxis en la terminal
-  git diff | delta --side-by-side  # Comparación en dos columnas
-  ```
+### **procs**
+* Reemplazo enriquecido de `ps`.
+* `procs --port 3000`: Muestra qué proceso exacto está utilizando el puerto 3000.
+* `procs --tree`: Vista en árbol de procesos.
 
-#### **lazygit (`lg`)**
-* **¿Para qué sirve?** Interfaz TUI completa para Git. Permite realizar staging de líneas individuales, resolver conflictos de merge, hacer rebase interactivo y navegar ramas sin memorizar comandos complejos.
-* **Ejemplos de uso:**
-  ```bash
-  lg                            # Abre la interfaz visual de Git
+### **dust (`du`)**
+* Visualizador interactivo del espacio en disco en barras gráficas.
+* `dust -d 2`: Análisis a 2 niveles de profundidad.
 
-  # Atajos dentro de Lazygit:
-  # Espacio -> Stage / Unstage de archivo o fragmento
-  # c       -> Escribir commit
-  # P / p   -> Push / Pull
-  # b       -> Menú de ramas (crear, checkout, merge)
-  # r       -> Rebase interactivo
-  ```
-
-#### **gh (GitHub CLI)**
-* **¿Para qué sirve?** Interfaz oficial de línea de comandos para interactuar con GitHub (crear PRs, clonar repositorios, revisar issues, disparar GitHub Actions).
-* **Ejemplos de uso:**
-  ```bash
-  # Crear un Pull Request interactivo con descripción
-  gh pr create
-
-  # Ver y revisar PRs abiertos
-  gh pr list
-  gh pr checkout 42
-
-  # Clonar un repositorio por nombre de usuario/repo
-  gh repo clone earendil-works/pi-coding-agent
-  ```
-
-#### **glow (`md`)**
-* **¿Para qué sirve?** Renderizador de archivos Markdown en la terminal con formato enriquecido, tablas legibles y bloques de código coloreados.
-* **Ejemplos de uso:**
-  ```bash
-  # Leer el README con estilos en consola (alias: md)
-  md README.md
-
-  # Leer documentación desde un repositorio remoto
-  glow github.com/charmbracelet/glow
-  ```
-
-#### **tokei**
-* **¿Para qué sirve?** Analizador estadístico que cuenta rápidamente líneas de código, comentarios y líneas en blanco clasificadas por lenguaje.
-* **Ejemplos de uso:**
-  ```bash
-  # Analizar todo el repositorio actual
-  tokei
-
-  # Excluir carpetas pesadas como dependencias
-  tokei ./ --exclude node_modules --exclude target
-  ```
+### **lazydocker & k9s**
+* `lazydocker`: TUI para contenedores, imágenes, volúmenes y logs en vivo de Docker.
+* `k9s`: Panel TUI para clusters de Kubernetes.
+* `kubectx` / `kubens`: Alternar contextos y namespaces de Kubernetes interactivamente.
 
 ---
 
-### 🌐 Redes, APIs y Datos
-
-#### **xh**
-* **¿Para qué sirve?** Cliente HTTP ergonómico y veloz (reemplazo moderno de `curl` y `httpie`) con resaltado de sintaxis de respuestas, soporte nativo de JSON y autenticación simplificada.
-* **Ejemplos de uso:**
-  ```bash
-  # Petición GET simple
-  xh https://api.github.com/users/octocat
-
-  # Petición POST enviando JSON automáticamente
-  xh POST https://httpbin.org/post name="Gentleman" role="Architect"
-
-  # Enviar encabezados y parámetros de consulta
-  xh GET api.example.com/search q==rust Authorization:"Bearer token123"
-  ```
-
-#### **jq**
-* **¿Para qué sirve?** Procesador y transformador de datos JSON en consola (filtrar campos, mapear arrays, formatear).
-* **Ejemplos de uso:**
-  ```bash
-  # Formatear y colorear un JSON crudo
-  curl -s https://api.github.com/repos/fish-shell/fish-shell | jq .
-
-  # Extraer un campo específico
-  xh https://api.github.com/repos/bootandy/dust | jq '.stargazers_count'
-
-  # Mapear nombres de un array
-  cat data.json | jq '.[].name'
-  ```
-
----
-
-### 🐳 Contenedores y Kubernetes
-
-#### **lazydocker**
-* **¿Para qué sirve?** Interfaz TUI para monitorear y administrar contenedores, imágenes, volúmenes y redes de Docker en tiempo real sin escribir largos comandos de `docker exec` o `docker logs`.
-* **Ejemplos de uso:**
-  ```bash
-  lazydocker                    # Inicia la interfaz interactiva
-
-  # Dentro de lazydocker:
-  # Enter   -> Ver logs en tiempo real del contenedor
-  # m       -> Ver consumo de CPU/Memoria del contenedor
-  # d       -> Pausar / Iniciar / Reiniciar contenedor
-  ```
-
-#### **k9s**
-* **¿Para qué sirve?** Panel visual de terminal para inspeccionar, depurar y administrar clusters de Kubernetes en tiempo real (Pods, Deployments, Logs, Shell interactivo).
-* **Ejemplos de uso:**
-  ```bash
-  k9s                           # Conectar al contexto activo de Kubernetes
-
-  # Dentro de k9s:
-  # :pods        -> Ver todos los pods
-  # l            -> Ver logs del pod seleccionado
-  # s            -> Abrir shell interactivo dentro del contenedor
-  # d            -> Describir recurso (describe)
-  ```
-
-#### **kubectx & kubens**
-* **¿Para qué sirve?** Utilidades rápidas para alternar entre clusters (contextos) y namespaces de Kubernetes sin escribir `kubectl config use-context`.
-* **Ejemplos de uso:**
-  ```bash
-  # Alternar de cluster interactivo
-  kubectx
-  kubectx prod-cluster
-
-  # Alternar de namespace interactivo
-  kubens
-  kubens kube-system
-  ```
-
----
-
-## 📑 Resumen de Alias y Atajos Rápidos (Fish)
+## ⚡ Tabla Maestra de Alias y Atajos
 
 | Alias / Atajo | Comando Real | Descripción |
 | :--- | :--- | :--- |
-| `ls` | `eza --icons --group-directories-first` | Lista limpia con íconos |
-| `ll` | `eza -la --icons --group-directories-first` | Lista detallada completa |
-| `tree` | `eza --tree --icons` | Árbol de carpetas |
-| `cat` | `bat --style=plain` | Visor con sintaxis Tokyonight |
-| `g` / `gs` / `gc` | `git` / `git status` / `git commit` | Atajos esenciales de Git |
-| `lg` | `lazygit` | TUI visual para Git |
-| `zj` | `zellij` | Multiplexor de terminal |
-| `y` | `yazi (wrapper cwd)` | File manager con salto al salir |
-| `yz` | `yazi` | File manager directo |
-| `du` | `dust` | Uso gráfico de disco |
-| `btm` | `bottom` | Monitor de recursos y CPU |
-| `md` | `glow` | Renderizador de Markdown |
-| `clean-ds` | `find . -name ".DS_Store" -delete` | Limpieza de basura en macOS |
-| `..` / `...` | `z ..` / `z ../..` | Subir 1 o 2 niveles de carpeta |
-| `-` | `z -` | Volver al directorio anterior |
-| `Ctrl + r` | `fzf history` | Búsqueda difusa en el historial |
+| **`g`** | `git` | Binario de Git |
+| **`gs`** | `git status` | Estado de archivos y cambios |
+| **`gc`** | `git commit` | Crear un commit |
+| **`gch`** | `git checkout` | Cambiar de rama / restaurar |
+| **`gd`** | `git diff` | Ver diffs con sintaxis Delta |
+| **`gl`** | `git log --graph (Tokyonight)` | Árbol visual de commits con autor y tiempo |
+| **`glog`** | `git log --graph --all` | Árbol completo de todas las ramas |
+| **`glp`** | `git log -p` | Historial detallado con diffs en Delta |
+| **`gp`** | `git push` | Subir commits a rama remota |
+| **`gaa`** | `git add .` | Staging de todos los cambios |
+| **`lg`** | `lazygit` | Interfaz TUI completa para Git |
+| **`of`** | `onefetch` | Radiografía visual de repositorio Git |
+| **`zj`** | `zellij` | Multiplexor con barra 1-línea Tokyonight |
+| **`y`** | `yazi (wrapper cwd)` | File manager con salto automático al salir |
+| **`yz`** | `yazi` | File manager directo |
+| **`jqp`** | `jqp` | Playground interactivo de filtros JQ |
+| **`cat`** | `bat --style=plain` | Visor con sintaxis Tokyonight |
+| **`ls`** | `eza --icons` | Lista limpia con íconos |
+| **`ll`** | `eza -la --icons` | Lista detallada completa |
+| **`tree`** | `eza --tree --icons` | Estructura en árbol visual |
+| **`btm`** | `bottom` | Monitor interactivo de sistema |
+| **`du`** | `dust` | Uso gráfico de espacio en disco |
+| **`md`** | `glow` | Lector enriquecido de Markdown |
+| **`cds`** | `find . -name ".DS_Store" -delete` | Limpieza de archivos basura en macOS |
+| **`cd`** | `zoxide (z)` | Salto inteligente a carpetas |
+| **`..` / `...`** | `z ..` / `z ../..` | Subir 1 o 2 niveles de carpetas |
+| **`-`** | `z -` | Regresar al directorio previo |
+| **`Ctrl + r`** | `atuin search / fzf` | Historial inteligente con tiempos y estado |
+| **`Ctrl + t`** | `fzf (fd files)` | Búsqueda difusa de archivos |
+| **`Alt + c`** | `fzf (fd dirs)` | Búsqueda difusa de carpetas |

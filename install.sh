@@ -27,7 +27,7 @@ echo "🚀 Iniciando instalación de OhMyConfig"
 if [[ "$SYMLINK_MODE" == true ]]; then
     echo "🔗 Modo: Enlaces Simbólicos (Symlinks)"
 else
-    echo "📁 Modo: Copia Segura con Respaldo"
+    echo "📦 Modo: Copia Segura con Respaldo"
 fi
 echo "=========================================="
 
@@ -60,7 +60,7 @@ deploy_config() {
 
     # Si el directorio de destino es un symlink previo, removerlo para crear una carpeta real
     if [[ -L "$dest_dir" ]]; then
-        echo "🔄 Detectado enlace simbólico en carpeta ${dest_dir}. Reemplazando por directorio real..."
+        echo "📁 Detectado enlace simbólico en carpeta ${dest_dir}. Reemplazando por directorio real..."
         rm -f "$dest_dir"
     fi
     mkdir -p "$dest_dir"
@@ -70,7 +70,7 @@ deploy_config() {
         if [[ -L "$dest" ]]; then
             rm -f "$dest"
         elif [[ -f "$dest" ]]; then
-            echo "💾 Respaldando archivo existente antes de enlazar: ${dest} -> ${dest}.bak_${TIMESTAMP}"
+            echo "🔄 Respaldando archivo existente antes de enlazar: ${dest} -> ${dest}.bak_${TIMESTAMP}"
             mv "$dest" "${dest}.bak_${TIMESTAMP}"
         fi
         echo "🔗 Enlazando: ${dest} -> ${src}"
@@ -83,7 +83,7 @@ deploy_config() {
         elif [[ -f "$dest" ]]; then
             # Si ya existe como archivo real y su contenido es diferente, crear respaldo
             if ! cmp -s "$src" "$dest"; then
-                echo "💾 Respaldando configuración existente: ${dest} -> ${dest}.bak_${TIMESTAMP}"
+                echo "🔄 Respaldando configuración existente: ${dest} -> ${dest}.bak_${TIMESTAMP}"
                 cp "$dest" "${dest}.bak_${TIMESTAMP}"
             fi
         fi
@@ -104,6 +104,8 @@ deploy_config "${DOTFILES_DIR}/config/zellij/layouts/default.kdl" "${CONFIG_DIR}
 deploy_config "${DOTFILES_DIR}/config/zellij/plugins/zjstatus.wasm" "${CONFIG_DIR}/zellij/plugins/zjstatus.wasm"
 deploy_config "${DOTFILES_DIR}/config/lazygit/config.yml" "${CONFIG_DIR}/lazygit/config.yml"
 deploy_config "${DOTFILES_DIR}/config/bottom/bottom.toml" "${CONFIG_DIR}/bottom/bottom.toml"
+deploy_config "${DOTFILES_DIR}/config/atuin/config.toml" "${CONFIG_DIR}/atuin/config.toml"
+deploy_config "${DOTFILES_DIR}/config/git/config" "${CONFIG_DIR}/git/config"
 
 echo ""
 echo "=========================================="
