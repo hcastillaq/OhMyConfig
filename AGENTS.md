@@ -36,8 +36,10 @@ OhMyConfig/
     │   └── config.yml           # Git TUI config, Tokyonight theme & Delta integration
     ├── bottom/
     │   └── bottom.toml          # System & process monitor theme/layout
-    └── atuin/
-        └── config.toml          # Intelligent shell history SQLite database config
+    ├── atuin/
+    │   └── config.toml          # Intelligent shell history SQLite database config
+    └── git/
+        └── config               # Global Git configuration with Delta and aliases
 ```
 
 ---
@@ -56,9 +58,8 @@ OhMyConfig/
   - Environment variables: `STARSHIP_CONFIG`, `BAT_THEME`, `XDG_CONFIG_HOME`.
   - FZF Integration: Complete Tokyonight Night color mapping with `fd` file/directory providers.
   - Atuin Integration: Database-driven shell history initialization.
-  - PATH management: `/opt/homebrew/bin`, `~/.local/bin`, custom IDE binaries.
-  - Interactive wrappers: Yazi wrapper (`y`) that changes directory to the last browsed folder upon exit with `q`, and `cds` for `.DS_Store` sanitization.
-  - Aliases & Abbreviations: Fast shortcuts for Git (`g`, `gs`, `gc`, `gl`, `gd`, `of` -> `onefetch`), Modern CLI (`ls` -> `eza`, `cat` -> `bat`, `du` -> `dust`, `zj` -> `zellij`, `jqp`), and Zoxide directory traversal (`..`, `...`, `-`).
+  - Interactive wrappers: Yazi wrapper (`y`) that changes directory upon exit with `q`, and `cds` for `.DS_Store` sanitization.
+  - Aliases & Abbreviations: Fast shortcuts for Git (`g`, `gs`, `gc`, `gl`, `glog`, `glp`, `of`), Modern CLI (`ls` -> `eza`, `cat` -> `bat`, `du` -> `dust`, `zj` -> `zellij`, `jqp`), and Zoxide directory traversal (`..`, `...`, `-`).
   - Dynamic Inits: `mise`, `zoxide`, `fzf`, `atuin`, `starship`.
 
 ### 3.3 Prompt & Version Management
@@ -68,10 +69,10 @@ OhMyConfig/
 ### 3.4 Terminal Multiplexer (`config/zellij/`)
 - **Zellij**: Modern Rust multiplexer configured with Tokyonight palette and `default_layout "default"`.
 - **Layout & Status Bar Architecture (`layouts/default.kdl` + `plugins/zjstatus.wasm`)**:
-  - Unifies **Tabs**, **Mode Indicators**, and **Contextual Command Hints** into a **single 1-line bottom bar** (avoiding double-bar clutter).
+  - Unifies **Tabs**, **Mode Indicators**, and **Contextual Command Hints** into a **single 1-line bottom bar**.
   - Uses a **local WASM plugin** (`file:~/.config/zellij/plugins/zjstatus.wasm`) to eliminate network dependencies and bypass untrusted download confirmation prompts.
   - Active tabs render as high-contrast badges (`#3d59a1` deep blue + `#7aa2f7` Tokyonight blue text).
-  - Mode switches (`Pane`, `Tab`, `Resize`, `Scroll`, `Session`, `Move`, `Search`) dynamically render semantic, color-coded shortcut hints (e.g. `n:new`, `d:down`, `x:close`, `f:full`).
+  - Mode switches (`Pane`, `Tab`, `Resize`, `Scroll`, `Session`, `Move`, `Search`) dynamically render semantic, color-coded shortcut hints.
 
 ### 3.5 TUI & Diagnostics Toolchain
 - **lazygit**: Visual Git TUI integrated with `git-delta` side-by-side diffs and Tokyonight UI colors.
@@ -94,17 +95,3 @@ OhMyConfig/
 2. **Zero-Friction Offline Execution**: Avoid dynamic external downloads inside runtime configs; bundle or locally cache required binaries/WASM plugins within the repo.
 3. **Non-Destructive Overwrites**: Configuration installers must never silently discard user files without `.bak_` backups or user consent.
 4. **Platform Scope**: Tailored for macOS (Apple Silicon `/opt/homebrew` and Intel `/usr/local`), supporting fish shell syntax.
-
----
-
-## 5. Agent Instructions for Modifications
-
-- **Adding a new tool**:
-  1. Declare package in `Brewfile` (distinguish between `brew` CLI and `cask` GUI/fonts).
-  2. Add configuration under `config/<tool>/<config-file>`.
-  3. Update `install.sh` `deploy_config` call.
-  4. Add relevant aliases or functions to `config/fish/config.fish`.
-  5. Document in `README.md` and `AGENTS.md`.
-- **Modifying Zellij / zjstatus**:
-  - Keep `config/zellij/layouts/default.kdl` and `config/zellij/config.kdl` aligned.
-  - When testing local changes, ensure both `config/` in the repo and `~/.config/` in the user's home directory are updated.

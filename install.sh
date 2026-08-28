@@ -58,37 +58,41 @@ deploy_config() {
     local dest_dir
     dest_dir="$(dirname "$dest")"
 
-    # Si el directorio de destino es un symlink previo, removerlo para crear una carpeta real
-    if [[ -L "$dest_dir" ]]; then
-        echo "📁 Detectado enlace simbólico en carpeta ${dest_dir}. Reemplazando por directorio real..."
-        rm -f "$dest_dir"
-    fi
-    mkdir -p "$dest_dir"
-
     if [[ "$SYMLINK_MODE" == true ]]; then
         # Modo Symlink
+        mkdir -p "$dest_dir"
         if [[ -L "$dest" ]]; then
             rm -f "$dest"
-        elif [[ -f "$dest" ]]; then
-            echo "🔄 Respaldando archivo existente antes de enlazar: ${dest} -> ${dest}.bak_${TIMESTAMP}"
+        elif [[ -e "$dest" ]]; then
+            echo "🔄 Respaldando existente antes de enlazar: ${dest} -> ${dest}.bak_${TIMESTAMP}"
             mv "$dest" "${dest}.bak_${TIMESTAMP}"
         fi
         echo "🔗 Enlazando: ${dest} -> ${src}"
         ln -sf "$src" "$dest"
     else
         # Modo Copia
-        if [[ -L "$dest" ]]; then
-            echo "🔄 Removiendo enlace simbólico previo en ${dest}..."
-            rm -f "$dest"
-        elif [[ -f "$dest" ]]; then
-            # Si ya existe como archivo real y su contenido es diferente, crear respaldo
-            if ! cmp -s "$src" "$dest"; then
-                echo "🔄 Respaldando configuración existente: ${dest} -> ${dest}.bak_${TIMESTAMP}"
-                cp "$dest" "${dest}.bak_${TIMESTAMP}"
+        if [[ -d "$src" ]]; then
+            if [[ -L "$dest" ]]; then
+                echo "🔄 Removiendo enlace simbólico previo en ${dest}..."
+                rm -f "$dest"
             fi
+            mkdir -p "$dest"
+            echo "📁 Desplegando directorio: ${dest}"
+            cp -Rf "$src"/* "$dest/"
+        else
+            mkdir -p "$dest_dir"
+            if [[ -L "$dest" ]]; then
+                echo "🔄 Removiendo enlace simbólico previo en ${dest}..."
+                rm -f "$dest"
+            elif [[ -f "$dest" ]]; then
+                if ! cmp -s "$src" "$dest"; then
+                    echo "🔄 Respaldando configuración existente: ${dest} -> ${dest}.bak_${TIMESTAMP}"
+                    cp "$dest" "${dest}.bak_${TIMESTAMP}"
+                fi
+            fi
+            echo "📄 Desplegando: ${dest}"
+            cp -f "$src" "$dest"
         fi
-        echo "📄 Desplegando: ${dest}"
-        cp -f "$src" "$dest"
     fi
 }
 

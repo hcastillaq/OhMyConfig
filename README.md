@@ -239,7 +239,7 @@ Zellij está configurado con un layout de **1 sola línea inferior** (`layouts/d
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│ [Panel 1: Editor]                    │ [Panel 2: Consola / Logs]       │
+│ [Panel 1: Proceso / Logs]            │ [Panel 2: Consola]              │
 │                                      │                                 │
 │                                      │                                 │
 ├────────────────────────────────────────────────────────────────────────┤
