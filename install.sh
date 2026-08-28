@@ -100,6 +100,8 @@ deploy_config "${DOTFILES_DIR}/config/fish/config.fish" "${CONFIG_DIR}/fish/conf
 deploy_config "${DOTFILES_DIR}/config/ghostty/config" "${CONFIG_DIR}/ghostty/config"
 deploy_config "${DOTFILES_DIR}/config/starship/starship.toml" "${CONFIG_DIR}/starship/starship.toml"
 deploy_config "${DOTFILES_DIR}/config/zellij/config.kdl" "${CONFIG_DIR}/zellij/config.kdl"
+deploy_config "${DOTFILES_DIR}/config/zellij/layouts/default.kdl" "${CONFIG_DIR}/zellij/layouts/default.kdl"
+deploy_config "${DOTFILES_DIR}/config/zellij/plugins/zjstatus.wasm" "${CONFIG_DIR}/zellij/plugins/zjstatus.wasm"
 deploy_config "${DOTFILES_DIR}/config/lazygit/config.yml" "${CONFIG_DIR}/lazygit/config.yml"
 deploy_config "${DOTFILES_DIR}/config/bottom/bottom.toml" "${CONFIG_DIR}/bottom/bottom.toml"
 
