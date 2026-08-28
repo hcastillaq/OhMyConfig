@@ -1,0 +1,31 @@
+# ==============================================================================
+# CONFIGURACIÓN DE LAZYGIT (TEMA TOKYONIGHT & INTEGRACIÓN CON DELTA)
+# ==============================================================================
+
+gui:
+  theme:
+    activeBorderColor:
+      - '#7aa2f7'
+      - bold
+    inactiveBorderColor:
+      - '#565f89'
+    optionsTextColor:
+      - '#7dcfff'
+    selectedLineBgColor:
+      - '#283457'
+    cherryPickedCommitBgColor:
+      - '#bb9af7'
+      - '#1a1b26'
+    cherryPickedCommitFgColor:
+      - '#7aa2f7'
+    unstagedChangesColor:
+      - '#f7768e'
+    defaultFgColor:
+      - '#c0caf5'
+  showIcons: true
+  nerdFontsVersion: "3"
+
+git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never

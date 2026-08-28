@@ -3,6 +3,10 @@
 # Terminal Emulators & GUI Apps
 cask "ghostty"
 
+# Nerd Fonts & Glyphs
+cask "font-jetbrains-mono-nerd-font"
+cask "font-symbols-only-nerd-font"
+
 # Shell & Core Prompt
 brew "fish"
 brew "starship"
@@ -21,10 +25,15 @@ brew "fzf"
 brew "eza"
 brew "ripgrep"
 brew "fd"
+brew "yazi"
+brew "dust"
 
 # File Inspection & Version Control
 brew "bat"
+brew "git-delta"
 brew "lazygit"
+brew "gh"
+brew "glow"
 brew "tokei"
 
 # Network, APIs & Data Processing

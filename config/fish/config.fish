@@ -6,6 +6,8 @@
 
 set -gx STARSHIP_CONFIG ~/.config/starship/starship.toml      # Ruta del archivo de personalización del prompt Starship
 set -gx XDG_CONFIG_HOME $HOME/.config                       # Directorio estándar para archivos de configuración en Unix
+set -gx BAT_THEME "tokyonight_night"                        # Tema Tokyonight para bat y delta
+
 # Hacer que el autocompletado de Fish sea más visible (Gris azulado claro)
 set -g fish_color_autosuggestion 737aa2
 
@@ -15,12 +17,28 @@ fish_add_path $HOME/.local/bin                              # Binarios y scripts
 fish_add_path $HOME/.antigravity-ide/antigravity-ide/bin    # Binario del editor de código personalizado
 
 
-# --- 2. FUNCIONES Y ALIAS ---
+# --- 2. FUNCIONES Y WRAPPERS ---
 
 # Función utilitaria para macOS
 function clean-ds
     find . -name ".DS_Store" -type f -delete                # Elimina recursivamente archivos ocultos .DS_Store del proyecto
 end
+
+# Wrapper de Yazi para cambiar de directorio al salir con 'q'
+function y
+    set tmp (mktemp -t "yazi-cwd.XXXXXX")
+    yazi $argv --cwd-file="$tmp"
+    if test -f "$tmp"
+        set cwd (command cat -- "$tmp")
+        if test -n "$cwd" -a "$cwd" != "$PWD"
+            builtin cd -- "$cwd"
+        end
+        rm -f -- "$tmp"
+    end
+end
+
+
+# --- 3. ALIAS Y ABREVIATURAS ---
 
 # Eza (Reemplazo moderno de ls)
 alias ls="eza --icons --group-directories-first"             # Lista con íconos agrupando carpetas primero
@@ -41,12 +59,16 @@ alias gl="git log --oneline --graph --decorate"             # Ver historial de c
 alias gp="git push"                                         # Subir cambios al repositorio remoto
 alias gaa="git add ."                                       # Agregar todos los cambios al staging
 
-# LazyGit (Interfaz TUI para Git)
+# TUI & Herramientas Modernas
 alias lg="lazygit"                                          # Abre la interfaz visual de Git en la terminal
+alias zj="zellij"                                           # Inicia o se une a una sesión de Zellij
+alias yz="yazi"                                             # Administrador de archivos Yazi
+alias du="dust"                                             # Analizador visual de espacio en disco
+alias btm="bottom"                                          # Monitor interactivo de procesos y sistema
+alias md="glow"                                             # Renderizador de Markdown con estilo
 
 # Editor de código
 alias code="agy-ide"                                        # Lanza tu IDE personalizado desde la consola
-alias zj="zellij"                                           # Inicia o se une a una sesión de Zellij manualmente
 
 # Zoxide y Navegación (Uso de abreviaturas para autoexpansión)
 alias cd="z"                                                # Reemplaza cd con el salto inteligente de zoxide
@@ -56,7 +78,7 @@ abbr -a .... "z ../../.."                                   # Sube 3 niveles en 
 abbr -a - "z -"                                             # Regresa de inmediato al directorio previo
 
 
-# --- 3. INICIALIZADORES DINÁMICOS ---
+# --- 4. INICIALIZADORES DINÁMICOS ---
 
 mise activate fish | source                                 # Inyecta runtimes (Node, Python, Java, .NET) y variables .env
 zoxide init fish | source                                   # Inicializa el motor de base de datos y aprendizaje de zoxide
