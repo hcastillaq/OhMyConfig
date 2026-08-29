@@ -7,6 +7,9 @@ cask "ghostty"
 cask "font-jetbrains-mono-nerd-font"
 cask "font-symbols-only-nerd-font"
 
+# CLI UI Framework
+brew "gum"
+
 # Shell & Core Prompt
 brew "fish"
 brew "starship"

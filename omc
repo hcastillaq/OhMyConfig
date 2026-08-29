@@ -1,0 +1,86 @@
+#!/usr/bin/env fish
+# ==============================================================================
+# omc — OhMyConfig CLI Entry Point
+# ==============================================================================
+# Usage:
+#   ./omc install              Interactive installer with module selection
+#   ./omc install --all        Install all modules non-interactively
+#   ./omc install --all --link Install all in symlink mode
+#   ./omc doctor               Diagnose installed tools and versions
+#   ./omc update               Update brew formulas + npm globals
+#   ./omc dev                  Manage AI/Pi ecosystem (pi, gentle-pi, gentle-engram)
+#   ./omc dev status           Show AI/Pi versions and update status
+#   ./omc dev update           Update AI/Pi tools to latest
+#   ./omc --help               Show this help
+# ==============================================================================
+
+set -l DOTFILES_DIR (cd (dirname (status filename)) && pwd)
+set -l CMD $argv[1]
+
+# Source shared libs available to all commands
+source $DOTFILES_DIR/cli/lib/brew.fish
+
+# Bootstrap: ensure Fish is available (entry point is Fish itself, so it is)
+# Bootstrap: ensure gum is available before any TUI command
+if not contains -- $CMD --help -h help ""
+    gum_ensure
+end
+
+switch $CMD
+    case install
+        source $DOTFILES_DIR/cli/commands/install.fish
+        cmd_install $argv[2..]
+
+    case doctor
+        source $DOTFILES_DIR/cli/commands/doctor.fish
+        cmd_doctor
+
+    case update
+        source $DOTFILES_DIR/cli/commands/update.fish
+        cmd_update
+
+    case dev
+        source $DOTFILES_DIR/cli/commands/dev.fish
+        cmd_dev $argv[2..]
+
+    case --help -h help ""
+        # ── Help ──────────────────────────────────────────────────────────────
+        echo ""
+        echo "⚡ OhMyConfig CLI — omc"
+        echo ""
+        echo "  Instalador interactivo, diagnóstico y gestor de herramientas"
+        echo "  del entorno de desarrollo OhMyConfig."
+        echo ""
+        echo "  COMANDOS:"
+        echo ""
+        echo "    install              Selección interactiva de módulos a instalar"
+        echo "    install --all        Instala todos los módulos sin preguntar"
+        echo "    install --all --link Instala todo en modo symlink (desarrollo de dotfiles)"
+        echo ""
+        echo "    doctor               Diagnóstico completo del entorno y versiones"
+        echo ""
+        echo "    update               Actualiza Homebrew + npm globals (AI/Pi)"
+        echo ""
+        echo "    dev                  Instala pi + gentle-pi + gentle-engram"
+        echo "    dev status           Versiones instaladas vs latest disponible"
+        echo "    dev update           Actualiza los tres a latest"
+        echo ""
+        echo "  MÓDULOS DISPONIBLES:"
+        echo ""
+        echo "    core       Fish · Starship · mise · Atuin · Nerd Fonts"
+        echo "    terminal   Ghostty · Zellij"
+        echo "    editor     Neovim · Git-Delta · Lazygit · gh · Bat · Glow"
+        echo "    search     rg · fd · fzf · sd · yazi · zoxide · eza · dust"
+        echo "    cli        btm · procs · xh · jq · jqp · tokei · onefetch"
+        echo "    devops     lazydocker · k9s · kubectx/kubens"
+        echo "    ai         pi · gentle-pi · gentle-engram"
+        echo ""
+        echo "  DOCUMENTACIÓN:"
+        echo "    https://hcastillaq.github.io/OhMyConfig/"
+        echo ""
+
+    case '*'
+        echo "omc: comando desconocido '$CMD'"
+        echo "Ejecutá './omc --help' para ver los comandos disponibles."
+        exit 1
+end
