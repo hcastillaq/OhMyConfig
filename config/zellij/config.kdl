@@ -18,24 +18,23 @@ ui {
     }
 }
 
-// Atajos directos para navegación fluida entre paneles y pestañas en Modo Normal
+// Atajos directos para navegación fluida en Modo Normal
 keybinds {
     normal {
-        // --- 1. Moverse entre paneles ---
+        // --- Navegación entre paneles ---
         bind "Alt Left" "Alt h" { MoveFocus "Left"; }
         bind "Alt Right" "Alt l" { MoveFocus "Right"; }
         bind "Alt Down" "Alt j" { MoveFocus "Down"; }
         bind "Alt Up" "Alt k" { MoveFocus "Up"; }
-        
-        // Acciones de panel
+
+        // --- Acciones directas de panel ---
         bind "Alt n" { NewPane; }
         bind "Alt f" { ToggleFocusFullscreen; }
         bind "Alt w" { ToggleFloatingPanes; }
 
-        // --- 2. Moverse entre pestañas (Tabs) ---
+        // --- Navegación entre pestañas ---
         bind "Alt [" { GoToPreviousTab; }
         bind "Alt ]" { GoToNextTab; }
-        bind "Alt t" { NewTab; }
         bind "Alt 1" { GoToTab 1; }
         bind "Alt 2" { GoToTab 2; }
         bind "Alt 3" { GoToTab 3; }

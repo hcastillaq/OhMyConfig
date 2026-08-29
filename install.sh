@@ -101,6 +101,7 @@ echo ""
 echo "⚙️  Configurando archivos en ${CONFIG_DIR}..."
 
 deploy_config "${DOTFILES_DIR}/config/fish/config.fish" "${CONFIG_DIR}/fish/config.fish"
+    deploy_config "${DOTFILES_DIR}/config/fish/functions" "${CONFIG_DIR}/fish/functions"
 deploy_config "${DOTFILES_DIR}/config/ghostty/config" "${CONFIG_DIR}/ghostty/config"
 deploy_config "${DOTFILES_DIR}/config/starship/starship.toml" "${CONFIG_DIR}/starship/starship.toml"
 deploy_config "${DOTFILES_DIR}/config/zellij/config.kdl" "${CONFIG_DIR}/zellij/config.kdl"

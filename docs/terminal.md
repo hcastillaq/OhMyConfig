@@ -1,6 +1,6 @@
-# 🖥️ Terminal, Shell y Prompt
+# 🖥️ Terminal, Shell, Prompt y Runtimes
 
-OhMyConfig combina un emulador acelerado por GPU, una shell inteligente y un prompt reactivo diseñados para macOS.
+OhMyConfig combina un emulador acelerado por GPU, una shell interactiva, un gestor de runtimes políglota universal y un prompt reactivo diseñados para macOS.
 
 ---
 
@@ -16,9 +16,10 @@ Emulador de terminal nativo para macOS con aceleración por GPU (Metal):
 
 ## 2. Fish Shell
 
-Shell interactiva con autocompletado en tiempo real y coloreado sintáctico completo:
+Shell interactiva con autocompletado en tiempo real y coloreado sintáctico calibrado para fondos oscuros:
 
-* **Sintaxis Coloreada:** Comandos en azul (`#7aa2f7`), comillas en verde (`#9ece6a`), variables en púrpura (`#bb9af7`), errores en rojo (`#f7768e`).
+* **Sintaxis Coloreada:** Comandos en Cyan Neón (`#50f5ff`), comillas en verde (`#9ece6a`), flags en azul cielo (`#7aa2f7`), variables en púrpura (`#c099ff`), errores en rojo (`#f7768e`).
+* **Función `guia` (o `omc`):** Muestra un mapa interactivo de atajos de todo el sistema categorizado por herramientas.
 * **Función `cds`:** Purga recursivamente archivos `.DS_Store` en proyectos macOS:
   ```bash
   cds
@@ -27,25 +28,45 @@ Shell interactiva con autocompletado en tiempo real y coloreado sintáctico comp
 
 ---
 
-## 3. Starship (Prompt Reactivo)
+## 3. mise — Gestor Políglota de Runtimes y Versiones
 
-Prompt ultrarrápido escrito en Rust con telemetría contextual:
+`mise` (reemplazo moderno en Rust de `nvm`, `pyenv`, `rbenv`, `sdkman` y `goenv`) gestiona todas las herramientas y lenguajes de desarrollo:
 
-* 📁 **Directorio actual (`#7dcfff`):** Con indicador de solo lectura `🔒`.
-*  **Rama y estado de Git (`#bb9af7` / `#ff9e64`):** Cambios pendientes, commits adelantados/atrasados.
-* 📦 **Runtimes activos vía mise:** Versión de Node ``, Python ``, Java ``, Rust `🦀`, Go ``.
-* ☸️ **Contexto de Kubernetes (`#7aa2f7`).**
-* ⏱️ **Duración de comandos:** Muestra el tiempo de ejecución si supera los 2 segundos (`⏳`).
-* ❯ **Carácter de entrada:** `#7aa2f7` (éxito) o `#f7768e` (error).
+* **Instalación y fijación de versiones globales o por proyecto:**
+  ```bash
+  mise use -g node@lts       # Node.js LTS global
+  mise use python@3.12       # Python 3.12 para el proyecto actual
+  mise use go@latest         # Go
+  mise use rust@latest       # Rust
+  mise use java@21           # Java OpenJDK 21
+  ```
+* **Ver herramientas y versiones activas:**
+  ```bash
+  mise ls
+  ```
+* **Instalación automática:** Lee archivos `.mise.toml`, `.nvmrc` o `.node-version` al entrar a cualquier carpeta.
 
 ---
 
-## 4. Atuin (Historial Indexado en SQLite)
+## 4. Starship (Prompt Reactivo)
+
+Prompt ultrarrápido escrito en Rust con telemetría contextual:
+
+* 📁 **Directorio actual (`#50f5ff`):** Con indicador de solo lectura `🔒`.
+*  **Rama y estado de Git (`#c099ff` / `#ff9e64`):** Cambios pendientes, commits adelantados/atrasados.
+* 📦 **Runtimes activos vía mise:** Versión en tiempo real de Node ``, Python ``, Java ``, Rust `🦀`, Go ``.
+* ☸️ **Contexto de Kubernetes (`#7aa2f7`).**
+* ⏱️ **Duración de comandos:** Muestra el tiempo de ejecución si supera los 2 segundos (`⏳`).
+* ❯ **Carácter de entrada:** `#50f5ff` (éxito) o `#f7768e` (error).
+
+---
+
+## 5. Atuin (Historial Indexado en SQLite)
 
 Reemplaza el historial tradicional `.bash_history` / `.zsh_history` por una base de datos indexada SQLite con búsqueda difusa:
 
 * Presioná **`Ctrl + r`** o **`↑`** para abrir el buscador interactivo con:
-  - Duración exacta del comando.
+  - Duración exacta de cada comando.
   - Hora y fecha de ejecución.
   - Directorio donde se ejecutó.
   - Código de salida (éxito o error).

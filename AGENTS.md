@@ -35,7 +35,9 @@ OhMyConfig/
 │   └── cheatsheet.md            # Master Alias & Keymap Cheatsheet
 └── config/                      # Source configuration directory (mirrors ~/.config/)
     ├── fish/
-    │   └── config.fish          # Shell aliases, wrappers, PATH, FZF/Atuin inits
+    │   ├── config.fish          # Shell aliases, wrappers, PATH, FZF/Atuin inits
+    │   └── functions/
+    │       └── omc.fish         # Interactive cheatsheet and keymap guide (guia/omc)
     ├── ghostty/
     │   └── config               # GPU terminal config (font, theme, window blur)
     ├── starship/

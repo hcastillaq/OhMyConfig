@@ -90,6 +90,11 @@ function y
     end
 end
 
+# Alias para invocar la guía rápida (implementada modularmente en functions/omc.fish)
+alias guia="omc"
+alias cheat="omc"
+alias ayuda="omc"
+
 
 # --- 4. ALIAS Y ABREVIATURAS ---
 
@@ -108,8 +113,8 @@ alias gs="git status"
 alias gc="git commit"
 alias gch="git checkout"
 alias gd="git diff"
-alias gl="git log --graph --pretty=format:'%C(bold #7aa2f7)%h%C(reset) - %C(bold #bb9af7)%d%C(reset) %C(#c0caf5)%s%C(reset) %C(#565f89)(%cr)%C(reset) %C(bold #7dcfff)<%an>%C(reset)' --abbrev-commit --date=relative"
-alias glog="git log --graph --all --pretty=format:'%C(bold #7aa2f7)%h%C(reset) - %C(bold #bb9af7)%d%C(reset) %C(#c0caf5)%s%C(reset) %C(#565f89)(%cr)%C(reset) %C(bold #7dcfff)<%an>%C(reset)' --abbrev-commit --date=relative"
+alias gl="git log --graph --pretty=format:'%C(bold #7dcfff)%h%C(reset) - %C(bold #c099ff)%d%C(reset) %C(#e0e6fc)%s%C(reset) %C(#7a88cf)(%cr)%C(reset) %C(bold #7aa2f7)<%an>%C(reset)' --abbrev-commit --date=relative"
+alias glog="git log --graph --all --pretty=format:'%C(bold #7dcfff)%h%C(reset) - %C(bold #c099ff)%d%C(reset) %C(#e0e6fc)%s%C(reset) %C(#7a88cf)(%cr)%C(reset) %C(bold #7aa2f7)<%an>%C(reset)' --abbrev-commit --date=relative"
 alias glp="git log -p"                                      # Log completo con diffs coloreados vía Delta
 alias gp="git push"
 alias gaa="git add ."

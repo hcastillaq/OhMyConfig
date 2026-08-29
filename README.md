@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/License-MIT-9ece6a?style=for-the-badge" alt="License">
 </p>
 
-> **Entorno de desarrollo moderno, modular y de alto rendimiento para macOS**, estilizado bajo la paleta **Tokyonight Night** con glifos **Nerd Font v3** y utilidades de última generación escritas en **Rust** y **Go**.
+> **Entorno de desarrollo moderno, modular e idempotente para macOS**, estilizado bajo la paleta **Tokyonight Night** con glifos **Nerd Font v3** y utilidades de última generación escritas en **Rust** y **Go**.
 
 ---
 
@@ -46,37 +46,46 @@ OhMyConfig/
 │   ├── 🛠️ Neovim (Editor IDE) ──────────► docs/neovim.md
 │   ├── 🪟 Zellij (Multiplexor) ─────────► docs/zellij.md
 │   ├── 🐙 Git, Lazygit & Delta ─────────► docs/git.md
-│   └── 🖥️ Terminal, Fish & Starship ───► docs/terminal.md
+│   └── 🖥️ Terminal, Fish & mise ────────► docs/terminal.md
 │
 └── 📖 Referencia Rápida
-    ├── 🧰 Herramientas CLI / TUI ───────► docs/herramientas.md
+    ├── 🧰 Catálogo Completo de Herramientas ► docs/herramientas.md
     └── ⚡ Tabla Maestra de Atajos ──────► docs/cheatsheet.md
 ```
 
 | Sección | Descripción | Guía en Web | Archivo Markdown |
 | :--- | :--- | :---: | :---: |
-| **📦 Instalación** | Copia con respaldo, symlinks y Brewfile | [Ver Online](https://hcastillaq.github.io/OhMyConfig/instalacion) | [`docs/instalacion.md`](./docs/instalacion.md) |
+| **📦 Instalación** | Copia con respaldo, symlinks y catálogo completo de `Brewfile` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/instalacion) | [`docs/instalacion.md`](./docs/instalacion.md) |
 | **🛠️ Neovim** | LazyVim core, LSP, autocompletado, GitLens y Neogen | [Ver Online](https://hcastillaq.github.io/OhMyConfig/neovim) | [`docs/neovim.md`](./docs/neovim.md) |
 | **🪟 Zellij** | Multiplexor con foco Cyan brillante y navegación con `Alt` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/zellij) | [`docs/zellij.md`](./docs/zellij.md) |
 | **🐙 Git & Diffs** | Flujo en consola, Lazygit TUI y diffs con Git-Delta | [Ver Online](https://hcastillaq.github.io/OhMyConfig/git) | [`docs/git.md`](./docs/git.md) |
-| **🖥️ Terminal & Shell** | Ghostty (GPU/Blur), Fish Shell, Starship y Atuin SQLite | [Ver Online](https://hcastillaq.github.io/OhMyConfig/terminal) | [`docs/terminal.md`](./docs/terminal.md) |
-| **🧰 CLI / TUI Tools** | Eza, Bat, Yazi, Bottom, Dust, Procs, Xh, Jq, Jqp, K9s | [Ver Online](https://hcastillaq.github.io/OhMyConfig/herramientas) | [`docs/herramientas.md`](./docs/herramientas.md) |
-| **⚡ Cheatsheet** | Tabla consolidada de todos los alias y atajos | [Ver Online](https://hcastillaq.github.io/OhMyConfig/cheatsheet) | [`docs/cheatsheet.md`](./docs/cheatsheet.md) |
+| **🖥️ Terminal & Shell** | Ghostty (GPU/Blur), Fish Shell, **mise** (Runtimes) y Atuin | [Ver Online](https://hcastillaq.github.io/OhMyConfig/terminal) | [`docs/terminal.md`](./docs/terminal.md) |
+| **🧰 Catálogo de CLI/TUI** | Ripgrep, Fd, Sd, Eza, Bat, Yazi, Bottom, Dust, Procs, Xh, Jq, K9s | [Ver Online](https://hcastillaq.github.io/OhMyConfig/herramientas) | [`docs/herramientas.md`](./docs/herramientas.md) |
+| **⚡ Cheatsheet** | Tabla consolidada de todos los alias y atajos del entorno | [Ver Online](https://hcastillaq.github.io/OhMyConfig/cheatsheet) | [`docs/cheatsheet.md`](./docs/cheatsheet.md) |
 
 ---
 
 ## ⚡ Cheatsheet Rápido de Referencia
 
-### 1. Terminal y Navegación
-* **`v`** / **`v <archivo>`**: Abrir Neovim con tema Tokyonight.
-* **`zj`**: Iniciar multiplexor Zellij con barra de 1 línea.
-* **`cd <carpeta>`**: Salto inteligente con Zoxide (`..`, `...`, `-`).
-* **`Ctrl + r`**: Historial inteligente con base de datos SQLite (Atuin).
+### 1. Terminal, Runtimes y Búsqueda
+* **`guia`** (o `omc`): Menú interactivo de atajos en consola (`guia nvim`, `guia zj`, `guia git`, `guia search`, `guia cli`).
+* **`mise use -g <lang>@<ver>`**: Gestor universal de versiones (Node, Python, Go, Rust, Java).
+* **`rg <patron>`**: Búsqueda ultrarrápida de texto en todo el proyecto (Ripgrep).
+* **`fd <nombre>`**: Búsqueda moderna de archivos y carpetas (reemplazo de `find`).
+* **`sd 'viejo' 'nuevo'`**: Reemplazo de texto directo y seguro en archivos (reemplazo de `sed`).
+* **`cd <carpeta>`** / **`zi`**: Salto inteligente con Zoxide / selector interactivo FZF.
+* **`Ctrl + r`**: Historial SQLite con tiempos y buscador difuso (Atuin).
 * **`Ctrl + t`** / **`Alt + c`**: Búsqueda difusa de archivos / carpetas con FZF.
-* **`y`**: Administrador de archivos Yazi (salta al directorio actual al salir con `q`).
+* **`y`**: Administrador de archivos Yazi (salta al directorio al salir con `q`).
 * **`ls`** / **`ll`** / **`tree`**: Listados visuales con íconos vía Eza.
+* **`cat <archivo>`**: Visor con sintaxis coloreada Tokyonight vía Bat.
+* **`btm`** / **`du`**: Monitor de sistema (Bottom) / Uso visual de disco (Dust).
+* **`procs --port <p>`**: Visor de procesos y puertos.
+* **`xh`** / **`jqp`**: Cliente HTTP para APIs / Playground interactivo JQ.
+* **`tokei`**: Conteo de líneas de código y estadísticas del proyecto.
 
 ### 2. Editor Neovim (`<Space>` = Leader)
+* **`v`** / **`v <archivo>`**: Abrir Neovim con tema Tokyonight.
 * **`<Space> + e`**: Abrir / Ocultar explorador de archivos lateral.
 * **`Ctrl + h/j/k/l`**: Moverse fluidamente entre paneles y divisiones.
 * **`Shift + l`** / **`Shift + h`**: Pestaña siguiente / anterior.
@@ -93,8 +102,9 @@ OhMyConfig/
 * **`Alt + Flechas`** (o `Alt + hjkl`): Mover foco entre paneles (se ilumina en Cyan).
 * **`Alt + [`** / **`Alt + ]`**: Pestaña anterior / siguiente al instante.
 * **`Alt + 1` .. `Alt + 9`**: Saltar directo a la pestaña número N.
-* **`Alt + t`**: Crear nueva pestaña | **`Alt + n`**: Crear nuevo panel.
+* **`Alt + n`**: Crear nuevo panel directamente.
 * **`Alt + f`**: Maximizar / Restaurar panel activo (Pantalla completa).
+* **`Alt + w`**: Alternar paneles flotantes (Floating Panes).
 * **`Ctrl + p`** (Paneles) / **`Ctrl + t`** (Pestañas) / **`Ctrl + s`** (Scroll e historial).
 
 ### 4. Git y Control de Versiones
