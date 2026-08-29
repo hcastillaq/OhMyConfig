@@ -8,14 +8,14 @@ font-family = "JetBrains Mono"
 font-size = 15
 font-feature = ["liga", "calt"]
 
-# --- TEMA Y PALETA ---
-theme = "tokyonight"
+# --- TEMA Y PALETA (HIGH-CONTRAST NIGHT) ---
+theme = "TokyoNight Night"
 
 # --- VENTANA Y EFECTOS VISUALES ---
 window-decoration = false
 window-padding-x = 12
 window-padding-y = 10
-background-opacity = 0.98
+background-opacity = 0.95
 background-blur-radius = 20
 
 # --- CURSOR ---

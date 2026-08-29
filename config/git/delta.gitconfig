@@ -21,13 +21,13 @@
     plus-emph-style = syntax "#2e5c54"
     line-numbers-minus-style = "#f7768e"
     line-numbers-plus-style = "#9ece6a"
-    line-numbers-left-style = "#565f89"
-    line-numbers-right-style = "#565f89"
+    line-numbers-left-style = "#7a88cf"
+    line-numbers-right-style = "#7a88cf"
     line-numbers-zero-style = "#565f89"
 
 [alias]
-    lg = "log --graph --pretty=format:'%C(bold #7aa2f7)%h%C(reset) - %C(bold #bb9af7)%d%C(reset) %C(#c0caf5)%s%C(reset) %C(#565f89)(%cr)%C(reset) %C(bold #7dcfff)<%an>%C(reset)' --abbrev-commit --date=relative"
-    lga = "log --graph --all --pretty=format:'%C(bold #7aa2f7)%h%C(reset) - %C(bold #bb9af7)%d%C(reset) %C(#c0caf5)%s%C(reset) %C(#565f89)(%cr)%C(reset) %C(bold #7dcfff)<%an>%C(reset)' --abbrev-commit --date=relative"
+    lg = "log --graph --pretty=format:'%C(bold #7dcfff)%h%C(reset) - %C(bold #c099ff)%d%C(reset) %C(#e0e6fc)%s%C(reset) %C(#7a88cf)(%cr)%C(reset) %C(bold #7aa2f7)<%an>%C(reset)' --abbrev-commit --date=relative"
+    lga = "log --graph --all --pretty=format:'%C(bold #7dcfff)%h%C(reset) - %C(bold #c099ff)%d%C(reset) %C(#e0e6fc)%s%C(reset) %C(#7a88cf)(%cr)%C(reset) %C(bold #7aa2f7)<%an>%C(reset)' --abbrev-commit --date=relative"
 
 [merge]
     conflictstyle = diff3

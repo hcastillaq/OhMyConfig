@@ -1,5 +1,5 @@
 # ==============================================================================
-# CONFIGURACIÓN DE STARSHIP (TEMA TOKYONIGHT NIGHT)
+# CONFIGURACIÓN DE STARSHIP (TEMA TOKYONIGHT HIGH-CONTRAST)
 # ==============================================================================
 
 # --- CONFIGURACIÓN GLOBAL ---
@@ -21,14 +21,14 @@ $character
 truncation_length = 3
 truncate_to_repo = true
 format = "[$path]($style) "
-style = "bold fg:#7dcfff" # Cyan Tokyonight
-read_only = " 󰌾"
+style = "bold fg:#50f5ff" # Cyan Neón Eléctrico (legibilidad absoluta en fondo negro)
+read_only = " 🔒"
 read_only_style = "bold fg:#f7768e"
 
 # --- KUBERNETES ---
 [kubernetes]
 disabled = false
-symbol = "󱃾 "
+symbol = "☸️  "
 format = '[$symbol$context]($style) '
 style = 'bold fg:#7aa2f7' # Azul Tokyonight
 detect_files = []
@@ -38,9 +38,9 @@ detect_folders = []
 # --- MISE ---
 [mise]
 disabled = false
-symbol = "󰒋 "
+symbol = "📦 "
 format = '[$symbol$tool@$version]($style) '
-style = 'bold fg:#bb9af7' # Magenta/Púrpura Tokyonight
+style = 'bold fg:#c099ff' # Púrpura Luminoso
 
 # --- NODEJS ---
 [nodejs]
@@ -73,19 +73,19 @@ detect_extensions = ["java", "class", "jar", "gradle", "pom.xml"]
 [git_branch]
 symbol = " "
 format = '[$symbol$branch]($style) '
-style = 'bold fg:#bb9af7' # Magenta Tokyonight
+style = 'bold fg:#c099ff' # Púrpura Tokyonight
 
 [git_status]
 format = '([$all_status$ahead_behind]($style) )'
 style = 'bold fg:#ff9e64' # Naranja Tokyonight
-conflicted = "󰞇 "
+conflicted = "⚡ "
 ahead = "⇡${count}"
 behind = "⇣${count}"
 diverged = "⇕⇡${ahead_count}⇣${behind_count}"
-untracked = "󰋗 ${count} "
+untracked = "?${count} "
 staged = "+${count} "
 modified = "!${count} "
-deleted = "󰆴 "
+deleted = "✖ "
 
 # ==============================================================================
 # UTILIDADES ADICIONALES
@@ -94,12 +94,12 @@ deleted = "󰆴 "
 # --- TIEMPO DE EJECUCIÓN ---
 [cmd_duration]
 min_time = 2000
-format = '[󱑂 $duration]($style) '
-style = 'bold fg:#737aa2' # Gris azulado Tokyonight
+format = '[⏳ $duration]($style) '
+style = 'bold fg:#7a88cf' # Gris azulado luminoso
 
 # ==============================================================================
 # CARÁCTER DE ENTRADA (PROMPT CHARACTER)
 # ==============================================================================
 [character]
-success_symbol = '[❯](bold fg:#7aa2f7)' # Azul Tokyonight
+success_symbol = '[❯](bold fg:#50f5ff)' # Cyan Eléctrico
 error_symbol = '[❯](bold fg:#f7768e)'   # Rojo Tokyonight

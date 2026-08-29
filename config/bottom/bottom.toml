@@ -1,5 +1,5 @@
 # ==============================================================================
-# CONFIGURACIÓN DE BOTTOM (BTM) - TEMA TOKYONIGHT NIGHT
+# CONFIGURACIÓN DE BOTTOM (BTM) - TEMA TOKYONIGHT HIGH-CONTRAST
 # ==============================================================================
 
 [flags]
@@ -19,21 +19,21 @@ battery = true
 
 [colors]
 table_header_color = "#7dcfff"
-all_cpu_color = "#bb9af7"
+all_cpu_color = "#c099ff"
 avg_cpu_color = "#f7768e"
-cpu_core_colors = ["#7aa2f7", "#7dcfff", "#9ece6a", "#e0af68", "#ff9e64", "#bb9af7"]
+cpu_core_colors = ["#7dcfff", "#7aa2f7", "#9ece6a", "#e0af68", "#ff9e64", "#bb9af7"]
 ram_color = "#9ece6a"
 swap_color = "#ff9e64"
 rx_color = "#7dcfff"
 tx_color = "#bb9af7"
-widget_title_color = "#7aa2f7"
-border_color = "#565f89"
-highlighted_border_color = "#7aa2f7"
+widget_title_color = "#7dcfff"
+border_color = "#292e42"
+highlighted_border_color = "#7dcfff"
 text_color = "#c0caf5"
-graph_color = "#565f89"
+graph_color = "#636f8f"
 cursor_color = "#7dcfff"
-selected_text_color = "#15161e"
-selected_bg_color = "#7aa2f7"
+selected_text_color = "#ffffff"
+selected_bg_color = "#3d59a1"
 high_battery_color = "#9ece6a"
 medium_battery_color = "#e0af68"
 low_battery_color = "#f7768e"

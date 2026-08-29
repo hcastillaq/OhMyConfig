@@ -1,57 +1,76 @@
 # ==============================================================================
-# CONFIGURACIÓN DE FISH SHELL (TEMA TOKYONIGHT UNIFICADO)
+# CONFIGURACIÓN DE FISH SHELL (TEMA TOKYONIGHT HIGH-CONTRAST PARA FONDOS OSCUROS)
 # ==============================================================================
 
-# --- 1. VARIABLES GLOBALES Y RUTAS (PATH) ---
+# --- 1. VARIABLES GLOBALES Y ENTORNO ---
 
 set -gx STARSHIP_CONFIG ~/.config/starship/starship.toml      # Ruta de configuración de Starship
 set -gx XDG_CONFIG_HOME $HOME/.config                       # Directorio base de configuraciones Unix
 set -gx BAT_THEME "tokyonight_night"                        # Tema Tokyonight para bat y delta
 set -gx EDITOR "nvim"                                       # Editor de texto predeterminado
 
-# Configuración y colores de FZF (Tema Tokyonight Night)
+# Configuración y colores de FZF (Tokyonight High-Contrast)
 set -gx FZF_DEFAULT_OPTS " \
 --color=bg+:#283457,bg:#16161e,spinner:#ff007c,hl:#f7768e \
 --color=fg:#c0caf5,header:#7aa2f7,info:#7aa2f7,pointer:#7dcfff \
---color=marker:#9ece6a,fg+:#c0caf5,prompt:#7dcfff,hl+:#7dcfff \
+--color=marker:#9ece6a,fg+:#ffffff,prompt:#7dcfff,hl+:#7dcfff \
 --prompt '❯ ' --pointer '▶ ' --marker '✓ '"
 
 set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --exclude .git --exclude node_modules'
 set -gx FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
 set -gx FZF_ALT_C_COMMAND 'fd --type d --hidden --exclude .git --exclude node_modules'
 
-# Colores de sintaxis nativa de Fish ajustados a Tokyonight Night
-set -g fish_color_normal c0caf5
-set -g fish_color_command 7aa2f7 --bold
-set -g fish_color_keyword bb9af7
-set -g fish_color_quote 9ece6a
-set -g fish_color_redirection bb9af7
-set -g fish_color_end ff9e64
-set -g fish_color_error f7768e
-set -g fish_color_param c0caf5
-set -g fish_color_comment 565f89
-set -g fish_color_selection --background=283457
-set -g fish_color_search_match --background=3d59a1
-set -g fish_color_operator 7dcfff
-set -g fish_color_escape bb9af7
-set -g fish_color_autosuggestion 565f89
-set -g fish_color_cwd 7dcfff
-set -g fish_color_user 7aa2f7
-set -g fish_color_host 9ece6a
-set -g fish_color_cancel f7768e --reverse
-set -g fish_pager_color_prefix 7dcfff --bold
-set -g fish_pager_color_completion c0caf5
-set -g fish_pager_color_description 565f89
-set -g fish_pager_color_selected_background --background=283457
+# ==============================================================================
+# PALETA DE SINTAXIS NATIVA DE FISH (ALTO CONTRASTE Y MÁXIMA LUMINOSIDAD)
+# ==============================================================================
+# 1. Comandos Principales y Palabras Clave
+set -g fish_color_command 50f5ff                            # Cyan Neón Eléctrico (#50f5ff) - Máximo brillo y nitidez en negro
+set -g fish_color_keyword c099ff --bold                     # Púrpura Tokyonight Luminoso (#c099ff)
+set -g fish_color_quote 9ece6a                              # Verde Lima brillante (#9ece6a) para strings/comillas
+set -g fish_color_redirection 7dcfff                        # Cyan Claro (#7dcfff) para pipes | y redirecciones >
+set -g fish_color_end ff9e64                                # Naranja Brillante (#ff9e64) para ; y &&
+set -g fish_color_error f7768e --bold                       # Rojo / Coral (#f7768e) para comandos inválidos o errores
 
-# Rutas del sistema gestionadas sin duplicados
+# 2. Argumentos, Opciones y Comentarios
+set -g fish_color_normal e0e6fc                             # Blanco Lavanda Brillante (#e0e6fc) para texto general
+set -g fish_color_param e0e6fc                              # Argumentos y nombres de archivo en texto nítido
+set -g fish_color_option 7aa2f7                             # Flags y opciones (--flag, -l, --all) en Azul Cielo
+set -g fish_color_comment 7a88cf                            # Gris Azulado Luminoso (#7a88cf) - 100% legible
+set -g fish_color_autosuggestion 636f8f                     # Sugerencias tenues pero con contraste real (#636f8f)
+set -g fish_color_operator 50f5ff                           # Operadores matemáticos y lógicos (=, +, *)
+set -g fish_color_escape b4f9f8                             # Caracteres de escape (\n, \t, etc.)
+
+# 3. Selección y Búsqueda
+set -g fish_color_selection --background=283457             # Fondo azul noche para texto seleccionado
+set -g fish_color_search_match --background=3d59a1          # Fondo azul intenso para coincidencias de búsqueda
+set -g fish_color_cancel f7768e --reverse                   # Indicador de cancelación con contraste invertido
+
+# 4. Telemetría de Usuario / Prompt
+set -g fish_color_cwd 50f5ff                                # Directorio actual en Cyan Neón
+set -g fish_color_user 7aa2f7                               # Usuario en Azul
+set -g fish_color_host 9ece6a                               # Host en Verde
+
+# 5. Menú de Autocompletado (Fish Pager Dropdown)
+set -g fish_pager_color_prefix 50f5ff --bold                # Letras que coinciden en Cyan neón
+set -g fish_pager_color_completion e0e6fc                   # Opciones disponibles en Blanco Lavanda
+set -g fish_pager_color_description 7a88cf                  # Descripciones de comandos en Gris legible
+set -g fish_pager_color_progress 7aa2f7 --bold              # Barra de progreso del menú
+set -g fish_pager_color_selected_background --background=3d59a1 # Fondo del ítem seleccionado en Azul Tokyonight
+set -g fish_pager_color_selected_prefix 50f5ff --bold       # Prefijo del ítem seleccionado
+set -g fish_pager_color_selected_completion ffffff --bold   # Texto del ítem seleccionado en Blanco puro
+set -g fish_pager_color_selected_description a9b1d6          # Descripción del ítem seleccionado
+set -g fish_pager_color_secondary_background --background=1f2335 # Fondo alternado para filas pares del menú
+
+
+# --- 2. RUTAS DEL SISTEMA (PATH) ---
+
 fish_add_path /opt/homebrew/bin                             # Binarios Homebrew (Apple Silicon)
 fish_add_path /usr/local/bin                                # Binarios Homebrew (Intel)
 fish_add_path $HOME/.local/bin                              # Binarios de usuario
 fish_add_path $HOME/.antigravity-ide/antigravity-ide/bin    # Editor personalizado
 
 
-# --- 2. FUNCIONES Y WRAPPERS ---
+# --- 3. FUNCIONES Y WRAPPERS ---
 
 # Limpieza rápida de basura macOS (.DS_Store)
 function cds
@@ -72,7 +91,7 @@ function y
 end
 
 
-# --- 3. ALIAS Y ABREVIATURAS ---
+# --- 4. ALIAS Y ABREVIATURAS ---
 
 # Eza (Reemplazo moderno de ls)
 alias ls="eza --icons --group-directories-first"
@@ -116,7 +135,7 @@ abbr -a .... "z ../../.."
 abbr -a - "z -"
 
 
-# --- 4. INICIALIZADORES DINÁMICOS ---
+# --- 5. INICIALIZADORES DINÁMICOS ---
 
 mise activate fish | source
 zoxide init fish | source

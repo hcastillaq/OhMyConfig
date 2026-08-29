@@ -1,25 +1,25 @@
 # ==============================================================================
-# CONFIGURACIÓN DE LAZYGIT (TEMA TOKYONIGHT NIGHT & DELTA INTEGRATION)
+# CONFIGURACIÓN DE LAZYGIT (TEMA TOKYONIGHT HIGH-CONTRAST & DELTA INTEGRATION)
 # ==============================================================================
 
 gui:
   theme:
     activeBorderColor:
-      - '#7aa2f7'
+      - '#7dcfff' # Cyan brillante para el panel enfocado
       - bold
     inactiveBorderColor:
-      - '#565f89'
+      - '#292e42' # Borde tenue y discreto para paneles inactivos
     searchingActiveBorderColor:
       - '#ff9e64'
       - bold
     optionsTextColor:
       - '#7dcfff'
     selectedLineBgColor:
-      - '#283457'
+      - '#3d59a1' # Azul Tokyonight de alto contraste
     cherryPickedCommitBgColor:
       - '#2e3c64'
     cherryPickedCommitFgColor:
-      - '#7aa2f7'
+      - '#7dcfff'
     unstagedChangesColor:
       - '#f7768e'
     defaultFgColor:
