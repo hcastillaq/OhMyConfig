@@ -26,8 +26,7 @@ gui:
       - '#c0caf5'
   showIcons: true
   nerdFontsVersion: "3"
-
 git:
-  paging:
-    colorArg: always
-    pager: delta --dark --paging=never --line-numbers
+  diffRenderers:
+    - colorArg: always
+      command: delta --dark --paging=never --line-numbers
