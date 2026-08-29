@@ -1,6 +1,19 @@
 # ⚡ OhMyConfig
 
+<p align="center">
+  <a href="https://hcastillaq.github.io/OhMyConfig/"><img src="https://img.shields.io/badge/📖_Documentación_Web-Online-7aa2f7?style=for-the-badge&logo=vitepress&logoColor=white" alt="Documentation"></a>
+  <img src="https://img.shields.io/badge/macOS-Apple%20Silicon%20%7C%20Intel-7dcfff?style=for-the-badge&logo=apple&logoColor=white" alt="macOS">
+  <img src="https://img.shields.io/badge/Theme-Tokyonight%20Night-bb9af7?style=for-the-badge" alt="Theme">
+  <img src="https://img.shields.io/badge/License-MIT-9ece6a?style=for-the-badge" alt="License">
+</p>
+
 > **Entorno de desarrollo moderno, modular y de alto rendimiento para macOS**, estilizado bajo la paleta **Tokyonight Night** con glifos **Nerd Font v3** y utilidades de última generación escritas en **Rust** y **Go**.
+
+---
+
+### 🌐 Documentación Oficial en Vivo
+Toda la documentación interactiva con buscador `Cmd + K`, navegación lateral y cheatsheets está disponible en:
+👉 **[https://hcastillaq.github.io/OhMyConfig/](https://hcastillaq.github.io/OhMyConfig/)**
 
 ---
 
@@ -16,13 +29,13 @@ chmod +x install.sh
 ./install.sh -l
 ```
 
-* El instalador verifica e instala automáticamente **Homebrew**, ejecuta el **Brewfile** con todas las herramientas y enlaza las configuraciones sin sobreescribir destructivamente tus archivos.
+* El instalador verifica e instala automáticamente **Homebrew**, ejecuta el **Brewfile** con todas las herramientas y enlaza las configuraciones sin sobreescribir destructivamente tus archivos existentes.
 
 ---
 
-## 📚 Documentación Modular
+## 📚 Guías y Documentación Modular
 
-Cada componente del entorno cuenta con su propia guía detallada e interactiva dentro de [`docs/`](./docs/):
+Cada componente del entorno cuenta con su propia guía detallada dentro de [`docs/`](./docs/):
 
 ```
 OhMyConfig/
@@ -40,15 +53,15 @@ OhMyConfig/
     └── ⚡ Tabla Maestra de Atajos ──────► docs/cheatsheet.md
 ```
 
-| Sección | Descripción | Documento |
-| :--- | :--- | :--- |
-| **📦 Instalación** | Opciones de copia con respaldo, symlinks y Brewfile automatizado | [Leer Guía](./docs/instalacion.md) |
-| **🛠️ Neovim** | Motor LazyVim, atajos de edición, LSP, autocompletado, GitLens y Neogen | [Leer Guía](./docs/neovim.md) |
-| **🪟 Zellij** | Multiplexor con foco en Cyan de alto contraste y navegación con `Alt` | [Leer Guía](./docs/zellij.md) |
-| **🐙 Git & Diffs** | Flujo rápido en consola, interfaz visual Lazygit y paginador Git-Delta | [Leer Guía](./docs/git.md) |
-| **🖥️ Terminal & Shell** | Ghostty (GPU/Blur), Fish Shell interactivo, Starship y Atuin SQLite | [Leer Guía](./docs/terminal.md) |
-| **🧰 CLI / TUI Tools** | Eza, Bat, Yazi, Bottom, Dust, Procs, Xh, Jq, Jqp, Lazydocker, K9s | [Leer Guía](./docs/herramientas.md) |
-| **⚡ Cheatsheet** | Tabla maestra consolidada de todos los alias y atajos del entorno | [Ver Tabla](./docs/cheatsheet.md) |
+| Sección | Descripción | Guía en Web | Archivo Markdown |
+| :--- | :--- | :---: | :---: |
+| **📦 Instalación** | Copia con respaldo, symlinks y Brewfile | [Ver Online](https://hcastillaq.github.io/OhMyConfig/instalacion) | [`docs/instalacion.md`](./docs/instalacion.md) |
+| **🛠️ Neovim** | LazyVim core, LSP, autocompletado, GitLens y Neogen | [Ver Online](https://hcastillaq.github.io/OhMyConfig/neovim) | [`docs/neovim.md`](./docs/neovim.md) |
+| **🪟 Zellij** | Multiplexor con foco Cyan brillante y navegación con `Alt` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/zellij) | [`docs/zellij.md`](./docs/zellij.md) |
+| **🐙 Git & Diffs** | Flujo en consola, Lazygit TUI y diffs con Git-Delta | [Ver Online](https://hcastillaq.github.io/OhMyConfig/git) | [`docs/git.md`](./docs/git.md) |
+| **🖥️ Terminal & Shell** | Ghostty (GPU/Blur), Fish Shell, Starship y Atuin SQLite | [Ver Online](https://hcastillaq.github.io/OhMyConfig/terminal) | [`docs/terminal.md`](./docs/terminal.md) |
+| **🧰 CLI / TUI Tools** | Eza, Bat, Yazi, Bottom, Dust, Procs, Xh, Jq, Jqp, K9s | [Ver Online](https://hcastillaq.github.io/OhMyConfig/herramientas) | [`docs/herramientas.md`](./docs/herramientas.md) |
+| **⚡ Cheatsheet** | Tabla consolidada de todos los alias y atajos | [Ver Online](https://hcastillaq.github.io/OhMyConfig/cheatsheet) | [`docs/cheatsheet.md`](./docs/cheatsheet.md) |
 
 ---
 
@@ -80,8 +93,7 @@ OhMyConfig/
 * **`Alt + Flechas`** (o `Alt + hjkl`): Mover foco entre paneles (se ilumina en Cyan).
 * **`Alt + [`** / **`Alt + ]`**: Pestaña anterior / siguiente al instante.
 * **`Alt + 1` .. `Alt + 9`**: Saltar directo a la pestaña número N.
-* **`Alt + t`**: Crear nueva pestaña.
-* **`Alt + n`**: Crear nuevo panel.
+* **`Alt + t`**: Crear nueva pestaña | **`Alt + n`**: Crear nuevo panel.
 * **`Alt + f`**: Maximizar / Restaurar panel activo (Pantalla completa).
 * **`Ctrl + p`** (Paneles) / **`Ctrl + t`** (Pestañas) / **`Ctrl + s`** (Scroll e historial).
 
@@ -102,7 +114,7 @@ La documentación completa de este repositorio se compila y publica automáticam
 [Repositorio Local] ──(Push en docs/)──► [GitHub Actions CI/CD] ──► [GitHub Pages Web]
 ```
 
-Para consultar la documentación en formato web interactivo con buscador `Cmd + K`, visitá:
+Accedé a la documentación interactiva:  
 👉 **`https://hcastillaq.github.io/OhMyConfig/`**
 
 ---
