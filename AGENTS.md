@@ -16,9 +16,23 @@ This document provides system architecture, design invariants, configuration str
 OhMyConfig/
 ├── Brewfile                     # Homebrew bundle (CLI tools, GUI apps, Nerd Fonts)
 ├── install.sh                   # Idempotent installer (copy/backup or symlink mode)
-├── README.md                    # User-facing manual and command cheatsheet
+├── README.md                    # Concise user manual, quick overview and documentation hub
 ├── AGENTS.md                    # AI Agent architectural context and guidelines
-├── .gitignore                   # Ignored files (.atl/, .DS_Store)
+├── .gitignore                   # Ignored files (.atl/, .DS_Store, .vitepress cache/dist)
+├── .vitepress/
+│   └── config.mjs               # VitePress site configuration (srcDir: "docs", Tokyonight theme)
+├── .github/
+│   └── workflows/
+│       └── docs.yml             # GitHub Actions CI/CD to build & deploy docs to GitHub Pages
+├── docs/                        # Modular Markdown Documentation (Pure MD without bloat)
+│   ├── index.md                 # Documentation landing page
+│   ├── instalacion.md           # Installation & Brewfile guide
+│   ├── neovim.md                # Master Neovim guide
+│   ├── zellij.md                # Master Zellij guide
+│   ├── git.md                   # Git, Lazygit & Delta guide
+│   ├── terminal.md              # Ghostty, Fish, Starship & Atuin guide
+│   ├── herramientas.md          # Modern CLI/TUI tools guide
+│   └── cheatsheet.md            # Master Alias & Keymap Cheatsheet
 └── config/                      # Source configuration directory (mirrors ~/.config/)
     ├── fish/
     │   └── config.fish          # Shell aliases, wrappers, PATH, FZF/Atuin inits
@@ -40,19 +54,19 @@ OhMyConfig/
     │   └── config.toml          # Intelligent shell history SQLite database config
     ├── git/
     │   └── delta.gitconfig      # Modular Delta & alias configuration (included via include.path)
-        └── nvim/                    # Modular Neovim Lua IDE configuration (LazyVim Core)
-            ├── init.lua             # Core entry point (options, keymaps, lazy bootstrap)
-            ├── lazyvim.json         # LazyExtras enabled modules (TypeScript, Python, Docker, etc.)
-            └── lua/
-                ├── config/
-                │   ├── options.lua  # User vim.opt settings (hybrid numbers, undo, tabs)
-                │   ├── keymaps.lua  # User navigation & split mappings (<leader> = Space)
-                │   ├── autocmds.lua # User event triggers and hooks
-                │   └── lazy.lua     # LazyVim core bootstrap & plugin setup
-                └── plugins/
-                    ├── colorscheme.lua # Tokyonight Night theme with adaptive blur/transparency
-                    ├── neo-tree.lua    # Clean Git status symbols without empty boxes
-                    └── neogen.lua      # Intelligent docstring generator (JSDoc, TSDoc, Google)
+    └── nvim/                    # Modular Neovim Lua IDE configuration (LazyVim Core)
+        ├── init.lua             # Core entry point (options, keymaps, lazy bootstrap)
+        ├── lazyvim.json         # LazyExtras enabled modules (TypeScript, Python, Docker, etc.)
+        └── lua/
+            ├── config/
+            │   ├── options.lua  # User vim.opt settings (hybrid numbers, undo, tabs)
+            │   ├── keymaps.lua  # User navigation & split mappings (<leader> = Space)
+            │   ├── autocmds.lua # User event triggers and hooks
+            │   └── lazy.lua     # LazyVim core bootstrap & plugin setup
+            └── plugins/
+                ├── colorscheme.lua # Tokyonight Night theme with adaptive blur/transparency
+                ├── neo-tree.lua    # Clean Git status symbols without empty boxes
+                └── neogen.lua      # Intelligent docstring generator (JSDoc, TSDoc, Google)
 ```
 
 ---
@@ -68,11 +82,11 @@ OhMyConfig/
 ### 3.2 Terminal & Shell Layer
 - **Ghostty**: Modern GPU-accelerated terminal emulator configured with JetBrains Mono Nerd Font, font ligatures, window blur, and Tokyonight styling.
 - **Fish Shell (`config/fish/config.fish`)**:
-  - Environment variables: `STARSHIP_CONFIG`, `BAT_THEME`, `XDG_CONFIG_HOME`.
+  - Environment variables: `STARSHIP_CONFIG`, `BAT_THEME`, `XDG_CONFIG_HOME`, `EDITOR`.
   - FZF Integration: Complete Tokyonight Night color mapping with `fd` file/directory providers.
   - Atuin Integration: Database-driven shell history initialization.
   - Interactive wrappers: Yazi wrapper (`y`) that changes directory upon exit with `q`, and `cds` for `.DS_Store` sanitization.
-  - Aliases & Abbreviations: Fast shortcuts for Git (`g`, `gs`, `gc`, `gl`, `glog`, `glp`, `of`), Modern CLI (`ls` -> `eza`, `cat` -> `bat`, `du` -> `dust`, `zj` -> `zellij`, `jqp`), and Zoxide directory traversal (`..`, `...`, `-`).
+  - Aliases & Abbreviations: Fast shortcuts for Git (`g`, `gs`, `gc`, `gl`, `glog`, `glp`, `of`), Modern CLI (`ls` -> `eza`, `cat` -> `bat`, `du` -> `dust`, `zj` -> `zellij`, `jqp`, `v` -> `nvim`), and Zoxide directory traversal (`..`, `...`, `-`).
   - Dynamic Inits: `mise`, `zoxide`, `fzf`, `atuin`, `starship`.
 
 ### 3.3 Prompt & Version Management
@@ -81,21 +95,20 @@ OhMyConfig/
 
 ### 3.4 Terminal Multiplexer (`config/zellij/`)
 - **Zellij**: Modern Rust multiplexer configured with Tokyonight palette and `default_layout "default"`.
+- **Active Pane High-Contrast Focus**: Active focused pane is styled in radiant Cyan (`#7dcfff`) with Blue title bar (`#7aa2f7`), while inactive panes remain in subtle dark slate (`#292e42`).
+- **Direct Navigation**: Seamless pane focus switching with `Alt + Arrows` or `Alt + hjkl`, and tab switching with `Alt + [` / `Alt + ]` and `Alt + 1..9`.
 - **Layout & Status Bar Architecture (`layouts/default.kdl` + `plugins/zjstatus.wasm`)**:
   - Unifies **Tabs**, **Mode Indicators**, and **Contextual Command Hints** into a **single 1-line bottom bar**.
-  - Uses a **local WASM plugin** (`file:~/.config/zellij/plugins/zjstatus.wasm`) to eliminate network dependencies and bypass untrusted download confirmation prompts.
-  - Active tabs render as high-contrast badges (`#3d59a1` deep blue + `#7aa2f7` Tokyonight blue text).
-  - Mode switches (`Pane`, `Tab`, `Resize`, `Scroll`, `Session`, `Move`, `Search`) dynamically render semantic, color-coded shortcut hints.
+  - Uses a **local WASM plugin** (`file:~/.config/zellij/plugins/zjstatus.wasm`) to eliminate network dependencies.
 
-### 3.5 TUI & Diagnostics Toolchain
-- **lazygit**: Visual Git TUI integrated with `git-delta` side-by-side diffs and Tokyonight UI colors.
-- **bottom (`btm`)**: Graphical system/process monitor.
-- **atuin**: SQLite indexed history search with duration, exit codes, and fuzzy search.
-- **yazi**: Asynchronous file manager with preview support.
-- **onefetch (`of`)**: Git repo code and telemetry visualizer.
-- **sd**: Modern expression-based in-place text replacement.
-- **xh**, **jq**, **jqp**: HTTP API client, JSON stream transformer, and interactive TUI playground.
-- **lazydocker**, **k9s**, **kubectx/kubens**: Container and Kubernetes live cluster telemetry.
+### 3.5 Neovim IDE Layer (`config/nvim/`)
+- **LazyVim Core Engine**: Leverages upstream-maintained plugin architecture for zero maintenance overhead.
+- **User Custom Layer**:
+  - `colorscheme.lua`: Configures Tokyonight Night with adaptive transparency & blur for Ghostty.
+  - `neo-tree.lua`: High-contrast, clean Git status indicators without empty box artifacts.
+  - `neogen.lua`: Automated structured docstring generation (`<leader>cn`).
+  - `keymaps.lua` & `options.lua`: Seamless `Ctrl + hjkl` window navigation, persistent undo, hybrid line numbers, system clipboard integration.
+  - `lazyvim.json`: Dynamic module toggling via `:LazyExtras` (`<leader>px`).
 
 ---
 
@@ -105,6 +118,10 @@ OhMyConfig/
    - Primary Background: `#1a1b26` (or `#15161e` for deep dark / borders)
    - Primary Foreground: `#c0caf5`
    - Accents: Blue (`#7aa2f7`), Cyan (`#7dcfff`), Green (`#9ece6a`), Magenta/Purple (`#bb9af7`), Yellow/Orange (`#e0af68` / `#ff9e64`), Red (`#f7768e`), Dim/Comments (`#565f89` / `#737aa2`).
-2. **Zero-Friction Offline Execution**: Avoid dynamic external downloads inside runtime configs; bundle or locally cache required binaries/WASM plugins within the repo.
-3. **Non-Destructive Overwrites**: Configuration installers must never silently discard user files without `.bak_` backups or user consent.
-4. **Platform Scope**: Tailored for macOS (Apple Silicon `/opt/homebrew` and Intel `/usr/local`), supporting fish shell syntax.
+2. **Pure Documentation Principle**:
+   - The `docs/` directory contains **only pure Markdown files** without framework config bloat.
+   - VitePress configuration lives externally in `.vitepress/config.mjs` with `srcDir: "docs"`.
+   - CI/CD in `.github/workflows/docs.yml` builds and deploys to GitHub Pages automatically.
+3. **Zero-Friction Offline Execution**: Avoid dynamic external downloads inside runtime configs; bundle or locally cache required binaries/WASM plugins within the repo.
+4. **Non-Destructive Overwrites**: Configuration installers must never silently discard user files without `.bak_` backups or user consent.
+5. **Platform Scope**: Tailored for macOS (Apple Silicon `/opt/homebrew` and Intel `/usr/local`), supporting fish shell syntax.
