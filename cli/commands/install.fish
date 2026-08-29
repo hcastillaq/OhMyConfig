@@ -61,7 +61,7 @@ function cmd_install
             --no-limit \
             --cursor.foreground "#50f5ff" \
             --selected.foreground "#e0e6fc" \
-            --header "  Seleccioná módulos (Space = marcar, Enter = confirmar):" \
+            --header "  Seleccioná módulos (x = marcar/desmarcar, Enter = confirmar):" \
             --header.foreground "#7a88cf" \
             $options)
 

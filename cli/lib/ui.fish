@@ -124,7 +124,7 @@ function ui_choose_modules
         --no-limit \
         --cursor.foreground "$UI_CYAN" \
         --selected.foreground "$UI_WHITE" \
-        --header "Seleccioná los módulos a instalar (Space para marcar, Enter para confirmar):" \
+        --header "Seleccioná los módulos a instalar (x = marcar/desmarcar, a = todos, Enter = confirmar):" \
         --header.foreground "$UI_DIM" \
         $choices
 end
