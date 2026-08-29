@@ -30,6 +30,7 @@ brew "yazi"
 brew "dust"
 
 # File Inspection & Version Control
+brew "neovim"
 brew "bat"
 brew "git-delta"
 brew "lazygit"

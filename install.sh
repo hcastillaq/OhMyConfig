@@ -110,6 +110,7 @@ deploy_config "${DOTFILES_DIR}/config/lazygit/config.yml" "${CONFIG_DIR}/lazygit
 deploy_config "${DOTFILES_DIR}/config/bottom/bottom.toml" "${CONFIG_DIR}/bottom/bottom.toml"
 deploy_config "${DOTFILES_DIR}/config/atuin/config.toml" "${CONFIG_DIR}/atuin/config.toml"
 deploy_config "${DOTFILES_DIR}/config/git/delta.gitconfig" "${CONFIG_DIR}/git/delta.gitconfig"
+deploy_config "${DOTFILES_DIR}/config/nvim" "${CONFIG_DIR}/nvim"
 
 # 5. Configurar inclusión no destructiva de Delta en Git (Preserva usuario, email y claves)
 echo ""

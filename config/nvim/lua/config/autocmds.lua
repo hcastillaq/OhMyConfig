@@ -1,0 +1,5 @@
+-- ==============================================================================
+-- AUTOCMDs DE USUARIO
+-- ==============================================================================
+-- Autocmds por defecto de LazyVim: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
+-- Agregá autocmds personalizados acá si los necesitás.

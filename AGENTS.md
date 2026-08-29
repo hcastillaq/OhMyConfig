@@ -40,6 +40,19 @@ OhMyConfig/
     │   └── config.toml          # Intelligent shell history SQLite database config
     ├── git/
     │   └── delta.gitconfig      # Modular Delta & alias configuration (included via include.path)
+        └── nvim/                    # Modular Neovim Lua IDE configuration (LazyVim Core)
+            ├── init.lua             # Core entry point (options, keymaps, lazy bootstrap)
+            ├── lazyvim.json         # LazyExtras enabled modules (TypeScript, Python, Docker, etc.)
+            └── lua/
+                ├── config/
+                │   ├── options.lua  # User vim.opt settings (hybrid numbers, undo, tabs)
+                │   ├── keymaps.lua  # User navigation & split mappings (<leader> = Space)
+                │   ├── autocmds.lua # User event triggers and hooks
+                │   └── lazy.lua     # LazyVim core bootstrap & plugin setup
+                └── plugins/
+                    ├── colorscheme.lua # Tokyonight Night theme with adaptive blur/transparency
+                    ├── neo-tree.lua    # Clean Git status symbols without empty boxes
+                    └── neogen.lua      # Intelligent docstring generator (JSDoc, TSDoc, Google)
 ```
 
 ---

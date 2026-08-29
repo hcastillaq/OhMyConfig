@@ -7,6 +7,7 @@
 set -gx STARSHIP_CONFIG ~/.config/starship/starship.toml      # Ruta de configuración de Starship
 set -gx XDG_CONFIG_HOME $HOME/.config                       # Directorio base de configuraciones Unix
 set -gx BAT_THEME "tokyonight_night"                        # Tema Tokyonight para bat y delta
+set -gx EDITOR "nvim"                                       # Editor de texto predeterminado
 
 # Configuración y colores de FZF (Tema Tokyonight Night)
 set -gx FZF_DEFAULT_OPTS " \
@@ -104,6 +105,7 @@ alias btm="bottom"
 alias md="glow"
 
 # Editor
+alias v="nvim"
 alias code="agy-ide"
 
 # Zoxide (Navegación inteligente)
