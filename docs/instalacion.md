@@ -1,6 +1,6 @@
 # 📦 Instalación — CLI `omc`
 
-OhMyConfig incluye una CLI interactiva (`omc`) escrita en **Fish Shell puro** con interfaz TUI via **gum**. Permite seleccionar exactamente qué módulos instalar, diagnosticar el entorno, actualizar herramientas y gestionar el ecosistema AI/Pi.
+OhMyConfig incluye una CLI interactiva (`omc`) escrita en **Fish Shell puro** con interfaz TUI via **gum**. Permite seleccionar exactamente qué módulos instalar, diagnosticar el entorno, actualizar herramientas y gestionar el agente de IA Pi.
 
 ---
 
@@ -31,7 +31,7 @@ Navegá con `↑ ↓` y confirmá con `Enter`.
 • Búsqueda     rg · fd · fzf · sd · yazi · zoxide · eza · dust
 • CLI / TUI    btm · procs · xh · jq · jqp · tokei · onefetch
 • DevOps       lazydocker · k9s · kubectx/kubens
-• AI / Pi      pi · gentle-pi · gentle-engram
+• AI / Pi      pi (Coding Agent en terminal)
 ```
 
 | Tecla | Acción |
@@ -82,16 +82,14 @@ Salida de ejemplo:
 
   AI / Pi
   ✅  pi                     0.84.4
-  ❌  gentle-pi              NO INSTALADO  →  omc dev install
-  ❌  gentle-engram          NO INSTALADO  →  omc dev install
 
   Infraestructura
   ✅  brew                   4.4.17
   ✅  gum                    2.0.0
   ✅  node                   22.14.0 (via mise)
 
-  Perfil: modo=symlink  módulos=[core terminal editor search cli]
-  ⚠️  33 instaladas · 2 faltantes
+  Perfil: modo=symlink  módulos=[core terminal editor search cli devops ai]
+  ✅ 31 instaladas · 0 faltantes
 ────────────────────────────────────────────────────────
 ```
 
@@ -99,7 +97,7 @@ Salida de ejemplo:
 
 ### `omc update` — Actualización Completa
 
-Actualiza Homebrew, todas las fórmulas/casks instalados y los paquetes npm del ecosistema AI/Pi de una sola vez.
+Actualiza Homebrew, todas las fórmulas/casks instalados y el agente `pi` (npm global) de una sola vez.
 
 ```bash
 ./omc update
@@ -113,8 +111,6 @@ Actualiza Homebrew, todas las fórmulas/casks instalados y los paquetes npm del 
 
   AI / Pi (npm globals)
   ✅  pi              0.84.4  (latest)
-  ✅  gentle-pi       2.2.0   →  2.3.0
-  ✅  gentle-engram   0.1.10  (latest)
 
   🧹 Caché limpiado
   ✅ Actualización completada.
@@ -122,30 +118,27 @@ Actualiza Homebrew, todas las fórmulas/casks instalados y los paquetes npm del 
 
 ---
 
-### `omc dev` — Ecosistema AI/Pi
+### `omc dev` — Gestión del Agente Pi
 
-Gestión específica de `pi`, `gentle-pi` y `gentle-engram` (paquetes **npm globales**). Para más detalles conceptuales y flujo de trabajo, consultá la [Guía de AI & Agentes](./ai.md).
+Instala y actualiza el agente base **`pi`**. Las extensiones recomendadas se instalan directamente con `pi install <ext>`. Para la explicación detallada de cada extensión, consultá la [Guía de AI & Agentes](./ai.md).
 
 ```bash
-./omc dev              # Instalar los tres (equivale a omc dev install)
-./omc dev install      # Instalar pi + gentle-pi + gentle-engram
-./omc dev status       # Ver versiones instaladas vs latest disponible
-./omc dev update       # Actualizar los tres a latest
+./omc dev              # Instala pi (equivale a omc dev install)
+./omc dev install      # Instala el binario global de pi
+./omc dev status       # Muestra versión de pi y estado de extensiones recomendadas
+./omc dev update       # Actualiza pi a su última versión en npm
 ```
 
-Las tres herramientas que instala:
+Extensiones recomendadas para potenciar `pi`:
 
-| Herramienta | Paquete npm | Descripción |
+| Extensión | Comando en Pi | Rol Principal |
 | :--- | :--- | :--- |
-| **pi** | `@earendil-works/pi-coding-agent` | Agente de código con herramientas de lectura, edición, ejecución y búsqueda |
-| **gentle-pi** | `gentle-pi` | Skills, SDD/OpenSpec, reviews, orchestrator y harness de desarrollo controlado |
-| **gentle-engram** | `gentle-engram` | Memoria persistente entre sesiones de trabajo con pi |
-
-Después de instalar, activar en pi:
-```bash
-pi install gentle-pi
-pi install gentle-engram
-```
+| **`gentle-pi`** | `pi install gentle-pi` | Harness de desarrollo controlado (SDD/OpenSpec), skills y reviews |
+| **`gentle-engram`** | `pi install gentle-engram` | Memoria persistente episódica y semántica en SQLite local |
+| **`pi-subagents`** | `pi install pi-subagents` | Orquestación de subagentes en paralelo y modo consejo (`/council`) |
+| **`pi-antigravity`** | `pi install pi-antigravity` | DeepMind Antigravity, CodeGraph y revisión formal de integridad |
+| **`pi-web-access`** | `pi install pi-web-access` | Búsqueda web multi-proveedor, scraping y chequeo de fuentes |
+| **`@narumitw/pi-plan-mode`**| `pi install @narumitw/pi-plan-mode` | Modo de planificación interactiva guiada (`/plan`) |
 
 ---
 
@@ -186,7 +179,7 @@ Copia los archivos a `~/.config/`. Si existe un archivo modificado, genera un re
 | **search** | rg · fd · fzf · sd · yazi · zoxide · eza · dust | — (integradas en Fish) |
 | **cli** | btm · procs · xh · jq · jqp · tokei · onefetch | `bottom/bottom.toml` |
 | **devops** | lazydocker · k9s · kubectx/kubens | — |
-| **ai** | pi · gentle-pi · gentle-engram | — (npm globals) |
+| **ai** | pi (Coding Agent en terminal) | — (npm global) |
 
 ---
 
@@ -218,9 +211,13 @@ modules=core terminal editor search cli devops ai
    mise use -g go@latest
    ```
 3. **Abrir Ghostty** para disfrutar del renderizado GPU y el tema Tokyonight completo.
-4. **Activar el ecosistema AI/Pi:**
+4. **Instalar pi y las extensiones recomendadas:**
    ```bash
    ./omc dev
    pi install gentle-pi
    pi install gentle-engram
+   pi install pi-subagents
+   pi install pi-antigravity
+   pi install pi-web-access
+   pi install @narumitw/pi-plan-mode
    ```

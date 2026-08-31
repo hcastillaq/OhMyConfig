@@ -1,5 +1,6 @@
 # Local Pi runtime state
 .atl/
+.pi/
 .DS_Store
 
 # VitePress build output & cache

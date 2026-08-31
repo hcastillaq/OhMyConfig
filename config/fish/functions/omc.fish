@@ -21,11 +21,11 @@ function omc --description "Guía interactiva de atajos y comandos de OhMyConfig
         echo $c_use"💡 Filtrar guía: "$c_res"guia [ai | nvim | zj | git | search | cli]"
         echo ""
         echo $c_sec"🤖  ECOSISTEMA AI & AGENTES DE CÓDIGO:"$c_res
-        echo "  "$c_key"omc dev"$c_res"             "$c_txt"Instalar stack de IA (pi + gentle-pi + gentle-engram)"$c_res
-        echo "  "$c_key"omc dev status"$c_res"      "$c_txt"Ver versiones instaladas vs latest en npm"$c_res
-        echo "  "$c_key"omc dev update"$c_res"      "$c_txt"Actualizar los tres paquetes de IA a latest"$c_res
+        echo "  "$c_key"omc dev"$c_res"             "$c_txt"Instalar agente base pi (npm global)"$c_res
+        echo "  "$c_key"omc dev status"$c_res"      "$c_txt"Ver versión de pi y estado de extensiones recomendadas"$c_res
+        echo "  "$c_key"omc dev update"$c_res"      "$c_txt"Actualizar pi a la última versión disponible en npm"$c_res
         echo "  "$c_key"pi"$c_res"                  "$c_txt"Iniciar agente de codificación autónomo en terminal"$c_res
-        echo "  "$c_key"pi install <pkg>"$c_res"   "$c_txt"Activar extensiones (gentle-pi / gentle-engram)"$c_res
+        echo "  "$c_key"pi install <ext>"$c_res"   "$c_txt"Instalar extensiones recomendadas (gentle-pi, engram...)"$c_res
         echo ""
         echo $c_sec"🛠️  NEOVIM (Editor IDE):"$c_res
         echo "  "$c_key"<Space> + e"$c_res"       "$c_txt"Explorador de archivos (Toggle & reveal)"$c_res
@@ -42,12 +42,13 @@ function omc --description "Guía interactiva de atajos y comandos de OhMyConfig
         echo "  "$c_key"gcc / gc"$c_res"          "$c_txt"Comentar línea actual / bloque en modo visual"$c_res
         echo ""
         echo $c_sec"🪟  ZELLIJ (Multiplexor):"$c_res
-        echo "  "$c_key"Alt + Flechas"$c_res"     "$c_txt"Mover foco entre paneles (se ilumina en Cyan)"$c_res
+        echo "  "$c_key"Alt + h/j/k/l"$c_res"     "$c_txt"Mover foco entre paneles (se ilumina en Cyan)"$c_res
         echo "  "$c_key"Alt + [ / ]"$c_res"       "$c_txt"Pestaña anterior / siguiente al instante"$c_res
         echo "  "$c_key"Alt + 1..9"$c_res"        "$c_txt"Saltar directo a la pestaña número 1..9"$c_res
         echo "  "$c_key"Alt + n"$c_res"           "$c_txt"Crear nuevo panel directamente"$c_res
         echo "  "$c_key"Alt + f"$c_res"           "$c_txt"Maximizar / Restaurar panel activo (Pantalla completa)"$c_res
         echo "  "$c_key"Alt + w"$c_res"           "$c_txt"Alternar paneles flotantes (Floating Panes)"$c_res
+        echo "  "$c_key"Ctrl + h"$c_res"          "$c_txt"Modo Mover: cambiar posición de paneles (h/j/k/l o Tab)"$c_res
         echo "  "$c_key"Ctrl + p / t"$c_res"      "$c_txt"Modo Paneles / Modo Pestañas (Tabs)"$c_res
         echo ""
         echo $c_sec"🐙  GIT & CONTROL DE VERSIONES:"$c_res
@@ -80,12 +81,18 @@ function omc --description "Guía interactiva de atajos y comandos de OhMyConfig
         switch "$cat"
             case "ai" "pi" "gentle" "engram"
                 echo $c_sec"🤖  ECOSISTEMA AI & AGENTES DE CÓDIGO:"$c_res
-                echo "  "$c_key"omc dev"$c_res"             "$c_txt"Instalar pi + gentle-pi + gentle-engram (npm -g)"$c_res
-                echo "  "$c_key"omc dev status"$c_res"      "$c_txt"Ver versiones instaladas vs latest disponible en npm"$c_res
-                echo "  "$c_key"omc dev update"$c_res"      "$c_txt"Actualizar los tres paquetes a latest"$c_res
+                echo "  "$c_key"omc dev"$c_res"             "$c_txt"Instalar agente pi (@earendil-works/pi-coding-agent)"$c_res
+                echo "  "$c_key"omc dev status"$c_res"      "$c_txt"Ver versión de pi y estado de extensiones recomendadas"$c_res
+                echo "  "$c_key"omc dev update"$c_res"      "$c_txt"Actualizar pi a la última versión disponible en npm"$c_res
                 echo "  "$c_key"pi"$c_res"                  "$c_txt"Iniciar sesión del coding agent en terminal"$c_res
-                echo "  "$c_key"pi install gentle-pi"$c_res" "$c_txt"Activar skills y harness SDD/OpenSpec en pi"$c_res
-                echo "  "$c_key"pi install gentle-engram"$c_res" "$c_txt"Activar memoria episódica persistente en pi"$c_res
+                echo ""
+                echo $c_sec"💡  EXTENSIONES RECOMENDADAS PARA PI:"$c_res
+                echo "  "$c_key"pi install gentle-pi"$c_res"           "$c_txt"Harness de desarrollo controlado (SDD/OpenSpec)"$c_res
+                echo "  "$c_key"pi install gentle-engram"$c_res"       "$c_txt"Memoria persistente episódica y semántica (SQLite)"$c_res
+                echo "  "$c_key"pi install pi-subagents"$c_res"        "$c_txt"Orquestación de subagentes en paralelo y /council"$c_res
+                echo "  "$c_key"pi install pi-antigravity"$c_res"      "$c_txt"DeepMind Antigravity, CodeGraph y revisión formal"$c_res
+                echo "  "$c_key"pi install pi-web-access"$c_res"       "$c_txt"Búsqueda web multi-proveedor y extracción de fuentes"$c_res
+                echo "  "$c_key"pi install @narumitw/pi-plan-mode"$c_res" "$c_txt"Modo interactivo de planificación guiada (/plan)"$c_res
             case "nvim" "v" "vim" "editor"
                 echo $c_sec"🛠️  NEOVIM — ATAJOS ESENCIALES:"$c_res
                 echo "  "$c_key"<Space> + e"$c_res"       "$c_txt"Abrir/cerrar explorador de archivos lateral"$c_res
@@ -106,12 +113,13 @@ function omc --description "Guía interactiva de atajos y comandos de OhMyConfig
                 echo "  "$c_key"u / Ctrl + r"$c_res"      "$c_txt"Deshacer persistente en disco / Rehacer"$c_res
             case "zj" "zellij" "mux"
                 echo $c_sec"🪟  ZELLIJ — MULTIPLEXOR:"$c_res
-                echo "  "$c_key"Alt + Flechas"$c_res"     "$c_txt"Mover foco entre paneles (se ilumina en Cyan)"$c_res
+                echo "  "$c_key"Alt + h/j/k/l"$c_res"     "$c_txt"Mover foco entre paneles (se ilumina en Cyan)"$c_res
                 echo "  "$c_key"Alt + [ / ]"$c_res"       "$c_txt"Pestaña anterior / siguiente al instante"$c_res
                 echo "  "$c_key"Alt + 1..9"$c_res"        "$c_txt"Saltar directo a la pestaña número 1..9"$c_res
                 echo "  "$c_key"Alt + n"$c_res"           "$c_txt"Crear nuevo panel directamente"$c_res
                 echo "  "$c_key"Alt + f"$c_res"           "$c_txt"Maximizar / Restaurar panel activo (Pantalla completa)"$c_res
                 echo "  "$c_key"Alt + w"$c_res"           "$c_txt"Alternar paneles flotantes (Floating Panes)"$c_res
+                echo "  "$c_key"Ctrl + h"$c_res"          "$c_txt"Modo Mover: intercambiar posición de paneles (h/j/k/l o Tab)"$c_res
                 echo "  "$c_key"Ctrl + p"$c_res"          "$c_txt"Modo Paneles (n:nuevo, d:abajo, r:derecha, x:cerrar)"$c_res
                 echo "  "$c_key"Ctrl + t"$c_res"          "$c_txt"Modo Pestañas (n:nueva, x:cerrar, h/l:mover, r:renombrar)"$c_res
                 echo "  "$c_key"Ctrl + s"$c_res"          "$c_txt"Modo Scroll (j/k:scroll, s:buscar, e:abrir en nvim)"$c_res

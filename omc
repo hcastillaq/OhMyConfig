@@ -8,9 +8,9 @@
 #   ./omc install --all --link Install all in symlink mode
 #   ./omc doctor               Diagnose installed tools and versions
 #   ./omc update               Update brew formulas + npm globals
-#   ./omc dev                  Manage AI/Pi ecosystem (pi, gentle-pi, gentle-engram)
-#   ./omc dev status           Show AI/Pi versions and update status
-#   ./omc dev update           Update AI/Pi tools to latest
+#   ./omc dev                  Install pi coding agent and view recommended extensions
+#   ./omc dev status           Show pi version and extensions status
+#   ./omc dev update           Update pi to latest
 #   ./omc --help               Show this help
 # ==============================================================================
 
@@ -59,11 +59,11 @@ switch $CMD
         echo ""
         echo "    doctor               Diagnóstico completo del entorno y versiones"
         echo ""
-        echo "    update               Actualiza Homebrew + npm globals (AI/Pi)"
+        echo "    update               Actualiza Homebrew + pi (npm global)"
         echo ""
-        echo "    dev                  Instala pi + gentle-pi + gentle-engram"
-        echo "    dev status           Versiones instaladas vs latest disponible"
-        echo "    dev update           Actualiza los tres a latest"
+        echo "    dev                  Instala pi (Coding Agent) y muestra extensiones"
+        echo "    dev status           Versión instalada de pi y estado de extensiones"
+        echo "    dev update           Actualiza pi a latest"
         echo ""
         echo "  MÓDULOS DISPONIBLES:"
         echo ""
@@ -73,7 +73,7 @@ switch $CMD
         echo "    search     rg · fd · fzf · sd · yazi · zoxide · eza · dust"
         echo "    cli        btm · procs · xh · jq · jqp · tokei · onefetch"
         echo "    devops     lazydocker · k9s · kubectx/kubens"
-        echo "    ai         pi · gentle-pi · gentle-engram"
+        echo "    ai         pi (Coding Agent en terminal)"
         echo ""
         echo "  DOCUMENTACIÓN:"
         echo "    https://hcastillaq.github.io/OhMyConfig/"
