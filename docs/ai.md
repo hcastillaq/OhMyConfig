@@ -43,109 +43,138 @@ La filosofía de ingeniería asistida por IA en OhMyConfig se basa en tres princ
 
 ---
 
-## 2. Herramienta Base: Pi Coding Agent (`pi`)
+## 2. Guía Metodológica: Cómo Trabajar con Diferentes Metodologías en Pi
 
-**`pi`** (`@earendil-works/pi-coding-agent`) es el motor de ejecución autónomo. Diseñado para terminales modernas, combina velocidad instantánea, interfaz TUI interactiva y soporte de herramientas nativas para interactuar con tu sistema de archivos y git.
-
-### 2.1 Gestión con la CLI `omc`
-
-```bash
-./omc dev              # Instala pi coding agent (npm global)
-./omc dev status       # Diagnóstico de la versión de pi y estado de extensiones
-./omc dev update       # Actualiza el binario de pi a la última versión en npm
-./omc update           # Actualización total (Homebrew + Casks + pi)
-```
-
-### 2.2 Comandos Esenciales de la CLI de `pi`
-
-| Comando                    | Descripción                                                           |
-| :------------------------- | :-------------------------------------------------------------------- |
-| **`pi`**                   | Abre una sesión interactiva del agente en el directorio actual.       |
-| **`pi "instrucción"`**     | Ejecuta una tarea puntual en modo _one-shot_ y sale al finalizar.     |
-| **`pi list`**              | Lista todas las extensiones, herramientas y skills activas.           |
-| **`pi install <paquete>`** | Descarga, instala y vincula una extensión de usuario desde npm o git. |
-| **`pi remove <paquete>`**  | Desinstala una extensión registrada en pi.                            |
-| **`pi update`**            | Actualiza a la última versión todas las extensiones instaladas en pi. |
+Pi se adapta a diferentes niveles de rigor y tamaño de tarea. Podés indicarle la metodología deseada en lenguaje natural según la necesidad del proyecto:
 
 ---
 
-## 3. Compound Engineering (CE) & Ciclo de Vida del Software
+### Metodología A: Spec-Driven Development (SDD / OpenSpec)
 
-El framework **Compound Engineering** estructura el desarrollo en etapas secuenciales y verificadas donde cada paso valida al anterior:
+**¿Para qué sirve?** Para cambios arquitectónicos grandes, refactorizaciones profundas o módulos críticos donde el diseño debe persistir en el repositorio antes de tocar código.
+
+#### Estructura de Artefactos en Disco
+Se genera una carpeta formal en `openspec/changes/<nombre-del-cambio>/`:
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                       CICLO COMPOUND ENGINEERING (CE)                       │
-│                                                                             │
-│  1. REQUERIMIENTOS ──► ce-brainstorm / ce-ideate (Alcance y casos de uso)   │
-│         │                                                                   │
-│  2. ARQUITECTURA  ──► ce-plan (Diseño técnico, archivos y riesgos)         │
-│         │                                                                   │
-│  3. AUDITORÍA     ──► ce-doc-review (Subagentes auditando el plan)          │
-│         │                                                                   │
-│  4. DESARROLLO    ──► ce-work / ce-worktree (Ejecución metódica y tests)    │
-│         │                                                                   │
-│  5. VERIFICACIÓN  ──► ce-code-review (Revisión de pares multi-rol)          │
-│         │                                                                   │
-│  6. ENTREGA       ──► ce-commit-push-pr (Commits atómicos y PR en GitHub)   │
-│         │                                                                   │
-│  7. CONOCIMIENTO  ──► ce-compound (Registro de soluciones en docs/solutions)│
-└─────────────────────────────────────────────────────────────────────────────┘
+openspec/
+└── changes/
+    └── cache-layer-redis/
+        ├── proposal.md   # Problema, motivación, límites del alcance y non-goals
+        ├── specs/        # Especificaciones técnicas y contratos de interfaces
+        │   └── cache-contract.md
+        ├── design.md     # Decisiones de arquitectura, trade-offs y diagramas
+        └── tasks.md      # Checklist secuencial de tareas atómicas verificables
 ```
 
-### 3.1 Catálogo de Habilidades (Skills) de Compound Engineering
+#### Flujo de Trabajo en Lenguaje Natural
 
-| Skill | Lenguaje Natural / Prompt | Propósito Principal |
-| :--- | :--- | :--- |
-| **`ce-brainstorm`** | *"Hagamos un brainstorm sobre X"* | Explora requerimientos, restricciones y trade-offs sin tocar código. |
-| **`ce-ideate`** | *"Dame ideas para mejorar X"* | Genera y evalúa críticamente múltiples enfoques de solución. |
-| **`ce-plan`** | *"Creá un plan técnico para X"* | Diseña la arquitectura, contratos, archivos afectados y plan de testing. |
-| **`ce-doc-review`** | *"Auditá este plan con doc-review"* | Lanza subagentes especializados para encontrar fallas en el diseño técnico. |
-| **`ce-work`** | *"Ejecutá el plan aprobado"* | Desarrolla paso a paso manteniendo verificaciones de calidad. |
-| **`ce-worktree`** | *"Creá un worktree para esta feature"* | Crea un `git worktree` aislado para trabajar sin tocar el checkout actual. |
-| **`ce-debug`** | *"Debugueá por qué falla este test"* | Análisis sistemático de causa raíz, hipótesis y solución definitiva. |
-| **`ce-code-review`** | *"Hacé un code review de los cambios"* | Auditoría multi-agente con filtrado de severidad antes de commitear. |
-| **`ce-commit`** | *"Guardá estos cambios con un commit"* | Staging selectivo y commits atómicos con Conventional Commits. |
-| **`ce-commit-push-pr`** | *"Commiteá, pusheá y abrí el PR"* | Publicación completa con descripción orientada al valor (*value-first*). |
-| **`ce-compound`** | *"Documentá esta solución aprendida"* | Guarda notas técnicas reutilizables en `docs/solutions/`. |
-| **`ce-sessions`** | *"¿Qué intentamos la sesión pasada?"* | Consulta el historial de sesiones previas para recuperar contexto. |
+1. **Paso 1 (Propuesta y Alcance):**
+   > *"Iniciá un cambio SDD para `cache-layer-redis`. Redactá la propuesta inicial definiendo el problema y qué queda fuera de alcance."*
+   > *El agente crea `proposal.md` y espera tu revisión.*
+
+2. **Paso 2 (Especificaciones y Diseño):**
+   > *"La propuesta está aprobada. Generá las especificaciones en `specs/` y el documento de arquitectura `design.md` explicando la estrategia de invalidación."*
+   > *El agente genera el diseño técnico con trade-offs.*
+
+3. **Paso 3 (Checklist de Tareas):**
+   > *"Excelente diseño. Creá el archivo `tasks.md` con las tareas atómicas y criterios de aceptación."*
+
+4. **Paso 4 (Ejecución Paso a Paso):**
+   > *"Comenzá a implementar las tareas de `tasks.md` una por una, corriendo tests en cada paso y marcando `[x]` al completar."*
 
 ---
 
-## 4. Skills en el Ecosistema: ¿Qué son, Cuándo y Cómo Crearlas?
+### Metodología B: Compound Engineering (CE)
 
-Las **Skills** son unidades modulares de conocimiento procedimental empaquetadas en archivos Markdown estructurados (`SKILL.md`). Permiten que el agente ejecute tareas complejas y repetitivas siguiendo un protocolo estricto sin necesidad de escribir código TypeScript o extensiones pesadas.
+**¿Para qué sirve?** El flujo estándar para nuevas funcionalidades medianas y desarrollo ágil asistido por subagentes especializados.
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                             ANATOMÍA DE UNA SKILL                           │
-│                                                                             │
-│   SKILL.md                                                                  │
-│   ├── Frontmatter YAML (Metadatos: name, description, triggers)             │
-│   ├── Contexto y Restricciones (Límites claros del alcance)                 │
-│   ├── Protocolo de Ejecución Paso a Paso (Instrucciones LLM-First)          │
-│   └── Criterios de Aceptación y Verificación (Checklist de éxito)          │
-└─────────────────────────────────────────────────────────────────────────────┘
+1. Brainstorm ──► 2. Tech Plan ──► 3. Doc Review ──► 4. Work & Test ──► 5. Code Review ──► 6. Commit & PR ──► 7. Compound
 ```
 
-### 4.1 ¿Cuándo Crear una Skill?
+#### Flujo de Trabajo en Lenguaje Natural
 
-Creá una skill cuando identifiques alguno de estos escenarios:
-
-1. **Procedimientos Repetitivos y Críticos:** Procesos con pasos secuenciales donde un error humano o de IA es costoso (ej: publicar releases en npm/GitHub, migraciones de base de datos, creación estandarizada de endpoints API).
-2. **Estándares y Convenciones Estrictas:** Normas del proyecto que el agente debe seguir obligatoriamente (ej: formato de commits, diseño de interfaces, testing con TDD estricto).
-3. **Flujos de Trabajo Multi-Herramienta:** Tareas que combinan varias herramientas en un orden determinado.
-
-### 4.2 Ubicación de las Skills
-
-- **Ámbito del Proyecto (Recomendado):** `.pi/skills/<nombre-skill>/SKILL.md` (versionado en el repositorio y compartido con el equipo).
-- **Ámbito Global del Usuario:** `~/.pi/agent/skills/<nombre-skill>/SKILL.md` (disponible en todos los proyectos de tu máquina).
+1. **Descubrimiento:**
+   > *"Hagamos un brainstorm sobre cómo agregar soporte para múltiples formatos de salida en la CLI."*
+   > *(Activa `ce-brainstorm`: hace preguntas sobre requerimientos y casos límite).*
+2. **Plan de Arquitectura:**
+   > *"Armá un plan técnico de arquitectura con archivos afectados y riesgos."*
+   > *(Activa `ce-plan`: produce un plan exhaustivo).*
+3. **Auditoría de Diseño:**
+   > *"Auditá el plan con subagentes antes de arrancar."*
+   > *(Activa `ce-doc-review`: subagentes revisores buscan fallas de diseño).*
+4. **Implementación:**
+   > *"Ejecutá el plan aprobado."*
+   > *(Activa `ce-work`: implementa y verifica calidad).*
+5. **Revisión de Código:**
+   > *"Hacé un code review exhaustivo de los cambios."*
+   > *(Activa `ce-code-review`: revisores independientes emiten reporte).*
+6. **Entrega:**
+   > *"Commiteá los cambios y abrí el PR."*
+   > *(Activa `ce-commit-push-pr`: genera commits atómicos y redacta el PR).*
+7. **Capitalización:**
+   > *"Guardá esta solución en docs/solutions/."*
+   > *(Activa `ce-compound`: registra el aprendizaje técnico).*
 
 ---
 
-## 5. `pi-memory-md` — Memoria Persistente Offline en Markdown + Git
+### Metodología C: Test-Driven Development (TDD Estricto)
 
-`pi-memory-md` resuelve la amnesia entre sesiones mediante **archivos Markdown estructurados con control de versiones Git**, sin requerir daemons HTTP ni bases de datos externas.
+**¿Para qué sirve?** Para lógica de negocio compleja, algoritmos, cálculos financieros, parsers y funciones puras donde se exige cobertura total.
+
+#### Flujo de Trabajo en Lenguaje Natural
+
+> *"Vamos a implementar el módulo de validación de tokens siguiendo TDD estricto. No escribas código de producción sin un test en rojo primero."*
+
+1. **RED:** El agente escribe el test unitario fallido y ejecuta la suite (`npm test`, `pytest`, `cargo test`) demostrando que falla.
+2. **GREEN:** Escribe la implementación mínima necesaria para hacer pasar el test.
+3. **TRIANGULATE:** Agrega casos de borde y pruebas adicionales para forzar una solución general.
+4. **REFACTOR:** Limpia el código manteniendo la suite de pruebas en verde.
+
+---
+
+### Metodología D: Bucles Iterativos Autónomos (Ralph Loops & Autoresearch)
+
+**¿Para qué sirve?** Para refactorizaciones masivas que tocan decenas de archivos, migraciones de librerías o tareas de optimización que requieren múltiples iteraciones controladas con checkpoints.
+
+#### Flujo de Trabajo en Lenguaje Natural
+
+* **Bucle Iterativo con Pacing (`pi-ralph-wiggum`):**
+  > *"Iniciá un loop de desarrollo para migrar todos los componentes de clase a hooks de React en 10 iteraciones, verificando los tests tras cada componente."*
+  > *El agente trabaja por iteraciones, valida el progreso y se pausa para checkpoints.*
+
+* **Optimización guiada por Métricas (`ce-optimize` / `pi-autoresearch`):**
+  > *"Optimizá la velocidad de inicio de la CLI en un loop: medí el tiempo de arranque, probá un cambio y conservalo solo si mejora el benchmark."*
+
+---
+
+### Metodología E: Hotfix & One-Shot (Edición Directa)
+
+**¿Para qué sirve?** Para correcciones de 1 a 3 líneas, typos en documentación, actualización de un flag o cambios triviales donde la ceremonia de specs es innecesaria.
+
+#### Flujo de Trabajo en Lenguaje Natural
+
+> *"Corregí el typo en la línea 45 de `config.fish` y guardá el archivo."*  
+> *El agente lee el archivo, realiza la edición directa y finaliza inmediatamente.*
+
+---
+
+## 3. Matriz de Decisión: ¿Qué Metodología Elegir?
+
+| Tipo de Tarea | Complejidad | Metodología Recomendada | Herramientas en Pi |
+| :--- | :---: | :--- | :--- |
+| **Cambio de arquitectura mayor** | Alta | **SDD (OpenSpec)** | Carpetas `openspec/`, `proposal`, `design` |
+| **Nueva funcionalidad / Feature** | Media / Alta | **Compound Engineering** | `ce-brainstorm`, `ce-plan`, `ce-code-review` |
+| **Lógica crítica / Algoritmos** | Media | **TDD Estricto** | Tests unitarios, subagentes ejecutores |
+| **Refactor masivo / Migración** | Alta | **Bucle Ralph / Autoresearch** | `ralph_start`, `ce-optimize` |
+| **Fix puntual / Typo** | Baja | **Hotfix Directo** | Herramientas nativas `edit` / `write` |
+
+---
+
+## 4. Gestión de Memoria Persistente con `pi-memory-md`
+
+`pi-memory-md` resuelve la amnesia entre sesiones mediante **archivos Markdown estructurados con control de versiones Git**, completamente offline y sin requerir daemons HTTP externos:
 
 ```
            ┌──────────────────────────────────────────────────────┐
@@ -169,41 +198,76 @@ Creá una skill cuando identifiques alguno de estos escenarios:
                       └───────────────────────────────┘
 ```
 
-### 5.1 Capacidades Principales
+### Ejemplos de Uso en Sesión
 
-1. **Completamente Autónomo:** No depende de servidores en segundo plano; si tu terminal está abierta, la memoria funciona.
-2. **Control de Versiones Git:** Cada decisión o aprendizaje queda registrado como un commit en el historial local de memoria.
-3. **Integración con Tape:** Permite crear checkpoints de traspaso de tareas (`tape_handoff`) y sincronización entre sesiones.
-
----
-
-## 6. `@narumitw/pi-plan-mode` & `@plannotator/pi-extension` — Planificación Guiada
-
-El modo **`/plan`** activa un diálogo interactivo en memoria para definir la estrategia de solución antes de tocar el sistema de archivos:
-
-- **Cero Mutaciones:** El agente tiene prohibido crear archivos, editar código o ejecutar comandos que alteren el repo durante la fase de plan.
-- **Exploración en Solo Lectura:** Inspecciona archivos existentes para fundamentar sus propuestas en hechos reales.
-- **Preguntas Estructuradas (`plan_mode_question`):** Presenta preguntas cerradas con opciones claras para resolver decisiones arquitectónicas.
-- **Visualización con Plannotator:** Permite inspeccionar y anotar visualmente el plan antes de iniciar la implementación.
+- **Guardar un checkpoint de traspaso:**
+  > *"Guardá un handoff en tape con el estado actual de la refactorización para continuar en la próxima sesión."*
+- **Consultar decisiones pasadas:**
+  > *"Buscá en memoria qué decisiones tomamos sobre la gestión de symlinks en deploy.sh."*
 
 ---
 
-## 7. Extensiones Nativas de la Suite LazyPi
+## 5. Planificación Socrática con `@narumitw/pi-plan-mode`
+
+El comando **`/plan`** activa un diálogo interactivo en memoria para definir la estrategia de solución antes de tocar el sistema de archivos:
+
+```bash
+/plan Diseñar un sistema de plugins dinámicos para la CLI
+```
+
+1. **Cero Mutaciones:** El agente tiene prohibido crear archivos o editar código durante la fase de plan.
+2. **Preguntas Estructuradas:** Presenta entre 1 y 3 preguntas con opciones cerradas para resolver trade-offs técnicos.
+3. **Inspección Visual con Plannotator:** Permite inspeccionar y anotar visualmente el plan generado (`@plannotator/pi-extension`).
+
+---
+
+## 6. Skills en el Ecosistema: ¿Cómo Crearlas?
+
+Las **Skills** son unidades modulares de conocimiento procedimental empaquetadas en archivos Markdown estructurados (`SKILL.md`):
+
+```markdown
+---
+name: nombre-de-la-skill
+description: "Trigger: palabras clave, disparadores. Descripción clara del protocolo."
+---
+
+# Título de la Skill
+
+## Contexto y Requisitos
+Reglas obligatorias que el agente debe respetar.
+
+## Protocolo de Ejecución Paso a Paso
+1. Inspeccionar el código.
+2. Ejecutar pruebas.
+3. Aplicar cambios.
+
+## Criterios de Aceptación
+- Checklist de verificación final.
+```
+
+### Ubicación
+- **Proyecto (Recomendado):** `.pi/skills/<nombre-skill>/SKILL.md` (se comparte con el equipo en Git).
+- **Global:** `~/.pi/agent/skills/<nombre-skill>/SKILL.md` (disponible en toda tu máquina).
+
+---
+
+## 7. Catálogo de Extensiones de la Suite LazyPi
 
 | Extensión | Instalación | Capacidades Principales |
 | :--- | :--- | :--- |
-| **`pi-subagents`** | `pi install npm:pi-subagents` | Orquestación concurrente, subagentes en paralelo y ejecución en worktrees aislados. |
+| **`pi-subagents`** | `pi install npm:pi-subagents` | Orquestación concurrente, subagentes en paralelo y delegación en worktrees. |
 | **`pi-ask-user`** | `pi install npm:pi-ask-user` | Menús interactivos con selección única o múltiple para decisiones críticas. |
 | **`@narumitw/pi-plan-mode`** | `pi install npm:@narumitw/pi-plan-mode` | Modo interactivo de planificación socrática (`/plan`). |
 | **`@plannotator/pi-extension`** | `pi install npm:@plannotator/pi-extension` | Visualizador y anotador interactivo de planes de desarrollo. |
 | **`pi-antigravity`** | `pi install npm:pi-antigravity` | DeepMind Antigravity y motor de indexación semántica **CodeGraph**. |
 | **`pi-memory-md`** | `pi install git:github.com/VandeeFeng/pi-memory-md` | Memoria persistente offline en Markdown y control de versiones Git. |
 | **`pi-web-access`** | `pi install npm:pi-web-access` | Búsqueda web en tiempo real (Brave, Exa, Perplexity) y extracción de contenido. |
-| **`pi-interactive-shell`** | `pi install npm:pi-interactive-shell` | Ejecución hands-free y supervisada de CLIs y agentes TUI en segundo plano. |
+| **`pi-interactive-shell`** | `pi install npm:pi-interactive-shell` | Ejecución hands-free y supervisada de CLIs y agentes TUI en background. |
+| **`pi-ralph-wiggum`** | `pi install npm:@tmustier/pi-ralph-wiggum` | Bucles iterativos de desarrollo con pacing y checkpoints. |
 
 ---
 
-## 8. Cheatsheet Unificado de Comandos
+## 8. Cheatsheet Rápido de Prompts y Comandos
 
 ```bash
 # ── Gestión de Infraestructura (omc) ──────────────────────────────────────────
@@ -212,25 +276,15 @@ El modo **`/plan`** activa un diálogo interactivo en memoria para definir la es
 ./omc dev update               # Actualizar pi a latest
 ./omc update                   # Actualización total (Homebrew + Casks + pi)
 
-# ── Suite Modular LazyPi ──────────────────────────────────────────────────────
-pi install npm:pi-subagents              # Subagentes concurrentes y delegación
-pi install npm:pi-ask-user               # Menús y confirmaciones interactivas
-pi install npm:@narumitw/pi-plan-mode    # Planificación interactiva (/plan)
-pi install npm:@plannotator/pi-extension # Visualización y anotación de planes
-pi install npm:pi-antigravity            # DeepMind Antigravity y CodeGraph
-pi install git:github.com/VandeeFeng/pi-memory-md # Memoria Markdown + Git
-pi install npm:pi-web-access             # Búsqueda web y verificación
-pi install npm:pi-interactive-shell      # TUI y CLIs interactivos en background
+# ── Planificación y Análisis ──────────────────────────────────────────────────
+/plan <descripción>            # Iniciar modo de planificación en memoria
+"Hagamos un brainstorm sobre <tema>"      # ce-brainstorm: Descubrimiento de alcance
+"Creá un plan técnico de arquitectura"    # ce-plan: Especificaciones y diseño
+"Iniciá un cambio SDD para <nombre>"      # SDD nativo en openspec/changes/
 
-# ── Comandos Slash Nativos en Pi ──────────────────────────────────────────────
-/plan <descripción>            # Iniciar planificación interactiva en memoria
-pi list                        # Listar extensiones y herramientas activas
-pi update                      # Actualizar todas las extensiones de usuario
-
-# ── Interacción en Lenguaje Natural (Compound Engineering) ───────────────────
-"Hagamos un brainstorm sobre <tema>"          # ce-brainstorm: Descubrimiento y límites
-"Creá un plan técnico de arquitectura"        # ce-plan: Especificaciones y diseño
-"Hacé un code review exhaustivo"              # ce-code-review: Revisión multi-agente
-"Commiteá, pusheá y abrí el PR"               # ce-commit-push-pr: Entrega completa
-"Guardá esta solución aprendida"              # ce-compound: Memoria en docs/solutions/
+# ── Ejecución y Pruebas ───────────────────────────────────────────────────────
+"Implementá el plan con TDD estricto"     # Flujo Red -> Green -> Refactor
+"Hacé un code review de los cambios"      # ce-code-review: Revisión multi-agente
+"Commiteá, pusheá y abrí el PR"           # ce-commit-push-pr: Entrega en GitHub
+"Guardá esta solución en docs/solutions"  # ce-compound: Capitalizar aprendizaje
 ```
