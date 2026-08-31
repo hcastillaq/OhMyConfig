@@ -15,18 +15,18 @@ This document provides system architecture, design invariants, configuration str
 ```
 OhMyConfig/
 ├── Brewfile                     # Homebrew bundle (CLI tools, GUI apps, Nerd Fonts)
-├── omc                          # Single executable CLI entry point (Fish + Gum TUI)
-├── cli/                         # Modular CLI implementation
+├── omc                          # Single executable CLI entry point (Bash 3.2+ & Gum TUI)
+├── cli/                         # Modular CLI implementation in pure Bash
 │   ├── commands/
-│   │   ├── install.fish         # Interactive & automated module installer
-│   │   ├── doctor.fish          # Environment diagnostic & version reporting
-│   │   ├── update.fish          # Centralized updater (Brew + Casks + AI npm packages)
-│   │   └── dev.fish             # AI/Pi ecosystem manager (install pi, status, update)
+│   │   ├── install.sh           # Interactive & automated module installer
+│   │   ├── doctor.sh            # Environment diagnostic & version reporting
+│   │   ├── update.sh            # Centralized updater (Brew + Casks + AI npm packages)
+│   │   └── dev.sh               # AI/Pi ecosystem manager (install pi, status, update)
 │   └── lib/
-│       ├── brew.fish            # Homebrew detection, verification & helpers
-│       ├── catalog.fish         # Granular module & package definitions
-│       ├── deploy.fish          # Safe symlink/copy file deployment engine
-│       └── ui.fish              # Shared Tokyonight styling & Gum UI primitives
+│       ├── brew.sh              # Homebrew detection, verification & helpers
+│       ├── catalog.sh           # Granular module & package definitions
+│       ├── deploy.sh            # Safe symlink/copy file deployment engine
+│       └── ui.sh                # Shared Tokyonight styling & Gum UI primitives
 ├── README.md                    # Concise user manual, quick overview and documentation hub
 ├── AGENTS.md                    # AI Agent architectural context and guidelines
 ├── .gitignore                   # Ignored files (.atl/, .DS_Store, .vitepress cache/dist)
@@ -49,7 +49,7 @@ OhMyConfig/
     ├── fish/
     │   ├── config.fish          # Shell aliases, wrappers, PATH, FZF/Atuin inits
     │   └── functions/
-    │       └── omc.fish         # Interactive cheatsheet and keymap guide (guia/omc)
+    │       └── guia.fish        # Interactive cheatsheet and keymap guide (guia)
     ├── ghostty/
     │   └── config               # GPU terminal config (font, theme, window blur)
     ├── starship/
@@ -88,10 +88,10 @@ OhMyConfig/
 ## 3. Core Subsystems & Components
 
 ### 3.1 CLI & Deployment Engine (`./omc` & `cli/`)
-- **Single Entry Point (`./omc`)**: Written in pure Fish Shell with Gum TUI, providing subcommands: `install`, `doctor`, `update`, and `dev`.
-- **Idempotency & Safety (`cli/lib/deploy.fish`)**: Compares source and destination with `cmp -s`. Creates timestamped backups (`${dest}.bak_YYYYMMDD_HHMMSS`) before overwriting modified files.
+- **Single Entry Point (`./omc`)**: Written in pure Bash 3.2+ with Gum TUI, providing subcommands: `install`, `doctor`, `update`, and `dev`. Cero dependencias de shells externas.
+- **Idempotency & Safety (`cli/lib/deploy.sh`)**: Compares source and destination with `cmp -s`. Creates timestamped backups (`${dest}.bak_YYYYMMDD_HHMMSS`) before overwriting modified files.
 - **Symlink Mode (`--link` / `-l`)**: Replaces configuration copies with direct symbolic links pointing to this repository.
-- **Homebrew Automation (`cli/lib/brew.fish`)**: Automatically verifies and installs Homebrew and Gum if missing, then orchestrates formula and cask installations per module.
+- **Homebrew Automation (`cli/lib/brew.sh`)**: Automatically verifies and installs Homebrew and Gum if missing, then orchestrates formula and cask installations per module.
 - **State Profile (`.omc-profile`)**: Persists active modules and deployment mode for non-destructive incremental updates and diagnostics.
 
 ### 3.2 Terminal & Shell Layer

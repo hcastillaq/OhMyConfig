@@ -1,8 +1,8 @@
 # ==============================================================================
-# GUÍA INTERACTIVA DE ATAJOS Y COMANDOS DE OHMYCONFIG (OMC / GUIA / CHEAT)
+# GUÍA INTERACTIVA DE ATAJOS Y COMANDOS DE TERMINAL (GUIA / CHEAT)
 # ==============================================================================
 
-function omc --description "Guía interactiva de atajos y comandos de OhMyConfig"
+function guia --description "Guía interactiva de atajos y comandos del entorno"
     set -l cat $argv[1]
     
     set -l c_head (set_color 50f5ff --bold)

@@ -19,7 +19,7 @@ Emulador de terminal nativo para macOS con aceleración por GPU (Metal):
 Shell interactiva con autocompletado en tiempo real y coloreado sintáctico calibrado para fondos oscuros:
 
 * **Sintaxis Coloreada:** Comandos en Cyan Neón (`#50f5ff`), comillas en verde (`#9ece6a`), flags en azul cielo (`#7aa2f7`), variables en púrpura (`#c099ff`), errores en rojo (`#f7768e`).
-* **Función `guia` (o `omc`):** Muestra un mapa interactivo de atajos de todo el sistema categorizado por herramientas.
+* **Función `guia`:** Muestra un mapa interactivo de atajos de todo el sistema categorizado por herramientas (`guia nvim`, `guia zj`, `guia git`, `guia search`, `guia cli`, `guia ai`).
 * **Función `cds`:** Purga recursivamente archivos `.DS_Store` en proyectos macOS:
   ```bash
   cds

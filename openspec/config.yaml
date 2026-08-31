@@ -1,0 +1,16 @@
+schema: 1
+project:
+  name: "OhMyConfig"
+  description: "Automated, modular, and idempotent dotfiles and developer environment configuration for macOS"
+  stack:
+    - "bash"
+    - "fish"
+    - "lua"
+    - "kdl"
+    - "toml"
+  packageManagers:
+    - "brew"
+    - "npm"
+  testFramework: "bash"
+  testCommand: "bash -n omc cli/lib/*.sh cli/commands/*.sh"
+  lintCommand: "shellcheck omc cli/lib/*.sh cli/commands/*.sh 2>/dev/null || true"
