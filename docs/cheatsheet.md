@@ -117,11 +117,13 @@ Referencia rápida de todos los alias, herramientas y atajos disponibles en **Oh
 | **`./omc dev doctor`** | Terminal | Diagnóstico de salud del entorno de IA |
 | **`./omc dev remove`** | Terminal | Selector interactivo para desinstalar extensiones |
 | **`pi`** | Terminal | Iniciar sesión interactiva del agente de codificación |
+| **`/council <pregunta>`**| Pi Session | Consejo consultivo supervisado para evaluar dilemas técnicos |
 | **`/plan <desc>`** | Pi Session | Iniciar modo de planificación socrática en memoria |
 | **`/simplify`** | Pi Session | Simplificar y limpiar código modificado recientemente |
 | **`/ponytail review`** | Pi Session | Auditar código buscando sobreingeniería y dependencias |
+| **`/ponytail audit`** | Pi Session | Auditoría de deuda técnica en todo el repositorio |
 | **`/btw <pregunta>`** | Pi Session | Consulta rápida sin contaminar el historial de conversación |
 | **`/goal <meta>`** | Pi Session | Fijar un objetivo de largo plazo con control de estados |
 | **`/workflows`** | Pi Session | Panel TUI interactivo para orquestar flujos de subagentes |
-| **`$skill-name`** | Pi Session | Mención difusa para autocompletar e inyectar skills |
+| **`$skill-name`** | Pi Session | Mención difusa para autocompletar e inyectar skills ($ce-*) |
 | **`./omc update`** | Terminal | Actualización completa (Homebrew + Casks + Pi + LazyPi) |
