@@ -108,14 +108,12 @@ set -g omc_module_devops_configs ""
 
 # ------------------------------------------------------------------------------
 # MODULE: ai
-# Pi coding agent + gentle-pi skills + gentle-engram memory
+# Pi coding agent (CLI base)
 # ------------------------------------------------------------------------------
 set -g omc_module_ai_label      "AI / Pi"
-set -g omc_module_ai_desc       "pi · gentle-pi · gentle-engram"
+set -g omc_module_ai_desc       "pi (Coding Agent en terminal)"
 set -g omc_module_ai_tools \
-    "npm:@earendil-works/pi-coding-agent:pi" \
-    "npm:gentle-pi:gentle-pi" \
-    "npm:gentle-engram:gentle-engram"
+    "npm:@earendil-works/pi-coding-agent:pi"
 set -g omc_module_ai_configs ""
 
 # ------------------------------------------------------------------------------

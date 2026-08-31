@@ -64,12 +64,13 @@ Referencia rápida de todos los alias, herramientas y atajos disponibles en **Oh
 
 | Atajo | Modo | Acción |
 | :--- | :--- | :--- |
-| **`Alt + Flechas`** (o `Alt + hjkl`) | Normal | Mover foco entre paneles (se ilumina en Cyan) |
+| **`Alt + h/j/k/l`** | Normal | Mover foco entre paneles (izquierda, abajo, arriba, derecha) |
 | **`Alt + [`** / **`Alt + ]`** | Normal | Pestaña anterior / siguiente |
 | **`Alt + 1` .. `Alt + 9`** | Normal | Saltar directo a la pestaña número N |
 | **`Alt + n`** | Normal | Crear nuevo panel directamente |
 | **`Alt + f`** | Normal | Alternar pantalla completa en panel activo |
 | **`Alt + w`** | Normal | Alternar paneles flotantes (Floating Panes) |
+| **`Ctrl + h`** | Normal $\rightarrow$ Move | **Modo Mover:** intercambiar posición de paneles (`h/j/k/l` o `Tab`) |
 | **`Ctrl + p`** | Normal $\rightarrow$ Pane | Entrar al modo de gestión de paneles |
 | **`Ctrl + t`** | Normal $\rightarrow$ Tab | Entrar al modo de gestión de pestañas |
 | **`Ctrl + s`** | Normal $\rightarrow$ Scroll | Entrar al modo scroll y búsqueda en historial |
@@ -110,10 +111,14 @@ Referencia rápida de todos los alias, herramientas y atajos disponibles en **Oh
 
 | Comando | Contexto | Descripción |
 | :--- | :--- | :--- |
-| **`./omc dev`** | Terminal | Instalar el stack de IA (`pi`, `gentle-pi`, `gentle-engram`) |
-| **`./omc dev status`**| Terminal | Ver versiones instaladas vs última disponible en npm |
-| **`./omc dev update`**| Terminal | Actualizar todo el ecosistema de IA a la última versión |
+| **`./omc dev`** | Terminal | Instalar el agente base `pi` (`@earendil-works/pi-coding-agent`) |
+| **`./omc dev status`**| Terminal | Ver versión de `pi` y estado de las extensiones recomendadas |
+| **`./omc dev update`**| Terminal | Actualizar `pi` a la última versión disponible en npm |
 | **`pi`** | Terminal | Iniciar sesión interactiva del agente de codificación |
-| **`pi install gentle-pi`** | Pi CLI | Activar el harness de desarrollo controlado y skills |
-| **`pi install gentle-engram`** | Pi CLI | Activar la memoria episódica persistente entre sesiones |
-| **`./omc update`** | Terminal | Actualización completa (Homebrew + Casks + AI/Pi) |
+| **`pi install gentle-pi`** | Pi CLI | Activar el harness de desarrollo controlado (SDD), skills y reviews |
+| **`pi install gentle-engram`** | Pi CLI | Activar la memoria persistente episódica y semántica (SQLite) |
+| **`pi install pi-subagents`** | Pi CLI | Activar orquestación de subagentes en paralelo y modo `/council` |
+| **`pi install pi-antigravity`** | Pi CLI | Activar DeepMind Antigravity, CodeGraph y revisión formal |
+| **`pi install pi-web-access`** | Pi CLI | Activar búsqueda web multi-proveedor y extracción de fuentes |
+| **`pi install @narumitw/pi-plan-mode`** | Pi CLI | Activar modo de planificación paso a paso (`/plan`) |
+| **`./omc update`** | Terminal | Actualización completa (Homebrew + Casks + pi) |

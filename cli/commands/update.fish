@@ -38,34 +38,26 @@ function cmd_update
     else
         gum style --foreground "#c099ff" --bold "  AI / Pi (npm globals)"
 
-        set -l npm_tools \
-            "@earendil-works/pi-coding-agent:pi" \
-            "gentle-pi:gentle-pi" \
-            "gentle-engram:gentle-engram"
+        set -l pkg "@earendil-works/pi-coding-agent"
+        set -l label "pi"
 
-        for entry in $npm_tools
-            set -l parts  (string split ":" $entry)
-            set -l pkg    $parts[1]
-            set -l label  $parts[2]
+        if npm_pkg_installed $pkg
+            set -l current (npm_pkg_version $pkg)
+            set -l latest  (npm_latest_version $pkg)
 
-            if npm_pkg_installed $pkg
-                set -l current (npm_pkg_version $pkg)
-                set -l latest  (npm_latest_version $pkg)
-
-                if test "$current" = "$latest"
-                    gum style --foreground "#9ece6a" \
-                        (printf "    ✅  %-18s ya en latest (%s)" $label $current)
-                else
-                    gum spin --spinner dot \
-                        --title "    Actualizando $label $current → $latest..." \
-                        -- npm install -g $pkg
-                    gum style --foreground "#9ece6a" \
-                        (printf "    ✅  %-18s %s → %s" $label $current $latest)
-                end
+            if test "$current" = "$latest"
+                gum style --foreground "#9ece6a" \
+                    (printf "    ✅  %-18s ya en latest (%s)" $label $current)
             else
-                gum style --foreground "#7a88cf" \
-                    (printf "    —   %-18s no instalado, omitiendo" $label)
+                gum spin --spinner dot \
+                    --title "    Actualizando $label $current → $latest..." \
+                    -- npm install -g $pkg
+                gum style --foreground "#9ece6a" \
+                    (printf "    ✅  %-18s %s → %s" $label $current $latest)
             end
+        else
+            gum style --foreground "#7a88cf" \
+                (printf "    —   %-18s no instalado, omitiendo (omc dev install)" $label)
         end
         echo ""
     end

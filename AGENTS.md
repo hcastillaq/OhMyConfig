@@ -21,7 +21,7 @@ OhMyConfig/
 │   │   ├── install.fish         # Interactive & automated module installer
 │   │   ├── doctor.fish          # Environment diagnostic & version reporting
 │   │   ├── update.fish          # Centralized updater (Brew + Casks + AI npm packages)
-│   │   └── dev.fish             # AI/Pi ecosystem manager (install, status, update)
+│   │   └── dev.fish             # AI/Pi ecosystem manager (install pi, status, update)
 │   └── lib/
 │       ├── brew.fish            # Homebrew detection, verification & helpers
 │       ├── catalog.fish         # Granular module & package definitions
@@ -38,7 +38,7 @@ OhMyConfig/
 ├── docs/                        # Modular Markdown Documentation (Pure MD without bloat)
 │   ├── index.md                 # Documentation landing page
 │   ├── instalacion.md           # Installation & Brewfile guide
-│   ├── ai.md                    # AI ecosystem guide (pi, gentle-pi, gentle-engram)
+│   ├── ai.md                    # AI ecosystem guide (pi base + recommended extensions)
 │   ├── neovim.md                # Master Neovim guide
 │   ├── zellij.md                # Master Zellij guide
 │   ├── git.md                   # Git, Lazygit & Delta guide
@@ -111,7 +111,8 @@ OhMyConfig/
 ### 3.4 Terminal Multiplexer (`config/zellij/`)
 - **Zellij**: Modern Rust multiplexer configured with Tokyonight palette and `default_layout "default"`.
 - **Active Pane High-Contrast Focus**: Active focused pane is styled in radiant Cyan (`#7dcfff`) with Blue title bar (`#7aa2f7`), while inactive panes remain in subtle dark slate (`#292e42`).
-- **Direct Navigation**: Seamless pane focus switching with `Alt + Arrows` or `Alt + hjkl`, and tab switching with `Alt + [` / `Alt + ]` and `Alt + 1..9`.
+- **Direct Navigation**: Seamless pane focus switching with `Alt + hjkl` (left, down, up, right), tab switching with `Alt + [` / `Alt + ]`, and direct tab jumps with `Alt + 1..9`.
+- **Move / Swap Panes (`Ctrl + h`)**: Physical pane reordering and swapping via `Ctrl + h` (Move mode) with `h/j/k/l` or `Tab`.
 - **Layout & Status Bar Architecture (`layouts/default.kdl` + `plugins/zjstatus.wasm`)**:
   - Unifies **Tabs**, **Mode Indicators**, and **Contextual Command Hints** into a **single 1-line bottom bar**.
   - Uses a **local WASM plugin** (`file:~/.config/zellij/plugins/zjstatus.wasm`) to eliminate network dependencies.
@@ -126,9 +127,14 @@ OhMyConfig/
   - `lazyvim.json`: Dynamic module toggling via `:LazyExtras` (`<leader>px`).
 
 ### 3.6 AI Ecosystem & Coding Agents (`cli/commands/dev.fish` & `docs/ai.md`)
-- **Pi Coding Agent (`pi`)**: High-performance autonomous terminal agent for code exploration, editing, testing, and execution.
-- **Gentle AI (`gentle-pi`)**: Spec-Driven Development (SDD / OpenSpec) workflow, subagent orchestration, review transactions, and domain-specific skills.
-- **Gentle Engram (`gentle-engram`)**: Persistent episodic and semantic memory backed by local SQLite database for cross-session context retention.
+- **Pi Coding Agent (`pi`)**: High-performance autonomous terminal agent for code exploration, editing, testing, and execution (`@earendil-works/pi-coding-agent`).
+- **Modular Extension Model**: `omc dev` manages the base CLI installation (`pi`), and users install specialized extensions inside Pi (`pi install <pkg>`):
+  - `gentle-pi`: Spec-Driven Development (SDD/OpenSpec), skills and code reviews.
+  - `gentle-engram`: Persistent episodic & semantic memory backed by local SQLite.
+  - `pi-subagents`: Concurrency, subagent delegation, and `/council` advisor mode.
+  - `pi-antigravity`: DeepMind Antigravity integration, CodeGraph semántico, and formal review.
+  - `pi-web-access`: Multi-provider web search and content fetching.
+  - `@narumitw/pi-plan-mode`: Step-by-step interactive planning mode (`/plan`).
 - **Lifecycle Commands**: Managed via `omc dev` (`install`, `status`, `update`) and globally via `omc update`.
 
 ---

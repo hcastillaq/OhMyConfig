@@ -28,7 +28,7 @@ cd ~/Codigos/OhMyConfig
 ./omc install
 ```
 
-* **CLI `omc`**: Instalador interactivo TUI (vía Gum) que gestiona Homebrew, paquetes de sistema, symlinks a `~/.config/`, diagnóstico (`./omc doctor`), actualizaciones (`./omc update`) y el ecosistema AI (`./omc dev`).
+* **CLI `omc`**: Instalador interactivo TUI (vía Gum) que gestiona Homebrew, paquetes de sistema, symlinks a `~/.config/`, diagnóstico (`./omc doctor`), actualizaciones (`./omc update`) y el agente de IA Pi (`./omc dev`).
 
 ---
 
@@ -56,7 +56,7 @@ OhMyConfig/
 | Sección | Descripción | Guía en Web | Archivo Markdown |
 | :--- | :--- | :---: | :---: |
 | **📦 Instalación** | Menú TUI, symlinks, respaldo y catálogo de `Brewfile` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/instalacion) | [`docs/instalacion.md`](./docs/instalacion.md) |
-| **🤖 Ecosistema AI** | Pi coding agent, metodología SDD (`gentle-pi`) y memoria (`gentle-engram`) | [Ver Online](https://hcastillaq.github.io/OhMyConfig/ai) | [`docs/ai.md`](./docs/ai.md) |
+| **🤖 Ecosistema AI** | Pi coding agent y catálogo de extensiones recomendadas | [Ver Online](https://hcastillaq.github.io/OhMyConfig/ai) | [`docs/ai.md`](./docs/ai.md) |
 | **🛠️ Neovim** | LazyVim core, LSP, autocompletado, GitLens y Neogen | [Ver Online](https://hcastillaq.github.io/OhMyConfig/neovim) | [`docs/neovim.md`](./docs/neovim.md) |
 | **🪟 Zellij** | Multiplexor con foco Cyan brillante y navegación con `Alt` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/zellij) | [`docs/zellij.md`](./docs/zellij.md) |
 | **🐙 Git & Diffs** | Flujo en consola, Lazygit TUI y diffs con Git-Delta | [Ver Online](https://hcastillaq.github.io/OhMyConfig/git) | [`docs/git.md`](./docs/git.md) |
@@ -69,12 +69,16 @@ OhMyConfig/
 ## ⚡ Cheatsheet Rápido de Referencia
 
 ### 1. Ecosistema AI & Agentes de Código
-* **`./omc dev`**: Instala y configura el stack de IA (`pi`, `gentle-pi`, `gentle-engram`).
-* **`./omc dev status`**: Diagnóstico de versiones instaladas vs latest en npm.
-* **`./omc dev update`**: Actualiza todo el stack de IA a su última versión.
-* **`pi`**: Agente de código autónomo interactivo en la terminal.
-* **`pi install gentle-pi`**: Activa el harness de SDD, skills y reviews.
-* **`pi install gentle-engram`**: Activa la memoria episódica persistente entre sesiones.
+* **`./omc dev`**: Instala el agente base `pi` (`@earendil-works/pi-coding-agent`).
+* **`./omc dev status`**: Diagnóstico de la versión de `pi` y estado de extensiones recomendadas.
+* **`./omc dev update`**: Actualiza el agente `pi` a su última versión en npm.
+* **`pi`**: Inicia el agente autónomo de código en terminal.
+* **`pi install gentle-pi`**: Harness SDD/OpenSpec, orquestación de subagentes y skills.
+* **`pi install gentle-engram`**: Memoria episódica persistente entre sesiones (SQLite local).
+* **`pi install pi-subagents`**: Delegación en paralelo y modo consejo (`/council`).
+* **`pi install pi-antigravity`**: Integración con DeepMind Antigravity y CodeGraph.
+* **`pi install pi-web-access`**: Búsqueda web multi-proveedor y extracción de fuentes.
+* **`pi install @narumitw/pi-plan-mode`**: Modo interactivo de planificación guiada (`/plan`).
 
 ### 2. Terminal, Runtimes y Búsqueda
 * **`guia`** (o `omc`): Menú interactivo de atajos en consola (`guia nvim`, `guia zj`, `guia git`, `guia search`, `guia cli`, `guia ai`).
@@ -108,13 +112,14 @@ OhMyConfig/
 * **`<Space> + px`**: Menú interactivo `:LazyExtras` para activar/desactivar lenguajes con `x`.
 
 ### 4. Multiplexor Zellij (`zj`)
-* **`Alt + Flechas`** (o `Alt + hjkl`): Mover foco entre paneles (se ilumina en Cyan).
+* **`Alt + h/j/k/l`**: Mover foco entre paneles (se ilumina en Cyan hacia izquierda, abajo, arriba, derecha).
 * **`Alt + [`** / **`Alt + ]`**: Pestaña anterior / siguiente al instante.
 * **`Alt + 1` .. `Alt + 9`**: Saltar directo a la pestaña número N.
 * **`Alt + n`**: Crear nuevo panel directamente.
 * **`Alt + f`**: Maximizar / Restaurar panel activo (Pantalla completa).
 * **`Alt + w`**: Alternar paneles flotantes (Floating Panes).
-* **`Ctrl + p`** (Paneles) / **`Ctrl + t`** (Pestañas) / **`Ctrl + s`** (Scroll e historial).
+* **`Ctrl + h`**: **Modo Mover** para intercambiar físicamente la posición de paneles (`h/j/k/l` o `Tab`).
+* **`Ctrl + p`** (Paneles) / **`Ctrl + t`** (Pestañas) / **`Ctrl + s`** (Scroll e historial) / **`Ctrl + n`** (Resize).
 
 ### 5. Git y Control de Versiones
 * **`gs`** (`git status`), **`gaa`** (`git add .`), **`gc`** (`git commit`), **`gp`** (`git push`).
