@@ -118,29 +118,17 @@ Actualiza Homebrew, todas las fórmulas/casks instalados y el agente `pi` (npm g
 
 ---
 
-### `omc dev` — Gestión del Agente Pi
+### `omc dev` — Gestión del Agente Pi & Suite LazyPi
 
-Instala y actualiza el agente base **`pi`**. Las extensiones recomendadas se instalan directamente con `pi install <ext>`. Para la explicación detallada de cada extensión, consultá la [Guía de AI & Agentes](./ai.md).
+Instala el agente base **`pi`** y el catálogo oficial completo de **LazyPi** ([lazypi.org](https://lazypi.org)) con 17 extensiones curadas para desarrollo autónomo, subagentes, diagnósticos LSP y memoria offline.
 
 ```bash
-./omc dev              # Instala pi (equivale a omc dev install)
-./omc dev install      # Instala el binario global de pi
-./omc dev status       # Muestra versión de pi y estado de extensiones recomendadas
-./omc dev update       # Actualiza pi a su última versión en npm
+./omc dev              # Instala pi y todo el catálogo de LazyPi (Core + Optional)
+./omc dev status       # Diagnóstico de salud y estado de las 17 extensiones
+./omc dev update       # Actualiza el binario de pi y todas las extensiones
+./omc dev doctor       # Chequeo de salud del entorno (Node, git, auth, settings)
+./omc dev remove       # Selector interactivo para desinstalar extensiones
 ```
-
-Extensiones recomendadas para potenciar `pi`:
-
-| Extensión | Comando en Pi | Rol Principal |
-| :--- | :--- | :--- |
-| **`pi-subagents`** | `pi install npm:pi-subagents` | Orquestación de subagentes en paralelo y delegación |
-| **`pi-ask-user`** | `pi install npm:pi-ask-user` | Menús interactivos y preguntas estructuradas |
-| **`@narumitw/pi-plan-mode`**| `pi install npm:@narumitw/pi-plan-mode` | Modo de planificación interactiva guiada (`/plan`) |
-| **`@plannotator/pi-extension`**| `pi install npm:@plannotator/pi-extension` | Visualización interactiva y anotación de planes |
-| **`pi-antigravity`** | `pi install npm:pi-antigravity` | DeepMind Antigravity, CodeGraph y semántica |
-| **`pi-memory-md`** | `pi install git:github.com/VandeeFeng/pi-memory-md` | Memoria persistente offline en Markdown y control Git |
-| **`pi-web-access`** | `pi install npm:pi-web-access` | Búsqueda web multi-proveedor, scraping y chequeo de fuentes |
-| **`pi-interactive-shell`** | `pi install npm:pi-interactive-shell` | Ejecución interactiva de CLIs y TUIs en segundo plano |
 
 ---
 
@@ -213,15 +201,7 @@ modules=core terminal editor search cli devops ai
    mise use -g go@latest
    ```
 3. **Abrir Ghostty** para disfrutar del renderizado GPU y el tema Tokyonight completo.
-4. **Instalar pi y la suite modular LazyPi:**
+4. **Instalar pi y la suite oficial LazyPi (Core + Optional):**
    ```bash
    ./omc dev
-   pi install npm:pi-subagents
-   pi install npm:pi-ask-user
-   pi install npm:@narumitw/pi-plan-mode
-   pi install npm:@plannotator/pi-extension
-   pi install npm:pi-antigravity
-   pi install git:github.com/VandeeFeng/pi-memory-md
-   pi install npm:pi-web-access
-   pi install npm:pi-interactive-shell
    ```

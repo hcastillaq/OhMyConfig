@@ -80,21 +80,21 @@ function guia --description "Guía interactiva de atajos y comandos del entorno"
     else
         switch "$cat"
             case "ai" "pi" "lazy" "lazypi"
-                echo $c_sec"🤖  ECOSISTEMA AI & AGENTES DE CÓDIGO (PI):"$c_res
-                echo "  "$c_key"omc dev"$c_res"             "$c_txt"Instalar agente pi (@earendil-works/pi-coding-agent)"$c_res
-                echo "  "$c_key"omc dev status"$c_res"      "$c_txt"Ver versión de pi y estado de extensiones recomendadas"$c_res
-                echo "  "$c_key"omc dev update"$c_res"      "$c_txt"Actualizar pi a la última versión disponible en npm"$c_res
+                echo $c_sec"🤖  ECOSISTEMA AI & LAZYPI (PI):"$c_res
+                echo "  "$c_key"omc dev"$c_res"             "$c_txt"Instalar Pi y la suite oficial LazyPi (17 extensiones)"$c_res
+                echo "  "$c_key"omc dev status"$c_res"      "$c_txt"Ver estado del catálogo LazyPi (Core + Optional)"$c_res
+                echo "  "$c_key"omc dev update"$c_res"      "$c_txt"Actualizar Pi y todas las extensiones instaladas"$c_res
+                echo "  "$c_key"omc dev doctor"$c_res"      "$c_txt"Diagnóstico de salud del entorno de IA"$c_res
+                echo "  "$c_key"omc dev remove"$c_res"      "$c_txt"Selector interactivo para desinstalar extensiones"$c_res
                 echo "  "$c_key"pi"$c_res"                  "$c_txt"Iniciar sesión del coding agent en terminal"$c_res
                 echo ""
-                echo $c_sec"🧩  EXTENSIONES RECOMENDADAS PARA PI:"$c_res
-                echo "  "$c_key"pi install npm:pi-subagents"$c_res"        "$c_txt"Orquestación de subagentes en paralelo y /council"$c_res
-                echo "  "$c_key"pi install npm:pi-ask-user"$c_res"         "$c_txt"Menús interactivos y preguntas estructuradas"$c_res
-                echo "  "$c_key"pi install npm:@narumitw/pi-plan-mode"$c_res" "$c_txt"Modo interactivo de planificación guiada (/plan)"$c_res
-                echo "  "$c_key"pi install npm:pi-antigravity"$c_res"      "$c_txt"DeepMind Antigravity, CodeGraph y semántica"$c_res
-                echo "  "$c_key"pi install git:github.com/VandeeFeng/pi-memory-md"$c_res" "$c_txt"Memoria offline persistente en Markdown + Git"$c_res
-                echo "  "$c_key"pi install npm:pi-web-access"$c_res"       "$c_txt"Búsqueda web multi-proveedor y extracción de fuentes"$c_res
-                echo "  "$c_key"pi install npm:@plannotator/pi-extension"$c_res" "$c_txt"Visualización y anotación de planes de código"$c_res
-                echo "  "$c_key"pi install npm:pi-interactive-shell"$c_res" "$c_txt"Ejecución interactiva de CLIs y TUIs en segundo plano"$c_res
+                echo $c_sec"🧩  COMANDOS SLASH Y HERRAMIENTAS CLAVE:"$c_res
+                echo "  "$c_key"/plan <desc>"$c_res"        "$c_txt"Modo interactivo de planificación guiada en memoria"$c_res
+                echo "  "$c_key"/simplify"$c_res"           "$c_txt"Simplificar y limpiar código modificado recientemente"$c_res
+                echo "  "$c_key"/ponytail review"$c_res"    "$c_txt"Auditar código buscando sobreingeniería y dependencias"$c_res
+                echo "  "$c_key"/btw <pregunta>"$c_res"     "$c_txt"Consulta rápida sin contaminar el historial de chat"$c_res
+                echo "  "$c_key"/workflows"$c_res"          "$c_txt"Panel TUI interactivo para orquestar subagentes"$c_res
+                echo "  "$c_key"\$skill-name"$c_res"        "$c_txt"Mención difusa con '\$' para inyectar skills en el prompt"$c_res
             case "nvim" "v" "vim" "editor"
                 echo $c_sec"🛠️  NEOVIM — ATAJOS ESENCIALES:"$c_res
                 echo "  "$c_key"<Space> + e"$c_res"       "$c_txt"Abrir/cerrar explorador de archivos lateral"$c_res

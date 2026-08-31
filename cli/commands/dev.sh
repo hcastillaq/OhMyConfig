@@ -1,25 +1,16 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# DEV — AI/Pi ecosystem management (pi CLI + LazyPi extension suite)
+# DEV — AI/Pi ecosystem management via LazyPi (@tommy-ca/lazypi)
 # ==============================================================================
 
 DEV_TOOL_PKG="@earendil-works/pi-coding-agent"
 DEV_TOOL_LABEL="pi"
 DEV_TOOL_DESC="Pi coding agent (CLI base + agente autónomo de terminal)"
-
-RECOMMENDED_EXTENSIONS=(
-    "pi-subagents:Orquestación y delegación de subagentes en paralelo/secuencia:npm:pi-subagents"
-    "pi-ask-user:Interacción modal con opciones estructuradas y confirmación:npm:pi-ask-user"
-    "@narumitw/pi-plan-mode:Modo interactivo de planificación paso a paso (/plan):npm:@narumitw/pi-plan-mode"
-    "pi-antigravity:Integración con DeepMind Antigravity, CodeGraph y reasoning:npm:pi-antigravity"
-    "pi-memory-md:Memoria persistente offline en Markdown y control de versiones Git:git:github.com/VandeeFeng/pi-memory-md"
-    "pi-web-access:Búsqueda web multi-proveedor, scraping y verificación de fuentes:npm:pi-web-access"
-    "@plannotator/pi-extension:Visualización interactiva y anotación de planes de desarrollo:npm:@plannotator/pi-extension"
-    "pi-interactive-shell:Ejecución interactiva de CLIs y TUIs en segundo plano:npm:pi-interactive-shell"
-)
+LAZYPI_RUNNER="@tommy-ca/lazypi"
 
 cmd_dev() {
     local subcmd="$1"
+    shift 2>/dev/null || true
     local dotfiles_dir
     dotfiles_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
@@ -30,13 +21,19 @@ cmd_dev() {
 
     case "$subcmd" in
         install|"")
-            _dev_install "$dotfiles_dir"
+            _dev_install "$@"
             ;;
         update)
             _dev_update
             ;;
         status)
             _dev_status
+            ;;
+        doctor)
+            _dev_doctor
+            ;;
+        remove)
+            _dev_remove "$@"
             ;;
         *)
             _dev_help
@@ -45,12 +42,12 @@ cmd_dev() {
 }
 
 # ------------------------------------------------------------------------------
-# _dev_install — install pi coding agent CLI and all LazyPi extensions
+# _dev_install — install pi CLI base and full LazyPi catalog
 # ------------------------------------------------------------------------------
 _dev_install() {
     ui_header
     ui_divider
-    gum style --foreground "$COLOR_SEC" --bold "  🤖 AI / LazyPi — Instalación Completa del Ecosistema"
+    gum style --foreground "$COLOR_SEC" --bold "  🤖 AI / LazyPi — Instalador Oficial del Ecosistema"
     ui_divider
     echo ""
 
@@ -60,7 +57,7 @@ _dev_install() {
         return 1
     fi
 
-    # 1. Instalar Pi CLI base
+    # 1. Instalar o verificar Pi CLI base
     gum style --foreground "$COLOR_HEAD" --bold "  1. Agente Base (CLI):"
     gum style --foreground "$COLOR_DIM" "     $DEV_TOOL_DESC"
 
@@ -76,27 +73,10 @@ _dev_install() {
     fi
     echo ""
 
-    # 2. Instalar suite LazyPi de extensiones
-    gum style --foreground "$COLOR_HEAD" --bold "  2. Suite de Extensiones LazyPi:"
-    local pi_list_output=""
-    if command -v pi >/dev/null 2>&1; then
-        pi_list_output=$(pi list 2>/dev/null)
-    fi
-
-    for ext in "${RECOMMENDED_EXTENSIONS[@]}"; do
-        local name desc target
-        name=$(echo "$ext" | cut -d: -f1)
-        desc=$(echo "$ext" | cut -d: -f2)
-        target=$(echo "$ext" | cut -d: -f3-)
-
-        if echo "$pi_list_output" | grep -q "$name"; then
-            gum style --foreground "$COLOR_OK" "$(printf "     ✅  %-26s (ya instalada)" "$name")"
-        else
-            gum spin --spinner dot --title "     Instalando $name..." -- pi install "$target" >/dev/null 2>&1
-            gum style --foreground "$COLOR_OK" "$(printf "     ✅  %-26s (instalada)" "$name")"
-        fi
-        gum style --foreground "$COLOR_MUTED" "         $desc"
-    done
+    # 2. Ejecutar instalador LazyPi
+    gum style --foreground "$COLOR_HEAD" --bold "  2. Catálogo Oficial LazyPi (Core + Optional):"
+    echo ""
+    npx --yes "$LAZYPI_RUNNER" "$@"
 
     echo ""
     ui_divider
@@ -106,7 +86,7 @@ _dev_install() {
 }
 
 # ------------------------------------------------------------------------------
-# _dev_update — update pi coding agent and all extensions to latest
+# _dev_update — update pi CLI and run LazyPi updater
 # ------------------------------------------------------------------------------
 _dev_update() {
     ui_header
@@ -138,14 +118,10 @@ _dev_update() {
     fi
     echo ""
 
-    # 2. Actualizar extensiones de Pi
-    gum style --foreground "$COLOR_HEAD" --bold "  2. Extensiones de Pi:"
-    if command -v pi >/dev/null 2>&1; then
-        gum spin --spinner dot --title "     Actualizando extensiones instaladas..." -- pi update >/dev/null 2>&1
-        gum style --foreground "$COLOR_OK" "     ✅  Extensiones de Pi actualizadas a la última versión."
-    else
-        gum style --foreground "$COLOR_DIM" "     —   pi no disponible."
-    fi
+    # 2. Actualizar extensiones con LazyPi
+    gum style --foreground "$COLOR_HEAD" --bold "  2. Extensiones de LazyPi:"
+    echo ""
+    npx --yes "$LAZYPI_RUNNER" update
 
     echo ""
     ui_divider
@@ -155,7 +131,7 @@ _dev_update() {
 }
 
 # ------------------------------------------------------------------------------
-# _dev_status — show installed pi version and recommended extensions status
+# _dev_status — show Pi CLI version and LazyPi catalog status
 # ------------------------------------------------------------------------------
 _dev_status() {
     ui_header
@@ -189,31 +165,36 @@ _dev_status() {
     fi
     echo ""
 
-    # Estado de Extensiones de Pi
-    gum style --foreground "$COLOR_SEC" --bold "  Extensiones de LazyPi:"
-    local pi_list_output=""
-    if command -v pi >/dev/null 2>&1; then
-        pi_list_output=$(pi list 2>/dev/null)
-    fi
+    # Estado del catálogo LazyPi
+    gum style --foreground "$COLOR_SEC" --bold "  Catálogo LazyPi Oficial:"
+    echo ""
+    npx --yes "$LAZYPI_RUNNER" status
 
-    for ext in "${RECOMMENDED_EXTENSIONS[@]}"; do
-        local name desc target
-        name=$(echo "$ext" | cut -d: -f1)
-        desc=$(echo "$ext" | cut -d: -f2)
-        target=$(echo "$ext" | cut -d: -f3-)
-
-        if echo "$pi_list_output" | grep -q "$name"; then
-            gum style --foreground "$COLOR_OK" "$(printf "    ✅  %-26s (instalada en pi)" "$name")"
-        else
-            gum style --foreground "$COLOR_DIM"  "$(printf "    ○   %-26s no instalada" "$name")"
-            gum style --foreground "$COLOR_WARN" "        → pi install $target"
-        fi
-        gum style --foreground "$COLOR_MUTED" "        $desc"
-        echo ""
-    done
-
+    echo ""
     ui_divider
     echo ""
+}
+
+# ------------------------------------------------------------------------------
+# _dev_doctor — health check via LazyPi doctor
+# ------------------------------------------------------------------------------
+_dev_doctor() {
+    ui_header
+    ui_divider
+    gum style --foreground "$COLOR_SEC" --bold "  🩺 AI / LazyPi — Diagnóstico de Salud"
+    ui_divider
+    echo ""
+    npx --yes "$LAZYPI_RUNNER" doctor
+    echo ""
+    ui_divider
+    echo ""
+}
+
+# ------------------------------------------------------------------------------
+# _dev_remove — remove packages via LazyPi picker
+# ------------------------------------------------------------------------------
+_dev_remove() {
+    npx --yes "$LAZYPI_RUNNER" remove "$@"
 }
 
 # ------------------------------------------------------------------------------
@@ -225,8 +206,10 @@ _dev_help() {
     echo ""
     gum style --foreground "$COLOR_DIM" "  Comandos disponibles:"
     gum style --foreground "$COLOR_HEAD" "    omc dev            " --foreground "$COLOR_TEXT" "Instalar pi y la suite completa LazyPi"
-    gum style --foreground "$COLOR_HEAD" "    omc dev install    " --foreground "$COLOR_TEXT" "Ídem instalación completa"
-    gum style --foreground "$COLOR_HEAD" "    omc dev update     " --foreground "$COLOR_TEXT" "Actualizar pi y todas sus extensiones a latest"
-    gum style --foreground "$COLOR_HEAD" "    omc dev status     " --foreground "$COLOR_TEXT" "Ver estado de pi y extensiones instaladas"
+    gum style --foreground "$COLOR_HEAD" "    omc dev install    " --foreground "$COLOR_TEXT" "Ídem instalador oficial"
+    gum style --foreground "$COLOR_HEAD" "    omc dev update     " --foreground "$COLOR_TEXT" "Actualizar pi y todas las extensiones"
+    gum style --foreground "$COLOR_HEAD" "    omc dev status     " --foreground "$COLOR_TEXT" "Ver estado del catálogo LazyPi"
+    gum style --foreground "$COLOR_HEAD" "    omc dev doctor     " --foreground "$COLOR_TEXT" "Diagnóstico de salud del entorno"
+    gum style --foreground "$COLOR_HEAD" "    omc dev remove     " --foreground "$COLOR_TEXT" "Selector interactivo para desinstalar extensiones"
     echo ""
 }
