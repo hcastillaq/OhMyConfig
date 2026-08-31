@@ -1,6 +1,6 @@
 # 🤖 Ecosistema AI & Coding Agents (Pi & LazyPi)
 
-OhMyConfig integra un entorno de **ingeniería de software asistida por Inteligencia Artificial y agentes autónomos de código** directamente en la terminal. Esta guía explica qué herramientas componen el stack, cómo reducen el consumo de tokens y cómo aplicar metodologías de desarrollo, patrones de arquitectura y skills personalizadas.
+OhMyConfig integra un entorno de **ingeniería de software asistida por Inteligencia Artificial y agentes autónomos de código** directamente en la terminal. Esta guía detalla todas las herramientas del stack LazyPi, especificando **cómo y cuándo usarlas**, si su naturaleza es **Activa** o **Pasiva**, y profundiza en la suite completa de **Compound Engineering (CE)**.
 
 ---
 
@@ -11,61 +11,274 @@ OhMyConfig integra un entorno de **ingeniería de software asistida por Intelige
 ### Características Principales:
 * **Velocidad Nativa:** Diseñado para terminales modernas con arranque instantáneo e interfaz interactiva TUI.
 * **Soporte Poly-Model:** Conexión nativa con Anthropic Claude, OpenAI, DeepMind Gemini, Kimi, xAI y modelos locales vía Ollama.
-* **Capacidades de Sistema:** Ejecuta herramientas para leer, buscar (`grep`, `find`), inspeccionar y editar código (`edit`, `write`), y correr comandos de consola (`bash`).
+* **Capacidades de Sistema:** Ejecuta herramientas para leer (`read`), buscar (`grep`, `find`), inspeccionar y editar código (`edit`, `write`), y correr comandos de consola (`bash`).
 * **Instalación Centralizada:** Gestionado y actualizado a través de la CLI `omc` (`./omc dev`).
 
 ---
 
-## 2. ¿Qué es LazyPi?
+## 2. Catálogo Completo de Herramientas de LazyPi
 
-**LazyPi** ([lazypi.org](https://lazypi.org)) es la distribución curada y preconfigurada para el agente Pi, inspirada en la filosofía modular de LazyVim. En lugar de instalar herramientas dispersas, LazyPi agrupa **17 extensiones oficiales de alto rendimiento** organizadas en dos niveles:
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                            CATÁLOGO LAZYPI (17/17)                          │
-│                                                                             │
-│   ┌─────────────────────────────────────────────────────────────────────┐   │
-│   │                      1. LAZYPI CORE (12 pkgs)                       │   │
-│   │   • subagents          • pi-ask-user        • pi-skillful           │   │
-│   │   • mention-skill ($)  • goal               • btw                   │   │
-│   │   • context-usage      • simplify           • web-access            │   │
-│   │   • fff                • dynamic-workflows  • ponytail              │   │
-│   └──────────────────────────────────┬──────────────────────────────────┘   │
-│                                      │                                      │
-│                                      ▼                                      │
-│   ┌─────────────────────────────────────────────────────────────────────┐   │
-│   │                    2. LAZYPI OPTIONAL (5 pkgs)                      │   │
-│   │   • lsp (diagnósticos) • interactive-shell  • autoresearch          │   │
-│   │   • todos (live task)  • memory (Markdown Git offline)              │   │
-│   └─────────────────────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-### 2.1 Herramientas que Brinda LazyPi
-
-| Herramienta | Paquete | Comando / Interacción | Propósito y Valor |
-| :--- | :--- | :--- | :--- |
-| **`subagents`** | `pi-subagents` | `subagent` tool / `/council` | Ejecuta subagentes aislados en paralelo sobre *git worktrees* independientes. |
-| **`pi-ask-user`** | `pi-ask-user` | `ask_user` tool | Despliega menús interactivos modales antes de decisiones críticas de diseño. |
-| **`pi-skillful`** | `pi-skillful` | `/skill:<nombre>` | Descubre, oculta e invoca skills modulares por encima del root de git. |
-| **`mention-skill`**| `@zigai/pi-mention-skill` | `$nombre-skill` | Autocompletado difuso con `$` para inyectar cualquier skill en el prompt. |
-| **`goal`** | `@narumitw/pi-goal` | `/goal` | Seguimiento y control de objetivos de largo plazo con compuertas de parada. |
-| **`btw`** | `@narumitw/pi-btw` | `/btw <pregunta>` | Consultas rápidas al margen sin contaminar el historial de chat principal. |
-| **`context-usage`**| `pi-context-usage` | Barra de estado | Visualizador del consumo de tokens y presupuesto de contexto en tiempo real. |
-| **`simplify`** | `pi-simplify` | `/simplify` | Pule y simplifica código reciente eliminando dead code y sobreingeniería. |
-| **`web-access`** | `pi-web-access` | `web_search`, `source_check`| Búsqueda web multi-proveedor (Brave, Exa, Perplexity) y extracción de fuentes. |
-| **`fff`** | `@ff-labs/pi-fff` | `fffind`, `ffgrep` | Búsqueda difusa ultrarrápida de archivos y símbolos (*Fast Fuzzy Finder*). |
-| **`dynamic-workflows`**| `@quintinshaw/pi-dynamic-workflows`| `/workflows` | Panel interactivo TUI para orquestar subagentes y calcular costos de tokens. |
-| **`ponytail`** | `@dietrichgebert/ponytail` | `/ponytail review` | Guardián de disciplina de código minimalista y librerías estándar (*stdlib-first*). |
-| **`lsp`** | `@narumitw/pi-lsp` | `lsp_diagnostics`, `lsp_fix` | Diagnóstico de errores de sintaxis, tipos y linting en vivo con Language Servers. |
-| **`interactive-shell`**| `pi-interactive-shell`| `interactive_shell` | Ejecución supervisada o desatendida (*hands-free*) de TUIs y CLIs en background. |
-| **`autoresearch`** | `pi-autoresearch` | `autoresearch-create` | Bucles autónomos de experimentación y optimización métrica con hooks. |
-| **`todos`** | `pi-manage-todo-list`| `manage_todo_list` | Widget interactivo de checklist de tareas persistente en la sesión. |
-| **`memory`** | `pi-memory-md` | `memory_search`, `tape_handoff`| Memoria semántica y episódica offline persistente en Markdown versionada en Git. |
+Las herramientas de LazyPi se clasifican según su modalidad de ejecución:
+* **Activa:** El desarrollador la invoca explícitamente mediante un comando slash (`/`), mención de skill (`$`), o petición directa en el prompt.
+* **Pasiva / Asistida:** Opera automáticamente en segundo plano, en la barra de estado de la TUI, o es ejecutada de forma autónoma por el agente para resolver tareas.
 
 ---
 
-## 3. Esquema de Ayuda al Desarrollo y Minimización de Tokens
+### 2.1 Orquestación y Deliberación Multi-Agente
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           DELIBERACIÓN SUPERVISADA                          │
+│                                                                             │
+│   1. PASE INDEPENDIENTE (Sin sesgo)                                         │
+│      Asesor A (oracle) ──┐                                                  │
+│      Asesor B (reviewer) ──┼──► Supervisor analiza diferencias              │
+│      Asesor C (custom)   ──┘                                                │
+│                                                                             │
+│   2. DEBATE CRUZADO (Cross-Exam)                                            │
+│      Supervisor envía paquete de desafíos técnicos a cada asesor            │
+│                                                                             │
+│   3. DICTAMEN FINAL (Decision Memo)                                         │
+│      Recomendación, trade-offs, argumentos aceptados/rechazados             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+#### 1. `council` (Council Mode)
+* **Tipo:** **Activa** (Comando `/council <pregunta>` o `$council-mode`).
+* **Cómo usarla:** Ejecutá `/council ¿Debemos migrar el CLI a Rust o mantener Bash con Gum?`
+* **Cuándo usarla:**
+  * Decisiones de arquitectura con múltiples alternativas y *trade-offs* reales (bases de datos, frameworks, diseño de concurrencia).
+  * Evaluaciones técnicas de alto riesgo donde querés evitar que un solo modelo alucine o sufra sesgo de complacencia.
+* **Cuándo NO usarla:**
+  * Tareas de implementación directa, refactors menores o preguntas con respuesta estándar.
+* **Mecánica:** Lanza de 2 a 4 asesores en paralelo (`oracle`, `reviewer` o perfiles `council-*`). En el Pase 1 no ven las respuestas de los demás. En el Pase 2 debaten las discrepancias ante el supervisor, quien emite el memorándum final.
+
+#### 2. `subagents` (Subprocesos y Worktrees)
+* **Tipo:** **Pasiva / Asistida** (El agente principal la invoca ante tareas pesadas o paralelas).
+* **Cómo usarla:** El agente delega internamente usando `subagent({ agent: "reviewer", task: "..." })` o `runs.all([...])`.
+* **Cuándo se usa:**
+  * Ejecutar suites de pruebas largas, revisiones de código o búsquedas profundas en segundo plano sin bloquear el chat principal.
+  * Tareas de mutación de código en carpetas aisladas (*git worktrees*) para no alterar el directorio de trabajo del usuario.
+* **Cuándo NO se usa:**
+  * Ediciones directas de uno o dos archivos pequeños.
+
+#### 3. `dynamic-workflows`
+* **Tipo:** **Activa** (Comando `/workflows` o script en JavaScript con herramienta `workflow`).
+* **Cómo usarla:** Ejecutá `/workflows` para abrir el panel TUI interactivo o pedí: *"Corré un workflow de code-review con límite de 50k tokens"*.
+* **Cuándo usarla:**
+  * Flujos complejos automatizados por fases (`pipeline()`, `parallel()`) con límite estricto de gasto en tokens (`tokenBudget`).
+  * Auditorías profundas predefinidas: `code-review`, `codebase-audit`, `deep-research`, `adversarial-review`.
+
+---
+
+### 2.2 Calidad, Simplicidad y Diagnóstico de Código
+
+#### 1. `ponytail`
+* **Tipo:** **Activa y Pasiva** (Comandos slash explícitos y modo guardián en la sesión).
+* **Cómo usarla:**
+  * `/ponytail review`: Audita los cambios recientes buscando sobreingeniería y dependencias innecesarias.
+  * `/ponytail audit`: Escaneo completo del repositorio clasificando qué eliminar o reemplazar por la librería estándar.
+  * `/ponytail debt`: Recolecta comentarios `# ponytail:` para listar atajos deliberados y deuda técnica diferida.
+  * `/ponytail gain`: Muestra el marcador de líneas de código y tokens ahorrados.
+  * `/ponytail lite | full | ultra`: Ajusta la intensidad de simplificación.
+* **Cuándo usarla:**
+  * Tras escribir una funcionalidad nueva o antes de abrir un Pull Request, para garantizar la solución más limpia y minimalista (*YAGNI*, *stdlib-first*).
+* **Cuándo NO usarla:**
+  * Cuando se requiere explícitamente una abstracción compleja solicitada por el usuario.
+
+#### 2. `simplify`
+* **Tipo:** **Activa** (Comando `/simplify`).
+* **Cómo usarla:** Ejecutá `/simplify` al terminar un refactor o feature.
+* **Cuándo usarla:**
+  * Para podar imports en desuso, eliminar funciones auxiliares huérfanas y compactar lógica recién escrita sin alterar su comportamiento.
+
+#### 3. `lsp` (Language Server Protocol)
+* **Tipo:** **Pasiva / Asistida** (`lsp_diagnostics`, `lsp_fix`).
+* **Cómo usarla:** El agente consulta automáticamente los diagnósticos del servidor LSP configurado (TypeScript, Rust, Go, Python, Lua) o aplica correcciones con `lsp_fix`.
+* **Cuándo se usa:**
+  * Inmediatamente después de editar código para verificar en tiempo real que no existan errores de compilación, sintaxis o tipos.
+
+---
+
+### 2.3 Contexto, Memoria y Búsqueda Eficiente
+
+#### 1. `memory` & `tape` (`pi-memory-md`)
+* **Tipo:** **Activa y Pasiva** (`memory_search`, `memory_write`, `tape_handoff`, `tape_read`).
+* **Cómo usarla:**
+  * *"Guardá en memoria que usamos Node 20 y ESM en este proyecto"* (persiste en Markdown versionado en Git).
+  * `tape_handoff`: Ancla puntos de control para que sesiones futuras retomen el contexto sin reenviar todo el historial.
+* **Cuándo usarla:**
+  * Proyectos de larga duración donde necesitás recordar reglas de negocio, preferencias de estilo o decisiones tomadas días atrás.
+
+#### 2. `fff` (Fast Fuzzy Finder)
+* **Tipo:** **Pasiva / Asistida** (`fffind`, `ffgrep`).
+* **Cómo usarla:** El agente la usa en lugar de `find` o `grep` tradicionales para rastrear archivos y símbolos por frecencia.
+* **Cuándo se usa:**
+  * Localización instantánea de definiciones, imports y archivos relevantes sin volcar carpetas enteras al contexto.
+
+#### 3. `btw`
+* **Tipo:** **Activa** (Comando `/btw <pregunta>`).
+* **Cómo usarla:** `/btw ¿Cómo era la sintaxis de array destructuring en Lua?`
+* **Cuándo usarla:**
+  * Dudas rápidas de sintaxis o soporte que no deben guardarse en el historial de la conversación ni consumir tokens en turnos posteriores.
+
+#### 4. `context-usage`
+* **Tipo:** **Pasiva** (Telemetría visual permanente).
+* **Cómo usarla:** Visible en el footer de la TUI.
+* **Cuándo se usa:**
+  * Monitoreo constante del porcentaje de ventana de contexto utilizado y control de costos de la sesión.
+
+#### 5. `web-access`
+* **Tipo:** **Pasiva / Asistida** (`web_search`, `source_check`, `fetch_content`).
+* **Cómo usarla:** *"Buscá la documentación oficial de la última versión de Zod y cómo validar unions."*
+* **Cuándo se usa:**
+  * Consultar documentación técnica actualizada de librerías externas o APIs con verificación rigurosa de fuentes.
+
+---
+
+### 2.4 Interacción, Tareas y Automatización
+
+#### 1. `pi-ask-user`
+* **Tipo:** **Pasiva / Asistida** (`ask_user`).
+* **Cómo usarla:** El agente despliega una ventana modal interactiva con opciones múltiples antes de ejecutar acciones de alto riesgo o ambiguas.
+* **Cuándo se usa:**
+  * Decidir entre enfoques divergentes de arquitectura o confirmar cambios destructivos.
+
+#### 2. `interactive-shell`
+* **Tipo:** **Pasiva / Asistida** (`interactive_shell`).
+* **Cómo usarla:** El agente corre comandos interactivos o TUIs en modos `interactive`, `hands-free` (monitoreo con avisos al usuario), `dispatch` (background desatendido) o `monitor` (disparadores de eventos).
+* **Cuándo se usa:**
+  * Supervisar comandos interactivos como `lazygit`, procesos de autenticación web o scripts con prompts de confirmación.
+
+#### 3. `goal` & `todos`
+* **Tipo:** **Activa y Pasiva** (`/goal`, `manage_todo_list`).
+* **Cómo usarla:** `/goal Migrar autenticación a JWT` crea un objetivo con compuertas de seguridad (`goal_complete`, `goal_blocked`). `manage_todo_list` renderiza un checklist en vivo en el chat.
+* **Cuándo usarla:**
+  * Tareas multi-paso extensas para mantener trazabilidad visual del progreso.
+
+#### 4. `autoresearch` & `ralph-wiggum`
+* **Tipo:** **Activa** (`autoresearch-create`, `ralph_start` / `ralph_done`).
+* **Cómo usarla:** *"Iniciá un bucle de optimización con autoresearch para reducir el tiempo de build"* o *"Arrancá un loop Ralph para resolver estos 5 issues"*.
+* **Cuándo usarla:**
+  * Experimentación empírica iterativa con medición de métricas objetivas.
+
+---
+
+## 3. Matriz General de Herramientas
+
+| Herramienta | Naturaleza | Invocación / Comando | Cuándo Usarla |
+| :--- | :---: | :--- | :--- |
+| **`council`** | **Activa** | `/council <pregunta>` | Decisiones técnicas críticas con debate multi-agente supervisado. |
+| **`dynamic-workflows`** | **Activa** | `/workflows` | Automatización de flujos multi-agente con tope de tokens. |
+| **`ponytail`** | **Activa/Pasiva** | `/ponytail review / audit / debt` | Eliminar sobreingeniería, exigir *stdlib-first* y *YAGNI*. |
+| **`simplify`** | **Activa** | `/simplify` | Podar código muerto y optimizar archivos modificados. |
+| **`btw`** | **Activa** | `/btw <pregunta>` | Preguntas de soporte sin ensuciar el historial de chat. |
+| **`goal`** | **Activa** | `/goal <meta>` | Fijar metas de largo plazo con compuertas de parada. |
+| **`mention-skill`** | **Activa** | `$nombre-skill` | Inyectar protocolos de desarrollo con autocompletado difuso. |
+| **`subagents`** | **Pasiva** | Herramienta `subagent` | Tareas paralelas o pesadas en subprocesos y worktrees. |
+| **`lsp`** | **Pasiva** | Herramienta `lsp_diagnostics` | Validar sintaxis, tipos y linting en vivo con Language Servers. |
+| **`memory`** | **Pasiva/Activa**| `tape_handoff`, `memory_search` | Persistir conocimiento y anclajes en Markdown Git offline. |
+| **`fff`** | **Pasiva** | Herramientas `fffind`, `ffgrep` | Búsqueda difusa indexada ultra-rápida de código y rutas. |
+| **`context-usage`**| **Pasiva** | Footer TUI | Monitoreo visual de consumo de tokens y presupuesto. |
+| **`web-access`** | **Pasiva** | Herramienta `web_search` | Búsqueda web y verificación de fuentes externas. |
+| **`pi-ask-user`** | **Pasiva** | Herramienta `ask_user` | Diálogo modal interactivo para confirmar decisiones clave. |
+| **`interactive-shell`**| **Pasiva**| Herramienta `interactive_shell`| Supervisión de TUIs y procesos interactivos en background. |
+| **`todos`** | **Pasiva/Activa**| Herramienta `manage_todo_list` | Checklist de tareas interactivo y visible en la sesión. |
+| **`autoresearch`** | **Activa** | `autoresearch-create` | Bucles autónomos de experimentación y optimización métrica. |
+
+---
+
+## 4. Compound Engineering (CE) Suite
+
+**Compound Engineering** es la suite metodológica central de LazyPi. Se basa en el principio de que **el código es un pasivo y el conocimiento acumulado es el activo**. Cada tarea de ingeniería debe dejar el repositorio en un estado más comprensible, probado y documentado que antes.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                   CICLO DE VIDA COMPOUND ENGINEERING (7 FASES)              │
+│                                                                             │
+│   1. EXPLORACIÓN      $ce-brainstorm (Diálogo socrático y alcance)          │
+│            │                                                                │
+│            ▼                                                                │
+│   2. PLAN TÉCNICO     $ce-plan (Arquitectura y desglose atómico)            │
+│            │                                                                │
+│            ▼                                                                │
+│   3. REVISIÓN DOCS    $ce-doc-review (Auditoría multi-rol del plan)         │
+│            │                                                                │
+│            ▼                                                                │
+│   4. EJECUCIÓN        $ce-work (Implementación TDD con verificación)        │
+│            │                                                                │
+│            ▼                                                                │
+│   5. CODE REVIEW      $ce-code-review (Revisión multi-agente por niveles)   │
+│            │                                                                │
+│            ▼                                                                │
+│   6. ENTREGA          $ce-commit-push-pr (Conventional Commits y PR rico)   │
+│            │                                                                │
+│            ▼                                                                │
+│   7. CAPITALIZACIÓN   $ce-compound (Registrar solución en docs/solutions/)  │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### 4.1 Detalle de las Skills de Compound Engineering
+
+#### 1. `$ce-brainstorm` (Fase 1: Exploración y Requerimientos)
+* **Naturaleza:** **Activa** (Invocación con `$ce-brainstorm` o frases como *"hagamos un brainstorm sobre X"*).
+* **Propósito:** Explorar requerimientos, casos de borde y alternativas mediante diálogo colaborativo antes de comprometerse con un diseño.
+* **Entrada:** Idea general o problema a resolver.
+* **Salida:** Documento de especificación con alcance claro, límites (*non-goals*) y enfoque acordado.
+* **Ejemplo:** `$ce-brainstorm Diseñar el sistema de caché para las respuestas de la API de usuarios.`
+
+#### 2. `$ce-plan` (Fase 2: Planificación Técnica y Desglose)
+* **Naturaleza:** **Activa** (Invocación con `$ce-plan` o *"armá el plan técnico de X"*).
+* **Propósito:** Generar un plan de arquitectura detallado con contratos de interfaces, dependencias y una lista ordenada de tareas atómicas verificables.
+* **Entrada:** Requerimientos acordados en el brainstorm.
+* **Salida:** Plan técnico estructurado en Markdown con checklists de tareas y criterios de aceptación.
+* **Ejemplo:** `$ce-plan Estructurar la migración de endpoints a GraphQL.`
+
+#### 3. `$ce-doc-review` (Fase 3: Auditoría Multi-Perspectiva del Plan)
+* **Naturaleza:** **Activa** (Invocación con `$ce-doc-review` o *"revisemos el plan"*).
+* **Propósito:** Lanza subagentes con roles especializados (seguridad, arquitectura, rendimiento, producto) para auditar el plan antes de escribir código.
+* **Entrada:** Plan técnico generado.
+* **Salida:** Informe de hallazgos clasificados por severidad y sugerencias de mejora aplicadas al plan.
+
+#### 4. `$ce-work` (Fase 4: Ejecución y Desarrollo Disciplinado)
+* **Naturaleza:** **Activa** (Invocación con `$ce-work` o *"ejecutá las tareas del plan"*).
+* **Propósito:** Ejecutar la implementación tarea por tarea, aplicando TDD estricto y ejecutando tests/linters tras cada modificación para garantizar cero regresiones.
+* **Manejo de Worktrees:** Puede operar en un worktree aislado mediante `$ce-worktree`.
+
+#### 5. `$ce-code-review` (Fase 5: Revisión de Código Multi-Agente)
+* **Naturaleza:** **Activa** (Invocación con `$ce-code-review` o *"hacé un code review"*).
+* **Propósito:** Auditoría exhaustiva del `git diff` mediante agentes clasificadores por nivel de confianza. Detecta bugs, fugas de memoria, problemas de concurrencia y desviaciones de estilo.
+* **Salida:** Reporte priorizado de observaciones antes de commitear.
+
+#### 6. `$ce-commit-push-pr` (Fase 6: Commit, Push y Creación de PR)
+* **Naturaleza:** **Activa** (Invocación con `$ce-commit-push-pr` o *"creá el PR"*).
+* **Propósito:** Inspecciona el staging, redacta un commit semántico según Conventional Commits, hace push de la rama y abre el Pull Request en GitHub con una descripción rica basada en valor y cambios reales.
+
+#### 7. `$ce-compound` (Fase 7: Capitalización del Conocimiento)
+* **Naturaleza:** **Activa** (Invocación con `$ce-compound` o *"documentá esta solución"*).
+* **Propósito:** Extrae el problema resuelto, la causa raíz, las alternativas descartadas y el patrón aplicado, guardándolo en `docs/solutions/<categoria>/<problema>.md`.
+* **Beneficio:** En futuras sesiones, el agente consulta estas soluciones para no tropezar dos veces con el mismo obstáculo.
+
+---
+
+### 4.2 Skills Complementarias de la Suite CE
+
+| Skill | Naturaleza | Cuándo Invocarla | Descripción Operativa |
+| :--- | :---: | :--- | :--- |
+| **`$ce-debug`** | **Activa** | *"debugueá este error"* / `$ce-debug` | Localización sistemática de causa raíz mediante reproducción y trazas. |
+| **`$ce-worktree`** | **Activa** | *"creá un worktree para esta rama"* | Crea un entorno git aislado para trabajar sin alterar el checkout actual. |
+| **`$ce-clean-gone-branches`** | **Activa** | *"limpiá ramas borradas"* | Elimina ramas locales cuyos remotos ya fueron mergeados o eliminados. |
+| **`$ce-compound-refresh`** | **Activa** | *"actualizá docs/solutions/"* | Audita y actualiza documentos de soluciones obsoletos frente al código actual. |
+| **`$ce-sessions`** | **Activa** | *"¿qué hicimos en la sesión anterior?"* | Busca y analiza el historial de sesiones previas del agente. |
+| **`$ce-ideate`** | **Activa** | *"dame ideas para mejorar X"* | Generación proactiva y evaluación crítica de propuestas técnicas. |
+| **`$ce-optimize`** | **Activa** | *"optimizá esta función en bucle"* | Bucles de optimización empírica guiados por métricas objetivas. |
+| **`$ce-resolve-pr-feedback`** | **Activa** | *"resolvé los comentarios del PR"* | Evalúa el feedback de revisores en GitHub y aplica correcciones en paralelo. |
+
+---
+
+## 5. Esquema de Ayuda al Desarrollo y Minimización de Tokens
 
 El mayor problema al programar con IA es el **Monolithic Prompting** (volcar todo el proyecto al contexto), lo que genera lentitud, alucinaciones y costos excesivos. LazyPi implementa técnicas avanzadas de **Context Engineering**:
 
@@ -89,233 +302,18 @@ El mayor problema al programar con IA es el **Monolithic Prompting** (volcar tod
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 3.1 Matriz de Ahorro y Rendimiento
+### 5.1 Matriz de Ahorro y Rendimiento
 
 | Métrica | Sin LazyPi (Enfoque Ad-hoc) | Con LazyPi + Context Engineering | Beneficio |
 | :--- | :---: | :---: | :---: |
 | **Tokens consumidos por turno** | 40.000 - 75.000 tokens | 1.500 - 4.500 tokens | **-85% consumo** 📉 |
 | **Tiempo de respuesta (TTFT)** | 8 - 15 segundos | 1 - 3 segundos | **4x más rápido** ⚡ |
 | **Tasa de éxito en 1er intento**| ~50% (requiere reintentos) | >90% (precisión contextual) | **Cero re-trabajo** 🎯 |
-| **Contaminación del chat** | Alta (cientos de líneas de logs)| Nula (resúmenes estructurados) | **Contexto limpio** 🧹 |
+| **Contaminación del chat** | Alta (cientos de líneas de logs)| Nula (resúmenes estructurados) | **Contexto limpio** 🧼 |
 
 ---
 
-## 4. Guías de Implementación: Patrones de Inteligencia Artificial
-
----
-
-### 4.1 Spec-Driven Development (SDD / OpenSpec)
-
-**Principio:** Las especificaciones formales y el diseño de arquitectura deben existir en disco antes de escribir código de producción.
-
-```
-openspec/
-└── changes/
-    └── sistema-pagos-stripe/
-        ├── proposal.md   # Problema, motivación, límites y non-goals
-        ├── specs/        # Contratos de datos e interfaces
-        ├── design.md     # Decisiones de arquitectura, diagramas y trade-offs
-        └── tasks.md      # Checklist atómico de tareas verificables
-```
-
-#### Flujo en Lenguaje Natural con LazyPi:
-1. **Propuesta:** *"Iniciá un cambio SDD para `sistema-pagos-stripe`. Redactá `proposal.md` acordando el alcance con `pi-ask-user`."*
-2. **Diseño:** *"Generá las especificaciones en `specs/` y el documento de arquitectura `design.md` con un diagrama Mermaid."*
-3. **Auditoría:** *"Auditá el diseño con subagentes antes de programar (`$ce-doc-review`)."*
-4. **Tareas:** *"Creá `tasks.md`, abrí un worktree (`$ce-worktree`) y ejecutá tarea por tarea con tests."*
-
----
-
-### 4.2 Compound Engineering (CE)
-
-**Principio:** El código es un pasivo; el conocimiento acumulado es el activo. Estructura el trabajo en 7 etapas donde cada paso valida al anterior:
-
-```
-1. Brainstorm ($ce-brainstorm) ──► 2. Tech Plan ($ce-plan) ──► 3. Doc Review ($ce-doc-review)
-                                                                           │
-6. Capitalizar ($ce-compound) ◄── 5. Commit & PR ($ce-commit-push-pr) ◄── 4. Ejecución ($ce-work)
-```
-
-#### Ejemplo de Interacción en Lenguaje Natural:
-* *"Hagamos un brainstorm sobre cómo agregar soporte para múltiples temas en la TUI"* $\rightarrow$ activa `ce-brainstorm`.
-* *"Armá el plan técnico de arquitectura"* $\rightarrow$ activa `ce-plan`.
-* *"Hacé un code review exhaustivo antes de commitear"* $\rightarrow$ activa `ce-code-review`.
-* *"Guardá esta solución en docs/solutions/"* $\rightarrow$ activa `ce-compound`.
-
----
-
-## 5. Guías de Implementación: Patrones de Arquitectura de Software
-
----
-
-### 5.1 Domain-Driven Design (DDD) & Clean / Hexagonal Architecture
-
-**Principio:** Aislar la lógica de negocio pura de frameworks, bases de datos y controladores HTTP.
-
-```
-src/modules/billing/
-├── domain/                      # 1. DOMINIO PURO (Entidades, Value Objects, Eventos)
-│   ├── entities/Invoice.ts
-│   └── value-objects/Money.ts
-├── application/                 # 2. APLICACIÓN (Casos de Uso y Puertos/Interfaces)
-│   ├── use-cases/CreateInvoice.ts
-│   └── ports/InvoiceRepository.ts # Interfaz de Puerto
-├── infrastructure/              # 3. INFRAESTRUCTURA (Adaptadores de DB, APIs externas)
-│   ├── persistence/PostgresInvoiceRepo.ts
-│   └── gateways/StripeGateway.ts
-└── interfaces/                  # 4. ENTRADA / UI (Controladores REST, CLI)
-    └── http/InvoiceController.ts
-```
-
-#### Cómo Sacarle Provecho con LazyPi:
-* **Aislamiento de Tokens:** Al pedir cambios de dominio, Pi solo lee `domain/` y `application/` (~2.000 tokens en vez de 45.000).
-* **Validación de Regla de Dependencia:** `codegraph` (`pi-antigravity`) verifica que `domain/` nunca importe de `infrastructure/`.
-* **Contratos Estrictos:** `lsp_diagnostics` valida que los adaptadores cumplan 100% las interfaces de los puertos.
-
----
-
-### 5.2 Test-Driven Development (TDD Estricto)
-
-**Principio:** No escribir una sola línea de código de producción sin una prueba automatizada fallida previa.
-
-```
-┌──────────────────┐       ┌──────────────────┐       ┌──────────────────┐
-│      1. RED      │ ───►  │     2. GREEN     │ ───►  │   3. REFACTOR    │
-│  Crear test que  │       │ Implementación   │       │ /ponytail audit  │
-│  falle en bash   │       │ mínima que pase  │       │ /simplify        │
-└──────────────────┘       └──────────────────┘       └──────────────────┘
-```
-
-#### Flujo de Ejecución con LazyPi:
-1. **RED:** Pi escribe el archivo de test en `tests/` y ejecuta el comando de pruebas en `bash` (`npm test`, `pytest`, `cargo test`), confirmando que falle en rojo.
-2. **GREEN:** Implementa el código mínimo indispensable para que la prueba pase a verde.
-3. **TRIANGULATE:** Añade pruebas para casos límite (cadenas vacías, nulos, desbordes).
-4. **REFACTOR:** Ejecuta `/ponytail review` (asegura librerías estándar) y `/simplify` (pule dead code).
-
----
-
-## 6. Sistema de Skills: Cómo Funcionan y Cómo Crearlas
-
-Las **Skills** son unidades modulares de conocimiento procedimental empaquetadas en archivos Markdown estructurados (`SKILL.md`). Permiten que el agente ejecute protocolos complejos con rigor sin necesidad de escribir extensiones en TypeScript.
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                             ANATOMÍA DE UNA SKILL                           │
-│                                                                             │
-│   SKILL.md                                                                  │
-│   ├── Frontmatter YAML (name, description con triggers)                     │
-│   ├── Contexto e Invariantes (Reglas estrictas y límites)                   │
-│   ├── Protocolo Paso a Paso (Instrucciones operativas para el LLM)          │
-│   └── Criterios de Aceptación (Checklist de verificación verificable)       │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-### 6.1 Invocación de Skills en LazyPi
-* **Mención Difusa con `$` (`@zigai/pi-mention-skill`):** Escribí `$` en tu prompt para autocompletar cualquier skill (ej: `$ce-plan`, `$ce-code-review`).
-* **Expansión Directa (`pi-skillful`):** Escribí `/skill:<nombre>` para invocar la skill directamente.
-
----
-
-### 6.2 Ejemplos Prácticos de Creación de Skills
-
-#### Ejemplo A: Skill Basada en Patrones de Git (Conventional Commits & Staging Limpio)
-
-Guardada en `.pi/skills/git-clean-commit/SKILL.md`:
-
-```markdown
----
-name: git-clean-commit
-description: "Trigger: commit, guardar cambios, crear commit, git commit. Inspecciona el staging y redacta commits atómicos con Conventional Commits."
----
-
-# Git Clean Commit Protocol
-
-Esta skill garantiza que los commits sean atómicos, explicativos y sigan Conventional Commits.
-
-## Contexto y Restricciones
-- Nunca hacer `git add .` ni `git add -A` a ciegas.
-- Verificar que no existan archivos de credenciales (`.env`, certificados).
-- Formato obligatorio: `tipo(ámbito): descripción imperativa en minúsculas`.
-
-## Protocolo Paso a Paso
-1. **Inspección:** Ejecutar `git status` y `git diff` para clasificar cambios lógicos.
-2. **Staging Selectivo:** Agregar archivos específicos con `git add <archivo1> <archivo2>`.
-3. **Redacción:** Redactar mensaje con `feat`, `fix`, `refactor`, `docs`, `style` o `chore`.
-4. **Confirmación:** Ejecutar `git commit` y verificar con `git status`.
-
-## Criterios de Aceptación
-- [ ] Staging realizado archivo por archivo.
-- [ ] Mensaje de commit en modo imperativo y bajo 72 caracteres en la primera línea.
-```
-
----
-
-#### Ejemplo B: Skill Basada en TDD Estricto (Test-Driven Enforcer)
-
-Guardada en `.pi/skills/tdd-enforcer/SKILL.md`:
-
-```markdown
----
-name: tdd-enforcer
-description: "Trigger: tdd, test first, crear feature con tdd, programar con pruebas. Aplica el ciclo estricto Red-Green-Refactor."
----
-
-# Strict TDD Enforcer Protocol
-
-Protocolo obligatorio para desarrollo guiado por pruebas.
-
-## Invariantes
-- Prohibido crear código de producción sin un test fallido previo.
-- Cada prueba debe verificar un único comportamiento.
-
-## Protocolo Paso a Paso
-1. **Fase RED:** Escribir el test en `tests/` y correr la suite con `bash`. Demostrar el fallo.
-2. **Fase GREEN:** Escribir la implementación mínima en `src/` hasta que el test pase.
-3. **Fase TRIANGULATE:** Agregar pruebas de borde (edge cases).
-4. **Fase REFACTOR:** Ejecutar `/simplify` para pulir la implementación sin romper tests.
-
-## Criterios de Aceptación
-- [ ] Suite de pruebas pasando al 100% en verde.
-- [ ] Coberura completa de casos válidos y de error.
-```
-
----
-
-#### Ejemplo C: Skill Basada en Principios Clean Code (SOLID, KISS, DRY)
-
-Guardada en `.pi/skills/clean-code-guardian/SKILL.md`:
-
-```markdown
----
-name: clean-code-guardian
-description: "Trigger: clean code, refactor solid, revisar principios, kiss, dry, solid. Audita código aplicando principios de diseño limpio."
----
-
-# Clean Code Guardian Protocol
-
-Auditoría y refactorización orientada a la simplicidad y bajo acoplamiento.
-
-## Principios a Auditar
-1. **Single Responsibility (SRP):** Cada clase/módulo debe tener una única razón para cambiar.
-2. **KISS (Keep It Simple, Stupid):** Evitar sobreingeniería, capas abstractas prematuras o genéricos innecesarios.
-3. **DRY (Don't Repeat Yourself):** Extraer lógica de negocio duplicada a funciones puras reutilizables.
-4. **Dependency Inversion (DIP):** Depender de abstracciones (interfaces/puertos), no de implementaciones concretas.
-
-## Protocolo Paso a Paso
-1. **Inspección:** Leer el archivo con `read` o buscar llamadas con `codegraph`.
-2. **Diagnóstico:** Identificar funciones de más de 30 líneas o módulos con múltiples responsabilidades.
-3. **Refactorización Segura:** Aplicar refactors pequeños ejecutando tests y `lsp_diagnostics` tras cada cambio.
-4. **Poda Final:** Correr `/ponytail review` y `/simplify`.
-
-## Criterios de Aceptación
-- [ ] Funciones cortas con nombres descriptivos.
-- [ ] Cero duplicación de lógica de negocio.
-- [ ] Sin advertencias de tipos en `lsp_diagnostics`.
-```
-
----
-
-## 7. Referencia Rápida de Comandos y Atajos
+## 6. Referencia Rápida de Comandos y Atajos
 
 ```bash
 # ── Gestión de Infraestructura (omc) ──────────────────────────────────────────
@@ -326,20 +324,27 @@ Auditoría y refactorización orientada a la simplicidad y bajo acoplamiento.
 ./omc dev remove               # Selector interactivo para desinstalar extensiones
 ./omc update                   # Actualización total (Homebrew + Casks + Pi + LazyPi)
 
-# ── Comandos Slash Nativos en Sesión de Pi ────────────────────────────────────
+# ── Modos y Comandos en Sesión de Pi (Activos) ────────────────────────────────
+/council <pregunta>            # Iniciar consejo consultivo supervisado de decisión
 /plan <descripción>            # Modo de planificación socrática en memoria
 /simplify                      # Simplificar y limpiar código modificado recientemente
 /ponytail review               # Auditar código buscando sobreingeniería y dependencias
-/ponytail audit                # Inspección profunda de deuda técnica
+/ponytail audit                # Inspección de deuda técnica en todo el repositorio
+/ponytail debt                 # Recolectar comentarios de atajos (# ponytail:)
+/ponytail gain                 # Scoreboard de impacto y líneas ahorradas
 /btw <pregunta>                # Consulta rápida sin contaminar el historial de chat
 /goal <meta>                   # Fijar objetivo de largo plazo con control de estados
 /workflows                     # Panel TUI interactivo para orquestar subagentes
-/fff-health                    # Verificar la salud del índice de búsqueda rápida
+/skill:<nombre>                # Invocar skill específica mediante pi-skillful
 
-# ── Invocación de Skills con Mención Difusa ───────────────────────────────────
-$git-clean-commit              # Inyectar protocolo de commit convencional
-$tdd-enforcer                  # Inyectar ciclo estricto Red-Green-Refactor
-$clean-code-guardian           # Inyectar auditoría de principios SOLID/KISS/DRY
+# ── Invocación de Skills con Mención Difusa ($) ───────────────────────────────
+$ce-brainstorm                 # Iniciar sesión de exploración y descubrimiento
 $ce-plan                       # Inyectar planificación técnica de arquitectura
+$ce-doc-review                 # Inyectar revisión multi-perspectiva de especificaciones
+$ce-work                       # Iniciar ejecución disciplinada de tareas
 $ce-code-review                # Inyectar revisión de código multi-agente
+$ce-commit-push-pr             # Crear commit convencional, push y abrir PR
+$ce-compound                   # Registrar aprendizaje en docs/solutions/
+$ce-debug                      # Diagnóstico sistemático de bugs
+$ce-worktree                   # Crear git worktree aislado para desarrollo
 ```
