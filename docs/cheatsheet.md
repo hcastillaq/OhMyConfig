@@ -10,7 +10,7 @@ Referencia rápida de todos los alias, herramientas y atajos disponibles en **Oh
 | :--- | :--- | :--- |
 | **`v`** | `nvim` | Editor principal Neovim Tokyonight |
 | **`zj`** | `zellij` | Multiplexor de terminal con barra Tokyonight |
-| **`guia`** (o `omc`) | `omc` | Menú interactivo de atajos en consola |
+| **`guia`** | `guia` | Menú interactivo de atajos en consola |
 | **`rg <patron>`** | `ripgrep` | Búsqueda de texto en archivos en milisegundos |
 | **`fd <nombre>`** | `fd` | Búsqueda moderna de archivos y carpetas |
 | **`sd 'old' 'new'`**| `sd` | Reemplazo intuitivo de texto en archivos |

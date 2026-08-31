@@ -81,7 +81,7 @@ OhMyConfig/
 * **`pi install @narumitw/pi-plan-mode`**: Modo interactivo de planificación guiada (`/plan`).
 
 ### 2. Terminal, Runtimes y Búsqueda
-* **`guia`** (o `omc`): Menú interactivo de atajos en consola (`guia nvim`, `guia zj`, `guia git`, `guia search`, `guia cli`, `guia ai`).
+* **`guia`**: Menú interactivo de atajos en consola (`guia nvim`, `guia zj`, `guia git`, `guia search`, `guia cli`, `guia ai`).
 * **`mise use -g <lang>@<ver>`**: Gestor universal de versiones (Node, Python, Go, Rust, Java).
 * **`rg <patron>`**: Búsqueda ultrarrápida de texto en todo el proyecto (Ripgrep).
 * **`fd <nombre>`**: Búsqueda moderna de archivos y carpetas (reemplazo de `find`).

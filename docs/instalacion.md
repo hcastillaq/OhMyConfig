@@ -1,6 +1,6 @@
 # 📦 Instalación — CLI `omc`
 
-OhMyConfig incluye una CLI interactiva (`omc`) escrita en **Fish Shell puro** con interfaz TUI via **gum**. Permite seleccionar exactamente qué módulos instalar, diagnosticar el entorno, actualizar herramientas y gestionar el agente de IA Pi.
+OhMyConfig incluye una CLI interactiva (`omc`) escrita en **Bash 3.2+ nativo** con interfaz TUI vía **gum**. Permite seleccionar exactamente qué módulos instalar, diagnosticar el entorno, actualizar herramientas y gestionar el agente de IA Pi sin depender previamente de ninguna shell externa.
 
 ---
 

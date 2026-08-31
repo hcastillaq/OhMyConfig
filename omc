@@ -1,6 +1,6 @@
-#!/usr/bin/env fish
+#!/usr/bin/env bash
 # ==============================================================================
-# omc — OhMyConfig CLI Entry Point
+# omc — OhMyConfig CLI Entry Point (Bash 3.2+)
 # ==============================================================================
 # Usage:
 #   ./omc install              Interactive installer with module selection
@@ -14,37 +14,48 @@
 #   ./omc --help               Show this help
 # ==============================================================================
 
-set -l DOTFILES_DIR (cd (dirname (status filename)) && pwd)
-set -l CMD $argv[1]
+set -e
 
-# Source shared libs available to all commands
-source $DOTFILES_DIR/cli/lib/brew.fish
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CMD="${1:-}"
 
-# Bootstrap: ensure Fish is available (entry point is Fish itself, so it is)
-# Bootstrap: ensure gum is available before any TUI command
-if not contains -- $CMD --help -h help ""
-    gum_ensure
-end
+# Source core libs
+source "$DOTFILES_DIR/cli/lib/brew.sh"
 
-switch $CMD
-    case install
-        source $DOTFILES_DIR/cli/commands/install.fish
-        cmd_install $argv[2..]
+# Bootstrap: ensure Homebrew environment and gum are available for TUI commands
+case "$CMD" in
+    --help|-h|help|"")
+        ;;
+    *)
+        brew_ensure_env
+        gum_ensure
+        ;;
+esac
 
-    case doctor
-        source $DOTFILES_DIR/cli/commands/doctor.fish
+case "$CMD" in
+    install)
+        source "$DOTFILES_DIR/cli/commands/install.sh"
+        shift || true
+        cmd_install "$@"
+        ;;
+
+    doctor)
+        source "$DOTFILES_DIR/cli/commands/doctor.sh"
         cmd_doctor
+        ;;
 
-    case update
-        source $DOTFILES_DIR/cli/commands/update.fish
+    update)
+        source "$DOTFILES_DIR/cli/commands/update.sh"
         cmd_update
+        ;;
 
-    case dev
-        source $DOTFILES_DIR/cli/commands/dev.fish
-        cmd_dev $argv[2..]
+    dev)
+        source "$DOTFILES_DIR/cli/commands/dev.sh"
+        shift || true
+        cmd_dev "$@"
+        ;;
 
-    case --help -h help ""
-        # ── Help ──────────────────────────────────────────────────────────────
+    --help|-h|help|"")
         echo ""
         echo "⚡ OhMyConfig CLI — omc"
         echo ""
@@ -78,9 +89,11 @@ switch $CMD
         echo "  DOCUMENTACIÓN:"
         echo "    https://hcastillaq.github.io/OhMyConfig/"
         echo ""
+        ;;
 
-    case '*'
+    *)
         echo "omc: comando desconocido '$CMD'"
         echo "Ejecutá './omc --help' para ver los comandos disponibles."
         exit 1
-end
+        ;;
+esac
