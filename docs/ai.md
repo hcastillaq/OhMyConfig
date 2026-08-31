@@ -1,337 +1,345 @@
-# 🤖 Ecosistema AI & Coding Agents (LazyPi)
+# 🤖 Ecosistema AI & Coding Agents (Pi & LazyPi)
 
-OhMyConfig integra un entorno de **ingeniería de software asistida por Inteligencia Artificial y agentes autónomos de código** directamente en la terminal. El enfoque es modular, riguroso y minimalista: la CLI `omc` instala y mantiene el agente base (**`pi`**), complementado por la suite oficial **LazyPi** ([lazypi.org](https://lazypi.org)), el framework **Compound Engineering (CE)** y la disciplina de **Spec-Driven Development (SDD / OpenSpec)**.
+OhMyConfig integra un entorno de **ingeniería de software asistida por Inteligencia Artificial y agentes autónomos de código** directamente en la terminal. Esta guía explica qué herramientas componen el stack, cómo reducen el consumo de tokens y cómo aplicar metodologías de desarrollo, patrones de arquitectura y skills personalizadas.
 
 ---
 
-## 1. Manifiesto & Arquitectura del Ecosistema
+## 1. ¿Qué es Pi?
 
-La filosofía de LazyPi en OhMyConfig se inspira en el modelo de LazyVim: **un núcleo preconfigurado y mantenido por la comunidad con un catálogo curado de 17 herramientas de alto rendimiento**:
+**`pi`** (`@earendil-works/pi-coding-agent`) es el motor de ejecución autónomo y CLI de desarrollo en terminal.
 
-1. **Cero código a ciegas:** Todo cambio se estructura mediante requerimientos claros, contratos de datos y diseño técnico antes de escribir código.
-2. **Memoria y conocimiento acumulativo:** Soluciones complejas y decisiones de diseño se guardan en notas técnicas Markdown versionadas en Git.
-3. **Flujo de terminal puro y subagentes concurrentes:** Todo el ciclo de vida (análisis, planificación, edición, pruebas, revisión y commits) ocurre en la consola mediante subagentes coordinados en paralelo.
+### Características Principales:
+* **Velocidad Nativa:** Diseñado para terminales modernas con arranque instantáneo e interfaz interactiva TUI.
+* **Soporte Poly-Model:** Conexión nativa con Anthropic Claude, OpenAI, DeepMind Gemini, Kimi, xAI y modelos locales vía Ollama.
+* **Capacidades de Sistema:** Ejecuta herramientas para leer, buscar (`grep`, `find`), inspeccionar y editar código (`edit`, `write`), y correr comandos de consola (`bash`).
+* **Instalación Centralizada:** Gestionado y actualizado a través de la CLI `omc` (`./omc dev`).
+
+---
+
+## 2. ¿Qué es LazyPi?
+
+**LazyPi** ([lazypi.org](https://lazypi.org)) es la distribución curada y preconfigurada para el agente Pi, inspirada en la filosofía modular de LazyVim. En lugar de instalar herramientas dispersas, LazyPi agrupa **17 extensiones oficiales de alto rendimiento** organizadas en dos niveles:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         Terminal (Ghostty / Zellij)                         │
+│                            CATÁLOGO LAZYPI (17/17)                          │
 │                                                                             │
 │   ┌─────────────────────────────────────────────────────────────────────┐   │
-│   │                     pi (Coding Agent Base)                          │   │
-│   │   • Agente autónomo de terminal para leer, editar y ejecutar        │   │
-│   │   • Gestión de modelos: Anthropic Claude, OpenAI, Gemini, Ollama    │   │
-│   │   • Instalado y actualizado automáticamente con: ./omc dev          │   │
-│   └──────────────────────────────────┬──────────────────────────────────┘   │
-│                                      │                                      │
-│                ┌─────────────────────┼─────────────────────┐                │
-│                ▼                     ▼                     ▼                │
-│   ┌───────────────────────────┐┌───────────────────────────┐┌───────────────┐│
-│   │   LazyPi Core (12 pkgs)   ││ LazyPi Optional (5 pkgs)  ││  OpenSpec SDD ││
-│   │ • subagents & workflows   ││ • lsp (diagnósticos)      ││ • proposal.md ││
-│   │ • ask-user & goal         ││ • interactive-shell (TUI) ││ • specs/      ││
-│   │ • fff & web-access        ││ • memory-md (Git offline) ││ • design.md   ││
-│   │ • simplify & ponytail     ││ • autoresearch (loops)    ││ • tasks.md    ││
-│   │ • skillful & mention ($)  ││ • todos (checklist live)  ││ • docs/solut. ││
-│   └───────────────────────────┘└───────────────────────────┘└───────────────┘│
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 2. Catálogo Oficial de Herramientas de LazyPi (17/17)
-
-LazyPi divide sus herramientas en dos niveles de soporte para garantizar máxima velocidad y cero bloat:
-
-### 2.1 LazyPi Core (12 Herramientas Principales)
-
-| Herramienta | Paquete npm | Comando / Interacción | Propósito y Valor |
-| :--- | :--- | :--- | :--- |
-| **`subagents`** | `pi-subagents` | `subagent` tool / `/council` | Ejecuta agentes hijos en paralelo en worktrees aislados para tareas concurrentes. |
-| **`pi-ask-user`** | `pi-ask-user` | `ask_user` tool | Despliega menús interactivos con selección estructurada antes de decisiones críticas. |
-| **`pi-skillful`** | `pi-skillful` | `/skill:<nombre>` | Descubre, oculta y expande skills por encima del git root. |
-| **`mention-skill`**| `@zigai/pi-mention-skill` | `$nombre-skill` | Autocompletado difuso con `$` para inyectar skills directamente en el prompt. |
-| **`goal`** | `@narumitw/pi-goal` | `/goal` | Control de objetivos de largo plazo con detención en `done`, `blocked` o `wait`. |
-| **`btw`** | `@narumitw/pi-btw` | `/btw <pregunta>` | Consultas rápidas al margen sin contaminar el historial de la conversación actual. |
-| **`context-usage`**| `pi-context-usage` | Telemetría en footer | Muestra el consumo de tokens y presupuesto de contexto en tiempo real. |
-| **`simplify`** | `pi-simplify` | `/simplify` | Revisa código modificado recientemente buscando claridad, consistencia y eliminación de código muerto. |
-| **`web-access`** | `pi-web-access` | `web_search`, `source_check`| Búsqueda web multi-motor en tiempo real (Brave, Exa, Perplexity) y extracción de contenido. |
-| **`fff`** | `@ff-labs/pi-fff` | `fffind`, `ffgrep`, `/fff-health`| Fast Fuzzy Finder ultrarrápido para búsqueda de archivos y símbolos. |
-| **`dynamic-workflows`**| `@quintinshaw/pi-dynamic-workflows`| `/workflows` | Interfaz TUI para orquestar subagentes, deep-research y contabilidad de tokens. |
-| **`ponytail`** | `@dietrichgebert/ponytail` | `/ponytail review`, `audit` | Guardián de disciplina de código minimalista y librerías estándar (*stdlib-first*). |
-
-### 2.2 LazyPi Optional (5 Herramientas Avanzadas)
-
-| Herramienta | Paquete npm | Comando / Interacción | Propósito y Valor |
-| :--- | :--- | :--- | :--- |
-| **`lsp`** | `@narumitw/pi-lsp` | `lsp_diagnostics`, `lsp_fix` | Diagnóstico de errores de compilación, sintaxis y tipos en vivo usando Language Servers. |
-| **`interactive-shell`**| `pi-interactive-shell`| `interactive_shell` | Ejecuta TUIs y CLIs complejas en segundo plano (supervisadas o *hands-free*). |
-| **`autoresearch`** | `pi-autoresearch` | `autoresearch-create` | Bucles autónomos de experimentación y optimización métrica con hooks. |
-| **`todos`** | `pi-manage-todo-list`| `manage_todo_list` | Tracking estructurado de tareas en sesión con widgets visuales de progreso. |
-| **`memory`** | `pi-memory-md` | `memory_search`, `tape_handoff`| Memoria episódica y semántica persistente en Markdown versionada en Git local. |
-
----
-
-## 3. Arquitecturas de Software con LazyPi: DDD, Clean Architecture & TDD
-
-El diseño de software desacoplado no solo es una buena práctica de ingeniería: **es el factor clave que permite a los agentes de IA operar con máxima precisión y mínimo consumo de tokens**.
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                    CLEAN ARCHITECTURE / DOMAIN-DRIVEN DESIGN                │
-│                                                                             │
-│   ┌─────────────────────────────────────────────────────────────────────┐   │
-│   │                        1. DOMINIO (Core)                            │   │
-│   │   • Entidades de Negocio, Value Objects, Domain Events              │   │
-│   │   • Cero dependencias externas (sin frameworks, sin DB, sin HTTP)   │   │
+│   │                      1. LAZYPI CORE (12 pkgs)                       │   │
+│   │   • subagents          • pi-ask-user        • pi-skillful           │   │
+│   │   • mention-skill ($)  • goal               • btw                   │   │
+│   │   • context-usage      • simplify           • web-access            │   │
+│   │   • fff                • dynamic-workflows  • ponytail              │   │
 │   └──────────────────────────────────┬──────────────────────────────────┘   │
 │                                      │                                      │
 │                                      ▼                                      │
 │   ┌─────────────────────────────────────────────────────────────────────┐   │
-│   │                    2. APLICACIÓN (Casos de Uso)                     │   │
-│   │   • Commands, Queries, Handlers, Interfaces de Puertos (Ports)      │   │
-│   └──────────────────────────────────┬──────────────────────────────────┘   │
-│                                      │                                      │
-│                     ┌────────────────┴────────────────┐                     │
-│                     ▼                                 ▼                     │
-│   ┌──────────────────────────────────┐┌─────────────────────────────────┐   │
-│   │   3. INFRAESTRUCTURA (Adapters)  ││    4. INTERFACES / UI (Drivers) │   │
-│   │   • Repositorios (Postgres/Redis)││    • Controladores REST / GraphQL│  │
-│   │   • SDKs de Terceros / Mensajería││    • CLI / TUI / Event Listeners │  │
-│   └──────────────────────────────────┘└─────────────────────────────────┘   │
+│   │                    2. LAZYPI OPTIONAL (5 pkgs)                      │   │
+│   │   • lsp (diagnósticos) • interactive-shell  • autoresearch          │   │
+│   │   • todos (live task)  • memory (Markdown Git offline)              │   │
+│   └─────────────────────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
----
+### 2.1 Herramientas que Brinda LazyPi
 
-### 3.1 Domain-Driven Design (DDD) & Hexagonal Architecture
-
-#### Estructura de Directorios Recomendada
-
-```
-src/
-└── modules/
-    └── billing/                         # Bounded Context: Facturación
-        ├── domain/                      # 1. Capa de Dominio (Pura)
-        │   ├── entities/Invoice.ts
-        │   ├── value-objects/Money.ts
-        │   └── events/InvoiceIssued.ts
-        ├── application/                 # 2. Capa de Aplicación (Casos de Uso)
-        │   ├── use-cases/CreateInvoice.ts
-        │   └── ports/InvoiceRepository.ts # Interfaz de Puerto
-        ├── infrastructure/              # 3. Adaptadores de Infraestructura
-        │   ├── persistence/PostgresInvoiceRepo.ts
-        │   └── gateways/StripePaymentGateway.ts
-        └── interfaces/                  # 4. Controladores / Endpoints
-            └── http/InvoiceController.ts
-```
-
-#### Cómo Sacarle el Máximo Provecho con LazyPi
-
-1. **Aislamiento de Contexto con `fffind` / `ffgrep` (`fff`):**  
-   Cuando le pedís al agente modificar una regla de negocio, solo necesita inspeccionar `domain/` y `application/`. No requiere cargar controladores ni modelos de base de datos en su contexto.
-2. **Validación de la Regla de Dependencias con `codegraph` (`pi-antigravity`):**  
-   Podés auditar semánticamente que la capa de `domain/` no importe nada de `infrastructure/` ni de librerías externas.
-3. **Verificación de Contratos con `lsp_diagnostics` (`@narumitw/pi-lsp`):**  
-   Al implementar un adaptador (`PostgresInvoiceRepo`), el diagnóstico LSP asegura que cumpla al 100% la interfaz del puerto (`InvoiceRepository`) sin errores de tipos.
-
-#### Ejemplo de Conversación en Lenguaje Natural
-
-> **Usuario:** *"Vamos a implementar el caso de uso `CreateInvoice` en el módulo `billing` siguiendo Clean Architecture. Primero definí la interfaz del puerto y la entidad de dominio con sus invariantes."*  
-> **Pi:** Genera `domain/entities/Invoice.ts` y `application/ports/InvoiceRepository.ts` con tipado estricto, sin frameworks. Luego usa `lsp_diagnostics` para validar que no haya errores de importación.
+| Herramienta | Paquete | Comando / Interacción | Propósito y Valor |
+| :--- | :--- | :--- | :--- |
+| **`subagents`** | `pi-subagents` | `subagent` tool / `/council` | Ejecuta subagentes aislados en paralelo sobre *git worktrees* independientes. |
+| **`pi-ask-user`** | `pi-ask-user` | `ask_user` tool | Despliega menús interactivos modales antes de decisiones críticas de diseño. |
+| **`pi-skillful`** | `pi-skillful` | `/skill:<nombre>` | Descubre, oculta e invoca skills modulares por encima del root de git. |
+| **`mention-skill`**| `@zigai/pi-mention-skill` | `$nombre-skill` | Autocompletado difuso con `$` para inyectar cualquier skill en el prompt. |
+| **`goal`** | `@narumitw/pi-goal` | `/goal` | Seguimiento y control de objetivos de largo plazo con compuertas de parada. |
+| **`btw`** | `@narumitw/pi-btw` | `/btw <pregunta>` | Consultas rápidas al margen sin contaminar el historial de chat principal. |
+| **`context-usage`**| `pi-context-usage` | Barra de estado | Visualizador del consumo de tokens y presupuesto de contexto en tiempo real. |
+| **`simplify`** | `pi-simplify` | `/simplify` | Pule y simplifica código reciente eliminando dead code y sobreingeniería. |
+| **`web-access`** | `pi-web-access` | `web_search`, `source_check`| Búsqueda web multi-proveedor (Brave, Exa, Perplexity) y extracción de fuentes. |
+| **`fff`** | `@ff-labs/pi-fff` | `fffind`, `ffgrep` | Búsqueda difusa ultrarrápida de archivos y símbolos (*Fast Fuzzy Finder*). |
+| **`dynamic-workflows`**| `@quintinshaw/pi-dynamic-workflows`| `/workflows` | Panel interactivo TUI para orquestar subagentes y calcular costos de tokens. |
+| **`ponytail`** | `@dietrichgebert/ponytail` | `/ponytail review` | Guardián de disciplina de código minimalista y librerías estándar (*stdlib-first*). |
+| **`lsp`** | `@narumitw/pi-lsp` | `lsp_diagnostics`, `lsp_fix` | Diagnóstico de errores de sintaxis, tipos y linting en vivo con Language Servers. |
+| **`interactive-shell`**| `pi-interactive-shell`| `interactive_shell` | Ejecución supervisada o desatendida (*hands-free*) de TUIs y CLIs en background. |
+| **`autoresearch`** | `pi-autoresearch` | `autoresearch-create` | Bucles autónomos de experimentación y optimización métrica con hooks. |
+| **`todos`** | `pi-manage-todo-list`| `manage_todo_list` | Widget interactivo de checklist de tareas persistente en la sesión. |
+| **`memory`** | `pi-memory-md` | `memory_search`, `tape_handoff`| Memoria semántica y episódica offline persistente en Markdown versionada en Git. |
 
 ---
 
-### 3.2 Test-Driven Development (TDD Estricto & BDD)
+## 3. Esquema de Ayuda al Desarrollo y Minimización de Tokens
 
-El ciclo **TDD** con LazyPi garantiza que cada línea de código tenga cobertura y justificación técnica antes de escribirse.
-
-```
-┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐
-│     1. RED      │ ───►  │    2. GREEN     │ ───►  │  3. REFACTOR    │
-│  Escribir test  │       │ Implementación  │       │ /ponytail audit │
-│  que falle      │       │ mínima que pase │       │ /simplify       │
-└─────────────────┘       └─────────────────┘       └─────────────────┘
-```
-
-#### Cómo Ejecutar TDD con LazyPi
-
-1. **Fase RED:** El agente crea el archivo de prueba unitaria en `tests/` y ejecuta el test con `bash` (`npm test`, `pytest`, `cargo test`), confirmando que falle por el motivo correcto.
-2. **Fase GREEN:** Escribe el código de producción mínimo indispensable para pasar la prueba.
-3. **Fase TRIANGULATE:** Agrega casos de borde (valores nulos, límites numéricos, cadenas vacías).
-4. **Fase REFACTOR:**  
-   - Ejecuta `/ponytail review` para asegurar que no se hayan introducido dependencias innecesarias.
-   - Ejecuta `/simplify` para eliminar redundancias y pulir el código.
-
----
-
-### 3.3 Event-Driven Architecture (EDA) & CQRS
-
-Para arquitecturas reactivas desacopladas mediante eventos de dominio:
-
-1. **Separación Command/Query:** Los comandos mutan el estado y emiten un evento (`InvoicePaidEvent`); las queries leen proyecciones optimizadas.
-2. **Testing Asíncrono Aislado:** Se utilizan subagentes (`pi-subagents`) para simular productores y consumidores de eventos en paralelo.
-
----
-
-## 4. Análisis de Eficiencia de Tokens & Context Engineering
-
-Trabajar con Inteligencia Artificial sin arquitectura produce lo que en ingeniería llamamos **"Monolithic Prompting"** y saturación del contexto:
+El mayor problema al programar con IA es el **Monolithic Prompting** (volcar todo el proyecto al contexto), lo que genera lentitud, alucinaciones y costos excesivos. LazyPi implementa técnicas avanzadas de **Context Engineering**:
 
 ```
-❌ ENFOQUE MONOLÍTICO TRADICIONAL (Sin Arquitectura)
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│ Prompt: "Cambiá la forma en que se cobran las facturas"                     │
-│ • El agente debe leer 40 archivos de controladores, modelos, DB y vistas.   │
-│ • Consumo por turno: ~65.000 tokens de contexto.                            │
-│ • Resultado: Alucinaciones, pérdida de atención, lentitud y alto costo.     │
-└─────────────────────────────────────────────────────────────────────────────┘
-
-✅ ENFOQUE LAZYPI + DDD + COMPOUND ENGINEERING (Arquitectura Modular)
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ Prompt: "$ce-work Implementar regla de descuento en Invoice.ts"             │
-│ • El agente lee únicamente Invoice.ts y CreateInvoice.ts.                   │
-│ • Consumo por turno: ~2.500 tokens de contexto.                             │
-│ • Resultado: Precisión quirúrgica, respuesta instantánea y costo mínimo.    │
+│                 CÓMO LAZYPI MINIMIZA EL CONSUMO DE TOKENS                   │
+│                                                                             │
+│   1. BÚSQUEDA QUIRÚRGICA (fff + codegraph)                                  │
+│      En lugar de volcar 30 archivos, lee solo las 20 líneas relevantes.     │
+│      Ahorro: de 50.000 tokens a 1.200 tokens por consulta.                  │
+│                                                                             │
+│   2. SUBAGENTES CON CONTEXTO EFÍMERO (pi-subagents + ce-worktree)           │
+│      Las tareas pesadas (tests largos, reviews) corren en subprocesos       │
+│      hijos y devuelven solo un resumen de 300 tokens al chat principal.     │
+│                                                                             │
+│   3. CONSULTAS AISLADAS (/btw)                                              │
+│      Preguntas de sintaxis no se guardan en el historial de la sesión.      │
+│                                                                             │
+│   4. PODA DE CÓDIGO MUERTO (/simplify + /ponytail)                          │
+│      Reduce el tamaño físico de los archivos, abaratando turnos futuros.    │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
----
+### 3.1 Matriz de Ahorro y Rendimiento
 
-### 4.1 Mecanismos Clave de LazyPi para Reducir el Consumo de Tokens
-
-1. **Aislamiento por Bounded Contexts (DDD):**  
-   Al mantener límites modulares claros, el agente solo necesita interactuar con el módulo específico en el que está trabajando, reduciendo en un **80-90%** los archivos que ingresan al contexto.
-2. **Búsqueda Quirúrgica con `fff` (`@ff-labs/pi-fff`) y `codegraph`:**  
-   En lugar de hacer lecturas masivas de carpetas enteras, `fffind` y `ffgrep` localizan las líneas exactas en milisegundos, inyectando solo el fragmento necesario.
-3. **Protección del Contexto Padre con Subagentes (`pi-subagents` / `ce-worktree`):**  
-   Cuando se lanza una auditoría o un test largo, el trabajo ocurre en el contexto efímero del subagente. Al finalizar, el subagente devuelve un resumen conciso de 300 tokens al hilo principal, evitando que miles de líneas de logs de prueba inflen tu sesión.
-4. **Consultas Rápidas Fuera de Historial con `/btw`:**  
-   Preguntas de sintaxis o conceptos no se guardan en la conversación principal, manteniendo el historial ligero para las tareas de código reales.
-5. **Poda Activa de Código Muerto con `/simplify` y `/ponytail`:**  
-   Al mantener el código conciso y libre de sobreingeniería, los archivos del proyecto son naturalmente más cortos, reduciendo el costo de tokens en todas las sesiones futuras.
-
----
-
-### 4.2 Matriz de Ahorro y Rendimiento
-
-| Métrica | Sin Metodología (Ad-hoc) | Con LazyPi + DDD + CE | Impacto |
+| Métrica | Sin LazyPi (Enfoque Ad-hoc) | Con LazyPi + Context Engineering | Beneficio |
 | :--- | :---: | :---: | :---: |
-| **Tokens promedio por turno** | 45.000 - 80.000 tokens | 2.000 - 6.000 tokens | **-85% consumo** 📉 |
-| **Velocidad de respuesta (TTFT)** | 8 - 15 segundos | 1 - 3 segundos | **4x más rápido** ⚡ |
-| **Precisión en primer intento** | ~55% (requiere reintentos) | >92% (validado con specs) | **Cero re-trabajo** 🎯 |
-| **Contaminación de historial** | Alta (logs de tests en chat) | Nula (aislado en subagentes) | **Sesiones limpias** 🧹 |
+| **Tokens consumidos por turno** | 40.000 - 75.000 tokens | 1.500 - 4.500 tokens | **-85% consumo** 📉 |
+| **Tiempo de respuesta (TTFT)** | 8 - 15 segundos | 1 - 3 segundos | **4x más rápido** ⚡ |
+| **Tasa de éxito en 1er intento**| ~50% (requiere reintentos) | >90% (precisión contextual) | **Cero re-trabajo** 🎯 |
+| **Contaminación del chat** | Alta (cientos de líneas de logs)| Nula (resúmenes estructurados) | **Contexto limpio** 🧹 |
 
 ---
 
-## 5. Implementación de SDD (Spec-Driven Development) con LazyPi
+## 4. Guías de Implementación: Patrones de Inteligencia Artificial
 
-**Spec-Driven Development (SDD / OpenSpec)** formaliza los requerimientos antes de tocar código mediante la carpeta `openspec/changes/<nombre-del-cambio>/`:
+---
+
+### 4.1 Spec-Driven Development (SDD / OpenSpec)
+
+**Principio:** Las especificaciones formales y el diseño de arquitectura deben existir en disco antes de escribir código de producción.
 
 ```
 openspec/
-├── config.yaml          # Metadatos del stack, comandos de test y convenciones
-└── changes/             # Carpeta de cambios activos o archivados
-    └── sistema-auth-jwt/
-        ├── proposal.md  # 1. Motivación, alcance, criterios de éxito y non-goals
-        ├── specs/       # 2. Especificaciones formales y contratos de interfaces
-        ├── design.md    # 3. Decisiones de arquitectura, trade-offs y diagramas
-        └── tasks.md     # 4. Checklist secuencial de tareas atómicas verificables
+└── changes/
+    └── sistema-pagos-stripe/
+        ├── proposal.md   # Problema, motivación, límites y non-goals
+        ├── specs/        # Contratos de datos e interfaces
+        ├── design.md     # Decisiones de arquitectura, diagramas y trade-offs
+        └── tasks.md      # Checklist atómico de tareas verificables
 ```
 
-### 5.1 Mapeo de Herramientas LazyPi a cada Fase de SDD
-
-```
-┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
-│   1. PROPOSAL    │ ──► │ 2. SPECS/DESIGN  │ ──► │  3. DOC REVIEW   │
-│  pi-ask-user     │     │  ce-plan         │     │  ce-doc-review   │
-│  ce-brainstorm   │     │  codegraph       │     │  subagents (x3)  │
-└──────────────────┘     └──────────────────┘     └──────────────────┘
-                                                            │
-┌──────────────────┐     ┌──────────────────┐               ▼
-│  6. CAPITALIZAR  │ ◄── │  5. CODE REVIEW  │ ◄── ┌──────────────────┐
-│  pi-memory-md    │     │  ponytail/simpl. │     │ 4. TASKS / WORK  │
-│  ce-compound     │     │  ce-code-review  │     │  ce-worktree     │
-└──────────────────┘     └──────────────────┘     │  lsp_diagnostics │
-                                                  │  todos widget    │
-                                                  └──────────────────┘
-```
+#### Flujo en Lenguaje Natural con LazyPi:
+1. **Propuesta:** *"Iniciá un cambio SDD para `sistema-pagos-stripe`. Redactá `proposal.md` acordando el alcance con `pi-ask-user`."*
+2. **Diseño:** *"Generá las especificaciones en `specs/` y el documento de arquitectura `design.md` con un diagrama Mermaid."*
+3. **Auditoría:** *"Auditá el diseño con subagentes antes de programar (`$ce-doc-review`)."*
+4. **Tareas:** *"Creá `tasks.md`, abrí un worktree (`$ce-worktree`) y ejecutá tarea por tarea con tests."*
 
 ---
 
-## 6. Sistema de Skills: Descubrimiento, Invocación y Creación
+### 4.2 Compound Engineering (CE)
 
-Las **Skills** son unidades modulares de conocimiento procedimental empaquetadas en archivos Markdown estructurados (`SKILL.md`). Permiten que el agente ejecute protocolos complejos y repetitivos sin necesidad de extensiones pesadas en TypeScript.
+**Principio:** El código es un pasivo; el conocimiento acumulado es el activo. Estructura el trabajo en 7 etapas donde cada paso valida al anterior:
+
+```
+1. Brainstorm ($ce-brainstorm) ──► 2. Tech Plan ($ce-plan) ──► 3. Doc Review ($ce-doc-review)
+                                                                           │
+6. Capitalizar ($ce-compound) ◄── 5. Commit & PR ($ce-commit-push-pr) ◄── 4. Ejecución ($ce-work)
+```
+
+#### Ejemplo de Interacción en Lenguaje Natural:
+* *"Hagamos un brainstorm sobre cómo agregar soporte para múltiples temas en la TUI"* $\rightarrow$ activa `ce-brainstorm`.
+* *"Armá el plan técnico de arquitectura"* $\rightarrow$ activa `ce-plan`.
+* *"Hacé un code review exhaustivo antes de commitear"* $\rightarrow$ activa `ce-code-review`.
+* *"Guardá esta solución en docs/solutions/"* $\rightarrow$ activa `ce-compound`.
+
+---
+
+## 5. Guías de Implementación: Patrones de Arquitectura de Software
+
+---
+
+### 5.1 Domain-Driven Design (DDD) & Clean / Hexagonal Architecture
+
+**Principio:** Aislar la lógica de negocio pura de frameworks, bases de datos y controladores HTTP.
+
+```
+src/modules/billing/
+├── domain/                      # 1. DOMINIO PURO (Entidades, Value Objects, Eventos)
+│   ├── entities/Invoice.ts
+│   └── value-objects/Money.ts
+├── application/                 # 2. APLICACIÓN (Casos de Uso y Puertos/Interfaces)
+│   ├── use-cases/CreateInvoice.ts
+│   └── ports/InvoiceRepository.ts # Interfaz de Puerto
+├── infrastructure/              # 3. INFRAESTRUCTURA (Adaptadores de DB, APIs externas)
+│   ├── persistence/PostgresInvoiceRepo.ts
+│   └── gateways/StripeGateway.ts
+└── interfaces/                  # 4. ENTRADA / UI (Controladores REST, CLI)
+    └── http/InvoiceController.ts
+```
+
+#### Cómo Sacarle Provecho con LazyPi:
+* **Aislamiento de Tokens:** Al pedir cambios de dominio, Pi solo lee `domain/` y `application/` (~2.000 tokens en vez de 45.000).
+* **Validación de Regla de Dependencia:** `codegraph` (`pi-antigravity`) verifica que `domain/` nunca importe de `infrastructure/`.
+* **Contratos Estrictos:** `lsp_diagnostics` valida que los adaptadores cumplan 100% las interfaces de los puertos.
+
+---
+
+### 5.2 Test-Driven Development (TDD Estricto)
+
+**Principio:** No escribir una sola línea de código de producción sin una prueba automatizada fallida previa.
+
+```
+┌──────────────────┐       ┌──────────────────┐       ┌──────────────────┐
+│      1. RED      │ ───►  │     2. GREEN     │ ───►  │   3. REFACTOR    │
+│  Crear test que  │       │ Implementación   │       │ /ponytail audit  │
+│  falle en bash   │       │ mínima que pase  │       │ /simplify        │
+└──────────────────┘       └──────────────────┘       └──────────────────┘
+```
+
+#### Flujo de Ejecución con LazyPi:
+1. **RED:** Pi escribe el archivo de test en `tests/` y ejecuta el comando de pruebas en `bash` (`npm test`, `pytest`, `cargo test`), confirmando que falle en rojo.
+2. **GREEN:** Implementa el código mínimo indispensable para que la prueba pase a verde.
+3. **TRIANGULATE:** Añade pruebas para casos límite (cadenas vacías, nulos, desbordes).
+4. **REFACTOR:** Ejecuta `/ponytail review` (asegura librerías estándar) y `/simplify` (pule dead code).
+
+---
+
+## 6. Sistema de Skills: Cómo Funcionan y Cómo Crearlas
+
+Las **Skills** son unidades modulares de conocimiento procedimental empaquetadas en archivos Markdown estructurados (`SKILL.md`). Permiten que el agente ejecute protocolos complejos con rigor sin necesidad de escribir extensiones en TypeScript.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                             ANATOMÍA DE UNA SKILL                           │
 │                                                                             │
 │   SKILL.md                                                                  │
-│   ├── Frontmatter YAML (Metadatos: name, description, triggers)             │
-│   ├── Contexto y Restricciones (Límites claros del alcance)                 │
-│   ├── Protocolo de Ejecución Paso a Paso (Instrucciones LLM-First)          │
-│   └── Criterios de Aceptación y Verificación (Checklist de éxito)          │
+│   ├── Frontmatter YAML (name, description con triggers)                     │
+│   ├── Contexto e Invariantes (Reglas estrictas y límites)                   │
+│   ├── Protocolo Paso a Paso (Instrucciones operativas para el LLM)          │
+│   └── Criterios de Aceptación (Checklist de verificación verificable)       │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 6.1 Invocación con `$` y `/skill`
+### 6.1 Invocación de Skills en LazyPi
+* **Mención Difusa con `$` (`@zigai/pi-mention-skill`):** Escribí `$` en tu prompt para autocompletar cualquier skill (ej: `$ce-plan`, `$ce-code-review`).
+* **Expansión Directa (`pi-skillful`):** Escribí `/skill:<nombre>` para invocar la skill directamente.
 
-1. **Mención Difusa con `$` (`@zigai/pi-mention-skill`):** Escribí `$` en tu prompt para autocompletar cualquier skill (ej: `$ce-plan`, `$ce-code-review`).
-2. **Expansión Directa (`pi-skillful`):** `/skill:<nombre>` para invocar la skill directamente.
+---
 
-### 6.2 Plantilla para Crear Nuevas Skills en `.pi/skills/`
+### 6.2 Ejemplos Prácticos de Creación de Skills
+
+#### Ejemplo A: Skill Basada en Patrones de Git (Conventional Commits & Staging Limpio)
+
+Guardada en `.pi/skills/git-clean-commit/SKILL.md`:
 
 ```markdown
 ---
-name: nombre-de-la-skill
-description: "Trigger: palabra1, palabra2, disparador. Explicación concisa del protocolo."
+name: git-clean-commit
+description: "Trigger: commit, guardar cambios, crear commit, git commit. Inspecciona el staging y redacta commits atómicos con Conventional Commits."
 ---
 
-# Título de la Skill
+# Git Clean Commit Protocol
 
-Descripción del objetivo de ingeniería que resuelve esta skill.
+Esta skill garantiza que los commits sean atómicos, explicativos y sigan Conventional Commits.
 
 ## Contexto y Restricciones
-- **Invariante 1:** Regla estricta que no se puede violar.
-- **Invariante 2:** Tecnologías o librerías obligatorias.
+- Nunca hacer `git add .` ni `git add -A` a ciegas.
+- Verificar que no existan archivos de credenciales (`.env`, certificados).
+- Formato obligatorio: `tipo(ámbito): descripción imperativa en minúsculas`.
 
-## Protocolo de Ejecución Paso a Paso
-1. **Fase 1: Inspección y Diagnóstico:** Leer archivos con `read` o buscar con `fffind` / `ffgrep`.
-2. **Fase 2: Aplicación del Cambio:** Implementar paso a paso.
-3. **Fase 3: Verificación:** Ejecutar suite de tests y validar con `lsp_diagnostics`.
+## Protocolo Paso a Paso
+1. **Inspección:** Ejecutar `git status` y `git diff` para clasificar cambios lógicos.
+2. **Staging Selectivo:** Agregar archivos específicos con `git add <archivo1> <archivo2>`.
+3. **Redacción:** Redactar mensaje con `feat`, `fix`, `refactor`, `docs`, `style` o `chore`.
+4. **Confirmación:** Ejecutar `git commit` y verificar con `git status`.
 
 ## Criterios de Aceptación
-- [ ] Tests unitarios e integración pasan al 100%.
-- [ ] Sin errores de tipos reportados por LSP.
+- [ ] Staging realizado archivo por archivo.
+- [ ] Mensaje de commit en modo imperativo y bajo 72 caracteres en la primera línea.
 ```
 
 ---
 
-## 7. Comandos Slash (`/`) y Menciones (`$`) de LazyPi
+#### Ejemplo B: Skill Basada en TDD Estricto (Test-Driven Enforcer)
 
-| Comando / Mención | Contexto | Descripción |
-| :--- | :--- | :--- |
-| **`/plan <desc>`** | Pi Session | Inicia el modo de planificación socrática en memoria. |
-| **`/simplify`** | Pi Session | Simplifica y limpia el código modificado recientemente. |
-| **`/ponytail review`** | Pi Session | Audita código buscando patrones de sobreingeniería y complejidad. |
-| **`/ponytail audit`** | Pi Session | Inspección profunda de deuda técnica y dependencias. |
-| **`/btw <pregunta>`** | Pi Session | Consulta rápida sin contaminar el contexto principal. |
-| **`/goal <meta>`** | Pi Session | Fija un objetivo de largo plazo con control de estados. |
-| **`/workflows`** | Pi Session | Abre el panel TUI interactivo para orquestar flujos de subagentes. |
-| **`/fff-health`** | Pi Session | Verifica la salud y velocidad del índice de búsqueda rápida. |
-| **`$skill-name`** | Pi Session | Mención difusa para autocompletar e inyectar cualquier skill en el prompt. |
+Guardada en `.pi/skills/tdd-enforcer/SKILL.md`:
+
+```markdown
+---
+name: tdd-enforcer
+description: "Trigger: tdd, test first, crear feature con tdd, programar con pruebas. Aplica el ciclo estricto Red-Green-Refactor."
+---
+
+# Strict TDD Enforcer Protocol
+
+Protocolo obligatorio para desarrollo guiado por pruebas.
+
+## Invariantes
+- Prohibido crear código de producción sin un test fallido previo.
+- Cada prueba debe verificar un único comportamiento.
+
+## Protocolo Paso a Paso
+1. **Fase RED:** Escribir el test en `tests/` y correr la suite con `bash`. Demostrar el fallo.
+2. **Fase GREEN:** Escribir la implementación mínima en `src/` hasta que el test pase.
+3. **Fase TRIANGULATE:** Agregar pruebas de borde (edge cases).
+4. **Fase REFACTOR:** Ejecutar `/simplify` para pulir la implementación sin romper tests.
+
+## Criterios de Aceptación
+- [ ] Suite de pruebas pasando al 100% en verde.
+- [ ] Coberura completa de casos válidos y de error.
+```
 
 ---
 
-## 8. Gestión del Ecosistema desde `omc`
+#### Ejemplo C: Skill Basada en Principios Clean Code (SOLID, KISS, DRY)
 
-La CLI `omc` administra el ciclo de vida de **Pi y LazyPi** de forma 100% nativa:
+Guardada en `.pi/skills/clean-code-guardian/SKILL.md`:
+
+```markdown
+---
+name: clean-code-guardian
+description: "Trigger: clean code, refactor solid, revisar principios, kiss, dry, solid. Audita código aplicando principios de diseño limpio."
+---
+
+# Clean Code Guardian Protocol
+
+Auditoría y refactorización orientada a la simplicidad y bajo acoplamiento.
+
+## Principios a Auditar
+1. **Single Responsibility (SRP):** Cada clase/módulo debe tener una única razón para cambiar.
+2. **KISS (Keep It Simple, Stupid):** Evitar sobreingeniería, capas abstractas prematuras o genéricos innecesarios.
+3. **DRY (Don't Repeat Yourself):** Extraer lógica de negocio duplicada a funciones puras reutilizables.
+4. **Dependency Inversion (DIP):** Depender de abstracciones (interfaces/puertos), no de implementaciones concretas.
+
+## Protocolo Paso a Paso
+1. **Inspección:** Leer el archivo con `read` o buscar llamadas con `codegraph`.
+2. **Diagnóstico:** Identificar funciones de más de 30 líneas o módulos con múltiples responsabilidades.
+3. **Refactorización Segura:** Aplicar refactors pequeños ejecutando tests y `lsp_diagnostics` tras cada cambio.
+4. **Poda Final:** Correr `/ponytail review` y `/simplify`.
+
+## Criterios de Aceptación
+- [ ] Funciones cortas con nombres descriptivos.
+- [ ] Cero duplicación de lógica de negocio.
+- [ ] Sin advertencias de tipos en `lsp_diagnostics`.
+```
+
+---
+
+## 7. Referencia Rápida de Comandos y Atajos
 
 ```bash
-./omc dev              # Ejecuta el instalador oficial de LazyPi (Core + Optional 17 pkgs)
-./omc dev status       # Muestra el estado y diagnóstico del catálogo LazyPi
-./omc dev update       # Actualiza el binario de Pi y todas las extensiones instaladas
-./omc dev doctor       # Chequeo de salud del entorno (Node, npm, git, auth, settings)
-./omc dev remove       # Selector interactivo para desinstalar extensiones
-./omc update           # Actualización total del sistema (Homebrew + Casks + Pi + LazyPi)
+# ── Gestión de Infraestructura (omc) ──────────────────────────────────────────
+./omc dev                      # Instalar Pi y el catálogo oficial completo de LazyPi
+./omc dev status               # Ver estado del catálogo de 17 extensiones
+./omc dev update               # Actualizar Pi y todas las extensiones instaladas
+./omc dev doctor               # Diagnóstico de salud del entorno de IA
+./omc dev remove               # Selector interactivo para desinstalar extensiones
+./omc update                   # Actualización total (Homebrew + Casks + Pi + LazyPi)
+
+# ── Comandos Slash Nativos en Sesión de Pi ────────────────────────────────────
+/plan <descripción>            # Modo de planificación socrática en memoria
+/simplify                      # Simplificar y limpiar código modificado recientemente
+/ponytail review               # Auditar código buscando sobreingeniería y dependencias
+/ponytail audit                # Inspección profunda de deuda técnica
+/btw <pregunta>                # Consulta rápida sin contaminar el historial de chat
+/goal <meta>                   # Fijar objetivo de largo plazo con control de estados
+/workflows                     # Panel TUI interactivo para orquestar subagentes
+/fff-health                    # Verificar la salud del índice de búsqueda rápida
+
+# ── Invocación de Skills con Mención Difusa ───────────────────────────────────
+$git-clean-commit              # Inyectar protocolo de commit convencional
+$tdd-enforcer                  # Inyectar ciclo estricto Red-Green-Refactor
+$clean-code-guardian           # Inyectar auditoría de principios SOLID/KISS/DRY
+$ce-plan                       # Inyectar planificación técnica de arquitectura
+$ce-code-review                # Inyectar revisión de código multi-agente
 ```
