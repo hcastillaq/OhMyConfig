@@ -1,5 +1,5 @@
 # ==============================================================================
-# CONFIGURACIÓN DE STARSHIP (TEMA TOKYONIGHT HIGH-CONTRAST)
+# CONFIGURACIÓN DE STARSHIP (TEMA TOKYONIGHT HIGH-CONTRAST & FLAT NERD ICONS)
 # ==============================================================================
 
 # --- CONFIGURACIÓN GLOBAL ---
@@ -8,7 +8,7 @@ command_timeout = 2000
 
 # --- ESTRUCTURA DEL PROMPT ---
 format = """
-$kubernetes$directory$git_branch$git_status$mise$nodejs$python$java$cmd_duration
+$kubernetes$docker_context$directory$git_branch$git_status$mise$nodejs$python$rust$golang$java$cmd_duration
 $character
 """
 
@@ -21,33 +21,41 @@ $character
 truncation_length = 3
 truncate_to_repo = true
 format = "[$path]($style) "
-style = "bold fg:#50f5ff" # Cyan Neón Eléctrico (legibilidad absoluta en fondo negro)
-read_only = " 🔒"
+style = "bold fg:#50f5ff" # Cyan Neón Eléctrico
+read_only = " "
 read_only_style = "bold fg:#f7768e"
 
 # --- KUBERNETES ---
 [kubernetes]
 disabled = false
-symbol = "☸️  "
+symbol = "󱃾 "
 format = '[$symbol$context]($style) '
 style = 'bold fg:#7aa2f7' # Azul Tokyonight
 detect_files = []
 detect_extensions = []
 detect_folders = []
 
+# --- DOCKER CONTEXT ---
+[docker_context]
+disabled = false
+symbol = " "
+format = '[$symbol$context]($style) '
+style = 'bold fg:#7aa2f7' # Azul Tokyonight
+only_with_files = true
+
 # --- MISE ---
 [mise]
 disabled = false
-symbol = "📦 "
+symbol = "󰒋 "
 format = '[$symbol$tool@$version]($style) '
-style = 'bold fg:#c099ff' # Púrpura Luminoso
+style = 'bold fg:#bb9af7' # Púrpura Tokyonight
 
 # --- NODEJS ---
 [nodejs]
 symbol = " "
 format = '[$symbol$version]($style) '
 style = 'bold fg:#9ece6a' # Verde Tokyonight
-detect_extensions = ["js", "ts", "tsx"]
+detect_extensions = ["js", "ts", "tsx", "mjs", "cjs"]
 detect_files = ["package.json", ".nvmrc", "bun.lockb", "pnpm-lock.yaml"]
 detect_folders = ["node_modules"]
 
@@ -58,6 +66,22 @@ format = '[$symbol($version )(\((virtualenv) \))]($style) '
 style = "bold fg:#e0af68" # Amarillo Tokyonight
 detect_files = [".venv", "uv.lock", "pyproject.toml", "requirements.txt"]
 detect_extensions = ["py"]
+
+# --- RUST ---
+[rust]
+symbol = " "
+format = '[$symbol$version]($style) '
+style = "bold fg:#ff9e64" # Naranja Tokyonight
+detect_extensions = ["rs"]
+detect_files = ["Cargo.toml"]
+
+# --- GOLANG ---
+[golang]
+symbol = " "
+format = '[$symbol$version]($style) '
+style = "bold fg:#7dcfff" # Cyan Tokyonight
+detect_extensions = ["go"]
+detect_files = ["go.mod", "go.sum", "go.work"]
 
 # --- JAVA ---
 [java]
@@ -73,19 +97,19 @@ detect_extensions = ["java", "class", "jar", "gradle", "pom.xml"]
 [git_branch]
 symbol = " "
 format = '[$symbol$branch]($style) '
-style = 'bold fg:#c099ff' # Púrpura Tokyonight
+style = 'bold fg:#bb9af7' # Púrpura Tokyonight
 
 [git_status]
 format = '([$all_status$ahead_behind]($style) )'
 style = 'bold fg:#ff9e64' # Naranja Tokyonight
-conflicted = "⚡ "
+conflicted = "󰀦 "
 ahead = "⇡${count}"
 behind = "⇣${count}"
 diverged = "⇕⇡${ahead_count}⇣${behind_count}"
 untracked = "?${count} "
 staged = "+${count} "
 modified = "!${count} "
-deleted = "✖ "
+deleted = "✘${count} "
 
 # ==============================================================================
 # UTILIDADES ADICIONALES
@@ -94,7 +118,7 @@ deleted = "✖ "
 # --- TIEMPO DE EJECUCIÓN ---
 [cmd_duration]
 min_time = 2000
-format = '[⏳ $duration]($style) '
+format = '[ $duration]($style) '
 style = 'bold fg:#7a88cf' # Gris azulado luminoso
 
 # ==============================================================================
@@ -103,3 +127,4 @@ style = 'bold fg:#7a88cf' # Gris azulado luminoso
 [character]
 success_symbol = '[❯](bold fg:#50f5ff)' # Cyan Eléctrico
 error_symbol = '[❯](bold fg:#f7768e)'   # Rojo Tokyonight
+vimcmd_symbol = '[❮](bold fg:#9ece6a)'  # Verde Tokyonight (Modo normal Vi)
