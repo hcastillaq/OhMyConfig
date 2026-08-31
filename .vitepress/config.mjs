@@ -11,6 +11,7 @@ export default {
     nav: [
       { text: "Inicio", link: "/" },
       { text: "Instalación", link: "/instalacion" },
+      { text: "AI & Agentes", link: "/ai" },
       { text: "Neovim", link: "/neovim" },
       { text: "Zellij", link: "/zellij" },
       { text: "Git", link: "/git" },
@@ -22,6 +23,7 @@ export default {
         text: "🚀 Primeros Pasos",
         items: [
           { text: "Instalación & Brewfile", link: "/instalacion" },
+          { text: "Ecosistema AI & Agentes", link: "/ai" },
         ],
       },
       {
@@ -34,7 +36,7 @@ export default {
         ],
       },
       {
-        text: "📚 Referencia",
+        text: "📖 Referencia",
         items: [
           { text: "Herramientas CLI / TUI", link: "/herramientas" },
           { text: "Tabla Maestra de Atajos", link: "/cheatsheet" },

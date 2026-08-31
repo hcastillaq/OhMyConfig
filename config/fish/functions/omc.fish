@@ -18,7 +18,14 @@ function omc --description "Guía interactiva de atajos y comandos de OhMyConfig
     echo $c_dim"────────────────────────────────────────────────────────────────────────"$c_res
 
     if test -z "$cat" -o "$cat" = "all"
-        echo $c_use"📌 Filtrar guía: "$c_res"guia [nvim | zj | git | search | cli]"
+        echo $c_use"💡 Filtrar guía: "$c_res"guia [ai | nvim | zj | git | search | cli]"
+        echo ""
+        echo $c_sec"🤖  ECOSISTEMA AI & AGENTES DE CÓDIGO:"$c_res
+        echo "  "$c_key"omc dev"$c_res"             "$c_txt"Instalar stack de IA (pi + gentle-pi + gentle-engram)"$c_res
+        echo "  "$c_key"omc dev status"$c_res"      "$c_txt"Ver versiones instaladas vs latest en npm"$c_res
+        echo "  "$c_key"omc dev update"$c_res"      "$c_txt"Actualizar los tres paquetes de IA a latest"$c_res
+        echo "  "$c_key"pi"$c_res"                  "$c_txt"Iniciar agente de codificación autónomo en terminal"$c_res
+        echo "  "$c_key"pi install <pkg>"$c_res"   "$c_txt"Activar extensiones (gentle-pi / gentle-engram)"$c_res
         echo ""
         echo $c_sec"🛠️  NEOVIM (Editor IDE):"$c_res
         echo "  "$c_key"<Space> + e"$c_res"       "$c_txt"Explorador de archivos (Toggle & reveal)"$c_res
@@ -71,6 +78,14 @@ function omc --description "Guía interactiva de atajos y comandos de OhMyConfig
         echo "  "$c_key"cds"$c_res"               "$c_txt"Limpieza de archivos basura .DS_Store en macOS"$c_res
     else
         switch "$cat"
+            case "ai" "pi" "gentle" "engram"
+                echo $c_sec"🤖  ECOSISTEMA AI & AGENTES DE CÓDIGO:"$c_res
+                echo "  "$c_key"omc dev"$c_res"             "$c_txt"Instalar pi + gentle-pi + gentle-engram (npm -g)"$c_res
+                echo "  "$c_key"omc dev status"$c_res"      "$c_txt"Ver versiones instaladas vs latest disponible en npm"$c_res
+                echo "  "$c_key"omc dev update"$c_res"      "$c_txt"Actualizar los tres paquetes a latest"$c_res
+                echo "  "$c_key"pi"$c_res"                  "$c_txt"Iniciar sesión del coding agent en terminal"$c_res
+                echo "  "$c_key"pi install gentle-pi"$c_res" "$c_txt"Activar skills y harness SDD/OpenSpec en pi"$c_res
+                echo "  "$c_key"pi install gentle-engram"$c_res" "$c_txt"Activar memoria episódica persistente en pi"$c_res
             case "nvim" "v" "vim" "editor"
                 echo $c_sec"🛠️  NEOVIM — ATAJOS ESENCIALES:"$c_res
                 echo "  "$c_key"<Space> + e"$c_res"       "$c_txt"Abrir/cerrar explorador de archivos lateral"$c_res

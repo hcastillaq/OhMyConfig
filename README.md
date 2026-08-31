@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/License-MIT-9ece6a?style=for-the-badge" alt="License">
 </p>
 
-> **Entorno de desarrollo moderno, modular e idempotente para macOS**, estilizado bajo la paleta **Tokyonight Night** con glifos **Nerd Font v3** y utilidades de última generación escritas en **Rust** y **Go**.
+> **Entorno de desarrollo moderno, modular e idempotente para macOS**, estilizado bajo la paleta **Tokyonight Night** con glifos **Nerd Font v3**, utilidades de última generación escritas en **Rust** y **Go**, y agentes autónomos de **IA en terminal**.
 
 ---
 
@@ -17,19 +17,18 @@ Toda la documentación interactiva con buscador `Cmd + K`, navegación lateral y
 
 ---
 
-## 🚀 Instalación Rápida (Idempotente)
+## 🚀 Instalación Rápida (CLI `omc`)
 
 ```bash
 # 1. Clonar repositorio
 git clone https://github.com/hcastillaq/OhMyConfig.git ~/Codigos/OhMyConfig
 cd ~/Codigos/OhMyConfig
 
-# 2. Desplegar en modo Enlaces Simbólicos (Symlinks directos a ~/.config/)
-chmod +x install.sh
-./install.sh -l
+# 2. Desplegar de forma interactiva (o con --all --link)
+./omc install
 ```
 
-* El instalador verifica e instala automáticamente **Homebrew**, ejecuta el **Brewfile** con todas las herramientas y enlaza las configuraciones sin sobreescribir destructivamente tus archivos existentes.
+* **CLI `omc`**: Instalador interactivo TUI (vía Gum) que gestiona Homebrew, paquetes de sistema, symlinks a `~/.config/`, diagnóstico (`./omc doctor`), actualizaciones (`./omc update`) y el ecosistema AI (`./omc dev`).
 
 ---
 
@@ -40,7 +39,8 @@ Cada componente del entorno cuenta con su propia guía detallada dentro de [`doc
 ```
 OhMyConfig/
 ├── 🚀 Primeros Pasos
-│   └── 📦 Instalación & Brewfile ───────► docs/instalacion.md
+│   ├── 📦 Instalación & Brewfile ───────► docs/instalacion.md
+│   └── 🤖 Ecosistema AI & Agentes ──────► docs/ai.md
 │
 ├── 🛠️ Herramientas Centrales
 │   ├── 🛠️ Neovim (Editor IDE) ──────────► docs/neovim.md
@@ -55,7 +55,8 @@ OhMyConfig/
 
 | Sección | Descripción | Guía en Web | Archivo Markdown |
 | :--- | :--- | :---: | :---: |
-| **📦 Instalación** | Copia con respaldo, symlinks y catálogo completo de `Brewfile` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/instalacion) | [`docs/instalacion.md`](./docs/instalacion.md) |
+| **📦 Instalación** | Menú TUI, symlinks, respaldo y catálogo de `Brewfile` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/instalacion) | [`docs/instalacion.md`](./docs/instalacion.md) |
+| **🤖 Ecosistema AI** | Pi coding agent, metodología SDD (`gentle-pi`) y memoria (`gentle-engram`) | [Ver Online](https://hcastillaq.github.io/OhMyConfig/ai) | [`docs/ai.md`](./docs/ai.md) |
 | **🛠️ Neovim** | LazyVim core, LSP, autocompletado, GitLens y Neogen | [Ver Online](https://hcastillaq.github.io/OhMyConfig/neovim) | [`docs/neovim.md`](./docs/neovim.md) |
 | **🪟 Zellij** | Multiplexor con foco Cyan brillante y navegación con `Alt` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/zellij) | [`docs/zellij.md`](./docs/zellij.md) |
 | **🐙 Git & Diffs** | Flujo en consola, Lazygit TUI y diffs con Git-Delta | [Ver Online](https://hcastillaq.github.io/OhMyConfig/git) | [`docs/git.md`](./docs/git.md) |
@@ -67,8 +68,16 @@ OhMyConfig/
 
 ## ⚡ Cheatsheet Rápido de Referencia
 
-### 1. Terminal, Runtimes y Búsqueda
-* **`guia`** (o `omc`): Menú interactivo de atajos en consola (`guia nvim`, `guia zj`, `guia git`, `guia search`, `guia cli`).
+### 1. Ecosistema AI & Agentes de Código
+* **`./omc dev`**: Instala y configura el stack de IA (`pi`, `gentle-pi`, `gentle-engram`).
+* **`./omc dev status`**: Diagnóstico de versiones instaladas vs latest en npm.
+* **`./omc dev update`**: Actualiza todo el stack de IA a su última versión.
+* **`pi`**: Agente de código autónomo interactivo en la terminal.
+* **`pi install gentle-pi`**: Activa el harness de SDD, skills y reviews.
+* **`pi install gentle-engram`**: Activa la memoria episódica persistente entre sesiones.
+
+### 2. Terminal, Runtimes y Búsqueda
+* **`guia`** (o `omc`): Menú interactivo de atajos en consola (`guia nvim`, `guia zj`, `guia git`, `guia search`, `guia cli`, `guia ai`).
 * **`mise use -g <lang>@<ver>`**: Gestor universal de versiones (Node, Python, Go, Rust, Java).
 * **`rg <patron>`**: Búsqueda ultrarrápida de texto en todo el proyecto (Ripgrep).
 * **`fd <nombre>`**: Búsqueda moderna de archivos y carpetas (reemplazo de `find`).
@@ -84,7 +93,7 @@ OhMyConfig/
 * **`xh`** / **`jqp`**: Cliente HTTP para APIs / Playground interactivo JQ.
 * **`tokei`**: Conteo de líneas de código y estadísticas del proyecto.
 
-### 2. Editor Neovim (`<Space>` = Leader)
+### 3. Editor Neovim (`<Space>` = Leader)
 * **`v`** / **`v <archivo>`**: Abrir Neovim con tema Tokyonight.
 * **`<Space> + e`**: Abrir / Ocultar explorador de archivos lateral.
 * **`Ctrl + h/j/k/l`**: Moverse fluidamente entre paneles y divisiones.
@@ -98,7 +107,7 @@ OhMyConfig/
 * **`<Space> + cn`**: Generar docstrings estructurados automáticamente (Neogen).
 * **`<Space> + px`**: Menú interactivo `:LazyExtras` para activar/desactivar lenguajes con `x`.
 
-### 3. Multiplexor Zellij (`zj`)
+### 4. Multiplexor Zellij (`zj`)
 * **`Alt + Flechas`** (o `Alt + hjkl`): Mover foco entre paneles (se ilumina en Cyan).
 * **`Alt + [`** / **`Alt + ]`**: Pestaña anterior / siguiente al instante.
 * **`Alt + 1` .. `Alt + 9`**: Saltar directo a la pestaña número N.
@@ -107,7 +116,7 @@ OhMyConfig/
 * **`Alt + w`**: Alternar paneles flotantes (Floating Panes).
 * **`Ctrl + p`** (Paneles) / **`Ctrl + t`** (Pestañas) / **`Ctrl + s`** (Scroll e historial).
 
-### 4. Git y Control de Versiones
+### 5. Git y Control de Versiones
 * **`gs`** (`git status`), **`gaa`** (`git add .`), **`gc`** (`git commit`), **`gp`** (`git push`).
 * **`gl`** / **`glog`**: Árboles visuales de commits coloreados con Tokyonight.
 * **`glp`**: Historial detallado con diffs interactivos en Git-Delta.
@@ -116,7 +125,7 @@ OhMyConfig/
 
 ---
 
-## 🌐 Publicación Web Automática
+## 🚀 Publicación Web Automática
 
 La documentación completa de este repositorio se compila y publica automáticamente en **GitHub Pages** mediante **VitePress** a través de GitHub Actions:
 

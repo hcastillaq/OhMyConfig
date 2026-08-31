@@ -103,3 +103,17 @@ Referencia rápida de todos los alias, herramientas y atajos disponibles en **Oh
 | **`]c`** / **`[c`** | Normal | Siguiente / Anterior cambio de Git (GitLens) |
 | **`<Space> + gp`** | Normal | Vista previa flotante del Diff de Git |
 | **`<Space> + gb`** / **`gB`** | Normal | Git Blame en ventana / alternar en línea |
+
+---
+
+## 5. Ecosistema AI & Agentes de Código
+
+| Comando | Contexto | Descripción |
+| :--- | :--- | :--- |
+| **`./omc dev`** | Terminal | Instalar el stack de IA (`pi`, `gentle-pi`, `gentle-engram`) |
+| **`./omc dev status`**| Terminal | Ver versiones instaladas vs última disponible en npm |
+| **`./omc dev update`**| Terminal | Actualizar todo el ecosistema de IA a la última versión |
+| **`pi`** | Terminal | Iniciar sesión interactiva del agente de codificación |
+| **`pi install gentle-pi`** | Pi CLI | Activar el harness de desarrollo controlado y skills |
+| **`pi install gentle-engram`** | Pi CLI | Activar la memoria episódica persistente entre sesiones |
+| **`./omc update`** | Terminal | Actualización completa (Homebrew + Casks + AI/Pi) |
