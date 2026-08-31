@@ -118,27 +118,17 @@ Actualiza Homebrew, todas las fórmulas/casks instalados y el agente `pi` (npm g
 
 ---
 
-### `omc dev` — Gestión del Agente Pi
+### `omc dev` — Gestión del Agente Pi & Suite LazyPi
 
-Instala y actualiza el agente base **`pi`**. Las extensiones recomendadas se instalan directamente con `pi install <ext>`. Para la explicación detallada de cada extensión, consultá la [Guía de AI & Agentes](./ai.md).
+Instala el agente base **`pi`** y el catálogo oficial completo de **LazyPi** ([lazypi.org](https://lazypi.org)) con 17 extensiones curadas para desarrollo autónomo, subagentes, diagnósticos LSP y memoria offline.
 
 ```bash
-./omc dev              # Instala pi (equivale a omc dev install)
-./omc dev install      # Instala el binario global de pi
-./omc dev status       # Muestra versión de pi y estado de extensiones recomendadas
-./omc dev update       # Actualiza pi a su última versión en npm
+./omc dev              # Instala pi y todo el catálogo de LazyPi (Core + Optional)
+./omc dev status       # Diagnóstico de salud y estado de las 17 extensiones
+./omc dev update       # Actualiza el binario de pi y todas las extensiones
+./omc dev doctor       # Chequeo de salud del entorno (Node, git, auth, settings)
+./omc dev remove       # Selector interactivo para desinstalar extensiones
 ```
-
-Extensiones recomendadas para potenciar `pi`:
-
-| Extensión | Comando en Pi | Rol Principal |
-| :--- | :--- | :--- |
-| **`gentle-pi`** | `pi install gentle-pi` | Harness de desarrollo controlado (SDD/OpenSpec), skills y reviews |
-| **`gentle-engram`** | `pi install gentle-engram` | Memoria persistente episódica y semántica en SQLite local |
-| **`pi-subagents`** | `pi install pi-subagents` | Orquestación de subagentes en paralelo y modo consejo (`/council`) |
-| **`pi-antigravity`** | `pi install pi-antigravity` | DeepMind Antigravity, CodeGraph y revisión formal de integridad |
-| **`pi-web-access`** | `pi install pi-web-access` | Búsqueda web multi-proveedor, scraping y chequeo de fuentes |
-| **`@narumitw/pi-plan-mode`**| `pi install @narumitw/pi-plan-mode` | Modo de planificación interactiva guiada (`/plan`) |
 
 ---
 
@@ -211,13 +201,7 @@ modules=core terminal editor search cli devops ai
    mise use -g go@latest
    ```
 3. **Abrir Ghostty** para disfrutar del renderizado GPU y el tema Tokyonight completo.
-4. **Instalar pi y las extensiones recomendadas:**
+4. **Instalar pi y la suite oficial LazyPi (Core + Optional):**
    ```bash
    ./omc dev
-   pi install gentle-pi
-   pi install gentle-engram
-   pi install pi-subagents
-   pi install pi-antigravity
-   pi install pi-web-access
-   pi install @narumitw/pi-plan-mode
    ```

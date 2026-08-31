@@ -107,18 +107,21 @@ Referencia rápida de todos los alias, herramientas y atajos disponibles en **Oh
 
 ---
 
-## 5. Ecosistema AI & Agentes de Código
+## 5. Ecosistema AI & LazyPi
 
-| Comando | Contexto | Descripción |
+| Comando / Atajo | Contexto | Descripción |
 | :--- | :--- | :--- |
-| **`./omc dev`** | Terminal | Instalar el agente base `pi` (`@earendil-works/pi-coding-agent`) |
-| **`./omc dev status`**| Terminal | Ver versión de `pi` y estado de las extensiones recomendadas |
-| **`./omc dev update`**| Terminal | Actualizar `pi` a la última versión disponible en npm |
+| **`./omc dev`** | Terminal | Instalar Pi y el catálogo oficial completo de LazyPi |
+| **`./omc dev status`** | Terminal | Ver versión de `pi` y estado del catálogo de 17 extensiones |
+| **`./omc dev update`** | Terminal | Actualizar binario de `pi` y todas las extensiones instaladas |
+| **`./omc dev doctor`** | Terminal | Diagnóstico de salud del entorno de IA |
+| **`./omc dev remove`** | Terminal | Selector interactivo para desinstalar extensiones |
 | **`pi`** | Terminal | Iniciar sesión interactiva del agente de codificación |
-| **`pi install gentle-pi`** | Pi CLI | Activar el harness de desarrollo controlado (SDD), skills y reviews |
-| **`pi install gentle-engram`** | Pi CLI | Activar la memoria persistente episódica y semántica (SQLite) |
-| **`pi install pi-subagents`** | Pi CLI | Activar orquestación de subagentes en paralelo y modo `/council` |
-| **`pi install pi-antigravity`** | Pi CLI | Activar DeepMind Antigravity, CodeGraph y revisión formal |
-| **`pi install pi-web-access`** | Pi CLI | Activar búsqueda web multi-proveedor y extracción de fuentes |
-| **`pi install @narumitw/pi-plan-mode`** | Pi CLI | Activar modo de planificación paso a paso (`/plan`) |
-| **`./omc update`** | Terminal | Actualización completa (Homebrew + Casks + pi) |
+| **`/plan <desc>`** | Pi Session | Iniciar modo de planificación socrática en memoria |
+| **`/simplify`** | Pi Session | Simplificar y limpiar código modificado recientemente |
+| **`/ponytail review`** | Pi Session | Auditar código buscando sobreingeniería y dependencias |
+| **`/btw <pregunta>`** | Pi Session | Consulta rápida sin contaminar el historial de conversación |
+| **`/goal <meta>`** | Pi Session | Fijar un objetivo de largo plazo con control de estados |
+| **`/workflows`** | Pi Session | Panel TUI interactivo para orquestar flujos de subagentes |
+| **`$skill-name`** | Pi Session | Mención difusa para autocompletar e inyectar skills |
+| **`./omc update`** | Terminal | Actualización completa (Homebrew + Casks + Pi + LazyPi) |

@@ -18,8 +18,8 @@ hero:
 
 features:
   - icon: 🤖
-    title: Ecosistema AI & Agentes de Código
-    details: Agente Pi ultra rápido integrado en terminal con metodología SDD (gentle-pi) y memoria persistente SQLite entre sesiones (gentle-engram).
+    title: Ecosistema AI & LazyPi
+    details: Agente Pi ultra rápido en terminal con Compound Engineering (CE), subagentes en paralelo, planificación guiada y memoria Markdown offline.
   - icon: 🛠️
     title: Neovim como IDE Principal
     details: Motor LazyVim modular en Lua con LSP, autocompletado ultra veloz (Blink.cmp), GitLens, Treesitter y generación de docstrings.
@@ -31,5 +31,5 @@ features:
     details: Ghostty con desenfoque de GPU, Fish Shell interactivo, prompt reactivo Starship e historial SQLite con Atuin.
   - icon: 📦
     title: Despliegue Seguro & CLI omc
-    details: Instalador interactivo en Fish puro con TUI Gum, diagnóstico en tiempo real (doctor), symlinks y actualización centralizada.
+    details: Instalador interactivo en Bash puro con TUI Gum, diagnóstico en tiempo real (doctor), symlinks y actualización centralizada.
 ---

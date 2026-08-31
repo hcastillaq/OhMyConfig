@@ -126,16 +126,13 @@ OhMyConfig/
   - `keymaps.lua` & `options.lua`: Seamless `Ctrl + hjkl` window navigation, persistent undo, hybrid line numbers, system clipboard integration.
   - `lazyvim.json`: Dynamic module toggling via `:LazyExtras` (`<leader>px`).
 
-### 3.6 AI Ecosystem & Coding Agents (`cli/commands/dev.fish` & `docs/ai.md`)
+### 3.6 AI Ecosystem & Coding Agents (`cli/commands/dev.sh` & `docs/ai.md`)
 - **Pi Coding Agent (`pi`)**: High-performance autonomous terminal agent for code exploration, editing, testing, and execution (`@earendil-works/pi-coding-agent`).
-- **Modular Extension Model**: `omc dev` manages the base CLI installation (`pi`), and users install specialized extensions inside Pi (`pi install <pkg>`):
-  - `gentle-pi`: Spec-Driven Development (SDD/OpenSpec), skills and code reviews.
-  - `gentle-engram`: Persistent episodic & semantic memory backed by local SQLite.
-  - `pi-subagents`: Concurrency, subagent delegation, and `/council` advisor mode.
-  - `pi-antigravity`: DeepMind Antigravity integration, CodeGraph semántico, and formal review.
-  - `pi-web-access`: Multi-provider web search and content fetching.
-  - `@narumitw/pi-plan-mode`: Step-by-step interactive planning mode (`/plan`).
-- **Lifecycle Commands**: Managed via `omc dev` (`install`, `status`, `update`) and globally via `omc update`.
+- **Official LazyPi Suite (`@tommy-ca/lazypi`)**: `omc dev` manages the base CLI and the complete 17-tool catalog (Core + Optional):
+  - **Core**: `subagents`, `pi-ask-user`, `pi-skillful`, `mention-skill` (`$`), `goal`, `btw`, `context-usage`, `simplify`, `web-access`, `fff`, `dynamic-workflows`, `ponytail`.
+  - **Optional**: `lsp` (real-time diagnostics), `interactive-shell` (TUI overlays), `autoresearch`, `todos`, `memory` (`pi-memory-md` Git-backed offline).
+  - **Compound Engineering Suite (`ce-*`)**: Complete engineering lifecycle skills (`ce-brainstorm`, `ce-plan`, `ce-doc-review`, `ce-work`, `ce-code-review`, `ce-commit-push-pr`, `ce-compound`).
+- **Lifecycle Commands**: Managed via `omc dev` (`install`, `status`, `update`, `doctor`, `remove`) and globally via `omc update`.
 
 ---
 

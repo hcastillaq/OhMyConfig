@@ -15,7 +15,7 @@ Esta skill define el protocolo para mantener la documentación de **OhMyConfig**
 docs/                        # Fuentes puras en Markdown
 ├── index.md                 # Landing page con hero y feature cards
 ├── instalacion.md           # Guía de la CLI omc y Brewfile
-├── ai.md                    # Ecosistema de IA (pi, gentle, engram, plan)
+├── ai.md                    # Ecosistema de IA (pi, lazypi, compound engineering, plan)
 ├── neovim.md                # Guía del editor Neovim y LazyVim
 ├── zellij.md                # Multiplexor Zellij y modo Move
 ├── git.md                   # Flujo de Git, Lazygit y Delta

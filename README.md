@@ -68,17 +68,18 @@ OhMyConfig/
 
 ## ⚡ Cheatsheet Rápido de Referencia
 
-### 1. Ecosistema AI & Agentes de Código
-* **`./omc dev`**: Instala el agente base `pi` (`@earendil-works/pi-coding-agent`).
-* **`./omc dev status`**: Diagnóstico de la versión de `pi` y estado de extensiones recomendadas.
-* **`./omc dev update`**: Actualiza el agente `pi` a su última versión en npm.
+### 1. Ecosistema AI & LazyPi ([lazypi.org](https://lazypi.org))
+* **`./omc dev`**: Instala Pi y el catálogo oficial completo de LazyPi (17 extensiones Core + Optional).
+* **`./omc dev status`**: Diagnóstico del entorno y estado del catálogo LazyPi.
+* **`./omc dev update`**: Actualiza el binario de Pi y todas las extensiones instaladas.
+* **`./omc dev doctor`**: Chequeo de salud del entorno (Node, git, auth, settings).
+* **`./omc dev remove`**: Selector interactivo para desinstalar extensiones.
 * **`pi`**: Inicia el agente autónomo de código en terminal.
-* **`pi install gentle-pi`**: Harness SDD/OpenSpec, orquestación de subagentes y skills.
-* **`pi install gentle-engram`**: Memoria episódica persistente entre sesiones (SQLite local).
-* **`pi install pi-subagents`**: Delegación en paralelo y modo consejo (`/council`).
-* **`pi install pi-antigravity`**: Integración con DeepMind Antigravity y CodeGraph.
-* **`pi install pi-web-access`**: Búsqueda web multi-proveedor y extracción de fuentes.
-* **`pi install @narumitw/pi-plan-mode`**: Modo interactivo de planificación guiada (`/plan`).
+* **`/plan <desc>`**: Modo interactivo de planificación socrática en memoria.
+* **`/simplify`**: Limpieza y simplificación de código modificado recientemente.
+* **`/ponytail review`**: Auditoría de sobreingeniería y buenas prácticas.
+* **`/btw <pregunta>`**: Consulta rápida sin contaminar el historial de la conversación.
+* **`$skill-name`**: Mención difusa para autocompletar e inyectar skills en el prompt.
 
 ### 2. Terminal, Runtimes y Búsqueda
 * **`guia`**: Menú interactivo de atajos en consola (`guia nvim`, `guia zj`, `guia git`, `guia search`, `guia cli`, `guia ai`).
