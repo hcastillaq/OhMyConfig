@@ -68,17 +68,18 @@ OhMyConfig/
 
 ## ⚡ Cheatsheet Rápido de Referencia
 
-### 1. Ecosistema AI & Agentes de Código
+### 1. Ecosistema AI & Agentes de Código (LazyPi)
 * **`./omc dev`**: Instala el agente base `pi` (`@earendil-works/pi-coding-agent`).
 * **`./omc dev status`**: Diagnóstico de la versión de `pi` y estado de extensiones recomendadas.
 * **`./omc dev update`**: Actualiza el agente `pi` a su última versión en npm.
 * **`pi`**: Inicia el agente autónomo de código en terminal.
-* **`pi install gentle-pi`**: Harness SDD/OpenSpec, orquestación de subagentes y skills.
-* **`pi install gentle-engram`**: Memoria episódica persistente entre sesiones (SQLite local).
-* **`pi install pi-subagents`**: Delegación en paralelo y modo consejo (`/council`).
-* **`pi install pi-antigravity`**: Integración con DeepMind Antigravity y CodeGraph.
-* **`pi install pi-web-access`**: Búsqueda web multi-proveedor y extracción de fuentes.
-* **`pi install @narumitw/pi-plan-mode`**: Modo interactivo de planificación guiada (`/plan`).
+* **`pi install npm:pi-subagents`**: Delegación en paralelo y subagentes concurrentes.
+* **`pi install npm:pi-ask-user`**: Menús modulares y confirmaciones interactivas.
+* **`pi install npm:@narumitw/pi-plan-mode`**: Modo interactivo de planificación guiada (`/plan`).
+* **`pi install npm:pi-antigravity`**: Integración con DeepMind Antigravity y CodeGraph.
+* **`pi install git:github.com/VandeeFeng/pi-memory-md`**: Memoria persistente offline en Markdown + Git.
+* **`pi install npm:pi-web-access`**: Búsqueda web multi-proveedor y extracción de fuentes.
+* **`pi install npm:@plannotator/pi-extension`**: Visualización interactiva y anotación de planes.
 
 ### 2. Terminal, Runtimes y Búsqueda
 * **`guia`**: Menú interactivo de atajos en consola (`guia nvim`, `guia zj`, `guia git`, `guia search`, `guia cli`, `guia ai`).

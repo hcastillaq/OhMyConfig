@@ -115,10 +115,12 @@ Referencia rápida de todos los alias, herramientas y atajos disponibles en **Oh
 | **`./omc dev status`**| Terminal | Ver versión de `pi` y estado de las extensiones recomendadas |
 | **`./omc dev update`**| Terminal | Actualizar `pi` a la última versión disponible en npm |
 | **`pi`** | Terminal | Iniciar sesión interactiva del agente de codificación |
-| **`pi install gentle-pi`** | Pi CLI | Activar el harness de desarrollo controlado (SDD), skills y reviews |
-| **`pi install gentle-engram`** | Pi CLI | Activar la memoria persistente episódica y semántica (SQLite) |
-| **`pi install pi-subagents`** | Pi CLI | Activar orquestación de subagentes en paralelo y modo `/council` |
-| **`pi install pi-antigravity`** | Pi CLI | Activar DeepMind Antigravity, CodeGraph y revisión formal |
-| **`pi install pi-web-access`** | Pi CLI | Activar búsqueda web multi-proveedor y extracción de fuentes |
-| **`pi install @narumitw/pi-plan-mode`** | Pi CLI | Activar modo de planificación paso a paso (`/plan`) |
+| **`pi install npm:pi-subagents`** | Pi CLI | Activar orquestación de subagentes en paralelo y delegación |
+| **`pi install npm:pi-ask-user`** | Pi CLI | Activar menús modales y confirmaciones estructuradas |
+| **`pi install npm:@narumitw/pi-plan-mode`** | Pi CLI | Activar modo de planificación paso a paso (`/plan`) |
+| **`pi install npm:@plannotator/pi-extension`** | Pi CLI | Activar visualización y anotación interactiva de planes |
+| **`pi install npm:pi-antigravity`** | Pi CLI | Activar DeepMind Antigravity, CodeGraph y semántica |
+| **`pi install git:github.com/VandeeFeng/pi-memory-md`** | Pi CLI | Activar memoria persistente offline en Markdown + Git |
+| **`pi install npm:pi-web-access`** | Pi CLI | Activar búsqueda web multi-proveedor y extracción de fuentes |
+| **`pi install npm:pi-interactive-shell`** | Pi CLI | Activar ejecución interactiva de CLIs y TUIs en segundo plano |
 | **`./omc update`** | Terminal | Actualización completa (Homebrew + Casks + pi) |

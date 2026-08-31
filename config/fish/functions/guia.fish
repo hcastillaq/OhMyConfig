@@ -20,12 +20,12 @@ function guia --description "Guía interactiva de atajos y comandos del entorno"
     if test -z "$cat" -o "$cat" = "all"
         echo $c_use"💡 Filtrar guía: "$c_res"guia [ai | nvim | zj | git | search | cli]"
         echo ""
-        echo $c_sec"🤖  ECOSISTEMA AI & AGENTES DE CÓDIGO:"$c_res
+        echo $c_sec"🤖  ECOSISTEMA AI & AGENTES DE CÓDIGO (PI):"$c_res
         echo "  "$c_key"omc dev"$c_res"             "$c_txt"Instalar agente base pi (npm global)"$c_res
         echo "  "$c_key"omc dev status"$c_res"      "$c_txt"Ver versión de pi y estado de extensiones recomendadas"$c_res
         echo "  "$c_key"omc dev update"$c_res"      "$c_txt"Actualizar pi a la última versión disponible en npm"$c_res
         echo "  "$c_key"pi"$c_res"                  "$c_txt"Iniciar agente de codificación autónomo en terminal"$c_res
-        echo "  "$c_key"pi install <ext>"$c_res"   "$c_txt"Instalar extensiones recomendadas (gentle-pi, engram...)"$c_res
+        echo "  "$c_key"pi install <ext>"$c_res"   "$c_txt"Instalar extensiones recomendadas (subagents, plan, memory...)"$c_res
         echo ""
         echo $c_sec"🛠️  NEOVIM (Editor IDE):"$c_res
         echo "  "$c_key"<Space> + e"$c_res"       "$c_txt"Explorador de archivos (Toggle & reveal)"$c_res
@@ -68,7 +68,7 @@ function guia --description "Guía interactiva de atajos y comandos del entorno"
         echo "  "$c_key"Ctrl + t / Alt+c"$c_res"  "$c_txt"Búsqueda difusa de archivos / carpetas con FZF"$c_res
         echo "  "$c_key"y"$c_res"                 "$c_txt"Administrador de archivos Yazi (salto de directorio al salir)"$c_res
         echo ""
-        echo $c_sec"🧰  HERRAMIENTAS MODERNAS CLI / TUI:"$c_res
+        echo $c_sec"📦  HERRAMIENTAS MODERNAS CLI / TUI:"$c_res
         echo "  "$c_key"ls / ll / tree"$c_res"    "$c_txt"Listados visuales con íconos vía Eza"$c_res
         echo "  "$c_key"cat <file>"$c_res"        "$c_txt"Visor con sintaxis coloreada Tokyonight vía Bat"$c_res
         echo "  "$c_key"btm / du"$c_res"          "$c_txt"Monitor interactivo (Bottom) / Uso de disco en barras (Dust)"$c_res
@@ -79,20 +79,22 @@ function guia --description "Guía interactiva de atajos y comandos del entorno"
         echo "  "$c_key"cds"$c_res"               "$c_txt"Limpieza de archivos basura .DS_Store en macOS"$c_res
     else
         switch "$cat"
-            case "ai" "pi" "gentle" "engram"
-                echo $c_sec"🤖  ECOSISTEMA AI & AGENTES DE CÓDIGO:"$c_res
+            case "ai" "pi" "lazy" "lazypi"
+                echo $c_sec"🤖  ECOSISTEMA AI & AGENTES DE CÓDIGO (PI):"$c_res
                 echo "  "$c_key"omc dev"$c_res"             "$c_txt"Instalar agente pi (@earendil-works/pi-coding-agent)"$c_res
                 echo "  "$c_key"omc dev status"$c_res"      "$c_txt"Ver versión de pi y estado de extensiones recomendadas"$c_res
                 echo "  "$c_key"omc dev update"$c_res"      "$c_txt"Actualizar pi a la última versión disponible en npm"$c_res
                 echo "  "$c_key"pi"$c_res"                  "$c_txt"Iniciar sesión del coding agent en terminal"$c_res
                 echo ""
-                echo $c_sec"💡  EXTENSIONES RECOMENDADAS PARA PI:"$c_res
-                echo "  "$c_key"pi install gentle-pi"$c_res"           "$c_txt"Harness de desarrollo controlado (SDD/OpenSpec)"$c_res
-                echo "  "$c_key"pi install gentle-engram"$c_res"       "$c_txt"Memoria persistente episódica y semántica (SQLite)"$c_res
-                echo "  "$c_key"pi install pi-subagents"$c_res"        "$c_txt"Orquestación de subagentes en paralelo y /council"$c_res
-                echo "  "$c_key"pi install pi-antigravity"$c_res"      "$c_txt"DeepMind Antigravity, CodeGraph y revisión formal"$c_res
-                echo "  "$c_key"pi install pi-web-access"$c_res"       "$c_txt"Búsqueda web multi-proveedor y extracción de fuentes"$c_res
-                echo "  "$c_key"pi install @narumitw/pi-plan-mode"$c_res" "$c_txt"Modo interactivo de planificación guiada (/plan)"$c_res
+                echo $c_sec"🧩  EXTENSIONES RECOMENDADAS PARA PI:"$c_res
+                echo "  "$c_key"pi install npm:pi-subagents"$c_res"        "$c_txt"Orquestación de subagentes en paralelo y /council"$c_res
+                echo "  "$c_key"pi install npm:pi-ask-user"$c_res"         "$c_txt"Menús interactivos y preguntas estructuradas"$c_res
+                echo "  "$c_key"pi install npm:@narumitw/pi-plan-mode"$c_res" "$c_txt"Modo interactivo de planificación guiada (/plan)"$c_res
+                echo "  "$c_key"pi install npm:pi-antigravity"$c_res"      "$c_txt"DeepMind Antigravity, CodeGraph y semántica"$c_res
+                echo "  "$c_key"pi install git:github.com/VandeeFeng/pi-memory-md"$c_res" "$c_txt"Memoria offline persistente en Markdown + Git"$c_res
+                echo "  "$c_key"pi install npm:pi-web-access"$c_res"       "$c_txt"Búsqueda web multi-proveedor y extracción de fuentes"$c_res
+                echo "  "$c_key"pi install npm:@plannotator/pi-extension"$c_res" "$c_txt"Visualización y anotación de planes de código"$c_res
+                echo "  "$c_key"pi install npm:pi-interactive-shell"$c_res" "$c_txt"Ejecución interactiva de CLIs y TUIs en segundo plano"$c_res
             case "nvim" "v" "vim" "editor"
                 echo $c_sec"🛠️  NEOVIM — ATAJOS ESENCIALES:"$c_res
                 echo "  "$c_key"<Space> + e"$c_res"       "$c_txt"Abrir/cerrar explorador de archivos lateral"$c_res
@@ -151,7 +153,7 @@ function guia --description "Guía interactiva de atajos y comandos del entorno"
                 echo "  "$c_key"Alt + c"$c_res"           "$c_txt"Búsqueda difusa y salto directo a carpetas con FZF"$c_res
                 echo "  "$c_key"y"$c_res"                 "$c_txt"File manager Yazi (salta al directorio al salir con 'q')"$c_res
             case "cli" "tools"
-                echo $c_sec"🧰  HERRAMIENTAS MODERNAS CLI / TUI:"$c_res
+                echo $c_sec"📦  HERRAMIENTAS MODERNAS CLI / TUI:"$c_res
                 echo "  "$c_key"ls / ll / tree"$c_res"    "$c_txt"Listados visuales con íconos vía Eza"$c_res
                 echo "  "$c_key"cat <file>"$c_res"        "$c_txt"Visor con sintaxis coloreada Tokyonight vía Bat"$c_res
                 echo "  "$c_key"btm"$c_res"               "$c_txt"Monitor interactivo de CPU/RAM/Procesos (Bottom)"$c_res

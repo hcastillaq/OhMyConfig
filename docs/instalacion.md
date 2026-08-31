@@ -133,12 +133,14 @@ Extensiones recomendadas para potenciar `pi`:
 
 | Extensión | Comando en Pi | Rol Principal |
 | :--- | :--- | :--- |
-| **`gentle-pi`** | `pi install gentle-pi` | Harness de desarrollo controlado (SDD/OpenSpec), skills y reviews |
-| **`gentle-engram`** | `pi install gentle-engram` | Memoria persistente episódica y semántica en SQLite local |
-| **`pi-subagents`** | `pi install pi-subagents` | Orquestación de subagentes en paralelo y modo consejo (`/council`) |
-| **`pi-antigravity`** | `pi install pi-antigravity` | DeepMind Antigravity, CodeGraph y revisión formal de integridad |
-| **`pi-web-access`** | `pi install pi-web-access` | Búsqueda web multi-proveedor, scraping y chequeo de fuentes |
-| **`@narumitw/pi-plan-mode`**| `pi install @narumitw/pi-plan-mode` | Modo de planificación interactiva guiada (`/plan`) |
+| **`pi-subagents`** | `pi install npm:pi-subagents` | Orquestación de subagentes en paralelo y delegación |
+| **`pi-ask-user`** | `pi install npm:pi-ask-user` | Menús interactivos y preguntas estructuradas |
+| **`@narumitw/pi-plan-mode`**| `pi install npm:@narumitw/pi-plan-mode` | Modo de planificación interactiva guiada (`/plan`) |
+| **`@plannotator/pi-extension`**| `pi install npm:@plannotator/pi-extension` | Visualización interactiva y anotación de planes |
+| **`pi-antigravity`** | `pi install npm:pi-antigravity` | DeepMind Antigravity, CodeGraph y semántica |
+| **`pi-memory-md`** | `pi install git:github.com/VandeeFeng/pi-memory-md` | Memoria persistente offline en Markdown y control Git |
+| **`pi-web-access`** | `pi install npm:pi-web-access` | Búsqueda web multi-proveedor, scraping y chequeo de fuentes |
+| **`pi-interactive-shell`** | `pi install npm:pi-interactive-shell` | Ejecución interactiva de CLIs y TUIs en segundo plano |
 
 ---
 
@@ -211,13 +213,15 @@ modules=core terminal editor search cli devops ai
    mise use -g go@latest
    ```
 3. **Abrir Ghostty** para disfrutar del renderizado GPU y el tema Tokyonight completo.
-4. **Instalar pi y las extensiones recomendadas:**
+4. **Instalar pi y la suite modular LazyPi:**
    ```bash
    ./omc dev
-   pi install gentle-pi
-   pi install gentle-engram
-   pi install pi-subagents
-   pi install pi-antigravity
-   pi install pi-web-access
-   pi install @narumitw/pi-plan-mode
+   pi install npm:pi-subagents
+   pi install npm:pi-ask-user
+   pi install npm:@narumitw/pi-plan-mode
+   pi install npm:@plannotator/pi-extension
+   pi install npm:pi-antigravity
+   pi install git:github.com/VandeeFeng/pi-memory-md
+   pi install npm:pi-web-access
+   pi install npm:pi-interactive-shell
    ```

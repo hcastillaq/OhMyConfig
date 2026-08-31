@@ -1,16 +1,16 @@
-# 🤖 Ecosistema AI & Coding Agents
+# 🤖 Ecosistema AI & Coding Agents (LazyPi)
 
-OhMyConfig integra un entorno de **ingeniería de software asistida por Inteligencia Artificial y agentes autónomos de código** directamente en la terminal. El enfoque es modular, riguroso y minimalista: la CLI `omc` instala y mantiene el agente base (**`pi`**), y vos activás únicamente las extensiones que potencian tu flujo de trabajo.
+OhMyConfig integra un entorno de **ingeniería de software asistida por Inteligencia Artificial y agentes autónomos de código** directamente en la terminal. El enfoque es modular, riguroso y minimalista: la CLI `omc` instala y mantiene el agente base (**`pi`**), complementado por la suite de extensiones nativas **LazyPi** y el framework **Compound Engineering (CE)**.
 
 ---
 
 ## 1. Manifiesto & Arquitectura del Ecosistema
 
-La filosofía de ingeniería asistida por IA se basa en tres principios fundamentales:
+La filosofía de ingeniería asistida por IA en OhMyConfig se basa en tres principios fundamentales:
 
-1. **Cero código a ciegas:** Ningún cambio de arquitectura o funcionalidad no trivial debe programarse sin antes definir alcance, diseño y criterios de aceptación.
-2. **Memoria de largo plazo:** El agente debe retener contexto técnico, convenciones y bugfixes históricos entre sesiones sin depender de prompts repetitivos.
-3. **Flujo de terminal puro:** Todo el ciclo de vida (análisis, planificación, edición, pruebas, revisión y commits) ocurre en la consola mediante herramientas CLI/TUI ultrarrápidas.
+1. **Cero código a ciegas:** Ningún cambio de arquitectura o funcionalidad no trivial debe programarse sin antes definir alcance, requerimientos y diseño técnico.
+2. **Memoria y conocimiento acumulativo:** Los problemas resueltos y las decisiones de diseño se capitalizan en documentos de soluciones y memoria persistente para evitar re-investigaciones.
+3. **Flujo de terminal puro y subagentes concurrentes:** Todo el ciclo de vida (análisis, planificación, edición, pruebas, revisión y commits) ocurre en la consola mediante agentes coordinados en paralelo.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -26,17 +26,17 @@ La filosofía de ingeniería asistida por IA se basa en tres principios fundamen
 │                ┌─────────────────────┼─────────────────────┐                │
 │                ▼                     ▼                     ▼                │
 │   ┌───────────────────────────┐┌───────────────────────────┐┌───────────────┐│
-│   │        gentle-pi          ││       gentle-engram       ││ @narumitw/    ││
-│   │ • Spec-Driven Dev (SDD)   ││ • Memoria persistente     ││   pi-plan-mode││
-│   │ • Catálogo de Skills      ││   SQLite (~/.engram/)     ││ • Modo /plan  ││
-│   │ • /sdd-init & /sdd-status ││ • Retención de contexto   ││ • Preguntas   ││
-│   │ • /sdd-continue dispatcher││ • mem_save / mem_search   ││   socráticas  ││
+│   │   Compound Engineering    ││       pi-memory-md        ││ @narumitw/    ││
+│   │ • ce-brainstorm / ce-plan ││ • Memoria Markdown local ││   pi-plan-mode││
+│   │ • ce-work / ce-debug      ││   con control Git         ││ • Modo /plan  ││
+│   │ • ce-code-review multi-rol││ • Sin servidores externos ││ • Preguntas   ││
+│   │ • ce-compound learnings   ││ • tape & context sync     ││   socráticas  ││
 │   └───────────────────────────┘└───────────────────────────┘└───────────────┘│
 │   ┌───────────────────────────┐┌───────────────────────────┐┌───────────────┐│
 │   │       pi-subagents        ││      pi-antigravity       ││ pi-web-access ││
 │   │ • Fanout paralelo/lanes   ││ • DeepMind Antigravity    ││ • Búsqueda    ││
-│   │ • Modo Consejo (/council) ││ • CodeGraph semántico     ││   multi-motor ││
-│   │ • Worktrees aislados      ││ • gentle_review audit     ││ • source_check││
+│   │ • pi-ask-user dialogs     ││ • CodeGraph semántico     ││   multi-motor ││
+│   │ • Worktrees aislados      ││ • Inspección de código    ││ • source_check││
 │   └───────────────────────────┘└───────────────────────────┘└───────────────┘│
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -69,73 +69,46 @@ La filosofía de ingeniería asistida por IA se basa en tres principios fundamen
 
 ---
 
-## 3. `gentle-pi` & Spec-Driven Development (SDD)
+## 3. Compound Engineering (CE) & Ciclo de Vida del Software
 
-`gentle-pi` es el harness de ingeniería de **Gentle AI**. Transforma a `pi` en un asistente con disciplina de arquitecto senior mediante la metodología **Spec-Driven Development (SDD / OpenSpec)**.
-
-### 3.1 ¿Qué es Spec-Driven Development?
-
-En lugar de saltar inmediatamente a modificar archivos tras un prompt, SDD establece un contrato formal y duradero dentro del repositorio bajo la carpeta `openspec/changes/<nombre-del-cambio>/`:
-
-```
-openspec/
-├── config.yaml       # Configuración global del proyecto (generada por /sdd-init)
-└── changes/
-    └── autenticacion-oauth2/
-        ├── proposal.md   # Motivación, alcance, criterios de éxito y non-goals
-        ├── specs/        # Especificaciones técnicas formales de los módulos
-        ├── design.md     # Decisiones de arquitectura, interfaces y trade-offs
-        └── tasks.md      # Lista ordenada de tareas atómicas y verificables
-```
-
-### 3.2 Comandos Slash Nativos Registrados en Pi
-
-`gentle-pi` registra los siguientes comandos nativos de barra diagonal (`/`):
-
-| Comando Slash        | Acción y Propósito                                                                                              |
-| :------------------- | :-------------------------------------------------------------------------------------------------------------- |
-| **`/sdd-init`**      | Analiza el repositorio e inicializa `openspec/config.yaml` con la detección del stack y comandos de test.       |
-| **`/sdd-status`**    | Consulta en solo lectura el estado del SDD activo, dependencias listas y tareas pendientes.                     |
-| **`/sdd-continue`**  | Despachador nativo (_dispatcher_): evalúa el estado y avanza automáticamente a la siguiente fase lista del SDD. |
-| **`/gentle:doctor`** | Diagnóstico del entorno, modelos configurados y extensiones de Gentle AI.                                       |
-| **`/gentle:status`** | Resumen del estado general del harness de Gentle AI.                                                            |
-
-### 3.3 ¿Cómo Iniciar un Cambio SDD? (Lenguaje Natural)
-
-En Gentle AI, la creación de cambios se realiza mediante **lenguaje natural dirigido al orquestador**. No requiere un comando slash inventado, sino expresar tu intención directamente en el prompt:
-
-- **Modo Guiado Paso a Paso (Secuencial con compuertas):**
-
-  > _"Iniciá un cambio SDD para autenticacion-oauth2"_  
-  > o _"Creá un nuevo cambio estructurado en SDD para sistema-pagos-stripe"_  
-  > El orquestador genera `proposal.md`, se detiene a pedir tu confirmación (_gate 1_), luego genera `design.md` (_gate 2_), `tasks.md` (_gate 3_) y finalmente implementa.
-
-- **Modo Acelerado (Fast-Forward):**
-  > _"Creá un SDD fast-forward para autenticacion-oauth2"_  
-  > o _"Generá todo el SDD completo en un paso para sistema-pagos-stripe"_  
-  > El orquestador genera la propuesta, el diseño y el checklist de tareas en un solo paso y queda listo para implementar.
+El framework **Compound Engineering** estructura el desarrollo en etapas secuenciales y verificadas donde cada paso valida al anterior:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                          MODO 1: Guiado Secuencial                          │
+│                       CICLO COMPOUND ENGINEERING (CE)                       │
 │                                                                             │
-│  [1. Proposal] ──► 🛑 Gate 1 (Aprobación del desarrollador)                │
-│        │                                                                    │
-│  [2. Specs & Design] ──► 🛑 Gate 2 (Aprobación de arquitectura)             │
-│        │                                                                    │
-│  [3. Tasks Checklist] ──► 🛑 Gate 3 (Aprobación de tareas)                  │
-│        │                                                                    │
-│  [4. Implementación iterativa con subagentes y tests]                       │
-└─────────────────────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                         MODO 2: Fast-Forward (Acelerado)                    │
-│                                                                             │
-│  [Proposal + Specs + Design + Tasks generados en 1 solo paso]               │
-│        │                                                                    │
-│  [Implementación inmediata sobre el checklist de tasks.md]                  │
+│  1. REQUERIMIENTOS ──► ce-brainstorm / ce-ideate (Alcance y casos de uso)   │
+│         │                                                                   │
+│  2. ARQUITECTURA  ──► ce-plan (Diseño técnico, archivos y riesgos)         │
+│         │                                                                   │
+│  3. AUDITORÍA     ──► ce-doc-review (Subagentes auditando el plan)          │
+│         │                                                                   │
+│  4. DESARROLLO    ──► ce-work / ce-worktree (Ejecución metódica y tests)    │
+│         │                                                                   │
+│  5. VERIFICACIÓN  ──► ce-code-review (Revisión de pares multi-rol)          │
+│         │                                                                   │
+│  6. ENTREGA       ──► ce-commit-push-pr (Commits atómicos y PR en GitHub)   │
+│         │                                                                   │
+│  7. CONOCIMIENTO  ──► ce-compound (Registro de soluciones en docs/solutions)│
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
+
+### 3.1 Catálogo de Habilidades (Skills) de Compound Engineering
+
+| Skill | Lenguaje Natural / Prompt | Propósito Principal |
+| :--- | :--- | :--- |
+| **`ce-brainstorm`** | *"Hagamos un brainstorm sobre X"* | Explora requerimientos, restricciones y trade-offs sin tocar código. |
+| **`ce-ideate`** | *"Dame ideas para mejorar X"* | Genera y evalúa críticamente múltiples enfoques de solución. |
+| **`ce-plan`** | *"Creá un plan técnico para X"* | Diseña la arquitectura, contratos, archivos afectados y plan de testing. |
+| **`ce-doc-review`** | *"Auditá este plan con doc-review"* | Lanza subagentes especializados para encontrar fallas en el diseño técnico. |
+| **`ce-work`** | *"Ejecutá el plan aprobado"* | Desarrolla paso a paso manteniendo verificaciones de calidad. |
+| **`ce-worktree`** | *"Creá un worktree para esta feature"* | Crea un `git worktree` aislado para trabajar sin tocar el checkout actual. |
+| **`ce-debug`** | *"Debugueá por qué falla este test"* | Análisis sistemático de causa raíz, hipótesis y solución definitiva. |
+| **`ce-code-review`** | *"Hacé un code review de los cambios"* | Auditoría multi-agente con filtrado de severidad antes de commitear. |
+| **`ce-commit`** | *"Guardá estos cambios con un commit"* | Staging selectivo y commits atómicos con Conventional Commits. |
+| **`ce-commit-push-pr`** | *"Commiteá, pusheá y abrí el PR"* | Publicación completa con descripción orientada al valor (*value-first*). |
+| **`ce-compound`** | *"Documentá esta solución aprendida"* | Guarda notas técnicas reutilizables en `docs/solutions/`. |
+| **`ce-sessions`** | *"¿Qué intentamos la sesión pasada?"* | Consulta el historial de sesiones previas para recuperar contexto. |
 
 ---
 
@@ -155,118 +128,24 @@ Las **Skills** son unidades modulares de conocimiento procedimental empaquetadas
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 4.1 ¿Qué es una Skill vs un Prompt vs una Extensión?
+### 4.1 ¿Cuándo Crear una Skill?
 
-| Tipo                   | Formato              | Cuándo se Carga                | Propósito Principal                                                                             |
-| :--------------------- | :------------------- | :----------------------------- | :---------------------------------------------------------------------------------------------- |
-| **Prompt Flotante**    | Mensaje en chat      | En el turno actual             | Instrucciones puntuales y efímeras. Se pierde al cerrar la sesión.                              |
-| **Skill (`SKILL.md`)** | Markdown declarativo | Bajo demanda (_intent-driven_) | Procedimientos estandarizados y versionables en Git (ej: cómo hacer release, PRs, auditorías).  |
-| **Extensión (`.ts`)**  | Código TypeScript    | Al iniciar Pi                  | Agrega nuevas herramientas ejecutables (`registerTool`) o comandos nativos (`registerCommand`). |
-
-### 4.2 ¿Cuándo Crear una Skill?
-
-Creá una skill cuando identifiques alguno de estos escenarios en cualquier proyecto o repositorio:
+Creá una skill cuando identifiques alguno de estos escenarios:
 
 1. **Procedimientos Repetitivos y Críticos:** Procesos con pasos secuenciales donde un error humano o de IA es costoso (ej: publicar releases en npm/GitHub, migraciones de base de datos, creación estandarizada de endpoints API).
 2. **Estándares y Convenciones Estrictas:** Normas del proyecto que el agente debe seguir obligatoriamente (ej: formato de commits, diseño de interfaces, testing con TDD estricto).
-3. **Flujos de Trabajo Multi-Herramienta:** Tareas que combinan varias herramientas en un orden determinado (ej: auditar código con `rg`, ejecutar tests con `bash` y redactar un reporte con `write`).
+3. **Flujos de Trabajo Multi-Herramienta:** Tareas que combinan varias herramientas en un orden determinado.
 
-> **Cuándo NO crear una skill:** Para tareas de una sola vez que no se van a repetir, o para consultas simples donde un prompt directo es suficiente.
+### 4.2 Ubicación de las Skills
 
----
-
-### 4.3 ¿Cómo Crear una Skill Paso a Paso?
-
-Disponés de la herramienta especializada **`/skill-creation`** provista por `gentle-pi`:
-
-#### Paso 1: Ejecutar el Generador de Skills
-
-Dentro de una sesión de Pi:
-
-```text
-> /skill-creation
-```
-
-O simplemente:
-
-> _"Quiero crear una nueva skill llamada 'api-endpoint-creator' para estandarizar la creación de endpoints en esta API REST."_
-
-#### Paso 2: Ubicación de la Skill
-
-Las skills pueden guardarse en dos ámbitos:
-
-- **Ámbito del Proyecto (Recomendado):** `.pi/skills/<nombre-skill>/SKILL.md` (se commitea en el repo y la comparten todos los colaboradores).
-- **Ámbito Global del Usuario:** `~/.pi/agent/skills/<nombre-skill>/SKILL.md` (disponible en todos tus repositorios locales).
-
-#### Paso 3: Estructura Estándar de `SKILL.md`
-
-Un archivo de skill válido sigue este formato exacto:
-
-```markdown
----
-name: api-endpoint-creator
-description: "Trigger: nuevo endpoint, crear endpoint, new route, api route. Guía la creación de endpoints REST con validación DTO, servicio y tests."
----
-
-# API Endpoint Creator Skill
-
-Esta skill define el protocolo obligatorio para agregar nuevos endpoints a la API del proyecto.
-
-## Contexto y Requisitos
-
-Cada nuevo endpoint debe implementar 4 capas sin excepción:
-
-1. `src/dtos/`: Esquema de validación de entrada (Zod / Joi / class-validator).
-2. `src/controllers/`: Manejador HTTP con códigos de estado semánticos.
-3. `src/services/`: Lógica de negocio pura desacoplada de HTTP.
-4. `tests/`: Pruebas de integración para casos de éxito (200/201) y error (400/404/422).
-
-## Protocolo de Ejecución
-
-1. **Definir DTO:** Crear el esquema de validación para el body y query params.
-2. **Implementar Servicio:** Escribir la lógica de negocio con manejo de errores de dominio.
-3. **Crear Controlador:** Exponer el endpoint y vincular el DTO con el middleware de validación.
-4. **Escribir Pruebas:** Crear test de integración verificando la respuesta JSON y validaciones.
-5. **Verificación:** Ejecutar la suite de tests (`npm test` o `pytest`) y asegurar que pase al 100%.
-
-## Criterios de Aceptación
-
-- Todos los tests unitarios y de integración pasan exitosamente.
-- No hay tipos `any` implícitos ni variables sin tipar.
-- El endpoint devuelve errores estructurados en formato JSON estándar.
-```
-
-#### Paso 4: Indexación y Descubrimiento (_Skill Registry_)
-
-`gentle-pi` mantiene un registro indexado (`.atl/skill-registry.md`). El agente descubre automáticamente las skills leyendo el campo `description` del frontmatter:
-
-- Si el usuario escribe _"creá un nuevo endpoint para listar usuarios con paginación"_, el agente detecta el trigger `nuevo endpoint`, carga la skill `api-endpoint-creator` y sigue su protocolo.
-
-#### Paso 5: Auditoría y Refactorización con `skill-improver`
-
-Podés auditar y elevar la calidad de cualquier skill existente pidiéndole al agente:
-
-> _"Auditá y mejorá la skill `.pi/skills/api-endpoint-creator/SKILL.md` usando skill-improver."_
+- **Ámbito del Proyecto (Recomendado):** `.pi/skills/<nombre-skill>/SKILL.md` (versionado en el repositorio y compartido con el equipo).
+- **Ámbito Global del Usuario:** `~/.pi/agent/skills/<nombre-skill>/SKILL.md` (disponible en todos los proyectos de tu máquina).
 
 ---
 
-### 4.4 Catálogo de Skills Preconfiguradas en `gentle-pi`
+## 5. `pi-memory-md` — Memoria Persistente Offline en Markdown + Git
 
-| Skill                          | Disparador / Trigger                               | Función Principal                                          |
-| :----------------------------- | :------------------------------------------------- | :--------------------------------------------------------- |
-| **`gentle-ai-skill-creator`**  | `/skill-creation`, `crear skill`, `new skill`      | Crea nuevas skills modulares con frontmatter YAML válido.  |
-| **`gentle-ai-skill-improver`** | `mejorar skill`, `audit skills`, `refactor skills` | Audita y eleva la calidad de skills existentes.            |
-| **`skill-registry`**           | `actualizar skills`, `skill registry`              | Re-indexa el catálogo local de skills del proyecto.        |
-| **`gentle-ai-branch-pr`**      | `crear PR`, `abrir PR`, `branch PR`                | Genera Pull Requests verificando issues y formato.         |
-| **`gentle-ai-chained-pr`**     | `PRs grandes`, `chained PR`, `split PR`            | Divide cambios de >400 líneas en PRs encadenados.          |
-| **`gentle-ai-judgment-day`**   | `judgment day`, `juzgar`, `revisión dual`          | Ejecuta revisión dual ciega y adversarial pre-merge.       |
-| **`cognitive-doc-design`**     | `escribir doc`, `README`, `guía técnica`           | Diseña documentación optimizada contra la carga cognitiva. |
-
----
-
-## 5. `gentle-engram` — Memoria Persistente entre Sesiones
-
-`gentle-engram` resuelve la amnesia típica de las IAs mediante un motor de **memoria episódica y semántica respaldada por SQLite local** en `~/.engram/`.
+`pi-memory-md` resuelve la amnesia entre sesiones mediante **archivos Markdown estructurados con control de versiones Git**, sin requerir daemons HTTP ni bases de datos externas.
 
 ```
            ┌──────────────────────────────────────────────────────┐
@@ -277,124 +156,54 @@ Podés auditar y elevar la calidad de cualquier skill existente pidiéndole al a
                    │ Lectura Contextual                  │ Escritura Automática
                    ▼                                     ▼
         ┌─────────────────────┐               ┌─────────────────────┐
-        │     mem_search      │               │      mem_save       │
-        │ Recupera decisiones │               │ Guarda aprendizajes │
-        │ y patrones previos  │               │ y bugfixes clave    │
+        │    memory_search    │               │     tape_handoff    │
+        │ Recupera decisiones │               │ Guarda checkpoints  │
+        │ y notas técnicas    │               │ y memoria de sesión │
         └──────────┬──────────┘               └──────────┬──────────┘
                    │                                     │
                    └──────────────────┬──────────────────┘
                                       ▼
                       ┌───────────────────────────────┐
-                      │ Base de Datos SQLite Local    │
-                      │ ~/.engram/engram.db           │
+                      │ Archivos Markdown + Git Local │
+                      │ ~/.pi/agent/memory/           │
                       └───────────────────────────────┘
 ```
 
-### 5.1 ¿Qué Almacena la Memoria?
+### 5.1 Capacidades Principales
 
-1. **Decisiones de Arquitectura (`architecture`):** Por qué se eligió cierta estructura o tecnología.
-2. **Bugfixes y Gotchas (`bugfix`):** Soluciones a errores complejos para evitar re-investigarlos en el futuro.
-3. **Patrones y Convenciones (`pattern` / `preference`):** Estilos de nombrado, directrices del proyecto y preferencias de tooling.
-4. **Resúmenes de Sesión (`session_summary`):** Qué objetivos se lograron en cada sesión de trabajo.
-
-### 5.2 Comandos y Herramientas en la Sesión
-
-- **Consultar memoria histórica:**
-  > _"¿Qué decisiones tomamos la semana pasada sobre el esquema de la base de datos de usuarios?"_ $\rightarrow$ ejecuta `mem_search` y sintetiza el contexto.
-- **Guardar una regla explícita:**
-  > _"Guardá en memoria que todos los controladores de la API deben validar los permisos del usuario usando el middleware `requireRole('admin')`."_ $\rightarrow$ ejecuta `mem_save`.
-- **Auditoría de estado:**
-  > _"Ejecutá un diagnóstico de la memoria con `mem_doctor`."_
+1. **Completamente Autónomo:** No depende de servidores en segundo plano; si tu terminal está abierta, la memoria funciona.
+2. **Control de Versiones Git:** Cada decisión o aprendizaje queda registrado como un commit en el historial local de memoria.
+3. **Integración con Tape:** Permite crear checkpoints de traspaso de tareas (`tape_handoff`) y sincronización entre sesiones.
 
 ---
 
-## 6. `@narumitw/pi-plan-mode` — Planificación Socrática (`/plan`)
+## 6. `@narumitw/pi-plan-mode` & `@plannotator/pi-extension` — Planificación Guiada
 
-El modo **`/plan`** activa un diálogo interactivo en memoria para definir la estrategia de solución antes de tocar el sistema de archivos.
+El modo **`/plan`** activa un diálogo interactivo en memoria para definir la estrategia de solución antes de tocar el sistema de archivos:
 
-### 6.1 Reglas del Modo Plan
-
-- **Cero Mutaciones:** El agente tiene prohibido crear archivos, editar código o ejecutar comandos que alteren el repo.
+- **Cero Mutaciones:** El agente tiene prohibido crear archivos, editar código o ejecutar comandos que alteren el repo durante la fase de plan.
 - **Exploración en Solo Lectura:** Inspecciona archivos existentes para fundamentar sus propuestas en hechos reales.
-- **Preguntas Estructuradas (`plan_mode_question`):** Presenta entre 1 y 3 preguntas con opciones cerradas para resolver trade-offs.
-- **Plan Decisión-Completo (`plan_mode_complete`):** Finaliza emitiendo un documento Markdown exhaustivo sin cabos sueltos.
+- **Preguntas Estructuradas (`plan_mode_question`):** Presenta preguntas cerradas con opciones claras para resolver decisiones arquitectónicas.
+- **Visualización con Plannotator:** Permite inspeccionar y anotar visualmente el plan antes de iniciar la implementación.
 
 ---
 
-## 7. Estrategia Maestra: De `/plan` a SDD (El Flujo Óptimo)
+## 7. Extensiones Nativas de la Suite LazyPi
 
-La combinación de **`/plan` + SDD** representa la mejor práctica para abordar funcionalidades medianas o grandes:
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                            EL FLUJO MAESTRO                                 │
-│                                                                             │
-│  1. DESCUBRIMIENTO (En memoria con /plan)                                   │
-│     > /plan implementá un sistema de rate limiting con Redis                │
-│     • El agente inspecciona el repo                                         │
-│     • Plantea 2 preguntas interactivas con opciones (algoritmo, fallback)   │
-│     • Vos seleccionás el enfoque preferido                                  │
-│     • Emite el Implementation Plan final                                    │
-│                                                                             │
-│  2. PERSISTENCIA FORMAL (En disco en openspec/)                             │
-│     > "Excelente plan, pasalo a SDD fast-forward para rate-limiting-redis"  │
-│     • Vuelca el plan acordado en openspec/changes/rate-limiting-redis/      │
-│     • Genera proposal.md, design.md y tasks.md sin tener que reescribir     │
-│                                                                             │
-│  3. EJECUCIÓN METÓDICA (/sdd-continue)                                      │
-│     • El agente ejecuta tarea por tarea marcando [x] en tasks.md            │
-│     • Corre tests de verificación en cada paso                              │
-│                                                                             │
-│  4. CIERRE Y MEMORIA                                                        │
-│     • Guarda los aprendizajes clave en gentle-engram (mem_save)             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-### 7.1 Matriz de Decisión: ¿Qué Herramienta Usar?
-
-```text
-                             ¿Qué tamaño tiene la tarea?
-                                          │
-           ┌──────────────────────────────┼──────────────────────────────┐
-           ▼                              ▼                              ▼
-     [ Tarea Pequeña ]             [ Tarea Mediana ]              [ Tarea Grande ]
-   (1 archivo / Fix menor)      (Módulo nuevo / Refactor)       (Nueva feature crítica)
-           │                              │                              │
-           ▼                              ▼                              ▼
-    Prompt Directo              /plan  ──► SDD Fast-Forward         SDD Guiado
-  "Corregí el typo en el        Diseño interactivo y pase       Paso a paso con gates
-   mensaje del login"           automático a tasks.md           formales de aprobación
-```
+| Extensión | Instalación | Capacidades Principales |
+| :--- | :--- | :--- |
+| **`pi-subagents`** | `pi install npm:pi-subagents` | Orquestación concurrente, subagentes en paralelo y ejecución en worktrees aislados. |
+| **`pi-ask-user`** | `pi install npm:pi-ask-user` | Menús interactivos con selección única o múltiple para decisiones críticas. |
+| **`@narumitw/pi-plan-mode`** | `pi install npm:@narumitw/pi-plan-mode` | Modo interactivo de planificación socrática (`/plan`). |
+| **`@plannotator/pi-extension`** | `pi install npm:@plannotator/pi-extension` | Visualizador y anotador interactivo de planes de desarrollo. |
+| **`pi-antigravity`** | `pi install npm:pi-antigravity` | DeepMind Antigravity y motor de indexación semántica **CodeGraph**. |
+| **`pi-memory-md`** | `pi install git:github.com/VandeeFeng/pi-memory-md` | Memoria persistente offline en Markdown y control de versiones Git. |
+| **`pi-web-access`** | `pi install npm:pi-web-access` | Búsqueda web en tiempo real (Brave, Exa, Perplexity) y extracción de contenido. |
+| **`pi-interactive-shell`** | `pi install npm:pi-interactive-shell` | Ejecución hands-free y supervisada de CLIs y agentes TUI en segundo plano. |
 
 ---
 
-## 8. Extensiones Complementarias del Stack
-
-### 8.1 `pi-subagents` — Orquestación Concurrente & Modo Consejo
-
-- **Instalación:** `pi install pi-subagents`
-- **Capacidades:**
-  - **Modo Consejo (`/council`):** Convoca múltiples agentes especializados (ej: arquitecto, tester, especialista en seguridad) para debatir una decisión técnica compleja antes de implementarla.
-  - **Worktrees Aislados:** Ejecuta tareas en ramas efímeras paralelas de git sin colisionar con tu espacio de trabajo actual.
-
-### 8.2 `pi-antigravity` — DeepMind Antigravity & CodeGraph
-
-- **Instalación:** `pi install pi-antigravity`
-- **Capacidades:**
-  - **`codegraph`:** Indexación semántica del árbol de llamadas y dependencias del proyecto sin ejecutar scripts externos.
-  - **`gentle_review`:** Transacciones de revisión formal previas a merge con verificación estricta de integridad.
-
-### 8.3 `pi-web-access` — Acceso Web & Verificación de Fuentes
-
-- **Instalación:** `pi install pi-web-access`
-- **Capacidades:**
-  - **`web_search`:** Búsqueda en tiempo real mediante Brave, Exa, OpenAI, Perplexity o SearXNG.
-  - **`fetch_content`:** Extracción limpia de páginas web, repositorios de GitHub y PDFs técnicos.
-  - **`source_check`:** Validación de afirmaciones técnicas contra documentación oficial en la web.
-
----
-
-## 9. Cheatsheet Unificado de Comandos
+## 8. Cheatsheet Unificado de Comandos
 
 ```bash
 # ── Gestión de Infraestructura (omc) ──────────────────────────────────────────
@@ -403,23 +212,25 @@ La combinación de **`/plan` + SDD** representa la mejor práctica para abordar 
 ./omc dev update               # Actualizar pi a latest
 ./omc update                   # Actualización total (Homebrew + Casks + pi)
 
-# ── Extensiones Recomendadas en Pi ────────────────────────────────────────────
-pi install gentle-pi           # SDD, OpenSpec, skills y reviews
-pi install gentle-engram       # Memoria persistente SQLite (~/.engram/)
-pi install pi-subagents        # Subagentes en paralelo y modo /council
-pi install pi-antigravity      # DeepMind Antigravity y CodeGraph
-pi install pi-web-access       # Búsqueda web y chequeo de fuentes
-pi install @narumitw/pi-plan-mode # Modo interactivo de planificación (/plan)
+# ── Suite Modular LazyPi ──────────────────────────────────────────────────────
+pi install npm:pi-subagents              # Subagentes concurrentes y delegación
+pi install npm:pi-ask-user               # Menús y confirmaciones interactivas
+pi install npm:@narumitw/pi-plan-mode    # Planificación interactiva (/plan)
+pi install npm:@plannotator/pi-extension # Visualización y anotación de planes
+pi install npm:pi-antigravity            # DeepMind Antigravity y CodeGraph
+pi install git:github.com/VandeeFeng/pi-memory-md # Memoria Markdown + Git
+pi install npm:pi-web-access             # Búsqueda web y verificación
+pi install npm:pi-interactive-shell      # TUI y CLIs interactivos en background
 
 # ── Comandos Slash Nativos en Pi ──────────────────────────────────────────────
 /plan <descripción>            # Iniciar planificación interactiva en memoria
-/sdd-init                      # Inicializar openspec/config.yaml en el repo
-/sdd-status                    # Ver estado actual del SDD y tareas pendientes
-/sdd-continue                  # Avanzar a la siguiente fase lista del SDD
-/council <tema>                # Convocar consejo de asesores para debatir
-/skill-creation                # Crear una nueva skill modular
+pi list                        # Listar extensiones y herramientas activas
+pi update                      # Actualizar todas las extensiones de usuario
 
-# ── Disparadores SDD por Lenguaje Natural ─────────────────────────────────────
-"Iniciá un cambio SDD para <nombre>"          # Modo guiado secuencial (proposal -> design -> tasks)
-"Creá un SDD fast-forward para <nombre>"      # Modo acelerado (genera todo en 1 paso)
+# ── Interacción en Lenguaje Natural (Compound Engineering) ───────────────────
+"Hagamos un brainstorm sobre <tema>"          # ce-brainstorm: Descubrimiento y límites
+"Creá un plan técnico de arquitectura"        # ce-plan: Especificaciones y diseño
+"Hacé un code review exhaustivo"              # ce-code-review: Revisión multi-agente
+"Commiteá, pusheá y abrí el PR"               # ce-commit-push-pr: Entrega completa
+"Guardá esta solución aprendida"              # ce-compound: Memoria en docs/solutions/
 ```

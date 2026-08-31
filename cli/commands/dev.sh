@@ -8,12 +8,14 @@ DEV_TOOL_LABEL="pi"
 DEV_TOOL_DESC="Pi coding agent (CLI base + agente autónomo de terminal)"
 
 RECOMMENDED_EXTENSIONS=(
-    "gentle-pi:Harness de desarrollo controlado (SDD/OpenSpec), skills y reviews:pi install gentle-pi"
-    "gentle-engram:Memoria semántica y episódica persistente entre sesiones (SQLite):pi install gentle-engram"
-    "pi-subagents:Orquestación y delegación de subagentes en paralelo/secuencia:pi install pi-subagents"
-    "pi-antigravity:Integración con DeepMind Antigravity, CodeGraph y reasoning:pi install pi-antigravity"
-    "pi-web-access:Búsqueda web multi-proveedor, scraping y verificación de fuentes:pi install pi-web-access"
-    "@narumitw/pi-plan-mode:Modo interactivo de planificación paso a paso (/plan):pi install @narumitw/pi-plan-mode"
+    "pi-subagents:Orquestación y delegación de subagentes en paralelo/secuencia:pi install npm:pi-subagents"
+    "pi-ask-user:Interacción modal con opciones estructuradas y confirmación:pi install npm:pi-ask-user"
+    "@narumitw/pi-plan-mode:Modo interactivo de planificación paso a paso (/plan):pi install npm:@narumitw/pi-plan-mode"
+    "pi-antigravity:Integración con DeepMind Antigravity, CodeGraph y reasoning:pi install npm:pi-antigravity"
+    "pi-memory-md:Memoria persistente offline en Markdown y control de versiones Git:pi install git:github.com/VandeeFeng/pi-memory-md"
+    "pi-web-access:Búsqueda web multi-proveedor, scraping y verificación de fuentes:pi install npm:pi-web-access"
+    "@plannotator/pi-extension:Visualización interactiva y anotación de planes de desarrollo:pi install npm:@plannotator/pi-extension"
+    "pi-interactive-shell:Ejecución interactiva de CLIs y TUIs en segundo plano:pi install npm:pi-interactive-shell"
 )
 
 cmd_dev() {
