@@ -6,7 +6,7 @@ This document provides system architecture, design invariants, configuration str
 
 ## 1. Overview & Purpose
 
-**OhMyConfig** is an automated, modular, and idempotent dotfiles and developer environment configuration for macOS. It replaces legacy Unix tools with high-performance modern CLI/TUI utilities (primarily built with Rust and Go), styled consistently with the **Tokyonight** palette and Nerd Font icon telemetry.
+**OhMyConfig** is an automated, modular, and idempotent dotfiles and developer environment configuration for macOS. It replaces legacy Unix tools with high-performance modern CLI/TUI utilities (primarily built with Rust and Go), styled consistently with the **Tokyonight** palette, Nerd Font icon telemetry, and integrated with terminal-based AI coding agents.
 
 ---
 
@@ -15,7 +15,18 @@ This document provides system architecture, design invariants, configuration str
 ```
 OhMyConfig/
 ├── Brewfile                     # Homebrew bundle (CLI tools, GUI apps, Nerd Fonts)
-├── install.sh                   # Idempotent installer (copy/backup or symlink mode)
+├── omc                          # Single executable CLI entry point (Fish + Gum TUI)
+├── cli/                         # Modular CLI implementation
+│   ├── commands/
+│   │   ├── install.fish         # Interactive & automated module installer
+│   │   ├── doctor.fish          # Environment diagnostic & version reporting
+│   │   ├── update.fish          # Centralized updater (Brew + Casks + AI npm packages)
+│   │   └── dev.fish             # AI/Pi ecosystem manager (install, status, update)
+│   └── lib/
+│       ├── brew.fish            # Homebrew detection, verification & helpers
+│       ├── catalog.fish         # Granular module & package definitions
+│       ├── deploy.fish          # Safe symlink/copy file deployment engine
+│       └── ui.fish              # Shared Tokyonight styling & Gum UI primitives
 ├── README.md                    # Concise user manual, quick overview and documentation hub
 ├── AGENTS.md                    # AI Agent architectural context and guidelines
 ├── .gitignore                   # Ignored files (.atl/, .DS_Store, .vitepress cache/dist)
@@ -27,6 +38,7 @@ OhMyConfig/
 ├── docs/                        # Modular Markdown Documentation (Pure MD without bloat)
 │   ├── index.md                 # Documentation landing page
 │   ├── instalacion.md           # Installation & Brewfile guide
+│   ├── ai.md                    # AI ecosystem guide (pi, gentle-pi, gentle-engram)
 │   ├── neovim.md                # Master Neovim guide
 │   ├── zellij.md                # Master Zellij guide
 │   ├── git.md                   # Git, Lazygit & Delta guide
@@ -75,11 +87,12 @@ OhMyConfig/
 
 ## 3. Core Subsystems & Components
 
-### 3.1 Installation & Deployment Engine (`install.sh`)
-- **Idempotency & Safety**: Compares source and destination with `cmp -s`. Creates timestamped backups (`${dest}.bak_YYYYMMDD_HHMMSS`) before overwriting modified files.
+### 3.1 CLI & Deployment Engine (`./omc` & `cli/`)
+- **Single Entry Point (`./omc`)**: Written in pure Fish Shell with Gum TUI, providing subcommands: `install`, `doctor`, `update`, and `dev`.
+- **Idempotency & Safety (`cli/lib/deploy.fish`)**: Compares source and destination with `cmp -s`. Creates timestamped backups (`${dest}.bak_YYYYMMDD_HHMMSS`) before overwriting modified files.
 - **Symlink Mode (`--link` / `-l`)**: Replaces configuration copies with direct symbolic links pointing to this repository.
-- **Homebrew Automation**: Automatically verifies and installs Homebrew if missing, then runs `brew bundle --file=Brewfile`.
-- **Deployment Invariant**: Whenever a new configuration file or asset is added under `config/`, `install.sh` **must** be updated to deploy it to `${CONFIG_DIR}`.
+- **Homebrew Automation (`cli/lib/brew.fish`)**: Automatically verifies and installs Homebrew and Gum if missing, then orchestrates formula and cask installations per module.
+- **State Profile (`.omc-profile`)**: Persists active modules and deployment mode for non-destructive incremental updates and diagnostics.
 
 ### 3.2 Terminal & Shell Layer
 - **Ghostty**: Modern GPU-accelerated terminal emulator configured with JetBrains Mono Nerd Font, font ligatures, window blur, and Tokyonight styling.
@@ -111,6 +124,12 @@ OhMyConfig/
   - `neogen.lua`: Automated structured docstring generation (`<leader>cn`).
   - `keymaps.lua` & `options.lua`: Seamless `Ctrl + hjkl` window navigation, persistent undo, hybrid line numbers, system clipboard integration.
   - `lazyvim.json`: Dynamic module toggling via `:LazyExtras` (`<leader>px`).
+
+### 3.6 AI Ecosystem & Coding Agents (`cli/commands/dev.fish` & `docs/ai.md`)
+- **Pi Coding Agent (`pi`)**: High-performance autonomous terminal agent for code exploration, editing, testing, and execution.
+- **Gentle AI (`gentle-pi`)**: Spec-Driven Development (SDD / OpenSpec) workflow, subagent orchestration, review transactions, and domain-specific skills.
+- **Gentle Engram (`gentle-engram`)**: Persistent episodic and semantic memory backed by local SQLite database for cross-session context retention.
+- **Lifecycle Commands**: Managed via `omc dev` (`install`, `status`, `update`) and globally via `omc update`.
 
 ---
 

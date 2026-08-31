@@ -10,13 +10,16 @@ hero:
       text: 🚀 Comenzar Instalación
       link: /instalacion
     - theme: alt
-      text: 🛠️ Guía de Neovim
-      link: /neovim
+      text: 🤖 Ecosistema AI & Pi
+      link: /ai
     - theme: alt
       text: ⚡ Tabla de Atajos
       link: /cheatsheet
 
 features:
+  - icon: 🤖
+    title: Ecosistema AI & Agentes de Código
+    details: Agente Pi ultra rápido integrado en terminal con metodología SDD (gentle-pi) y memoria persistente SQLite entre sesiones (gentle-engram).
   - icon: 🛠️
     title: Neovim como IDE Principal
     details: Motor LazyVim modular en Lua con LSP, autocompletado ultra veloz (Blink.cmp), GitLens, Treesitter y generación de docstrings.
@@ -27,6 +30,6 @@ features:
     title: Terminal GPU & Shell Inteligente
     details: Ghostty con desenfoque de GPU, Fish Shell interactivo, prompt reactivo Starship e historial SQLite con Atuin.
   - icon: 📦
-    title: Despliegue Seguro & Idempotente
-    details: Instalador automatizado con soporte para enlaces simbólicos (symlinks) o copia segura con respaldos automáticos timestamped.
+    title: Despliegue Seguro & CLI omc
+    details: Instalador interactivo en Fish puro con TUI Gum, diagnóstico en tiempo real (doctor), symlinks y actualización centralizada.
 ---

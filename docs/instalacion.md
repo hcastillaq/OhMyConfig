@@ -1,4 +1,4 @@
-# 🚀 Instalación — CLI `omc`
+# 📦 Instalación — CLI `omc`
 
 OhMyConfig incluye una CLI interactiva (`omc`) escrita en **Fish Shell puro** con interfaz TUI via **gum**. Permite seleccionar exactamente qué módulos instalar, diagnosticar el entorno, actualizar herramientas y gestionar el ecosistema AI/Pi.
 
@@ -54,8 +54,6 @@ Navegá con `↑ ↓` y confirmá con `Enter`.
 ./omc install --all --link     # Instala todos los módulos en modo symlink
 ./omc install --link           # Menú de módulos pero fuerza modo symlink
 ```
-
-> `install.sh` sigue funcionando como alias de `./omc install --all --link` para compatibilidad con el flujo anterior.
 
 ---
 
@@ -126,7 +124,7 @@ Actualiza Homebrew, todas las fórmulas/casks instalados y los paquetes npm del 
 
 ### `omc dev` — Ecosistema AI/Pi
 
-Gestión específica de `pi`, `gentle-pi` y `gentle-engram` (paquetes **npm globales**).
+Gestión específica de `pi`, `gentle-pi` y `gentle-engram` (paquetes **npm globales**). Para más detalles conceptuales y flujo de trabajo, consultá la [Guía de AI & Agentes](./ai.md).
 
 ```bash
 ./omc dev              # Instalar los tres (equivale a omc dev install)
@@ -199,7 +197,7 @@ Al finalizar, `omc install` guarda un perfil local:
 ```toml
 # .omc-profile — generado por omc install
 deploy_mode=symlink
-modules=core terminal editor search cli ai
+modules=core terminal editor search cli devops ai
 ```
 
 `omc update` y `omc doctor` lo leen para saber qué módulos tenés activos. Podés commitearlo para replicar el setup exacto en otra máquina.
