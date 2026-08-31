@@ -1,6 +1,6 @@
 # 🤖 Ecosistema AI & Coding Agents (LazyPi)
 
-OhMyConfig integra un entorno de **ingeniería de software asistida por Inteligencia Artificial y agentes autónomos de código** directamente en la terminal. El enfoque es modular, riguroso y minimalista: la CLI `omc` instala y mantiene el agente base (**`pi`**), complementado por la suite oficial **LazyPi** ([lazypi.org](https://lazypi.org)) y el framework **Compound Engineering (CE)**.
+OhMyConfig integra un entorno de **ingeniería de software asistida por Inteligencia Artificial y agentes autónomos de código** directamente en la terminal. El enfoque es modular, riguroso y minimalista: la CLI `omc` instala y mantiene el agente base (**`pi`**), complementado por la suite oficial **LazyPi** ([lazypi.org](https://lazypi.org)), el framework **Compound Engineering (CE)** y la disciplina de **Spec-Driven Development (SDD / OpenSpec)**.
 
 ---
 
@@ -8,7 +8,7 @@ OhMyConfig integra un entorno de **ingeniería de software asistida por Intelige
 
 La filosofía de LazyPi en OhMyConfig se inspira en el modelo de LazyVim: **un núcleo preconfigurado y mantenido por la comunidad con un catálogo curado de 17 herramientas de alto rendimiento**:
 
-1. **Cero código a ciegas:** Todo cambio se estructura mediante requerimientos claros, diseño técnico y criterios de aceptación verificables.
+1. **Cero código a ciegas:** Ningún cambio de arquitectura o funcionalidad no trivial debe programarse sin antes definir alcance, contratos de datos y diseño técnico.
 2. **Memoria y conocimiento acumulativo:** Soluciones complejas y decisiones de diseño se guardan en notas técnicas Markdown versionadas en Git.
 3. **Flujo de terminal puro y subagentes concurrentes:** Todo el ciclo de vida (análisis, planificación, edición, pruebas, revisión y commits) ocurre en la consola mediante subagentes coordinados en paralelo.
 
@@ -26,12 +26,12 @@ La filosofía de LazyPi en OhMyConfig se inspira en el modelo de LazyVim: **un n
 │                ┌─────────────────────┼─────────────────────┐                │
 │                ▼                     ▼                     ▼                │
 │   ┌───────────────────────────┐┌───────────────────────────┐┌───────────────┐│
-│   │   LazyPi Core (12 pkgs)   ││ LazyPi Optional (5 pkgs)  ││ Compound Eng. ││
-│   │ • subagents & workflows   ││ • lsp (diagnósticos)      ││ • ce-brainstorm││
-│   │ • ask-user & goal         ││ • interactive-shell (TUI) ││ • ce-plan      ││
-│   │ • fff & web-access        ││ • memory-md (Git offline) ││ • ce-work      ││
-│   │ • simplify & ponytail     ││ • autoresearch (loops)    ││ • ce-review    ││
-│   │ • skillful & mention ($)  ││ • todos (checklist live)  ││ • ce-compound  ││
+│   │   LazyPi Core (12 pkgs)   ││ LazyPi Optional (5 pkgs)  ││  OpenSpec SDD ││
+│   │ • subagents & workflows   ││ • lsp (diagnósticos)      ││ • proposal.md ││
+│   │ • ask-user & goal         ││ • interactive-shell (TUI) ││ • specs/      ││
+│   │ • fff & web-access        ││ • memory-md (Git offline) ││ • design.md   ││
+│   │ • simplify & ponytail     ││ • autoresearch (loops)    ││ • tasks.md    ││
+│   │ • skillful & mention ($)  ││ • todos (checklist live)  ││ • docs/solut. ││
 │   └───────────────────────────┘└───────────────────────────┘└───────────────┘│
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -71,130 +71,292 @@ LazyPi divide sus herramientas en dos niveles de soporte para garantizar máxima
 
 ---
 
-## 3. Flujos de Trabajo Prácticos (Workflows de Ingeniería)
+## 3. Cómo Configurar e Implementar SDD (Spec-Driven Development) con LazyPi
 
-A continuación se detallan los flujos de trabajo recomendados para el día a día:
+**Spec-Driven Development (SDD / OpenSpec)** es una metodología basada en el principio de que **las especificaciones formales y el diseño de arquitectura deben existir en disco antes de escribir código**.
+
+Con LazyPi, SDD no requiere daemons externos ni middleware que bloquee la terminal. Se implementa de forma **100% nativa con archivos Markdown, subagentes y herramientas del catálogo**:
+
+```
+openspec/
+├── config.yaml          # Metadatos del stack, comandos de test y convenciones
+└── changes/             # Carpeta de cambios activos o archivados
+    └── sistema-auth-jwt/
+        ├── proposal.md  # 1. Motivación, alcance, criterios de éxito y non-goals
+        ├── specs/       # 2. Especificaciones formales y contratos de interfaces
+        │   ├── auth-contract.md
+        │   └── session-schema.md
+        ├── design.md    # 3. Decisiones de arquitectura, trade-offs y diagramas
+        └── tasks.md     # 4. Checklist secuencial de tareas atómicas verificables
+```
+
+### 3.1 Cómo Mapear las Herramientas de LazyPi a cada Fase de SDD
+
+```
+┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
+│   1. PROPOSAL    │ ──► │ 2. SPECS/DESIGN  │ ──► │  3. DOC REVIEW   │
+│  pi-ask-user     │     │  ce-plan         │     │  ce-doc-review   │
+│  ce-brainstorm   │     │  codegraph       │     │  subagents (x3)  │
+└──────────────────┘     └──────────────────┘     └──────────────────┘
+                                                            │
+┌──────────────────┐     ┌──────────────────┐               ▼
+│  6. CAPITALIZAR  │ ◄── │  5. CODE REVIEW  │ ◄── ┌──────────────────┐
+│  pi-memory-md    │     │  ponytail/simpl. │     │ 4. TASKS / WORK  │
+│  ce-compound     │     │  ce-code-review  │     │  ce-worktree     │
+└──────────────────┘     └──────────────────┘     │  lsp_diagnostics │
+                                                  │  todos widget    │
+                                                  └──────────────────┘
+```
+
+1. **Fase Proposal (Alcance y Requerimientos):**  
+   Se usa `$ce-brainstorm` combinado con `pi-ask-user` para resolver trade-offs mediante preguntas interactivas y generar `proposal.md`.
+2. **Fase Specs & Design (Arquitectura):**  
+   Se usa `$ce-plan` y el motor `codegraph` (`pi-antigravity`) para mapear dependencias y generar `specs/` y `design.md`.
+3. **Fase Doc Review (Auditoría del Diseño):**  
+   Se usa `$ce-doc-review` para lanzar subagentes paralelos (`pi-subagents`) con roles de **Arquitecto de Sistemas**, **Seguridad** y **QA** para auditar el diseño antes de tocar código.
+4. **Fase Tasks & Execution (Implementación Aislada):**  
+   Se crea un worktree aislado (`$ce-worktree`), se trackean las tareas con `manage_todo_list` (`todos`) y se implementa con verificación continua de tipos (`lsp_diagnostics`).
+5. **Fase Code Review & Simplificación:**  
+   Se ejecuta `/ponytail review` para evitar sobreingeniería, `/simplify` para pulir código muerto y `$ce-code-review` para el veredicto final.
+6. **Fase Capitalización:**  
+   Se archiva el cambio y se documenta la solución aprendida en `docs/solutions/` con `$ce-compound` y en `pi-memory-md`.
+
+### 3.2 Invariante en `AGENTS.md` para Forzar SDD en tu Proyecto
+
+Para que el agente aplique automáticamente SDD en cualquier repositorio, agregá esta directiva en el `AGENTS.md` de tu proyecto:
+
+```markdown
+## Invariante de Desarrollo: SDD Obligatorio (Spec-Driven Development)
+1. Todo cambio no trivial debe generar sus artefactos en `openspec/changes/<nombre-cambio>/`:
+   - `proposal.md`: Problema, límites del alcance y criterios de éxito.
+   - `design.md`: Arquitectura técnica, diagramas y contratos.
+   - `tasks.md`: Checklist atómico de tareas verificables.
+2. No escribir código de producción sin la aprobación previa del diseño técnico.
+3. Usar `ce-worktree` para aislar ramas y `lsp_diagnostics` para validar tipos antes de commitear.
+```
 
 ---
 
-### Flujo 1: Desarrollo de Nuevas Features de Punta a Punta
-
-```
-1. Brainstorm ($ce-brainstorm) ──► 2. Plan Técnico ($ce-plan) ──► 3. Auditoría ($ce-doc-review)
-                                                                           │
-6. Capitalizar ($ce-compound) ◄── 5. Commit & PR ($ce-commit-push-pr) ◄── 4. Ejecución ($ce-work)
-```
-
-1. **Definición de Requerimientos:**
-   > *"Hagamos un brainstorm sobre cómo agregar soporte para múltiples perfiles de usuario en la CLI."*
-   > *Dispara `ce-brainstorm`: te hace preguntas con opciones vía `pi-ask-user` y define el alcance.*
-2. **Diseño de Arquitectura:**
-   > *"Armá un plan técnico con archivos afectados, contratos de datos y riesgos."*
-   > *Dispara `ce-plan`: genera un plan estructurado.*
-3. **Auditoría del Plan:**
-   > *"Revisá el plan con subagentes antes de arrancar."*
-   > *Dispara `ce-doc-review`: subagentes revisan seguridad y diseño.*
-4. **Implementación Aislada:**
-   > *"Creá un worktree para esta feature y ejecutá el plan."*
-   > *Dispara `ce-worktree` y `ce-work`: desarrolla en una rama aislada de Git.*
-5. **Revisión de Código:**
-   > *"Hacé un code review de los cambios."*
-   > *Dispara `ce-code-review`: revisores especializados emiten reporte formal.*
-6. **Entrega y Publicación:**
-   > *"Commiteá, pusheá y abrí el PR."*
-   > *Dispara `ce-commit-push-pr`: genera commits atómicos y redacta el PR.*
-7. **Capitalización de Conocimiento:**
-   > *"Guardá esta solución en docs/solutions/."*
-   > *Dispara `ce-compound`: documenta el aprendizaje técnico.*
+## 4. Flujos de Trabajo Arquitectónicos con Ejemplos Reales
 
 ---
 
-### Flujo 2: Debugging Asistido por LSP y Causa Raíz
+### Ejemplo 1: Arquitectura de Nueva Feature (Sistema de Caché Redis con Fallback en Memoria)
 
-Cuando un test falla o tenés un error de ejecución:
+#### Conversación y Paso a Paso:
 
+**Paso 1 — Descubrimiento y Propuesta (`proposal.md`):**
+> **Usuario:** *"Quiero diseñar un sistema de caché de dos niveles (L1 en memoria LRU y L2 en Redis con fallback transparente). Iniciemos el SDD para `cache-layer-redis`."*  
+> **Pi ($ce-brainstorm):** Utiliza `pi-ask-user` para presentarte un menú interactivo:
+> - *Opción 1:* Estrategia Cache-Aside (Lazy loading).
+> - *Opción 2:* Read-Through / Write-Through.  
+> Vos seleccionás Cache-Aside y el agente genera `openspec/changes/cache-layer-redis/proposal.md`.
+
+**Paso 2 — Diseño Técnico y Contratos (`design.md` & `specs/`):**
+> **Usuario:** *"Aprobado. Creá el diseño técnico con el diagrama de flujo y la interfaz del contrato."*  
+> **Pi ($ce-plan):** Genera `specs/cache-contract.md` con la interfaz TypeScript y `design.md` con el diagrama Mermaid de fallback:
+
+```mermaid
+graph TD
+    App[Aplicación] -->|1. get key| L1[Caché L1: In-Memory LRU]
+    L1 -->|Hit| Ret1[Retornar Dato]
+    L1 -->|Miss| L2[Caché L2: Redis Cluster]
+    L2 -->|Hit| SetL1[Poblar L1] --> Ret2[Retornar Dato]
+    L2 -->|Miss / Timeout| DB[(Base de Datos)]
+    DB --> SetBoth[Poblar L1 y L2] --> Ret3[Retornar Dato]
 ```
-1. Diagnóstico LSP (lsp_diagnostics) ──► 2. Causa Raíz (ce-debug) ──► 3. Fix & Verificación
-```
 
-1. **Inspección de Tipos y Errores:**
-   > *"Ejecutá un diagnóstico LSP en el archivo `src/services/auth.ts` para ver qué tipos están fallando."*
-   > *Lanza `lsp_diagnostics` y muestra errores exactos del compilador.*
-2. **Análisis Sistemático:**
-   > *"Analizá la causa raíz de este error con `ce-debug` y generá un test mínimo que reproduzca el fallo."*
-   > *Genera una prueba en rojo, formula hipótesis y valida el fix.*
-3. **Verificación:**
-   > *"Volvé a correr el diagnóstico LSP y los tests para confirmar que esté en verde."*
+**Paso 3 — Auditoría del Diseño Técnico (`ce-doc-review`):**
+> **Usuario:** *"Auditá el diseño con subagentes antes de escribir código."*  
+> **Pi ($ce-doc-review):** Dispara 3 subagentes en paralelo:
+> - *Subagente Security:* Verifica sanitización de keys contra inyecciones Redis.
+> - *Subagente Resiliency:* Observa que falta un circuit breaker si Redis se cae repetidamente.
+> - *Subagente Perf:* Aprueba el algoritmo LRU en memoria.  
+> Pi actualiza `design.md` incorporando el circuit breaker.
+
+**Paso 4 — Desglose de Tareas y Desarrollo en Worktree:**
+> **Usuario:** *"Excelente, generá tasks.md, creá un worktree y comenzá a implementar."*  
+> **Pi ($ce-worktree & $ce-work):**
+> 1. Crea la rama aislada `git worktree add ../wt-cache feature/cache-redis`.
+> 2. Activa el widget de tareas `manage_todo_list`.
+> 3. Implementa interfaz, tests unitarios con TDD, valida con `lsp_diagnostics` y marca `[x]`.
+
+**Paso 5 — Simplificación y Code Review:**
+> **Usuario:** *"Revisá y simplificá el código antes del PR."*  
+> **Pi:** Ejecuta `/ponytail review` y `/simplify` para pulir la implementación, y luego lanza `$ce-code-review`.
+
+**Paso 6 — Publicación y Capitalización:**
+> **Usuario:** *"Hacé commit, abrí el PR y guardá la solución."*  
+> **Pi ($ce-commit-push-pr & $ce-compound):**
+> - Crea commits atómicos: `feat(cache): implement L1 LRU and L2 Redis fallback with circuit breaker`.
+> - Abre el PR en GitHub con la descripción orientada al valor.
+> - Guarda `docs/solutions/cache-two-tier-circuit-breaker.md`.
 
 ---
 
-### Flujo 3: Auditoría y Simplificación de Código
+### Ejemplo 2: Refactorización Arquitectónica Mayor (Migración de Monolito a Módulos)
 
-Para mantener una base de código limpia y libre de complejidad accidental (*AI slop*):
+Cuando necesitás desacoplar un módulo monolítico (ej. `cli/install.sh` $\rightarrow$ `cli/commands/` + `cli/lib/`):
 
-```
-1. Auditoría de Disciplina (/ponytail review) ──► 2. Simplificación (/simplify) ──► 3. Verificación
-```
-
-1. **Auditoría de Buenas Prácticas:**
-   > `/ponytail review`  
-   > *Revisa si hay sobreingeniería, dependencias innecesarias o código que podría usar la librería estándar.*
-2. **Simplificación Activa:**
-   > `/simplify`  
-   > *Pule el código modificado recientemente, eliminando dead code y mejorando legibilidad.*
+1. **Mapeo Semántico Inicial:**
+   > *"Usá `codegraph` y `fff` para listar todas las dependencias y llamadas entrantes de `install.sh`."*  
+   > *Pi inspecciona el árbol de llamadas sin ejecutar scripts externos.*
+2. **Definición de Límites Modulares:**
+   > *"Diseñá una arquitectura modular donde la UI, el catálogo de paquetes y el gestor de Homebrew estén en archivos separados con dependencias unidireccionales."*
+3. **Ejecución Asistida por Tareas e Interacciones:**
+   > *"Creá el checklist en `manage_todo_list` y refactorizá un módulo a la vez, validando que no se rompa la interfaz pública."*
 
 ---
 
-### Flujo 4: Consultas Rápidas al Margen (`/btw`)
+### Ejemplo 3: Arquitectura Agente-Nativa / Creación de Servidores MCP
 
-Cuando querés hacerle una pregunta conceptual a la IA sin llenar el contexto de tu sesión principal:
+Para diseñar herramientas y extensiones donde los agentes de IA son consumidores de primera clase:
 
-```bash
-/btw ¿Cuál es la diferencia entre cmp -s y diff -q en bash?
+1. **Diseño de Herramientas MCP con `$ce-agent-native-architecture`:**
+   - Diseña herramientas con esquemas JSON Schema estrictos.
+   - Aplica el principio de salida estructurada compacta (evita saturar el contexto del agente con payloads innecesarios).
+   - Maneja errores descriptivos y sugerencias de remediación automática.
+
+---
+
+## 5. Sistema de Skills: Descubrimiento, Invocación y Creación
+
+Las **Skills** son unidades modulares de conocimiento procedimental empaquetadas en archivos Markdown estructurados (`SKILL.md`). Permiten que el agente ejecute protocolos complejos y repetitivos sin necesidad de extensiones pesadas en TypeScript.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                             ANATOMÍA DE UNA SKILL                           │
+│                                                                             │
+│   SKILL.md                                                                  │
+│   ├── Frontmatter YAML (Metadatos: name, description, triggers)             │
+│   ├── Contexto y Restricciones (Límites claros del alcance)                 │
+│   ├── Protocolo de Ejecución Paso a Paso (Instrucciones LLM-First)          │
+│   └── Criterios de Aceptación y Verificación (Checklist de éxito)          │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-*Pi responde de forma concisa y no agrega la consulta al historial de tu conversación.*
+### 5.1 ¿Qué es una Skill vs un Prompt vs una Extensión?
+
+| Tipo | Formato | Cuándo se Carga | Propósito Principal |
+| :--- | :--- | :--- | :--- |
+| **Prompt Flotante** | Mensaje en chat | En el turno actual | Instrucciones puntuales y efímeras. Se pierde al cerrar la sesión. |
+| **Skill (`SKILL.md`)** | Markdown declarativo | Bajo demanda (*intent-driven* o `$`) | Procedimientos estandarizados y versionables en Git (ej: cómo hacer release, PRs, auditorías). |
+| **Extensión (`.ts`)** | Código TypeScript | Al iniciar Pi | Agrega nuevas herramientas ejecutables (`registerTool`) o comandos nativos (`registerCommand`). |
 
 ---
 
-### Flujo 5: Optimización en Bucle Autónomo (`autoresearch`)
+### 5.2 Descubrimiento e Invocación de Skills en LazyPi
 
-Para tareas donde se busca maximizar una métrica (ej. tiempo de carga, tamaño de bundle, cobertura):
+LazyPi provee dos formas de descubrir e invocar skills:
 
-```bash
-# Inicia un loop autónomo guiado por benchmark
-"Iniciá un loop de autoresearch para reducir el tiempo de ejecución de deploy.sh en 5 iteraciones."
+1. **Mención Difusa con `$` (`@zigai/pi-mention-skill`):**
+   Escribí `$` en tu prompt en la terminal de Pi para desplegar un buscador interactivo con autocompletado difuso de todas las skills disponibles:
+   ```text
+   > Por favor revisá el código usando $ce-code-review
+   ```
+2. **Expansión Directa (`pi-skillful`):**
+   Podés invocar cualquier skill escribiendo `/skill:<nombre>`:
+   ```text
+   > /skill:ce-plan Diseñar arquitectura de notificaciones webhook
+   ```
+
+---
+
+### 5.3 Cómo Crear una Nueva Skill Paso a Paso
+
+#### Paso 1: Ubicación del Archivo
+
+Elegí el ámbito de la skill:
+- **Ámbito del Proyecto (Recomendado):** `.pi/skills/<nombre-skill>/SKILL.md` (se versiona en Git y lo comparten todos los desarrolladores del repo).
+- **Ámbito Global del Usuario:** `~/.pi/agent/skills/<nombre-skill>/SKILL.md` (disponible en todos los repositorios de tu máquina).
+
+#### Paso 2: Plantilla Estándar de `SKILL.md`
+
+Creá el archivo con este esquema riguroso:
+
+```markdown
+---
+name: nombre-de-la-skill
+description: "Trigger: palabra1, palabra2, frase disparadora. Explicación concisa del protocolo."
+---
+
+# Título de la Skill
+
+Descripción del objetivo de ingeniería que resuelve esta skill.
+
+## Contexto y Restricciones
+
+- **Invariante 1:** Regla estricta que no se puede violar.
+- **Invariante 2:** Tecnologías o librerías obligatorias.
+- **Límites:** Qué cosas quedan explícitamente fuera de alcance.
+
+## Protocolo de Ejecución Paso a Paso
+
+1. **Fase 1: Inspección y Diagnóstico**
+   - Leer archivos afectados con `read` o buscar con `fffind` / `ffgrep`.
+   - Verificar el estado actual de los tests o diagnósticos LSP.
+2. **Fase 2: Aplicación del Cambio**
+   - Implementar las modificaciones paso a paso.
+3. **Fase 3: Verificación y Pruebas**
+   - Ejecutar la suite de tests (`npm test`, `cargo test`, `pytest`).
+   - Validar ausencia de errores con `lsp_diagnostics`.
+
+## Criterios de Aceptación
+
+- [ ] Todos los tests unitarios e integración pasan al 100%.
+- [ ] No se introducen dependencias externas innecesarias.
+- [ ] Documentación sincronizada.
 ```
 
-*El agente ejecuta experimentos, mide los resultados contra el benchmark anterior y conserva únicamente los cambios que demuestren mejoras reales.*
+#### Paso 3: Ejemplo Real: Skill de Creación de Módulos para OMC
+
+Mirá la skill real ubicada en `.pi/skills/omc-module-workflow/SKILL.md` de este repositorio:
+
+```markdown
+---
+name: omc-module-workflow
+description: "Trigger: nuevo módulo, crear módulo, add tool, omc module, agregar herramienta. Guía la creación y mantenimiento estandarizado de módulos en OhMyConfig."
+---
+
+# OMC Module Workflow Skill
+
+Guía para agregar nuevas herramientas CLI/TUI a OhMyConfig.
+
+## Protocolo
+1. Agregar paquete en `Brewfile` con comentario de rol.
+2. Registrar en `cli/lib/catalog.sh` (módulo, comando, binario).
+3. Añadir configuración en `config/<tool>/` con tema Tokyonight.
+4. Documentar en `docs/herramientas.md` y `docs/cheatsheet.md`.
+5. Probar con `./omc doctor` e instalar con `./omc install`.
+```
 
 ---
 
-## 4. Comandos Slash (`/`) y Menciones (`$`) de LazyPi
+## 6. Comandos Slash (`/`) y Menciones (`$`) de LazyPi
 
-| Comando / Mención | Descripción |
-| :--- | :--- |
-| **`/plan <desc>`** | Inicia el modo de planificación socrática en memoria. |
-| **`/simplify`** | Simplifica y limpia el código modificado recientemente. |
-| **`/ponytail review`** | Audita el código buscando patrones de sobreingeniería y complejidad. |
-| **`/ponytail audit`** | Inspección profunda de deuda técnica y dependencias. |
-| **`/btw <pregunta>`** | Consulta rápida sin contaminar el contexto principal. |
-| **`/goal <meta>`** | Fija un objetivo de largo plazo con control de estados. |
-| **`/workflows`** | Abre el panel TUI interactivo para orquestar flujos de subagentes. |
-| **`/fff-health`** | Verifica la salud y velocidad del índice de búsqueda rápida. |
-| **`$skill-name`** | Mención difusa para invocar e inyectar cualquier skill en el prompt. |
+| Comando / Mención | Contexto | Descripción |
+| :--- | :--- | :--- |
+| **`/plan <desc>`** | Pi Session | Inicia el modo de planificación socrática en memoria. |
+| **`/simplify`** | Pi Session | Simplifica y limpia el código modificado recientemente. |
+| **`/ponytail review`** | Pi Session | Audita código buscando patrones de sobreingeniería y complejidad. |
+| **`/ponytail audit`** | Pi Session | Inspección profunda de deuda técnica y dependencias. |
+| **`/btw <pregunta>`** | Pi Session | Consulta rápida sin contaminar el contexto principal. |
+| **`/goal <meta>`** | Pi Session | Fija un objetivo de largo plazo con control de estados. |
+| **`/workflows`** | Pi Session | Abre el panel TUI interactivo para orquestar flujos de subagentes. |
+| **`/fff-health`** | Pi Session | Verifica la salud y velocidad del índice de búsqueda rápida. |
+| **`$skill-name`** | Pi Session | Mención difusa para autocompletar e inyectar cualquier skill en el prompt. |
 
 ---
 
-## 5. Gestión del Ecosistema desde `omc`
+## 7. Gestión del Ecosistema desde `omc`
 
 La CLI `omc` administra el ciclo de vida de **Pi y LazyPi** de forma 100% nativa:
 
 ```bash
-./omc dev              # Ejecuta el instalador oficial de LazyPi (Core + Optional)
+./omc dev              # Ejecuta el instalador oficial de LazyPi (Core + Optional 17 pkgs)
 ./omc dev status       # Muestra el estado y diagnóstico del catálogo LazyPi
 ./omc dev update       # Actualiza el binario de Pi y todas las extensiones instaladas
 ./omc dev doctor       # Chequeo de salud del entorno (Node, npm, git, auth, settings)
 ./omc dev remove       # Selector interactivo para desinstalar extensiones
-./omc update           # Actualización total del sistema (Homebrew + Casks + Pi)
+./omc update           # Actualización total del sistema (Homebrew + Casks + Pi + LazyPi)
 ```
