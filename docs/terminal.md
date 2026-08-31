@@ -1,4 +1,4 @@
-# 🖥️ Terminal, Shell, Prompt y Runtimes
+# Terminal, Shell, Prompt y Runtimes
 
 OhMyConfig combina un emulador acelerado por GPU, una shell interactiva, un gestor de runtimes políglota universal y un prompt reactivo diseñados para macOS.
 
@@ -50,13 +50,14 @@ Shell interactiva con autocompletado en tiempo real y coloreado sintáctico cali
 
 ## 4. Starship (Prompt Reactivo)
 
-Prompt ultrarrápido escrito en Rust con telemetría contextual:
+Prompt ultrarrápido escrito en Rust con telemetría contextual y glifos flat (JetBrains Mono Nerd Font):
 
-* 📁 **Directorio actual (`#50f5ff`):** Con indicador de solo lectura `🔒`.
-*  **Rama y estado de Git (`#c099ff` / `#ff9e64`):** Cambios pendientes, commits adelantados/atrasados.
-* 📦 **Runtimes activos vía mise:** Versión en tiempo real de Node ``, Python ``, Java ``, Rust `🦀`, Go ``.
-* ☸️ **Contexto de Kubernetes (`#7aa2f7`).**
-* ⏱️ **Duración de comandos:** Muestra el tiempo de ejecución si supera los 2 segundos (`⏳`).
+* **Directorio actual (`#50f5ff`):** Con indicador de solo lectura ``.
+*  **Rama y estado de Git (`#bb9af7` / `#ff9e64`):** Cambios pendientes, commits adelantados/atrasados.
+* 󰒋 **Runtimes activos vía mise:** Versión en tiempo real de Node ``, Python ``, Java ``, Rust ``, Go ``.
+* 󱃾 **Contexto de Kubernetes (`#7aa2f7`):** Cluster/namespace activo.
+*  **Contexto de Docker (`#7aa2f7`):** Daemon/compose activo.
+*  **Duración de comandos (`#7a88cf`):** Muestra el tiempo de ejecución si supera los 2 segundos (` 3s`).
 * ❯ **Carácter de entrada:** `#50f5ff` (éxito) o `#f7768e` (error).
 
 ---
