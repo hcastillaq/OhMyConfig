@@ -65,6 +65,14 @@ Neovim es un **editor modal**: cambiás de modo según lo que quieras hacer.
 | **Moverse al panel derecho (Editor)** | **`Ctrl + l`** | Vuelve del explorador al código |
 | **Moverse a panel inferior / superior** | **`Ctrl + j`** / **`Ctrl + k`** | Navega entre ventanas divididas horizontalmente |
 | **Redimensionar paneles** | **`Ctrl + Flechas`** | Ajusta el ancho o alto de la ventana activa |
+| **Menú de Ventanas y Splits** | **`<Space> + w`** | Despliega opciones visuales de división y control |
+| **Mover foco entre ventanas** | **`<Space> + wh/j/k/l`** | Mueve el foco a la ventana izquierda, abajo, arriba o derecha |
+| **Dividir ventana horizontalmente** | **`<Space> + ws`** (o `<Space> + w-`) | Crea un nuevo split horizontal inferior |
+| **Dividir ventana verticalmente** | **`<Space> + wv`** (o `<Space> + w\|`) | Crea un nuevo split vertical derecho |
+| **Cerrar ventana / split activo** | **`<Space> + wd`** (o `<Space> + wq`) | Cierra la ventana actual sin cerrar Neovim |
+| **Maximizar / Restaurar tamaño (Zoom)** | **`<Space> + wm`** | Alterna pantalla completa en la ventana activa |
+| **Balancear e igualar tamaño** | **`<Space> + w=`** | Ajusta automáticamente todas las ventanas al mismo tamaño |
+| **Intercambiar posición (Swap)** | **`<Space> + wx`** | Intercambia posición de la ventana activa con la siguiente |
 
 ### Atajos rápidos DENTRO del Explorador:
 * **`l`** o **`<Enter>`**: Abre el archivo (o entra a una carpeta).
@@ -91,11 +99,14 @@ Neovim es un **editor modal**: cambiás de modo según lo que quieras hacer.
 
 | Qué querés hacer | Atajo / Comando | Explicación |
 | :--- | :--- | :--- |
-| **Guardar archivo actual** | **`<Space> + w`** (o `:w`) | Guarda los cambios en disco |
+| **Guardar archivo actual** | **`Ctrl + s`** (o `<Space> + fs`) | Guarda los cambios en disco (en modo normal, visual o inserción) |
+| **Menú de Ventanas y Splits** | **`<Space> + w`** | Menú interactivo de gestión y división de ventanas |
 | **Cerrar pestaña actual limpiamente** | **`<Space> + bd`** | Cierra el archivo sin dejar pestañas `[No Name]` |
 | **Cerrar todas las demás pestañas** | **`<Space> + bo`** | Cierra todos los buffers excepto el actual |
-| **Siguiente / Anterior pestaña** | **`Shift + l`** / **`Shift + h`** | Navega por la barra superior de pestañas |
-| **Elegir pestaña interactivamente** | **`<Space> + bp`** | Teclas guía para saltar a cualquier pestaña |
+| **Siguiente / Anterior pestaña** | **`<Space> + bl`** / **`<Space> + bh`** | Navega por la barra superior de pestañas (`Shift + l/h`) |
+| **Alternar con la pestaña previa** | **`<Space> + bb`** | Salta instantáneamente a la última pestaña visitada |
+| **Elegir pestaña interactivamente** | **`<Space> + bj`** | Abre selector difuso interactivo de pestañas |
+| **Fijar pestaña actual (Pin)** | **`<Space> + bp`** | Fija la pestaña para evitar cerrarla por error |
 | **Cerrar ventana / split** | **`<Space> + q`** (o `:q`) | Cierra la ventana activa |
 | **DESHACER (Undo Persistente)** | **`u`** | Deshace cambios (incluso tras apagar la PC) |
 | **REHACER (Redo)** | **`Ctrl + r`** | Rehace el cambio deshecho |
@@ -150,24 +161,71 @@ Neovim es un **editor modal**: cambiás de modo según lo que quieras hacer.
 
 ---
 
-## 7. Inteligencia de Código (LSP) y Autocompletado
+## 7. Inteligencia de Código (LSP), Diagnósticos y Correcciones Automáticas
 
+### A. Tabla de Atajos de Navegación e Inteligencia
 | Qué querés hacer | Atajo | Explicación |
 | :--- | :--- | :--- |
 | **Ir a la definición de una función/variable** | **`gd`** | Salta a donde se creó (*Go to Definition*) |
-| **Ver referencias / dónde se usa** | **`gr`** | Lista todos los usos del símbolo con Telescope |
+| **Volver al lugar anterior tras el salto** | **`Ctrl + o`** | Regresa en el historial de saltos (*Jump Back*) |
+| **Avanzar de nuevo en el historial** | **`Ctrl + i`** | Avanza en el historial de saltos (*Jump Forward*) |
+| **Ir a la implementación o interfaz** | **`gI`** | Salta a la clase o código concreto que la implementa |
+| **Ir a la definición de tipo** | **`gy`** | Salta a la declaración del tipo/interfaz (*Type Definition*) |
+| **Ver referencias / dónde se usa** | **`gr`** | Lista todos los usos del símbolo con Telescope/Snacks |
+| **Buscar palabra bajo el cursor en proyecto** | **`<Space> + sw`** | Búsqueda grep de la palabra actual en archivos |
 | **Ver documentación y tipos flotantes** | **`K`** | Muestra el docstring y tipos de la función (*Hover*) |
 | **Renombrar símbolo en todo el proyecto** | **`<Space> + cr`** | Renombra la variable/función de forma segura (*Code Rename*) |
-| **Acciones de código / Correcciones rápidas** | **`<Space> + ca`** | Menú para importar módulos o corregir errores |
+| **Acciones de código / Correcciones automáticas**| **`<Space> + ca`** | Menú flotante con soluciones sugeridas (*Code Action*) |
+| **Acciones de archivo completo (Organizar)** | **`<Space> + cA`** | Organizar imports o correcciones globales (*Source Action*) |
 | **Formatear el archivo actual** | **`<Space> + cf`** | Aplica Prettier, Stylua, Ruff/Black, etc. |
-| **Ver error / advertencia de la línea** | **`<Space> + cd`** | Muestra el diagnóstico en ventana flotante |
-| **Saltar al error siguiente / anterior** | **`]d`** / **`[d`** | Navega por los errores de sintaxis |
+| **Ver error / diagnóstico de la línea** | **`<Space> + cd`** | Muestra el diagnóstico y mensaje de error en ventana flotante |
+| **Saltar al error siguiente / anterior** | **`]d`** / **`[d`** | Navega por los errores de sintaxis (*Next/Prev Diagnostic*) |
+| **Panel de Diagnósticos del Proyecto (Trouble)**| **`<Space> + xx`** | Abre panel inferior con todos los errores del proyecto |
 
-### Autocompletado (`blink.cmp`) mientras escribís:
-* **`<Tab>`** / **`<S-Tab>`**: Moverse por las sugerencias.
-* **`<Enter>`**: Aceptar y autocompletar.
-* **`Ctrl + Space`**: Abrir/alternar menú y documentación flotante.
-* **`Ctrl + e`**: Cerrar menú de autocompletado.
+---
+
+### B. Flujo Paso a Paso: ¿Cómo Aplicar Correcciones Sugeridas por el Lenguaje?
+
+Cuando el editor resalta un error de tipado, un módulo no importado o una advertencia de linting:
+
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│ PASO 1: Navegar al error       │  Tocá ]d para saltar al próximo error │
+├────────────────────────────────┼───────────────────────────────────────┤
+│ PASO 2: Leer el diagnóstico    │  Tocá <Space> + cd (ventana flotante) │
+├────────────────────────────────┼───────────────────────────────────────┤
+│ PASO 3: Abrir sugerencias      │  Tocá <Space> + ca (Code Actions)     │
+├────────────────────────────────┼───────────────────────────────────────┤
+│ PASO 4: Aplicar la corrección  │  Elegí la opción y tocá <Enter>       │
+└────────────────────────────────┴───────────────────────────────────────┘
+```
+
+1. **Saltar al error:** Presioná **`]d`** para mover el cursor directamente a la siguiente advertencia o error en el archivo.
+2. **Examinar el detalle:** Presioná **`<Space> + cd`** para leer la descripción detallada del compilador/LSP en una ventana flotante.
+3. **Desplegar correcciones sugeridas:** Presioná **`<Space> + ca`** (*Code Action*). Neovim abrirá un menú emergente con las soluciones que el servidor de lenguaje recomienda (ej: *"Import 'UserService'"*, *"Add missing interface members"*, *"Surround with try/catch"*, *"Fix spelling"*).
+4. **Aplicar la solución con 1 tecla:** Movete por las sugerencias con **`j` / `k`** (o las flechas) y presioná **`<Enter>`**. Neovim aplicará los cambios en el código al instante sin que tengas que escribirlos a mano.
+5. **Organizar imports de todo el archivo:** Presioná **`<Space> + cA`** (*Source Action*) para ejecutar arreglos globales como organizar o limpiar imports no utilizados.
+6. **Vista de todos los errores del proyecto:** Presioná **`<Space> + xx`** para abrir el panel de **Trouble**, que agrupa todos los problemas del repositorio por archivo y severidad.
+
+---
+
+### C. Flujo Paso a Paso: Navegar entre Código y Volver sin Perderte
+
+1. **Saltar a la definición:** Colocá el cursor sobre cualquier función, variable o clase y tocá **`gd`** (*Go to Definition*).
+2. **Volver al punto original:** Tocá **`Ctrl + o`** (*Jump Out*). Neovim te devolverá de inmediato al archivo y la línea exacta donde estabas antes del salto.
+3. **Re-avanzar hacia la definición:** Tocá **`Ctrl + i`** (*Jump In*) para volver a ir hacia adelante en la pila de navegación.
+4. **Si estás en una Interfaz:** Tocá **`gI`** (*Go to Implementation*) para saltar a la clase concreta que implementa el método (especialmente útil en Java, TypeScript y Go).
+5. **Consultar sin saltar:** Tocá **`K`** (*Hover*) para ver la firma, tipos de parámetros y documentación en una ventana flotante sin mover el cursor.
+
+---
+
+### D. Autocompletado (`blink.cmp`) y Selección Sintáctica:
+* **`Ctrl + Space` según el modo:**
+  - En **Modo Inserción**: Abre manualmente el menú emergente de sugerencias de autocompletado y documentación flotante.
+  - En **Modo Normal / Visual**: Ejecuta selección incremental sintáctica de código con Treesitter (nodo $\rightarrow$ línea $\rightarrow$ bloque).
+* **`<Tab>`** / **`<S-Tab>`**: Moverse por las sugerencias de autocompletado.
+* **`<Enter>`**: Aceptar y autocompletar la sugerencia seleccionada.
+* **`Ctrl + e`**: Cerrar menú de autocompletado sin seleccionar nada.
 
 ---
 
@@ -178,8 +236,9 @@ Neovim es un **editor modal**: cambiás de modo según lo que quieras hacer.
   - **`<Space> + cnc`**: Documentar clase | **`<Space> + cnt`**: Documentar tipo/interfaz.
   - **`<Tab>`**: Salta entre los campos autogenerados para escribir las descripciones.
 * **Comentarios Rápidos Multilenguaje (`ts-comments`):**
-  - **`gcc`**: Comentar / Descomentar línea actual en modo normal.
-  - **`gc`**: Comentar / Descomentar bloque seleccionado en modo visual.
+  - **`<Space> + cc`** (o **`gcc`**): Comentar / Descomentar línea actual en modo normal.
+  - **`<Space> + cc`** (o **`gc`** en visual): Comentar / Descomentar bloque seleccionado en modo visual.
+  - **`<Space> + cb`**: Añadir una nueva línea comentada debajo de la actual.
 * **Manipulación de Envolturas (`mini.surround`):**
   - **`gsa`**: Envolver palabra (`gsa` + `iw` + `"` $\rightarrow$ `"palabra"`).
   - **`gsd`**: Borrar envoltura (`gsd"` sobre `"hola"` $\rightarrow$ `hola`).
@@ -193,6 +252,7 @@ Neovim es un **editor modal**: cambiás de modo según lo que quieras hacer.
 | :--- | :--- | :--- |
 | **Saltar al siguiente cambio de Git** | **`]c`** | Salta al próximo bloque modificado (*Next Hunk*) |
 | **Saltar al cambio anterior de Git** | **`[c`** | Salta al bloque modificado anterior (*Prev Hunk*) |
+| **Abrir Lazygit flotante** | **`<Space> + gg`** | Abre interfaz visual completa de Lazygit en Neovim |
 | **Ver Diff flotante de la línea** | **`<Space> + gp`** | Vista previa emergente de qué cambió |
 | **Git Blame detallado en ventana** | **`<Space> + gb`** | Muestra el commit completo y autor |
 | **Alternar Git Blame en línea (Toggle)** | **`<Space> + gB`** | Activa / desactiva el texto al final de la línea |
@@ -213,3 +273,23 @@ Neovim es un **editor modal**: cambiás de modo según lo que quieras hacer.
 | **Restaurar Sesión del Proyecto** | **`<Space> + qs`** | Abre ventanas, pestañas y cursores donde los dejaste |
 | **Restaurar Última Sesión de Neovim** | **`<Space> + ql`** | Restaura la última sesión cerrada |
 | **Actualizar todos los plugins** | **`<Space> + pu`** | Ejecuta `:Lazy update` |
+
+---
+
+## 11. Soporte de Lenguajes Out-of-the-Box y Runtimes con `mise`
+
+OhMyConfig activa declarativamente soporte para los lenguajes más utilizados en la industria dentro de `config/nvim/lazyvim.json`. Neovim descarga y gestiona automáticamente los Language Servers, parsers Tree-sitter y formatters correspondientes mediante Mason.
+
+| Lenguaje / Framework | Extra de LazyVim | Servidor LSP / Herramientas | SDK / Runtime de Sistema Requerido |
+| :--- | :--- | :--- | :--- |
+| **TypeScript / JS** | `lang.typescript` | `vtsls`, Prettier, ESLint | Node.js (`mise use -g node@lts`) |
+| **Python** | `lang.python` | `pyright` / `basedpyright`, Ruff | Python (`mise use -g python@latest`) |
+| **Java** | `lang.java` | `nvim-jdtls`, `java-debug-adapter` | JDK 17 o 21 (`mise use -g java@openjdk-21`) |
+| **Go** | `lang.go` | `gopls`, `gofumpt`, Delve (DAP) | Go SDK (`mise use -g go@latest`) |
+| **Rust** | `lang.rust` | `rustaceanvim`, `codelldb` | Rust + Analyzer (`mise use -g rust@latest && rustup component add rust-analyzer`) |
+| **Angular** | `lang.angular` | `@angular/language-server`, SCSS | Node.js (`mise use -g node@lts`) |
+| **PHP** | `lang.php` | `phpactor` (o `intelephense`), PHPCS | PHP CLI (`mise use -g php@latest`) |
+| **Docker / YAML / JSON**| `lang.docker`, `lang.yaml`, `lang.json` | Schemas y linters automáticos | Incluidos automáticamente en Mason |
+
+> 💡 **Nota sobre Runtimes y SDKs:** Mason descarga las extensiones y servidores LSP dentro de Neovim, pero servidores como `jdtls` (Java) o `phpactor` (PHP) requieren que el ejecutable base de Java o PHP exista en el sistema (`$PATH`). Si al abrir un archivo Neovim indica que falta un runtime, ejecutá el comando `mise` correspondiente indicado en la tabla.
+

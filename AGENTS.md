@@ -80,7 +80,8 @@ OhMyConfig/
             └── plugins/
                 ├── colorscheme.lua # Tokyonight Night theme with adaptive blur/transparency
                 ├── neo-tree.lua    # Clean Git status symbols without empty boxes
-                └── neogen.lua      # Intelligent docstring generator (JSDoc, TSDoc, Google)
+                ├── neogen.lua      # Intelligent docstring generator (JSDoc, TSDoc, Google)
+                └── which-key.lua   # Tokyonight-styled Which-Key v3 specs & Spanish groups
 ```
 
 ---
@@ -123,7 +124,8 @@ OhMyConfig/
   - `colorscheme.lua`: Configures Tokyonight Night with adaptive transparency & blur for Ghostty.
   - `neo-tree.lua`: High-contrast, clean Git status indicators without empty box artifacts.
   - `neogen.lua`: Automated structured docstring generation (`<leader>cn`).
-  - `keymaps.lua` & `options.lua`: Seamless `Ctrl + hjkl` window navigation, persistent undo, hybrid line numbers, system clipboard integration.
+  - `which-key.lua`: Friendly Spanish categorization and preserved window (`<c-w>`) and buffer proxies for Which-Key v3.
+  - `keymaps.lua` & `options.lua`: Seamless `Ctrl + hjkl` window navigation, persistent undo, hybrid line numbers, universal `<C-s>` saving, system clipboard integration.
   - `lazyvim.json`: Dynamic module toggling via `:LazyExtras` (`<leader>px`).
 
 ### 3.6 AI Ecosystem & Coding Agents (`cli/commands/dev.sh` & `docs/ai.md`)

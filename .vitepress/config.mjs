@@ -4,6 +4,7 @@ export default {
   lang: "es-ES",
   base: "/OhMyConfig/",
   srcDir: "docs",
+  srcExclude: ["**/brainstorms/**", "**/plans/**"],
   cleanUrls: true,
 
   themeConfig: {

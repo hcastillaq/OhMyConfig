@@ -104,7 +104,8 @@ OhMyConfig/
 * **`Ctrl + h/j/k/l`**: Moverse fluidamente entre paneles y divisiones.
 * **`Shift + l`** / **`Shift + h`**: Pestaña siguiente / anterior.
 * **`<Space> + bd`**: Cerrar pestaña actual limpiamente sin dejar `[No Name]`.
-* **`<Space> + w`**: Guardar archivo (`:w`).
+* **`Ctrl + s`**: Guardar archivo actual en cualquier modo (normal o inserción).
+* **`<Space> + w`**: Menú de ventanas y divisiones (splits: horizontal, vertical, cerrar).
 * **`s` + 2 letras**: Salto instantáneo a cualquier palabra en pantalla (Flash).
 * **`gd`** / **`K`**: Ir a definición / Ver documentación flotante (LSP).
 * **`<Space> + cr`**: Renombrar variable en todo el proyecto con LSP.

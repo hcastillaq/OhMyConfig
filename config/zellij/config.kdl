@@ -21,6 +21,10 @@ ui {
 // Atajos directos para navegación fluida en Modo Normal
 keybinds {
     normal {
+        // Desvincular Ctrl+s en Zellij para que Neovim pueda guardar sin interrupciones
+        unbind "Ctrl s"
+        bind "Alt s" { SwitchToMode "Scroll"; }
+
         // --- Navegación entre paneles ---
         bind "Alt Left" "Alt h" { MoveFocus "Left"; }
         bind "Alt Right" "Alt l" { MoveFocus "Right"; }

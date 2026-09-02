@@ -84,7 +84,8 @@ Presioná **`Ctrl + t`** (la barra inferior cambia a púrpura indicando `TAB`):
 * **Modo Redimensionar (`Ctrl + n`):**
   - **`+`** / **`-`**: Aumentar o reducir tamaño del panel activo.
   - **`h`**, **`j`**, **`k`**, **`l`**: Redimensionar hacia la dirección específica (izquierda, abajo, arriba, derecha).
-* **Modo Scroll y Búsqueda (`Ctrl + s`):**
+* **Modo Scroll y Búsqueda (`Alt + s`):**
+  > 💡 *Nota de convivencia:* En OhMyConfig, `Ctrl + s` está liberado en Zellij para que Neovim pueda guardar archivos universalmente sin interferencias del multiplexor. El modo Scroll se activa con **`Alt + s`**.
   - **`j`** / **`k`**: Scrollear línea por línea en el historial de la terminal.
   - **`d`** / **`u`**: Scrollear media página abajo / arriba (*Half-page*).
   - **`s`**: **Buscar texto en el historial** de la consola.
