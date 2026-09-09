@@ -12,10 +12,10 @@ Esta skill define el protocolo para mantener la documentación de **OhMyConfig**
 ## Arquitectura de la Documentación
 
 ```text
-docs/                        # Fuentes puras en Markdown
+documentation/               # Fuentes puras en Markdown
 ├── index.md                 # Landing page con hero y feature cards
 ├── instalacion.md           # Guía de la CLI omc y Brewfile
-├── ai.md                    # Ecosistema de IA (pi, lazypi, compound engineering, plan)
+├── ai.md                    # Ecosistema de IA (Pi y extensiones opcionales)
 ├── neovim.md                # Guía del editor Neovim y LazyVim
 ├── zellij.md                # Multiplexor Zellij y modo Move
 ├── git.md                   # Flujo de Git, Lazygit y Delta
@@ -23,7 +23,7 @@ docs/                        # Fuentes puras en Markdown
 ├── herramientas.md          # Catálogo completo de CLI/TUI
 └── cheatsheet.md            # Tabla maestra consolidada de atajos
 
-.vitepress/config.mjs        # Configuración del sitio (nav, sidebar, Tokyonight theme)
+.vitepress/config.mjs        # Configuración del sitio (srcDir: documentation, nav, sidebar y tema Static Noise)
 README.md                    # Manual rápido de GitHub con enlaces al sitio web
 ```
 
@@ -32,13 +32,13 @@ README.md                    # Manual rápido de GitHub con enlaces al sitio web
 ## Invariantes de Documentación
 
 1. **Principio de Documentación Pura:**
-   - La carpeta `docs/` contiene **exclusivamente archivos Markdown puros** sin dependencias de frameworks ni bloat.
-   - La configuración vive fuera, en `.vitepress/config.mjs` con `srcDir: "docs"`.
+   - La carpeta `documentation/` contiene **exclusivamente archivos Markdown puros** sin dependencias de frameworks ni bloat.
+   - La configuración vive fuera, en `.vitepress/config.mjs` con `srcDir: "documentation"`.
 
 2. **Sincronización Multilateral:**
    - Si se añade un atajo o comando nuevo:
-     1. Actualizar la guía específica en `docs/<tema>.md`.
-     2. Actualizar la tabla maestra en `docs/cheatsheet.md`.
+     1. Actualizar la guía específica en `documentation/<tema>.md`.
+     2. Actualizar la tabla maestra en `documentation/cheatsheet.md`.
      3. Actualizar la sección de referencia rápida en `README.md`.
      4. Si es una nueva página `.md`, registrarla en `nav` y `sidebar` de `.vitepress/config.mjs`.
 
@@ -54,7 +54,7 @@ README.md                    # Manual rápido de GitHub con enlaces al sitio web
 2. **Compilación Local con VitePress:**
    - Ejecutar la compilación de prueba:
      ```bash
-     npm i -D vitepress && npx vitepress build && rm -rf node_modules package.json package-lock.json .vitepress/dist .vitepress/cache
+     npm install && npx vitepress build
      ```
 3. **Criterio de Aprobación:**
    - `build complete in X.XXs` con 0 errores de Rollup y 0 enlaces rotos.

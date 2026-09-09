@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# UI — Tokyonight visual styling and Gum TUI primitives for omc CLI
+# UI — Static Noise visual styling and Gum TUI primitives for omc CLI
 # ==============================================================================
 
-# Tokyonight color constants
-export COLOR_HEAD="#50f5ff"
-export COLOR_SEC="#c099ff"
-export COLOR_OK="#9ece6a"
-export COLOR_WARN="#e0af68"
-export COLOR_ERR="#f7768e"
-export COLOR_DIM="#7a88cf"
-export COLOR_TEXT="#e0e6fc"
-export COLOR_MUTED="#565f89"
+# Static Noise color constants
+export COLOR_HEAD="#72EAD5"  # Cyan (Foco / Cabecera)
+export COLOR_SEC="#C2A7FF"   # Purple (Estructura secundaria)
+export COLOR_OK="#A3D98B"    # Green (Éxito)
+export COLOR_WARN="#EDD071"  # Yellow (Advertencia)
+export COLOR_ERR="#EF7785"   # Red (Error)
+export COLOR_DIM="#343A4A"   # Border (Separadores y contenido sutil)
+export COLOR_TEXT="#E6E2D6"  # Text (Texto principal)
+export COLOR_MUTED="#9299AE" # Muted (Comentarios y notas)
 
 ui_header() {
     if command -v gum >/dev/null 2>&1; then

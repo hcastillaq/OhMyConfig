@@ -28,7 +28,7 @@ Esta skill define el estándar obligatorio para la redacción de mensajes de com
 * **`fix`**: Corrección de bugs en scripts, atajos mal documentados o fallos de sintaxis.
 * **`refactor`**: Reestructuración de código sin cambiar el comportamiento externo (ej: migrar de Fish a Bash).
 * **`docs`**: Cambios exclusivos en la documentación (`docs/`, `README.md`, `AGENTS.md`).
-* **`style`**: Ajustes estéticos, colores Tokyonight o formato sin cambio funcional.
+* **`style`**: Ajustes estéticos, colores Static Noise o formato sin cambio funcional.
 * **`chore`**: Tareas de mantenimiento, actualización de dependencias, limpieza o ajustes en `.gitignore`.
 * **`test`**: Nuevos tests o validaciones de scripts.
 

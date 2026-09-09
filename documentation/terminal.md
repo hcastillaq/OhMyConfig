@@ -8,10 +8,10 @@ OhMyConfig combina un emulador acelerado por GPU, una shell interactiva, un gest
 
 Emulador de terminal nativo para macOS con aceleración por GPU (Metal):
 
-* **Desenfoque y Transparencia:** Configurado con *blur radius 20*, opacidad al 0.95 y sin marcos de ventana de macOS.
+* **Desenfoque y Transparencia:** Configurado con *blur radius 20*, opacidad al 0.90 y sin marcos de ventana de macOS.
 * **Tipografía:** JetBrains Mono Nerd Font con ligaduras de código habilitadas.
-* **Cursor:** Estilo bloque en color Cyan Tokyonight (`#7dcfff`).
-* **Selección:** Fondo azul de alto contraste (`#3d59a1`) con texto blanco (`#ffffff`). Consulta `documentation/colores.md` para los roles y extensiones disponibles.
+* **Cursor:** Estilo bloque en color Cyan Static Noise (`#72EAD5`).
+* **Selección:** Fondo atenuado de alto contraste (`#253A43`) con texto marfil (`#E6E2D6`). Consulta `documentation/colores.md` para los roles y extensiones disponibles.
 
 ---
 
@@ -19,7 +19,7 @@ Emulador de terminal nativo para macOS con aceleración por GPU (Metal):
 
 Shell interactiva con autocompletado en tiempo real y coloreado sintáctico calibrado para fondos oscuros:
 
-* **Sintaxis Coloreada:** Comandos en Cyan Neón (`#50f5ff`), comillas en verde (`#9ece6a`), flags en azul cielo (`#7aa2f7`), variables en púrpura (`#c099ff`), errores en rojo (`#f7768e`).
+* **Sintaxis Coloreada:** Comandos en Cyan (`#72EAD5`), comillas en verde (`#A3D98B`), flags y opciones en púrpura (`#C2A7FF`), separadores en naranja (`#F3A261`), errores en rojo (`#EF7785`).
 * **Atajos:** La referencia única de alias y atajos está en `documentation/cheatsheet.md`.
 * **Función `cds`:** Purga recursivamente archivos `.DS_Store` en proyectos macOS:
   ```bash
@@ -53,13 +53,13 @@ Shell interactiva con autocompletado en tiempo real y coloreado sintáctico cali
 
 Prompt ultrarrápido escrito en Rust con telemetría contextual y glifos flat (JetBrains Mono Nerd Font):
 
-* **Directorio actual (`#50f5ff`):** Con indicador de solo lectura ``.
-*  **Rama y estado de Git (`#bb9af7` / `#ff9e64`):** Cambios pendientes, commits adelantados/atrasados.
+* **Directorio actual (`#83BFFF`):** Con indicador de solo lectura ``.
+*  **Rama y estado de Git (`#C2A7FF` / `#F3A261`):** Cambios pendientes, commits adelantados/atrasados.
 * 󰒋 **Runtimes activos vía mise:** Versión en tiempo real de Node ``, Python ``, Java ``, Rust ``, Go ``.
-* 󱃾 **Contexto de Kubernetes (`#7aa2f7`):** Cluster/namespace activo.
-*  **Contexto de Docker (`#7aa2f7`):** Daemon/compose activo.
-*  **Duración de comandos (`#7a88cf`):** Muestra el tiempo de ejecución si supera los 2 segundos (` 3s`).
-* ❯ **Carácter de entrada:** `#50f5ff` (éxito) o `#f7768e` (error).
+* 󱃾 **Contexto de Kubernetes (`#72EAD5`):** Cluster/namespace activo.
+*  **Contexto de Docker (`#83BFFF`):** Daemon/compose activo.
+*  **Duración de comandos (`#EDD071`):** Muestra el tiempo de ejecución si supera los 2 segundos (` 3s`).
+* ❯ **Carácter de entrada:** `#72EAD5` (éxito) o `#EF7785` (error).
 
 ---
 

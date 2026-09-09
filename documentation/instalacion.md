@@ -23,7 +23,7 @@ Navegá con `↑ ↓` y confirmá con `Enter`.
 
 **Paso 2 — Selección de módulos:**
 ```
-  Seleccioná módulos (x = marcar/desmarcar, a = todos, Enter = confirmar)
+  Seleccioná módulos (espacio = marcar/desmarcar, Enter = confirmar)
 
 • Core         Fish · Starship · mise · Atuin · Nerd Fonts
 • Terminal     Ghostty · Zellij
@@ -37,8 +37,7 @@ Navegá con `↑ ↓` y confirmá con `Enter`.
 | Tecla | Acción |
 | :---: | :--- |
 | `↑` / `↓` | Mover cursor |
-| `x` | Marcar / desmarcar módulo |
-| `a` | Seleccionar / deseleccionar todos |
+| `Espacio` | Marcar / desmarcar módulo |
 | `Enter` | Confirmar selección e instalar |
 | `q` / `Esc` | Cancelar |
 
@@ -50,8 +49,8 @@ Navegá con `↑ ↓` y confirmá con `Enter`.
 
 ```bash
 ./omc install                  # Menú TUI para elegir modo y módulos
-./omc install --all            # Instala todos los módulos en modo copia
-./omc install --all --link     # Instala todos los módulos en modo symlink
+./omc install --all            # Instala todos los módulos en modo symlink
+./omc install --all --link     # Equivalente explícito: todos los módulos en modo symlink
 ./omc install --link           # Menú de módulos pero fuerza modo symlink
 ```
 
@@ -89,7 +88,7 @@ Salida de ejemplo:
   ✅  node                   22.14.0 (via mise)
 
   Perfil: modo=symlink  módulos=[core terminal editor search cli devops ai]
-  ✅ 31 instaladas · 0 faltantes
+  ✅ 33 instaladas · 0 faltantes
 ────────────────────────────────────────────────────────
 ```
 
@@ -126,7 +125,7 @@ Instala únicamente el agente base **`pi`**. Las extensiones y paquetes adiciona
 ./omc dev              # Instala sólo el CLI base de Pi
 ./omc dev status       # Muestra la versión de Pi y los paquetes instalados
 ./omc dev update       # Actualiza sólo el CLI base de Pi
-./omc dev doctor       # Chequeo de salud del entorno (Node, git, auth, settings)
+./omc dev doctor       # Chequeo local de Node, npm y Pi; también ejecuta pi list
 ./omc dev remove       # Ayuda para administrar extensiones con pi remove
 ```
 
@@ -164,7 +163,8 @@ Crea enlaces simbólicos de `~/.config/` directamente a los archivos del reposit
 Copia los archivos a `~/.config/`. Si existe un archivo modificado, genera un respaldo automático con timestamp (`.bak_YYYYMMDD_HHMMSS`) antes de sobrescribir. Recomendado para producción o máquinas compartidas.
 
 ```bash
-./omc install --all
+./omc install
+# Elegí "Copia con respaldo" en el selector interactivo.
 ```
 
 ---
@@ -173,13 +173,13 @@ Copia los archivos a `~/.config/`. Si existe un archivo modificado, genera un re
 
 | Módulo | Herramientas | Configs desplegadas |
 | :--- | :--- | :--- |
-| **core** | Fish · Starship · mise · Atuin · Nerd Fonts | `fish/config.fish`, `fish/functions/`, `starship.toml`, `atuin/config.toml` |
+| **core** | Fish · Starship · mise · Atuin · Nerd Fonts | `fish/config.fish`, `starship.toml`, `atuin/config.toml` |
 | **terminal** | Ghostty · Zellij | `ghostty/config`, `zellij/config.kdl`, layouts, plugins |
 | **editor** | Neovim · Git-Delta · Lazygit · gh · Bat · Glow | `nvim/`, `lazygit/config.yml`, `git/delta.gitconfig` |
 | **search** | rg · fd · fzf · sd · yazi · zoxide · eza · dust | — (integradas en Fish) |
 | **cli** | btm · procs · xh · jq · jqp · tokei · onefetch | `bottom/bottom.toml` |
 | **devops** | lazydocker · k9s · kubectx/kubens | — |
-| **ai** | pi (Coding Agent en terminal) | — (npm global) |
+| **ai** | pi (Coding Agent en terminal) | `~/.pi/themes/ohmyconfig-static-noise.json`, `~/.pi/extensions/ohmyconfig-header.ts` (Pi base por npm global) |
 
 ---
 
@@ -193,7 +193,7 @@ deploy_mode=symlink
 modules=core terminal editor search cli devops ai
 ```
 
-`omc update` y `omc doctor` lo leen para saber qué módulos tenés activos. Podés commitearlo para replicar el setup exacto en otra máquina.
+El instalador lo crea como estado local y `omc doctor` lo muestra como referencia. `omc update` no filtra sus actualizaciones por este archivo, y el perfil está ignorado por Git.
 
 ---
 
@@ -210,7 +210,7 @@ modules=core terminal editor search cli devops ai
    mise use -g python@latest
    mise use -g go@latest
    ```
-3. **Abrir Ghostty** para disfrutar del renderizado GPU y el tema Tokyonight completo.
+3. **Abrir Ghostty** para disfrutar del renderizado GPU y el tema Static Noise completo.
 4. **Instalar Pi base y añadir extensiones sólo si las necesitás:**
    ```bash
    ./omc dev

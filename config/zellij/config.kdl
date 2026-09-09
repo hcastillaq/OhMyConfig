@@ -1,8 +1,8 @@
 // ==============================================================================
-// CONFIGURACIÓN DE ZELLIJ (TEMA TOKYONIGHT CON ALTO CONTRASTE DE FOCO)
+// CONFIGURACIÓN DE ZELLIJ (TEMA STATIC NOISE CON ALTO CONTRASTE DE FOCO)
 // ==============================================================================
 
-theme "tokyonight"
+theme "static-noise"
 default_layout "default"
 mouse_mode true
 copy_command "pbcopy"
@@ -99,16 +99,6 @@ keybinds clear-defaults=true {
         bind "9" { GoToTab 9; SwitchToMode "Normal"; }
     }
 
-    move {
-        bind "Esc" "Enter" "Alt m" { SwitchToMode "Normal"; }
-        bind "Tab" "n" { MovePane; }
-        bind "p" { MovePaneBackwards; }
-        bind "h" "Left" { MovePane "Left"; }
-        bind "j" "Down" { MovePane "Down"; }
-        bind "k" "Up" { MovePane "Up"; }
-        bind "l" "Right" { MovePane "Right"; }
-    }
-
     resize {
         bind "Esc" "Enter" "Alt z" { SwitchToMode "Normal"; }
         bind "h" "Left" { Resize "Increase Left"; }
@@ -123,29 +113,31 @@ keybinds clear-defaults=true {
         bind "-" { Resize "Decrease"; }
     }
 
+    move {
+        bind "Esc" "Enter" "Alt m" { SwitchToMode "Normal"; }
+        bind "h" "Left" { MovePane "Left"; }
+        bind "j" "Down" { MovePane "Down"; }
+        bind "k" "Up" { MovePane "Up"; }
+        bind "l" "Right" { MovePane "Right"; }
+        bind "n" "Tab" { MovePane; }
+        bind "p" { MovePaneBackwards; }
+    }
+
     scroll {
-        bind "Esc" "Enter" "Alt s" { ScrollToBottom; SwitchToMode "Normal"; }
+        bind "Esc" "Enter" "Alt s" { SwitchToMode "Normal"; }
         bind "e" { EditScrollback; SwitchToMode "Normal"; }
         bind "s" { SwitchToMode "EnterSearch"; SearchInput 0; }
         bind "j" "Down" { ScrollDown; }
         bind "k" "Up" { ScrollUp; }
         bind "d" { HalfPageScrollDown; }
         bind "u" { HalfPageScrollUp; }
-        bind "h" "Left" "PageUp" { PageScrollUp; }
-        bind "l" "Right" "PageDown" { PageScrollDown; }
-        bind "[" { ScrollToPreviousPrompt; }
-        bind "]" { ScrollToNextPrompt; }
-        bind "c" { CopyLastCommandOutput; SwitchToMode "Normal"; }
+        bind "f" "PageDown" { PageScrollDown; }
+        bind "b" "PageUp" { PageScrollUp; }
     }
 
     search {
-        bind "Esc" "Enter" { ScrollToBottom; SwitchToMode "Normal"; }
-        bind "j" "Down" { ScrollDown; }
-        bind "k" "Up" { ScrollUp; }
-        bind "d" { HalfPageScrollDown; }
-        bind "u" { HalfPageScrollUp; }
-        bind "h" "Left" "PageUp" { PageScrollUp; }
-        bind "l" "Right" "PageDown" { PageScrollDown; }
+        bind "Esc" "Enter" { SwitchToMode "Normal"; }
+        bind "s" { SwitchToMode "EnterSearch"; SearchInput 0; }
         bind "n" { Search "down"; }
         bind "p" { Search "up"; }
         bind "c" { SearchToggleOption "CaseSensitivity"; }
@@ -173,13 +165,6 @@ keybinds clear-defaults=true {
             };
             SwitchToMode "Normal"
         }
-        bind "c" {
-            LaunchOrFocusPlugin "configuration" {
-                floating true
-                move_to_focused_tab true
-            };
-            SwitchToMode "Normal"
-        }
         bind "p" {
             LaunchOrFocusPlugin "plugin-manager" {
                 floating true
@@ -191,148 +176,147 @@ keybinds clear-defaults=true {
 }
 
 themes {
-    tokyonight {
-        fg "#c0caf5"
-        bg "#13141c"
+    static-noise {
+        fg "#E6E2D6"
+        bg "#141720"
         // Inactive pane border (borde tenue para paneles inactivos)
-        black "#222638"
-        red "#f7768e"
-        // Active pane border & highlight (borde resaltado de alto contraste para el panel enfocado)
-        green "#7dcfff"
-        yellow "#e0af68"
+        black "#343A4A"
+        red "#EF7785"
+        // Active pane border & highlight (borde cian dominante para foco)
+        green "#72EAD5"
+        yellow "#EDD071"
         // Title bar del panel activo
-        blue "#7aa2f7"
-        magenta "#bb9af7"
-        cyan "#7dcfff"
-        white "#c0caf5"
-        orange "#ff9e64"
+        blue "#83BFFF"
+        magenta "#C2A7FF"
+        cyan "#72EAD5"
+        white "#E6E2D6"
+        orange "#F3A261"
 
-        // Componentes modernos de Zellij: selección visible en menús,
-        // listas, tablas, búsqueda y ribbons sin salir de Tokyonight Night.
+        // Componentes modernos de Zellij con tokens de Static Noise
         text_unselected {
-            base 192 202 245        // #c0caf5
-            background 19 20 28     // #13141c
-            emphasis_0 125 207 255  // #7dcfff
-            emphasis_1 122 162 247  // #7aa2f7
-            emphasis_2 187 154 247  // #bb9af7
-            emphasis_3 224 175 104  // #e0af68
+            base 230 226 214        // #E6E2D6
+            background 20 23 32     // #141720
+            emphasis_0 114 234 213  // #72EAD5
+            emphasis_1 131 191 255  // #83BFFF
+            emphasis_2 194 167 255  // #C2A7FF
+            emphasis_3 237 208 113  // #EDD071
         }
 
         text_selected {
-            base 15 16 22           // #0f1016
-            background 80 245 255   // #50f5ff
-            emphasis_0 15 16 22     // #0f1016
-            emphasis_1 247 118 142  // #f7768e
-            emphasis_2 187 154 247  // #bb9af7
-            emphasis_3 255 158 100  // #ff9e64
+            base 15 17 23           // #0F1117
+            background 114 234 213  // #72EAD5
+            emphasis_0 15 17 23     // #0F1117
+            emphasis_1 239 119 133  // #EF7785
+            emphasis_2 194 167 255  // #C2A7FF
+            emphasis_3 243 162 97   // #F3A261
         }
 
         ribbon_unselected {
-            base 192 202 245        // #c0caf5
-            background 24 26 36     // #181a24
-            emphasis_0 125 207 255  // #7dcfff
-            emphasis_1 122 162 247  // #7aa2f7
-            emphasis_2 187 154 247  // #bb9af7
-            emphasis_3 224 175 104  // #e0af68
+            base 230 226 214        // #E6E2D6
+            background 27 31 42     // #1B1F2A
+            emphasis_0 114 234 213  // #72EAD5
+            emphasis_1 131 191 255  // #83BFFF
+            emphasis_2 194 167 255  // #C2A7FF
+            emphasis_3 237 208 113  // #EDD071
         }
 
         ribbon_selected {
-            base 15 16 22           // #0f1016
-            background 80 245 255   // #50f5ff
-            emphasis_0 15 16 22     // #0f1016
-            emphasis_1 247 118 142  // #f7768e
-            emphasis_2 158 206 106  // #9ece6a
-            emphasis_3 255 255 255  // #ffffff
+            base 15 17 23           // #0F1117
+            background 114 234 213  // #72EAD5
+            emphasis_0 15 17 23     // #0F1117
+            emphasis_1 239 119 133  // #EF7785
+            emphasis_2 163 217 139  // #A3D98B
+            emphasis_3 230 226 214  // #E6E2D6
         }
 
         list_unselected {
-            base 192 202 245        // #c0caf5
-            background 19 20 28     // #13141c
-            emphasis_0 125 207 255  // #7dcfff
-            emphasis_1 122 162 247  // #7aa2f7
-            emphasis_2 187 154 247  // #bb9af7
-            emphasis_3 224 175 104  // #e0af68
+            base 230 226 214        // #E6E2D6
+            background 20 23 32     // #141720
+            emphasis_0 114 234 213  // #72EAD5
+            emphasis_1 131 191 255  // #83BFFF
+            emphasis_2 194 167 255  // #C2A7FF
+            emphasis_3 237 208 113  // #EDD071
         }
 
         list_selected {
-            base 255 255 255        // #ffffff
-            background 53 75 138    // #354b8a
-            emphasis_0 80 245 255   // #50f5ff
-            emphasis_1 158 206 106  // #9ece6a
-            emphasis_2 224 175 104  // #e0af68
-            emphasis_3 247 118 142  // #f7768e
+            base 230 226 214        // #E6E2D6
+            background 25 60 59     // #193C3B (cyanDim)
+            emphasis_0 114 234 213  // #72EAD5
+            emphasis_1 163 217 139  // #A3D98B
+            emphasis_2 237 208 113  // #EDD071
+            emphasis_3 239 119 133  // #EF7785
         }
 
         table_title {
-            base 125 207 255        // #7dcfff
-            background 24 26 36     // #181a24
-            emphasis_0 255 255 255  // #ffffff
-            emphasis_1 187 154 247  // #bb9af7
-            emphasis_2 224 175 104  // #e0af68
-            emphasis_3 158 206 106  // #9ece6a
+            base 114 234 213        // #72EAD5
+            background 27 31 42     // #1B1F2A
+            emphasis_0 230 226 214  // #E6E2D6
+            emphasis_1 194 167 255  // #C2A7FF
+            emphasis_2 237 208 113  // #EDD071
+            emphasis_3 163 217 139  // #A3D98B
         }
 
         table_cell_unselected {
-            base 192 202 245        // #c0caf5
-            background 19 20 28     // #13141c
-            emphasis_0 125 207 255  // #7dcfff
-            emphasis_1 122 162 247  // #7aa2f7
-            emphasis_2 187 154 247  // #bb9af7
-            emphasis_3 224 175 104  // #e0af68
+            base 230 226 214        // #E6E2D6
+            background 20 23 32     // #141720
+            emphasis_0 114 234 213  // #72EAD5
+            emphasis_1 131 191 255  // #83BFFF
+            emphasis_2 194 167 255  // #C2A7FF
+            emphasis_3 237 208 113  // #EDD071
         }
 
         table_cell_selected {
-            base 255 255 255        // #ffffff
-            background 53 75 138    // #354b8a
-            emphasis_0 80 245 255   // #50f5ff
-            emphasis_1 158 206 106  // #9ece6a
-            emphasis_2 224 175 104  // #e0af68
-            emphasis_3 247 118 142  // #f7768e
+            base 230 226 214        // #E6E2D6
+            background 25 60 59     // #193C3B (cyanDim)
+            emphasis_0 114 234 213  // #72EAD5
+            emphasis_1 163 217 139  // #A3D98B
+            emphasis_2 237 208 113  // #EDD071
+            emphasis_3 239 119 133  // #EF7785
         }
 
         frame_unselected {
-            base 34 38 56           // #222638
-            background 19 20 28     // #13141c
-            emphasis_0 122 136 207    // #7a88cf
-            emphasis_1 154 165 206  // #9aa5ce
-            emphasis_2 34 38 56     // #222638
-            emphasis_3 24 26 36     // #181a24
+            base 52 58 74           // #343A4A
+            background 20 23 32     // #141720
+            emphasis_0 146 153 174  // #9299AE
+            emphasis_1 201 200 194  // #C9C8C2
+            emphasis_2 52 58 74     // #343A4A
+            emphasis_3 27 31 42     // #1B1F2A
         }
 
         frame_selected {
-            base 125 207 255        // #7dcfff
-            background 19 20 28     // #13141c
-            emphasis_0 80 245 255   // #50f5ff
-            emphasis_1 122 162 247  // #7aa2f7
-            emphasis_2 255 255 255  // #ffffff
-            emphasis_3 187 154 247  // #bb9af7
+            base 114 234 213        // #72EAD5
+            background 20 23 32     // #141720
+            emphasis_0 114 234 213  // #72EAD5
+            emphasis_1 131 191 255  // #83BFFF
+            emphasis_2 230 226 214  // #E6E2D6
+            emphasis_3 194 167 255  // #C2A7FF
         }
 
         frame_highlight {
-            base 80 245 255         // #50f5ff
-            background 19 20 28     // #13141c
-            emphasis_0 122 162 247  // #7aa2f7
-            emphasis_1 187 154 247  // #bb9af7
-            emphasis_2 224 175 104  // #e0af68
-            emphasis_3 247 118 142  // #f7768e
+            base 114 234 213        // #72EAD5
+            background 20 23 32     // #141720
+            emphasis_0 131 191 255  // #83BFFF
+            emphasis_1 194 167 255  // #C2A7FF
+            emphasis_2 237 208 113  // #EDD071
+            emphasis_3 239 119 133  // #EF7785
         }
 
         exit_code_success {
-            base 158 206 106        // #9ece6a
-            background 19 20 28     // #13141c
-            emphasis_0 125 207 255  // #7dcfff
-            emphasis_1 122 162 247  // #7aa2f7
-            emphasis_2 187 154 247  // #bb9af7
-            emphasis_3 224 175 104  // #e0af68
+            base 163 217 139        // #A3D98B
+            background 20 23 32     // #141720
+            emphasis_0 114 234 213  // #72EAD5
+            emphasis_1 131 191 255  // #83BFFF
+            emphasis_2 194 167 255  // #C2A7FF
+            emphasis_3 237 208 113  // #EDD071
         }
 
         exit_code_error {
-            base 247 118 142        // #f7768e
-            background 19 20 28     // #13141c
-            emphasis_0 125 207 255  // #7dcfff
-            emphasis_1 122 162 247  // #7aa2f7
-            emphasis_2 187 154 247  // #bb9af7
-            emphasis_3 224 175 104  // #e0af68
+            base 239 119 133        // #EF7785
+            background 20 23 32     // #141720
+            emphasis_0 114 234 213  // #72EAD5
+            emphasis_1 131 191 255  // #83BFFF
+            emphasis_2 194 167 255  // #C2A7FF
+            emphasis_3 237 208 113  // #EDD071
         }
     }
 }

@@ -132,7 +132,7 @@ EOF
             ;;
         ai)
             cat << 'EOF'
-pi/themes/ohmyconfig-tokyonight.json
+pi/themes/ohmyconfig-static-noise.json
 pi/extensions/ohmyconfig-header.ts
 EOF
             ;;

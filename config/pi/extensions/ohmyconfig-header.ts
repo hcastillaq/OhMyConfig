@@ -25,54 +25,6 @@ const QUOTES = [
   "If debugging is the process of removing bugs, then programming must be the process of putting them in. – Edsger W. Dijkstra"
 ];
 
-function generateMatrixLogo(theme: any): string[] {
-  const PI_MASK = [
-    "                                               ",
-    "       ██████████████████████████████████      ",
-    "      ████████████████████████████████████     ",
-    "      █████    ██████          ██████          ",
-    "               ██████          ██████          ",
-    "               ██████          ██████          ",
-    "               ██████          ██████          ",
-    "               ██████          ██████          ",
-    "            █████████          ██████          ",
-    "           ████████            █████████       ",
-    "                                               "
-  ];
-
-  const lines: string[] = [];
-  
-  for (let y = 0; y < PI_MASK.length; y++) {
-    let currentLine = "";
-    const row = PI_MASK[y];
-    
-    let isPiMode = false;
-    let segment = "";
-    
-    for (let x = 0; x < row.length; x++) {
-      const isPi = row[x] === "█";
-      const char = Math.random() > 0.5 ? "1" : "0";
-      
-      if (isPi !== isPiMode) {
-        if (segment.length > 0) {
-          currentLine += isPiMode ? theme.fg("accent", segment) : theme.fg("dim", segment);
-          segment = "";
-        }
-        isPiMode = isPi;
-      }
-      segment += char;
-    }
-    
-    if (segment.length > 0) {
-      currentLine += isPiMode ? theme.fg("accent", segment) : theme.fg("dim", segment);
-    }
-    
-    lines.push(currentLine);
-  }
-  
-  return ["", ...lines, ""];
-}
-
 function center(line: string, width: number): string {
   const pad = Math.max(0, Math.floor((width - visibleWidth(line)) / 2));
   return " ".repeat(pad) + truncateToWidth(line, width - pad, "");
@@ -86,8 +38,46 @@ export default function piCustomHeader(pi: ExtensionAPI) {
 
     // Startup Header (Logo en grande)
     ctx.ui.setHeader((_tui, theme) => {
+      const generateMatrixLogo = (): string[] => {
+        const piMask = [
+          "                                               ",
+          "       ██████████████████████████████████      ",
+          "      ████████████████████████████████████     ",
+          "      █████    ██████          ██████          ",
+          "               ██████          ██████          ",
+          "               ██████          ██████          ",
+          "               ██████          ██████          ",
+          "               ██████          ██████          ",
+          "            █████████          ██████          ",
+          "           ████████            █████████       ",
+          "                                               ",
+        ];
+
+        return [
+          "",
+          ...piMask.map((row) => {
+            let isPiMode = false;
+            let segment = "";
+            let line = "";
+
+            for (const character of row) {
+              const isPi = character === "█";
+              if (isPi !== isPiMode && segment) {
+                line += isPiMode ? theme.fg("accent", segment) : theme.fg("dim", segment);
+                segment = "";
+              }
+              isPiMode = isPi;
+              segment += Math.random() > 0.5 ? "1" : "0";
+            }
+
+            return line + (isPiMode ? theme.fg("accent", segment) : theme.fg("dim", segment));
+          }),
+          "",
+        ];
+      };
+
       // Generamos la matriz una sola vez al cargar para que no parpadee
-      const logo = generateMatrixLogo(theme);
+      const logo = generateMatrixLogo();
 
       return {
         render(width: number): string[] {

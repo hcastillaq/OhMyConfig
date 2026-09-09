@@ -1,6 +1,6 @@
 # 🧰 Catálogo Maestro de Herramientas CLI & TUI
 
-OhMyConfig sustituye las herramientas tradicionales de Unix por utilidades de última generación escritas principalmente en **Rust** y **Go**, garantizando máximo rendimiento, seguridad de tipos y una estética unificada bajo **Tokyonight Night**.
+OhMyConfig sustituye las herramientas tradicionales de Unix por utilidades de última generación escritas principalmente en **Rust** y **Go**, garantizando máximo rendimiento, seguridad de tipos y una estética unificada bajo **Static Noise**.
 
 ---
 
@@ -73,7 +73,7 @@ OhMyConfig sustituye las herramientas tradicionales de Unix por utilidades de ú
 * `tree`: Visualización de carpetas en árbol con íconos (`eza --tree`).
 
 ### **bat (`cat`) — Visor de Archivos con Sintaxis**
-* `cat <archivo>`: Visor con sintaxis coloreada Tokyonight, marcas de Git y números de línea.
+* `cat <archivo>`: Visor con sintaxis coloreada Static Noise en formato plano.
 
 ### **glow (`md`) — Renderizador de Markdown**
 * `md README.md`: Lee archivos Markdown con formato enriquecido en la consola.

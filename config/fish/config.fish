@@ -1,19 +1,19 @@
 # ==============================================================================
-# CONFIGURACIÓN DE FISH SHELL (TEMA TOKYONIGHT HIGH-CONTRAST PARA FONDOS OSCUROS)
+# CONFIGURACIÓN DE FISH SHELL (TEMA STATIC NOISE PARA FONDOS OSCUROS)
 # ==============================================================================
 
 # --- 1. VARIABLES GLOBALES Y ENTORNO ---
 
 set -gx STARSHIP_CONFIG ~/.config/starship/starship.toml      # Ruta de configuración de Starship
 set -gx XDG_CONFIG_HOME $HOME/.config                       # Directorio base de configuraciones Unix
-set -gx BAT_THEME "tokyonight_night"                        # Tema Tokyonight para bat y delta
+set -gx BAT_THEME "ansi"                                    # Hereda la paleta ANSI de Ghostty (Static Noise)
 set -gx EDITOR "nvim"                                       # Editor de texto predeterminado
 
-# Configuración y colores de FZF (Tokyonight High-Contrast)
+# Configuración y colores de FZF (Static Noise)
 set -gx FZF_DEFAULT_OPTS " \
---color=bg+:#354b8a,bg:#0f1016,spinner:#f7768e,hl:#f7768e \
---color=fg:#c0caf5,header:#7aa2f7,info:#7aa2f7,pointer:#7dcfff \
---color=marker:#9ece6a,fg+:#ffffff,prompt:#7dcfff,hl+:#7dcfff \
+--color=bg+:#193C3B,bg:#141720,spinner:#EF7785,hl:#F08BC2 \
+--color=fg:#E6E2D6,header:#83BFFF,info:#83BFFF,pointer:#72EAD5 \
+--color=marker:#A3D98B,fg+:#E6E2D6,prompt:#72EAD5,hl+:#72EAD5 \
 --prompt '❯ ' --pointer '▶ ' --marker '✓ '"
 
 set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --exclude .git --exclude node_modules'
@@ -21,45 +21,45 @@ set -gx FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
 set -gx FZF_ALT_C_COMMAND 'fd --type d --hidden --exclude .git --exclude node_modules'
 
 # ==============================================================================
-# PALETA DE SINTAXIS NATIVA DE FISH (ALTO CONTRASTE Y MÁXIMA LUMINOSIDAD)
+# PALETA DE SINTAXIS NATIVA DE FISH (STATIC NOISE)
 # ==============================================================================
 # 1. Comandos Principales y Palabras Clave
-set -g fish_color_command 50f5ff                            # Cyan Neón Eléctrico (#50f5ff) - Máximo brillo y nitidez en negro
-set -g fish_color_keyword c099ff --bold                     # Púrpura Tokyonight Luminoso (#c099ff)
-set -g fish_color_quote 9ece6a                              # Verde Lima brillante (#9ece6a) para strings/comillas
-set -g fish_color_redirection 7dcfff                        # Cyan Claro (#7dcfff) para pipes | y redirecciones >
-set -g fish_color_end ff9e64                                # Naranja Brillante (#ff9e64) para ; y &&
-set -g fish_color_error f7768e --bold                       # Rojo / Coral (#f7768e) para comandos inválidos o errores
+set -g fish_color_command 72EAD5                            # Cyan (#72EAD5) - Foco y comando principal
+set -g fish_color_keyword F08BC2 --bold                     # Pink (#F08BC2) - Keywords de control
+set -g fish_color_quote A3D98B                              # Green (#A3D98B) - Strings y rutas válidas
+set -g fish_color_redirection 83BFFF                        # Blue (#83BFFF) - Pipes | y redirecciones >
+set -g fish_color_end F3A261                                # Orange (#F3A261) - Separadores ; y &&
+set -g fish_color_error EF7785 --bold                       # Red (#EF7785) - Errores de sintaxis
 
 # 2. Argumentos, Opciones y Comentarios
-set -g fish_color_normal e0e6fc                             # Blanco Lavanda Brillante (#e0e6fc) para texto general
-set -g fish_color_param e0e6fc                              # Argumentos y nombres de archivo en texto nítido
-set -g fish_color_option 7aa2f7                             # Flags y opciones (--flag, -l, --all) en Azul Cielo
-set -g fish_color_comment 9aa5ce                            # Gris Azulado Luminoso (#9aa5ce) - 100% legible
-set -g fish_color_autosuggestion 636f8f                     # Sugerencias tenues pero con contraste real (#636f8f)
-set -g fish_color_operator 50f5ff                           # Operadores matemáticos y lógicos (=, +, *)
-set -g fish_color_escape b4f9f8                             # Caracteres de escape (\n, \t, etc.)
+set -g fish_color_normal E6E2D6                             # Text (#E6E2D6) - Texto general
+set -g fish_color_param E6E2D6                              # Text (#E6E2D6) - Argumentos y parámetros
+set -g fish_color_option C2A7FF                             # Purple (#C2A7FF) - Flags y opciones
+set -g fish_color_comment 9299AE                            # Muted (#9299AE) - Comentarios legibles
+set -g fish_color_autosuggestion 62697B                     # Disabled (#62697B) - Autosugerencias tenues
+set -g fish_color_operator 72EAD5                           # Cyan (#72EAD5) - Operadores matemáticos y lógicos
+set -g fish_color_escape 83BFFF                             # Blue (#83BFFF) - Caracteres de escape
 
 # 3. Selección y Búsqueda
-set -g fish_color_selection --background=354b8a             # Fondo azul intenso para texto seleccionado
-set -g fish_color_search_match --background=354b8a          # Fondo azul intenso para coincidencias de búsqueda
-set -g fish_color_cancel f7768e --reverse                   # Indicador de cancelación con contraste invertido
+set -g fish_color_selection --background=193C3B             # cyanDim (#193C3B) - Fondo de texto seleccionado
+set -g fish_color_search_match --background=443B25          # yellowDim (#443B25) - Coincidencias de búsqueda
+set -g fish_color_cancel EF7785 --reverse                   # Indicador de cancelación
 
 # 4. Telemetría de Usuario / Prompt
-set -g fish_color_cwd 50f5ff                                # Directorio actual en Cyan Neón
-set -g fish_color_user 7aa2f7                               # Usuario en Azul
-set -g fish_color_host 9ece6a                               # Host en Verde
+set -g fish_color_cwd 83BFFF                                # Directorio actual en Azul
+set -g fish_color_user 72EAD5                               # Usuario en Cyan
+set -g fish_color_host A3D98B                               # Host en Verde
 
 # 5. Menú de Autocompletado (Fish Pager Dropdown)
-set -g fish_pager_color_prefix 50f5ff --bold                # Letras que coinciden en Cyan neón
-set -g fish_pager_color_completion e0e6fc                   # Opciones disponibles en Blanco Lavanda
-set -g fish_pager_color_description 9aa5ce                  # Descripciones de comandos en Gris legible
-set -g fish_pager_color_progress 7aa2f7 --bold              # Barra de progreso del menú
-set -g fish_pager_color_selected_background --background=354b8a # Fondo del ítem seleccionado en Azul Tokyonight
-set -g fish_pager_color_selected_prefix 50f5ff --bold       # Prefijo del ítem seleccionado
-set -g fish_pager_color_selected_completion ffffff --bold   # Texto del ítem seleccionado en Blanco puro
-set -g fish_pager_color_selected_description a9b1d6          # Descripción del ítem seleccionado
-set -g fish_pager_color_secondary_background --background=181a24 # Fondo alternado para filas pares del menú
+set -g fish_pager_color_prefix 72EAD5 --bold                # Letras coincidentes en Cyan
+set -g fish_pager_color_completion E6E2D6                   # Opciones disponibles en Text
+set -g fish_pager_color_description 9299AE                  # Descripciones en Muted
+set -g fish_pager_color_progress 83BFFF --bold              # Barra de progreso en Blue
+set -g fish_pager_color_selected_background --background=193C3B # cyanDim (#193C3B)
+set -g fish_pager_color_selected_prefix 72EAD5 --bold       # Prefijo seleccionado en Cyan
+set -g fish_pager_color_selected_completion E6E2D6 --bold   # Texto seleccionado en Text
+set -g fish_pager_color_selected_description C9C8C2          # Descripción seleccionada en TextSoft
+set -g fish_pager_color_secondary_background --background=1B1F2A # raised (#1B1F2A) - Fondo alternado
 
 
 # --- 2. RUTAS DEL SISTEMA (PATH) ---
@@ -105,14 +105,14 @@ alias tree="eza --tree --icons"
 # Bat (Reemplazo moderno de cat)
 alias cat="bat --style=plain"
 
-# Git
+# Git (Static Noise visual log)
 alias g="git"
 alias gs="git status"
 alias gc="git commit"
 alias gch="git checkout"
 alias gd="git diff"
-alias gl="git log --graph --pretty=format:'%C(bold #7dcfff)%h%C(reset) - %C(bold #c099ff)%d%C(reset) %C(#e0e6fc)%s%C(reset) %C(#9aa5ce)(%cr)%C(reset) %C(bold #7aa2f7)<%an>%C(reset)' --abbrev-commit --date=relative"
-alias glog="git log --graph --all --pretty=format:'%C(bold #7dcfff)%h%C(reset) - %C(bold #c099ff)%d%C(reset) %C(#e0e6fc)%s%C(reset) %C(#9aa5ce)(%cr)%C(reset) %C(bold #7aa2f7)<%an>%C(reset)' --abbrev-commit --date=relative"
+alias gl="git log --graph --pretty=format:'%C(bold #72EAD5)%h%C(reset) - %C(bold #C2A7FF)%d%C(reset) %C(#E6E2D6)%s%C(reset) %C(#9299AE)(%cr)%C(reset) %C(bold #83BFFF)<%an>%C(reset)' --abbrev-commit --date=relative"
+alias glog="git log --graph --all --pretty=format:'%C(bold #72EAD5)%h%C(reset) - %C(bold #C2A7FF)%d%C(reset) %C(#E6E2D6)%s%C(reset) %C(#9299AE)(%cr)%C(reset) %C(bold #83BFFF)<%an>%C(reset)' --abbrev-commit --date=relative"
 alias glp="git log -p"                                      # Log completo con diffs coloreados vía Delta
 alias gp="git push"
 alias gaa="git add ."
@@ -128,7 +128,8 @@ alias md="glow"
 
 # Editor
 alias v="nvim"
-alias code="agy-ide"
+alias vi="nvim"
+alias vim="nvim"
 
 # Zoxide (Navegación inteligente)
 alias cd="z"
@@ -137,13 +138,28 @@ abbr -a ... "z ../.."
 abbr -a .... "z ../../.."
 abbr -a - "z -"
 
+# JQP (Playground interactivo de jq)
+alias jqplay="jqp"
 
-# --- 5. INICIALIZADORES DINÁMICOS ---
 
-mise activate fish | source
-zoxide init fish | source
-fzf --fish | source
+# --- 5. INICIALIZACIÓN DE HERRAMIENTAS DINÁMICAS ---
+
+if command -v mise >/dev/null 2>&1
+    mise activate fish | source
+end
+
+if command -v zoxide >/dev/null 2>&1
+    zoxide init fish | source
+end
+
+if command -v fzf >/dev/null 2>&1
+    fzf --fish | source
+end
+
 if command -v atuin >/dev/null 2>&1
     atuin init fish | source
 end
-starship init fish | source
+
+if command -v starship >/dev/null 2>&1
+    starship init fish | source
+end

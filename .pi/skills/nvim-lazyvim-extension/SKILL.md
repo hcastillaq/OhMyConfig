@@ -22,7 +22,7 @@ config/nvim/
     │   ├── autocmds.lua # Hooks de eventos
     │   └── lazy.lua     # Configuración del core de LazyVim
     └── plugins/
-        ├── colorscheme.lua # Tokyonight Night con transparencia adaptativa
+        ├── colorscheme.lua # Static Noise con transparencia adaptativa
         ├── neo-tree.lua    # Símbolos limpios de Git sin cajas vacías
         └── neogen.lua      # Generación de docstrings (<leader>cn)
 ```
@@ -44,8 +44,8 @@ config/nvim/
    - No cargar plugins en el inicio si no son necesarios inmediatamente.
    - Usar triggers de carga como `event = "VeryLazy"`, `ft = { "markdown", ... }` o `keys = { ... }`.
 
-4. **Preservar Transparencia y Tokyonight:**
-   - Cualquier plugin que cree ventanas flotantes o buffers (Telescope, Snacks, Neo-tree, Which-key) debe respetar el tema Tokyonight configurado en `colorscheme.lua`.
+4. **Preservar Transparencia y Static Noise:**
+   - Cualquier plugin que cree ventanas flotantes o buffers (Telescope, Snacks, Neo-tree, Which-key) debe respetar el tema Static Noise configurado en `colorscheme.lua`.
 
 ---
 

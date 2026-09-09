@@ -1,29 +1,29 @@
 # ==============================================================================
-# CONFIGURACIÓN DE LAZYGIT (TEMA TOKYONIGHT HIGH-CONTRAST & DELTA INTEGRATION)
+# CONFIGURACIÓN DE LAZYGIT (TEMA STATIC NOISE & DELTA INTEGRATION)
 # ==============================================================================
 
 gui:
   theme:
     activeBorderColor:
-      - '#7dcfff' # Cyan brillante para el panel enfocado
+      - '#72EAD5' # Cyan dominante para el panel enfocado
       - bold
     inactiveBorderColor:
-      - '#222638' # Borde tenue y discreto para paneles inactivos
+      - '#343A4A' # Borde border tenue y discreto para paneles inactivos
     searchingActiveBorderColor:
-      - '#ff9e64'
+      - '#F3A261' # Orange para búsqueda activa
       - bold
     optionsTextColor:
-      - '#7dcfff'
+      - '#72EAD5'
     selectedLineBgColor:
-      - '#354b8a' # Azul Tokyonight de alto contraste
+      - '#193C3B' # cyanDim de alto contraste para selección activa
     cherryPickedCommitBgColor:
-      - '#2e3c64'
+      - '#332B4D' # purpleDim para commits cherry-pick
     cherryPickedCommitFgColor:
-      - '#7dcfff'
+      - '#72EAD5'
     unstagedChangesColor:
-      - '#f7768e'
+      - '#EF7785' # Red para cambios sin staged
     defaultFgColor:
-      - '#c0caf5'
+      - '#E6E2D6' # Text
   showIcons: true
   nerdFontsVersion: "3"
 git:

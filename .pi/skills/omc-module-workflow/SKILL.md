@@ -22,7 +22,7 @@ Todo módulo en OhMyConfig debe integrarse en **5 capas sin excepción**:
    - Añadir las fórmulas (`brew "..."`) o casks (`cask "..."`) correspondientes con comentarios organizadores.
 
 3. **Archivos de Configuración (`config/<tool>/`):**
-   - Si la herramienta requiere dotfiles, crearlos bajo `config/<tool>/` con la paleta Tokyonight.
+   - Si la herramienta requiere dotfiles, crearlos bajo `config/<tool>/` con la paleta Static Noise.
 
 4. **Cheatsheet en Terminal (`config/fish/functions/guia.fish`):**
    - Agregar la categoría o comandos correspondientes al switch de `guia <categoria>` y al listado general de atajos.

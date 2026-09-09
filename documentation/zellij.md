@@ -1,18 +1,18 @@
 # 🪟 Guía Maestra de Zellij (`zj`)
 
-Zellij es un multiplexor de terminal moderno escrito en **Rust**, configurado en OhMyConfig con un layout de **1 sola línea inferior** (`layouts/default.kdl`) utilizando el plugin local **`zjstatus.wasm`** y la paleta **Tokyonight**:
+Zellij es un multiplexor de terminal moderno escrito en **Rust**, configurado en OhMyConfig con un layout de **1 sola línea inferior** (`layouts/default.kdl`) utilizando el plugin local **`zjstatus.wasm`** y la paleta **Static Noise**:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
-│ [Panel 1: Neovim] (Cyan Brillante #7dcfff)  │ [Panel 2: Tests / Logs] │
+│ [Panel 1: Neovim] (Cyan Static Noise #72EAD5) │ [Panel 2: Tests / Logs] │
 │                                             │                         │
 ├────────────────────────────────────────────────────────────────────────┤
 │ NORMAL │ 1: dev  2: git                     │ ⚡ session │ 🕒 14:30    │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-* **Resaltado de Foco de Alto Contraste:** El panel activo se ilumina instantáneamente con bordes redondeados en **Cyan Tokyonight (`#7dcfff`)** y cabecera en **Azul (`#7aa2f7`)**, mientras los paneles inactivos permanecen en un tono oscuro discreto (`#292e42`).
-* **Selección Visible:** Los componentes modernos de Zellij (`text_selected`, `list_selected`, `table_cell_selected`, `ribbon_selected`) usan contraste alto Tokyonight: texto claro sobre **Azul selección (`#3d59a1`)** o texto oscuro sobre **Cyan neón (`#50f5ff`)**, para que menús, listas, búsqueda y ribbons activos se distingan sin perder coherencia visual.
+* **Resaltado de Foco de Alto Contraste:** El panel activo se ilumina instantáneamente con bordes redondeados en **Cyan Static Noise (`#72EAD5`)** y cabecera en **Azul (`#83BFFF`)**, mientras los paneles inactivos permanecen en un tono oscuro discreto (`#343A4A`).
+* **Selección Visible:** Los componentes modernos de Zellij (`text_selected`, `list_selected`, `table_cell_selected`, `ribbon_selected`) usan contraste alto Static Noise: texto claro sobre **CyanDim selección (`#193C3B`)** o texto oscuro sobre **Cyan (`#72EAD5`)**, para que menús, listas, búsqueda y ribbons activos se distingan sin perder coherencia visual.
 
 ---
 
@@ -48,7 +48,7 @@ Los modos siguen disponibles para operaciones menos frecuentes, pero ya no usan 
 | **Move** | **`Alt + m`** | `Esc`, `Enter` o `Alt + m` | Mover físicamente el panel activo |
 | **Resize** | **`Alt + z`** | `Esc`, `Enter` o `Alt + z` | Ajustar tamaño de paneles |
 | **Scroll** | **`Alt + s`** | `Esc`, `Enter` o `Alt + s` | Revisar historial, buscar y editar scrollback |
-| **Session** | **`Alt + o`** | `Esc`, `Enter` o `Alt + o` | Detach, session manager, configuración y plugin manager |
+| **Session** | **`Alt + o`** | `Esc`, `Enter` o `Alt + o` | Detach, session manager y plugin manager |
 
 ---
 
@@ -57,7 +57,8 @@ Los modos siguen disponibles para operaciones menos frecuentes, pero ya no usan 
 | Tecla dentro del modo | Acción |
 | :---: | :--- |
 | **`h/j/k/l`** o flechas | Mover foco entre paneles |
-| **`n`** / **`d`** | Crear nuevo panel abajo |
+| **`n`** | Crear nuevo panel |
+| **`d`** | Crear nuevo panel abajo |
 | **`r`** | Crear nuevo panel a la derecha |
 | **`x`** | Cerrar el panel activo |
 | **`f`** | Alternar fullscreen |
@@ -94,12 +95,10 @@ Los modos siguen disponibles para operaciones menos frecuentes, pero ya no usan 
 * **Modo Scroll y búsqueda (`Alt + s`):**
   - **`j/k`**: scrollear línea por línea.
   - **`d/u`**: media página abajo / arriba.
-  - **`h/l`**, `PageUp` / `PageDown`: página arriba / abajo.
+  - **`b`** / **`f`**, `PageUp` / `PageDown`: página arriba / abajo.
   - **`s`**: buscar texto en el historial.
   - **`e`**: abrir el historial en Neovim.
-  - **`c`**: copiar la última salida de comando.
 * **Modo Session (`Alt + o`):**
   - **`d`**: desconectarse (*Detach*).
   - **`w`**: abrir el gestor de sesiones.
-  - **`c`**: abrir configuración.
   - **`p`**: abrir plugin manager.

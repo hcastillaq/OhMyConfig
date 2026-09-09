@@ -1,6 +1,6 @@
 export default {
   title: "OhMyConfig",
-  description: "Dotfiles y Entorno de Desarrollo Moderno para macOS (Tokyonight)",
+  description: "Dotfiles y Entorno de Desarrollo Moderno para macOS (Static Noise)",
   lang: "es-ES",
   base: "/OhMyConfig/",
   srcDir: "documentation",
@@ -40,7 +40,7 @@ export default {
         items: [
           { text: "Herramientas CLI / TUI", link: "/herramientas" },
           { text: "Tabla Maestra de Atajos", link: "/cheatsheet" },
-          { text: "Paleta Tokyonight", link: "/colores" },
+          { text: "Paleta Static Noise", link: "/colores" },
         ],
       },
     ],
@@ -76,7 +76,7 @@ export default {
 
     footer: {
       message: "OhMyConfig — Publicado bajo licencia MIT.",
-      copyright: "Diseñado para macOS con paleta Tokyonight Night.",
+      copyright: "Diseñado para macOS con paleta Static Noise.",
     },
   },
 }
