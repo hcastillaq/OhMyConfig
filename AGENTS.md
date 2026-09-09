@@ -137,7 +137,7 @@ OhMyConfig/
 - **Optional Pi Packages**: Add capabilities only when needed with `pi install <package>` and inspect the current environment with `pi list`.
   - Current optional examples in this setup include `pi-subagents`, `pi-ask-user`, `pi-web-access`, `pi-hermes-memory`, `@ff-labs/pi-fff`, `@narumitw/pi-lsp`, `pi-antigravity`, `pi-smart-compact`, `pi-skill-dollar`, and `git:github.com/EveryInc/compound-engineering-plugin`.
 - **Lifecycle Commands**: `omc dev` manages the Pi base CLI (`install`, `status`, `update`, `doctor`, `remove`). Optional packages are managed by native Pi commands (`pi list`, `pi install`, `pi remove`).
-- **Project-Local Pi Config**: OhMyConfig provides a native Tokyonight theme and custom TUI header via `.pi/themes/ohmyconfig-tokyonight.json` and `.pi/extensions/ohmyconfig-header.ts`. Run `pi --approve` or `/trust` to load them.
+- **Project-Local Pi Config**: OhMyConfig selects a native Tokyonight theme and custom TUI header from `.pi/settings.json`, loading resources stored under `config/pi/themes/` and `config/pi/extensions/` via paths relative to `.pi/` (`../config/pi/...`). Run `pi --approve` or `/trust` to load them.
 
 ---
 

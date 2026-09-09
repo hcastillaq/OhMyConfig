@@ -136,13 +136,13 @@ pi remove <paquete>
 
 ## 5. Configuración visual project-local
 
-OhMyConfig incluye configuración local de Pi bajo `.pi/`:
+OhMyConfig incluye configuración local de Pi declarada en `.pi/settings.json` y almacenada bajo `config/pi/`:
 
 | Archivo | Rol |
 | :--- | :--- |
-| `.pi/settings.json` | Selecciona el theme `ohmyconfig-tokyonight` y carga recursos locales. |
-| `.pi/themes/ohmyconfig-tokyonight.json` | Theme Tokyonight Night para la TUI de Pi. Usa la misma paleta del repo: `#1a1b26`, `#c0caf5`, `#7dcfff`, `#7aa2f7`, `#bb9af7`, `#e0af68`, `#ff9e64`, `#f7768e`. |
-| `.pi/extensions/ohmyconfig-header.ts` | Reemplaza el header inicial de Pi y agrega una mini-barra persistente encima del editor con el símbolo `π`. |
+| `.pi/settings.json` | Selecciona el theme `ohmyconfig-tokyonight` y carga recursos locales con rutas relativas a `.pi/` (`../config/pi/...`). |
+| `config/pi/themes/ohmyconfig-tokyonight.json` | Theme Tokyonight Night para la TUI de Pi. Usa la misma paleta del repo: `#1a1b26`, `#c0caf5`, `#7dcfff`, `#7aa2f7`, `#bb9af7`, `#e0af68`, `#ff9e64`, `#f7768e`. |
+| `config/pi/extensions/ohmyconfig-header.ts` | Reemplaza el header inicial de Pi y agrega una mini-barra persistente encima del editor con el símbolo `π`. |
 
 Para que Pi cargue estos recursos locales, confiá el proyecto una vez desde una sesión interactiva:
 
