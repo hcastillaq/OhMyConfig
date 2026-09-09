@@ -42,6 +42,7 @@ export default defineConfig({
         PageFrame: './src/components/CosmicPageFrame.astro',
         Header: './src/components/CosmicHeader.astro',
         SiteTitle: './src/components/CosmicSiteTitle.astro',
+        Footer: './src/components/CosmicFooter.astro',
       },
     }),
   ],

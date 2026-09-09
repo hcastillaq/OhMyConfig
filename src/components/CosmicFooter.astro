@@ -1,0 +1,258 @@
+---
+import Pagination from 'virtual:starlight/components/Pagination';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<footer class="cosmic-footer-root">
+  <!-- Paginación de Starlight (Siguiente / Anterior) -->
+  <div class="footer-pagination">
+    <Pagination />
+  </div>
+
+  <!-- Pie de página global con efecto de vidrio cósmico -->
+  <div class="footer-container">
+    <div class="footer-grid">
+      <!-- Columna 1: Marca y Filosofía -->
+      <div class="footer-col brand-col">
+        <div class="footer-brand">
+          <div class="footer-badge">
+            <svg class="footer-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </div>
+          <span class="footer-title">OhMyConfig</span>
+        </div>
+        <p class="footer-desc">
+          Entorno de desarrollo moderno, modular e idempotente para macOS. Utilidades en Rust y Go estilizadas bajo la paleta Static Noise.
+        </p>
+        <div class="footer-pills">
+          <span class="pill">macOS Metal</span>
+          <span class="pill">Static Noise</span>
+          <span class="pill">Pure MD</span>
+        </div>
+      </div>
+
+      <!-- Columna 2: Navegación Rápida -->
+      <div class="footer-col">
+        <div class="col-title">Documentación</div>
+        <ul class="col-links">
+          <li><a href={`${base}/instalacion/`}>Instalación & CLI</a></li>
+          <li><a href={`${base}/ai/`}>Ecosistema AI & Pi</a></li>
+          <li><a href={`${base}/cheatsheet/`}>Tabla Maestra de Atajos</a></li>
+          <li><a href={`${base}/colores/`}>Paleta Static Noise</a></li>
+          <li><a href={`${base}/herramientas/`}>Catálogo CLI & TUI</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: Herramientas Centrales -->
+      <div class="footer-col">
+        <div class="col-title">Herramientas</div>
+        <ul class="col-links">
+          <li><a href={`${base}/neovim/`}>Neovim (LazyVim)</a></li>
+          <li><a href={`${base}/zellij/`}>Zellij (Multiplexor)</a></li>
+          <li><a href={`${base}/git/`}>Git, Lazygit & Delta</a></li>
+          <li><a href={`${base}/terminal/`}>Ghostty & Fish Shell</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 4: Ecosistema & Código -->
+      <div class="footer-col">
+        <div class="col-title">Repositorio</div>
+        <ul class="col-links">
+          <li><a href="https://github.com/hcastillaq/OhMyConfig" target="_blank" rel="noopener noreferrer">GitHub Repo</a></li>
+          <li><a href="https://github.com/hcastillaq/OhMyConfig/releases" target="_blank" rel="noopener noreferrer">Lanzamientos</a></li>
+          <li><a href="https://github.com/hcastillaq/OhMyConfig/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">Licencia MIT</a></li>
+          <li><a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro + Starlight</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Barra de cierre inferior -->
+    <div class="footer-bottom">
+      <div class="footer-copy">
+        <span>OhMyConfig — Publicado bajo licencia MIT.</span>
+        <span class="dot">·</span>
+        <span>Diseñado para macOS con arquitectura Static Noise.</span>
+      </div>
+      <div class="footer-status">
+        <span class="status-indicator"></span>
+        <span class="status-text">Static Noise v2.0</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .cosmic-footer-root {
+    margin-top: 4rem;
+  }
+
+  .footer-pagination {
+    margin-bottom: 3.5rem;
+  }
+
+  .footer-container {
+    background: rgba(15, 17, 23, 0.45);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border-top: 1px solid var(--sn-border);
+    border-radius: 12px 12px 0 0;
+    padding: 3rem 2rem 2rem 2rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr repeat(3, 1fr);
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .footer-badge {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, rgba(114, 234, 213, 0.2), rgba(131, 191, 255, 0.08));
+    border: 1px solid rgba(114, 234, 213, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .footer-bolt {
+    width: 14px;
+    height: 14px;
+    color: var(--sn-cyan);
+    fill: rgba(114, 234, 213, 0.3);
+  }
+
+  .footer-title {
+    font-family: var(--sl-font-mono);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--sl-color-white);
+  }
+
+  .footer-desc {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--sn-text-muted);
+    margin-bottom: 1rem;
+    max-width: 36ch;
+  }
+
+  .footer-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    font-family: var(--sl-font-mono);
+    font-size: 10px;
+    color: var(--sn-text-dim);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  .col-title {
+    font-family: var(--sl-font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--sn-cyan);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  .col-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .col-links a {
+    color: var(--sn-text-muted);
+    font-size: 0.88rem;
+    text-decoration: none !important;
+    transition: all 0.15s ease;
+    display: inline-block;
+  }
+
+  .col-links a:hover {
+    color: var(--sn-cyan) !important;
+    transform: translateX(2px);
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 12px;
+    color: var(--sn-text-dim);
+    font-family: var(--sl-font-mono);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-copy {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .dot {
+    opacity: 0.4;
+  }
+
+  .footer-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .status-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--sn-cyan);
+    box-shadow: 0 0 8px var(--sn-cyan);
+  }
+
+  .status-text {
+    font-size: 11px;
+    color: var(--sn-cyan);
+  }
+
+  @media (max-width: 840px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .brand-col {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

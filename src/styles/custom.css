@@ -71,19 +71,20 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Header tipo HUD Flat */
+/* Header con efecto cristal cósmico translúcido (Glassmorphism) */
 header.header {
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  background: rgba(11, 13, 19, 0.88) !important;
-  border-bottom: 1px solid var(--sn-border) !important;
+  backdrop-filter: blur(20px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
+  background: rgba(15, 17, 23, 0.62) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35), inset 0 -1px 0 rgba(255, 255, 255, 0.03) !important;
 }
 
-/* Sidebar con fondo semitransparente que revela la atmósfera cósmica */
+/* Sidebar con fondo de cristal semitransparente */
 nav.sidebar {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  background: rgba(17, 20, 29, 0.7) !important;
+  backdrop-filter: blur(16px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+  background: rgba(17, 20, 29, 0.55) !important;
   border-right: 1px solid var(--sn-border) !important;
 }
 
