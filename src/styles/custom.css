@@ -140,20 +140,21 @@ sl-sidebar-pane {
   background: rgba(255, 255, 255, 0.04);
 }
 
-/* Sidebar derecho (TOC - Table of Contents) con línea sutil de separación */
+/* Sidebar derecho (TOC - Table of Contents) flotante y limpio, SIN bordes */
 aside.right-sidebar-container,
-.right-sidebar-container {
-  border: none !important;
-}
-
+.right-sidebar-container,
 .right-sidebar,
-.right-sidebar-panel {
-  background: rgba(10, 13, 22, 0.3) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
+.right-sidebar-panel,
+starlight-toc,
+.right-sidebar:where(.astro-lrzkfocr),
+.right-sidebar-container:where(.astro-lrzkfocr) {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border: none !important;
-  border-left: 1px solid var(--sn-border) !important;
-  border-inline-start: 1px solid var(--sn-border) !important;
+  border-left: none !important;
+  border-inline-start: none !important;
+  box-shadow: none !important;
   padding: 2rem 1.5rem !important;
 }
 
@@ -167,20 +168,11 @@ starlight-toc a:hover {
 }
 
 /* ========================================================= */
-/* ESPACIADO Y SEPARACIÓN DEL CONTENIDO CENTRAL             */
+/* CENTRADO PERFECTO Y ESPACIADO DEL CONTENIDO              */
 /* ========================================================= */
-
-/* Evitar que el contenido quede pegado al TOC derecho */
-@media (min-width: 72rem) {
-  [data-has-sidebar][data-has-toc] .main-pane {
-    padding-inline-end: 4rem !important;
-  }
-}
 
 .main-pane {
   padding-block: 2.5rem 5rem !important;
-  padding-inline-start: 2rem !important;
-  padding-inline-end: 2rem !important;
 }
 
 .content-panel {
@@ -190,9 +182,16 @@ starlight-toc a:hover {
   padding: 0 !important;
 }
 
+/* Centrado horizontal automático y equilibrado */
 .sl-container {
   max-width: var(--sl-content-width) !important;
-  margin-inline: 0 auto !important;
+  margin-inline: auto !important;
+}
+
+@media (min-width: 72rem) {
+  [data-has-sidebar][data-has-toc] .main-pane {
+    padding-inline: 2.5rem !important;
+  }
 }
 
 /* ========================================================= */
