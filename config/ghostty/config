@@ -37,7 +37,7 @@ selection-foreground = "#ffffff"
 window-decoration = false
 window-padding-x = 12
 window-padding-y = 10
-background-opacity = 0.95
+background-opacity = 0.90
 background-blur-radius = 20
 
 # --- CURSOR ---
