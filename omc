@@ -16,6 +16,8 @@
 
 set -e
 
+OMC_VERSION="1.0.0"
+export OMC_VERSION
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CMD="${1:-}"
 
@@ -24,7 +26,7 @@ source "$DOTFILES_DIR/cli/lib/brew.sh"
 
 # Bootstrap: ensure Homebrew environment and gum are available for TUI commands
 case "$CMD" in
-    --help|-h|help|"")
+    --help|-h|help|--version|-v|version|"")
         ;;
     *)
         brew_ensure_env
@@ -33,6 +35,11 @@ case "$CMD" in
 esac
 
 case "$CMD" in
+    --version|-v|version)
+        echo "⚡ OhMyConfig (omc) v$OMC_VERSION"
+        exit 0
+        ;;
+
     install)
         source "$DOTFILES_DIR/cli/commands/install.sh"
         shift || true
@@ -57,7 +64,7 @@ case "$CMD" in
 
     --help|-h|help|"")
         echo ""
-        echo "⚡ OhMyConfig CLI — omc"
+        echo "⚡ OhMyConfig CLI — omc v$OMC_VERSION"
         echo ""
         echo "  Instalador interactivo, diagnóstico y gestor de herramientas"
         echo "  del entorno de desarrollo OhMyConfig."
@@ -75,6 +82,9 @@ case "$CMD" in
         echo "    dev                  Instala pi (Coding Agent) y muestra extensiones"
         echo "    dev status           Versión instalada de pi y estado de extensiones"
         echo "    dev update           Actualiza pi a latest"
+        echo ""
+        echo "    --version, -v        Muestra la versión de OhMyConfig"
+        echo "    --help, -h           Muestra esta ayuda"
         echo ""
         echo "  MÓDULOS DISPONIBLES:"
         echo ""

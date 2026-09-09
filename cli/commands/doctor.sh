@@ -16,7 +16,7 @@ cmd_doctor() {
 
     ui_header
     ui_divider
-    ui_title "⚡ OhMyConfig — Estado del Entorno"
+    ui_title "⚡ OhMyConfig v${OMC_VERSION:-1.0.0} — Estado del Entorno"
     ui_divider
     echo ""
 
