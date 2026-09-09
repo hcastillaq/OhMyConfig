@@ -130,7 +130,13 @@ EOF
 bottom/bottom.toml
 EOF
             ;;
-        search|devops|ai)
+        ai)
+            cat << 'EOF'
+pi/themes/ohmyconfig-tokyonight.json
+pi/extensions/ohmyconfig-header.ts
+EOF
+            ;;
+        search|devops)
             echo ""
             ;;
         *)

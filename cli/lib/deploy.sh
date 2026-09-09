@@ -121,8 +121,17 @@ deploy_module() {
 
     while IFS= read -r rel_path; do
         [ -z "$rel_path" ] && continue
-        local src="$dotfiles_dir/config/$rel_path"
-        local dest="$config_home/$rel_path"
-        deploy_file "$src" "$dest" "$mode"
+        
+        # Regla especial para Pi: sus archivos van a ~/.pi/
+        if [[ "$rel_path" == pi/* ]]; then
+            local src="$dotfiles_dir/config/$rel_path"
+            local relative_to_pi="${rel_path#pi/}"
+            local dest="$HOME/.pi/$relative_to_pi"
+            deploy_file "$src" "$dest" "$mode"
+        else
+            local src="$dotfiles_dir/config/$rel_path"
+            local dest="$config_home/$rel_path"
+            deploy_file "$src" "$dest" "$mode"
+        fi
     done <<< "$configs"
 }

@@ -8,14 +8,14 @@ gui:
       - '#7dcfff' # Cyan brillante para el panel enfocado
       - bold
     inactiveBorderColor:
-      - '#292e42' # Borde tenue y discreto para paneles inactivos
+      - '#222638' # Borde tenue y discreto para paneles inactivos
     searchingActiveBorderColor:
       - '#ff9e64'
       - bold
     optionsTextColor:
       - '#7dcfff'
     selectedLineBgColor:
-      - '#3d59a1' # Azul Tokyonight de alto contraste
+      - '#354b8a' # Azul Tokyonight de alto contraste
     cherryPickedCommitBgColor:
       - '#2e3c64'
     cherryPickedCommitFgColor:

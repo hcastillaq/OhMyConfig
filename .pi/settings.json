@@ -1,0 +1,5 @@
+{
+  "theme": "ohmyconfig-tokyonight",
+  "themes": ["config/pi/themes"],
+  "extensions": ["config/pi/extensions"]
+}

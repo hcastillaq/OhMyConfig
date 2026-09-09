@@ -8,9 +8,10 @@ OhMyConfig combina un emulador acelerado por GPU, una shell interactiva, un gest
 
 Emulador de terminal nativo para macOS con aceleración por GPU (Metal):
 
-* **Desenfoque y Transparencia:** Configurado con *blur radius 20*, opacidad al 0.98 y sin marcos de ventana de macOS.
+* **Desenfoque y Transparencia:** Configurado con *blur radius 20*, opacidad al 0.95 y sin marcos de ventana de macOS.
 * **Tipografía:** JetBrains Mono Nerd Font con ligaduras de código habilitadas.
 * **Cursor:** Estilo bloque en color Cyan Tokyonight (`#7dcfff`).
+* **Selección:** Fondo azul de alto contraste (`#3d59a1`) con texto blanco (`#ffffff`). Consulta `documentation/colores.md` para los roles y extensiones disponibles.
 
 ---
 
@@ -19,7 +20,7 @@ Emulador de terminal nativo para macOS con aceleración por GPU (Metal):
 Shell interactiva con autocompletado en tiempo real y coloreado sintáctico calibrado para fondos oscuros:
 
 * **Sintaxis Coloreada:** Comandos en Cyan Neón (`#50f5ff`), comillas en verde (`#9ece6a`), flags en azul cielo (`#7aa2f7`), variables en púrpura (`#c099ff`), errores en rojo (`#f7768e`).
-* **Función `guia`:** Muestra un mapa interactivo de atajos de todo el sistema categorizado por herramientas (`guia nvim`, `guia zj`, `guia git`, `guia search`, `guia cli`, `guia ai`).
+* **Atajos:** La referencia única de alias y atajos está en `documentation/cheatsheet.md`.
 * **Función `cds`:** Purga recursivamente archivos `.DS_Store` en proyectos macOS:
   ```bash
   cds

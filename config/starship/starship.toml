@@ -119,12 +119,12 @@ deleted = "✘${count} "
 [cmd_duration]
 min_time = 2000
 format = '[ $duration]($style) '
-style = 'bold fg:#7a88cf' # Gris azulado luminoso
+style = 'bold fg:#9aa5ce' # Gris azulado luminoso
 
 # ==============================================================================
 # CARÁCTER DE ENTRADA (PROMPT CHARACTER)
 # ==============================================================================
 [character]
-success_symbol = '[❯](bold fg:#50f5ff)' # Cyan Eléctrico
-error_symbol = '[❯](bold fg:#f7768e)'   # Rojo Tokyonight
-vimcmd_symbol = '[❮](bold fg:#9ece6a)'  # Verde Tokyonight (Modo normal Vi)
+success_symbol = '[->](bold fg:#50f5ff)' # Cyan Eléctrico
+error_symbol = '[->](bold fg:#f7768e)'   # Rojo Tokyonight
+vimcmd_symbol = '[<-](bold fg:#9ece6a)'  # Verde Tokyonight (Modo normal Vi)

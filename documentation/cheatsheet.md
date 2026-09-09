@@ -10,7 +10,6 @@ Referencia rápida de todos los alias, herramientas y atajos disponibles en **Oh
 | :--- | :--- | :--- |
 | **`v`** | `nvim` | Editor principal Neovim Tokyonight |
 | **`zj`** | `zellij` | Multiplexor de terminal con barra Tokyonight |
-| **`guia`** | `guia` | Menú interactivo de atajos en consola |
 | **`rg <patron>`** | `ripgrep` | Búsqueda de texto en archivos en milisegundos |
 | **`fd <nombre>`** | `fd` | Búsqueda moderna de archivos y carpetas |
 | **`sd 'old' 'new'`**| `sd` | Reemplazo intuitivo de texto en archivos |
@@ -62,20 +61,28 @@ Referencia rápida de todos los alias, herramientas y atajos disponibles en **Oh
 
 ## 3. Multiplexor Zellij (`zj`)
 
+> Zellij usa un mapa **Alt-first** con `clear-defaults=true`: las combinaciones `Ctrl` quedan libres para Neovim, Fish, readline y otras TUIs.
+
 | Atajo | Modo | Acción |
 | :--- | :--- | :--- |
 | **`Alt + h/j/k/l`** | Normal | Mover foco entre paneles (izquierda, abajo, arriba, derecha) |
-| **`Alt + [`** / **`Alt + ]`** | Normal | Pestaña anterior / siguiente |
-| **`Alt + 1` .. `Alt + 9`** | Normal | Saltar directo a la pestaña número N |
+| **`Alt + Shift + h/j/k/l`** | Normal | Mover físicamente el panel activo en esa dirección |
 | **`Alt + n`** | Normal | Crear nuevo panel directamente |
+| **`Alt + x`** | Normal | Cerrar panel activo |
 | **`Alt + f`** | Normal | Alternar pantalla completa en panel activo |
 | **`Alt + w`** | Normal | Alternar paneles flotantes (Floating Panes) |
-| **`Ctrl + h`** | Normal $\rightarrow$ Move | **Modo Mover:** intercambiar posición de paneles (`h/j/k/l` o `Tab`) |
-| **`Ctrl + p`** | Normal $\rightarrow$ Pane | Entrar al modo de gestión de paneles |
-| **`Ctrl + t`** | Normal $\rightarrow$ Tab | Entrar al modo de gestión de pestañas |
-| **`Alt + s`** | Normal $\rightarrow$ Scroll | Entrar al modo scroll y búsqueda en historial (`Ctrl+s` liberado para Neovim) |
-| **`Ctrl + n`** | Normal $\rightarrow$ Resize | Entrar al modo redimensionar paneles |
-| **`Ctrl + o`** | Normal $\rightarrow$ Session | Entrar al modo desconectar/administrar sesión |
+| **`Alt + [`** / **`Alt + ]`** | Normal | Pestaña anterior / siguiente |
+| **`Alt + t`** | Normal | Crear nueva pestaña |
+| **`Alt + q`** | Normal | Cerrar pestaña actual |
+| **`Alt + r`** | Normal $\rightarrow$ RenameTab | Renombrar pestaña actual |
+| **`Alt + 1` .. `Alt + 9`** | Normal | Saltar directo a la pestaña número N |
+| **`Alt + p`** | Normal $\leftrightarrow$ Pane | Entrar/salir del modo de gestión de paneles |
+| **`Alt + Shift + t`** | Normal $\leftrightarrow$ Tab | Entrar/salir del modo de gestión de pestañas |
+| **`Alt + m`** | Normal $\leftrightarrow$ Move | Entrar/salir del modo mover paneles |
+| **`Alt + z`** | Normal $\leftrightarrow$ Resize | Entrar/salir del modo redimensionar paneles |
+| **`Alt + s`** | Normal $\leftrightarrow$ Scroll | Entrar/salir del modo scroll y búsqueda en historial |
+| **`Alt + o`** | Normal $\leftrightarrow$ Session | Entrar/salir del modo sesión |
+| **`Alt + d`** | Normal | Desconectar (*detach*) la sesión |
 
 ---
 
@@ -126,23 +133,20 @@ Referencia rápida de todos los alias, herramientas y atajos disponibles en **Oh
 
 ---
 
-## 5. Ecosistema AI & LazyPi
+## 5. Ecosistema AI & Pi
 
 | Comando / Atajo | Contexto | Descripción |
 | :--- | :--- | :--- |
-| **`./omc dev`** | Terminal | Instalar Pi y el catálogo oficial completo de LazyPi |
-| **`./omc dev status`** | Terminal | Ver versión de `pi` y estado del catálogo de 17 extensiones |
-| **`./omc dev update`** | Terminal | Actualizar binario de `pi` y todas las extensiones instaladas |
-| **`./omc dev doctor`** | Terminal | Diagnóstico de salud del entorno de IA |
-| **`./omc dev remove`** | Terminal | Selector interactivo para desinstalar extensiones |
+| **`./omc dev`** | Terminal | Instalar sólo el CLI base de Pi |
+| **`./omc dev install`** | Terminal | Instalar sólo el CLI base de Pi |
+| **`./omc dev status`** | Terminal | Ver versión de `pi` y paquetes actuales con `pi list` |
+| **`./omc dev update`** | Terminal | Actualizar sólo el binario base de `pi` |
+| **`./omc dev doctor`** | Terminal | Diagnóstico local de Node/npm/Pi |
+| **`./omc dev remove`** | Terminal | Ayuda para remover extensiones con `pi remove` |
 | **`pi`** | Terminal | Iniciar sesión interactiva del agente de codificación |
-| **`/council <pregunta>`**| Pi Session | Consejo consultivo supervisado para evaluar dilemas técnicos |
-| **`/plan <desc>`** | Pi Session | Iniciar modo de planificación socrática en memoria |
-| **`/simplify`** | Pi Session | Simplificar y limpiar código modificado recientemente |
-| **`/ponytail review`** | Pi Session | Auditar código buscando sobreingeniería y dependencias |
-| **`/ponytail audit`** | Pi Session | Auditoría de deuda técnica en todo el repositorio |
-| **`/btw <pregunta>`** | Pi Session | Consulta rápida sin contaminar el historial de conversación |
-| **`/goal <meta>`** | Pi Session | Fijar un objetivo de largo plazo con control de estados |
-| **`/workflows`** | Pi Session | Panel TUI interactivo para orquestar flujos de subagentes |
-| **`$skill-name`** | Pi Session | Mención difusa para autocompletar e inyectar skills ($ce-*) |
-| **`./omc update`** | Terminal | Actualización completa (Homebrew + Casks + Pi + LazyPi) |
+| **`pi list`** | Terminal | Listar paquetes/extensiones instaladas |
+| **`pi install <paquete>`** | Terminal | Instalar herramientas opcionales bajo demanda |
+| **`pi remove <paquete>`** | Terminal | Desinstalar una extensión opcional |
+| **`/council <pregunta>`** | Pi Session | Consejo consultivo si está instalado `pi-model-council` |
+| **`$skill-name`** | Pi Session | Mención difusa si está instalado `pi-skill-dollar` |
+| **`./omc update`** | Terminal | Actualización completa del entorno; AI actualiza sólo Pi base |

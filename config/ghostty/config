@@ -8,8 +8,30 @@ font-family = "JetBrains Mono"
 font-size = 15
 font-feature = ["liga", "calt"]
 
-# --- TEMA Y PALETA (HIGH-CONTRAST NIGHT) ---
+# --- TEMA Y PALETA (TOKYONIGHT OVERDRIVE) ---
 theme = "TokyoNight Night"
+background = "#13141c"
+foreground = "#c0caf5"
+palette = 0=#13141c
+palette = 1=#f7768e
+palette = 2=#9ece6a
+palette = 3=#e0af68
+palette = 4=#7aa2f7
+palette = 5=#bb9af7
+palette = 6=#7dcfff
+palette = 7=#c0caf5
+palette = 8=#7a88cf
+palette = 9=#f7768e
+palette = 10=#9ece6a
+palette = 11=#e0af68
+palette = 12=#7aa2f7
+palette = 13=#c099ff
+palette = 14=#50f5ff
+palette = 15=#ffffff
+
+# --- SELECCIÓN DE TEXTO (ALTO CONTRASTE) ---
+selection-background = "#354b8a"
+selection-foreground = "#ffffff"
 
 # --- VENTANA Y EFECTOS VISUALES ---
 window-decoration = false
@@ -22,7 +44,7 @@ background-blur-radius = 20
 cursor-style = "block"
 cursor-style-blink = false
 cursor-color = "#7dcfff"
-cursor-text = "#1a1b26"
+cursor-text = "#13141c"
 
 # --- INTEGRACIÓN CON FISH ---
 shell-integration = "fish"
