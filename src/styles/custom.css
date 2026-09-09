@@ -2,17 +2,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  /* Static Noise Canonical Tokens */
-  --sn-void: #0B0D13;
-  --sn-base: #11141D;
-  --sn-raised: #181C26;
-  --sn-overlay: #1F2432;
-  --sn-border: rgba(255, 255, 255, 0.08);
+  /* Static Noise Canonical Tokens — Espacio Abisal Profundo */
+  --sn-void: #06080E;
+  --sn-base: #0A0D15;
+  --sn-raised: #121622;
+  --sn-overlay: #181C2A;
+  --sn-border: rgba(255, 255, 255, 0.07);
   --sn-border-focus: rgba(114, 234, 213, 0.45);
 
-  --sn-text: #EDEDEA;
-  --sn-text-muted: #8E95A5;
-  --sn-text-dim: #545B6D;
+  --sn-text: #E2E8F0;
+  --sn-text-muted: #94A3B8;
+  --sn-text-dim: #475569;
 
   --sn-cyan: #72EAD5;
   --sn-blue: #83BFFF;
@@ -23,25 +23,25 @@
   --sn-orange: #F3A261;
   --sn-red: #EF7785;
 
-  /* Mapeo de Starlight a Static Noise (Dark Mode Primario) */
+  /* Mapeo de Starlight a Static Noise */
   --sl-color-accent-low: rgba(114, 234, 213, 0.12);
   --sl-color-accent: var(--sn-cyan);
   --sl-color-accent-high: var(--sn-blue);
 
-  --sl-color-white: var(--sn-text);
+  --sl-color-white: #FFFFFF;
   --sl-color-gray-1: var(--sn-text);
-  --sl-color-gray-2: #C9C8C2;
+  --sl-color-gray-2: #CBD5E1;
   --sl-color-gray-3: var(--sn-text-muted);
   --sl-color-gray-4: var(--sn-text-dim);
-  --sl-color-gray-5: #252A38;
+  --sl-color-gray-5: #1E293B;
   --sl-color-gray-6: var(--sn-raised);
   --sl-color-black: var(--sn-void);
 
   --sl-color-bg: transparent;
-  --sl-color-bg-nav: rgba(11, 13, 19, 0.85);
-  --sl-color-bg-sidebar: rgba(17, 20, 29, 0.65);
+  --sl-color-bg-nav: rgba(10, 13, 22, 0.45);
+  --sl-color-bg-sidebar: rgba(10, 13, 22, 0.42);
   --sl-color-hairline: var(--sn-border);
-  --sl-color-hairline-light: rgba(255, 255, 255, 0.04);
+  --sl-color-hairline-light: rgba(255, 255, 255, 0.03);
 
   /* Sistema Dual de Tipografías */
   --sl-font-system: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -49,11 +49,11 @@
   --sl-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   /* Expressive Code Customization */
-  --ec-codeBg: #090B0F;
+  --ec-codeBg: #07090E;
   --ec-codeColor: var(--sn-text);
   --ec-uiBg: var(--sn-base);
   --ec-uiFg: var(--sn-text-muted);
-  --ec-brdCol: var(--sn-border);
+  --ec-brdCol: rgba(114, 234, 213, 0.2);
   --ec-tabBg: var(--sn-base);
   --ec-tabActBg: var(--sn-raised);
   --ec-tabActFg: var(--sn-cyan);
@@ -73,7 +73,7 @@ body {
   color: var(--sn-text);
   font-family: var(--sl-font-system);
   letter-spacing: -0.01em;
-  line-height: 1.65;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -101,7 +101,7 @@ h2 {
   line-height: 1.25 !important;
   margin-top: 2.5rem !important;
   margin-bottom: 1rem !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   padding-bottom: 0.5rem;
 }
 
@@ -116,7 +116,7 @@ h3 {
 .sl-markdown-content li {
   font-family: var(--sl-font-system);
   font-size: 1rem;
-  line-height: 1.7;
+  line-height: 1.75;
   color: var(--sn-text);
 }
 
@@ -125,44 +125,82 @@ h3 {
   font-weight: 600;
 }
 
-/* Header con efecto cristal cósmico translúcido (Glassmorphism) */
+/* ========================================================= */
+/* CRISTAL DE CABINA DE NAVE ESPACIAL (GLASSMORPHISM REAL)   */
+/* ========================================================= */
+
+/* Header con cristal translúcido y suave halo */
 header.header {
-  backdrop-filter: blur(20px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
-  background: rgba(15, 17, 23, 0.62) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35), inset 0 -1px 0 rgba(255, 255, 255, 0.03) !important;
+  backdrop-filter: blur(24px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
+  background: rgba(10, 13, 22, 0.48) !important;
+  border-bottom: 1px solid rgba(114, 234, 213, 0.15) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), inset 0 -1px 0 rgba(255, 255, 255, 0.04) !important;
 }
 
-/* Sidebar con fondo de cristal semitransparente */
-nav.sidebar {
-  backdrop-filter: blur(16px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
-  background: rgba(17, 20, 29, 0.55) !important;
-  border-right: 1px solid var(--sn-border) !important;
+/* Sidebar de cristal real (anulando cualquier fondo opaco interno de Starlight) */
+nav.sidebar,
+.sidebar-pane,
+.sidebar-content,
+sl-sidebar-pane {
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  background: rgba(10, 13, 22, 0.42) !important;
+  border-right: 1px solid rgba(114, 234, 213, 0.15) !important;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4) !important;
 }
 
-/* Links activos en el Sidebar */
+/* Links activos y hover en el Sidebar */
 .sidebar a[aria-current="page"] {
-  background: rgba(114, 234, 213, 0.08) !important;
+  background: rgba(114, 234, 213, 0.12) !important;
   color: var(--sn-cyan) !important;
   border-left: 2px solid var(--sn-cyan);
-  font-weight: 500;
+  border-radius: 4px;
+  font-weight: 600;
+  box-shadow: inset 0 0 12px rgba(114, 234, 213, 0.08);
 }
 
 .sidebar a:hover:not([aria-current="page"]) {
-  color: var(--sn-text) !important;
-  background: rgba(255, 255, 255, 0.03);
+  color: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
 }
 
-/* Tabla de Contenidos (TOC) a la derecha */
+/* Tabla de Contenidos a la derecha con cristal suave */
+aside.right-sidebar-container,
+.right-sidebar,
+.right-sidebar-panel,
 starlight-toc {
-  border-left: 1px solid var(--sn-border);
+  background: rgba(10, 13, 22, 0.35) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border-left: 1px solid rgba(114, 234, 213, 0.12) !important;
 }
 
 starlight-toc a[aria-current="true"] {
   color: var(--sn-cyan) !important;
-  font-weight: 500;
+  font-weight: 600;
+}
+
+/* ========================================================= */
+/* PANEL GIGANTE DE LECTURA (HOLO-VIEWPORT DE NAVE ESPACIAL) */
+/* ========================================================= */
+@media (min-width: 50rem) {
+  /* En páginas de documentación enmarcamos el contenido en el panel gigante de cristal */
+  :root:not([data-has-hero]) .main-pane {
+    padding: 2rem 2.5rem 4rem 2.5rem;
+  }
+
+  :root:not([data-has-hero]) .content-panel {
+    background: rgba(12, 16, 26, 0.55);
+    backdrop-filter: blur(24px) saturate(170%);
+    -webkit-backdrop-filter: blur(24px) saturate(170%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    padding: 2.75rem 3.5rem !important;
+    margin-bottom: 2rem;
+  }
 }
 
 /* Enlaces del contenido */
@@ -225,7 +263,7 @@ starlight-toc a[aria-current="true"] {
 
 .sl-link-button.primary:hover {
   background: var(--sn-cyan) !important;
-  color: #0B0D13 !important;
+  color: #06080E !important;
   box-shadow: 0 0 26px rgba(114, 234, 213, 0.45) !important;
   transform: translateY(-2px);
 }
@@ -296,7 +334,7 @@ button[data-open-modal] kbd {
   letter-spacing: 0.04em !important;
 }
 
-/* Modal Dialog (Spotlight HUD) - Altura compacta adaptativa que NUNCA ocupa el 100% */
+/* Modal Dialog (Spotlight HUD) - Altura compacta adaptativa */
 dialog,
 dialog[open],
 dialog[aria-label],
@@ -317,7 +355,7 @@ dialog:where(.astro-b5kgnn7o) {
   max-height: 75vh !important;
   border-radius: 12px !important;
   border: 1px solid rgba(114, 234, 213, 0.4) !important;
-  background: rgba(11, 13, 19, 0.94) !important;
+  background: rgba(10, 13, 22, 0.94) !important;
   backdrop-filter: blur(28px) saturate(190%) !important;
   -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9), 0 0 30px rgba(114, 234, 213, 0.15) !important;
@@ -338,12 +376,12 @@ dialog[open]:where(.astro-b5kgnn7o) {
 
 dialog::backdrop,
 dialog:where(.astro-b5kgnn7o)::backdrop {
-  background: rgba(5, 7, 10, 0.75) !important;
+  background: rgba(3, 5, 8, 0.8) !important;
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
 }
 
-/* Frame interior: se ajusta al contenido real sin inflar la altura */
+/* Frame interior: se ajusta al contenido real */
 .dialog-frame,
 .dialog-frame:where(.astro-b5kgnn7o) {
   flex-grow: 0 !important;
@@ -352,7 +390,7 @@ dialog:where(.astro-b5kgnn7o)::backdrop {
   min-height: 0 !important;
   max-height: 75vh !important;
   padding: 1.25rem !important;
-  gap: 0 !important;
+  gap: 0.75rem !important;
   overflow-y: auto !important;
 }
 
@@ -374,16 +412,22 @@ dialog:where(.astro-b5kgnn7o)::backdrop {
   --pagefind-ui-border-width: 1px !important;
 }
 
+#starlight__search .pagefind-ui__form {
+  position: relative !important;
+  margin: 0 !important;
+}
+
 #starlight__search .pagefind-ui__search-input {
-  background: rgba(24, 28, 38, 0.65) !important;
+  background: rgba(18, 22, 34, 0.65) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 8px !important;
   color: #FFFFFF !important;
   font-family: var(--sl-font-system) !important;
-  font-size: 1rem !important;
-  padding: 0.85rem 1rem 0.85rem 2.75rem !important;
+  font-size: 1.05rem !important;
+  padding: 0.85rem 1rem 0.85rem 2.85rem !important;
   transition: all 0.2s ease !important;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+  height: 3rem !important;
 }
 
 #starlight__search .pagefind-ui__search-input:focus {
@@ -394,15 +438,17 @@ dialog:where(.astro-b5kgnn7o)::backdrop {
 
 #starlight__search .pagefind-ui__search-clear {
   color: var(--sn-text-muted) !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
 }
 
 /* Resultados de búsqueda */
-#starlight__search .pagefind-ui__results {
+#starlight__search .pagefind-ui__results-area {
   margin-top: 1rem !important;
 }
 
 #starlight__search .pagefind-ui__result {
-  background: rgba(24, 28, 38, 0.45) !important;
+  background: rgba(18, 22, 34, 0.5) !important;
   border: 1px solid rgba(255, 255, 255, 0.06) !important;
   border-radius: 8px !important;
   padding: 0.85rem 1rem !important;
@@ -412,8 +458,8 @@ dialog:where(.astro-b5kgnn7o)::backdrop {
 
 #starlight__search .pagefind-ui__result:hover,
 #starlight__search .pagefind-ui__result:focus-within {
-  background: rgba(114, 234, 213, 0.06) !important;
-  border-color: rgba(114, 234, 213, 0.35) !important;
+  background: rgba(114, 234, 213, 0.08) !important;
+  border-color: rgba(114, 234, 213, 0.4) !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
   outline: none !important;
 }
@@ -465,7 +511,7 @@ dialog:where(.astro-b5kgnn7o)::backdrop {
 }
 
 .feature-card {
-  background: rgba(24, 28, 38, 0.5);
+  background: rgba(14, 18, 28, 0.5);
   border: 1px solid var(--sn-border);
   border-radius: 8px;
   padding: 1.6rem;
@@ -492,7 +538,7 @@ dialog:where(.astro-b5kgnn7o)::backdrop {
 }
 
 .feature-card:hover {
-  background: rgba(24, 28, 38, 0.8);
+  background: rgba(18, 24, 38, 0.8);
   border-color: var(--sn-border-focus);
   transform: translateY(-3px);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 16px rgba(114, 234, 213, 0.12);
@@ -573,13 +619,13 @@ dialog:where(.astro-b5kgnn7o)::backdrop {
 }
 
 .expressive-code .frame {
-  border: 1px solid var(--sn-border) !important;
+  border: 1px solid rgba(114, 234, 213, 0.2) !important;
   border-radius: 8px !important;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4) !important;
 }
 
 .expressive-code .header {
-  border-bottom: 1px solid var(--sn-border) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
   font-family: var(--sl-font-mono) !important;
   font-size: 0.82rem !important;
 }
@@ -589,7 +635,7 @@ dialog:where(.astro-b5kgnn7o)::backdrop {
   border: 1px solid var(--sn-border) !important;
   border-radius: 6px;
   overflow: hidden;
-  background: rgba(24, 28, 38, 0.35);
+  background: rgba(18, 22, 34, 0.35);
   margin: 1.5rem 0;
 }
 

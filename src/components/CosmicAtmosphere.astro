@@ -1,6 +1,6 @@
 ---
 // Cosmic Atmosphere Component — OhMyConfig
-// Calibración exacta: Luz 8.5%, Partículas 100%, Grano 1.5%
+// Concepto: Ventana de nave espacial con universo abisal y polvo estelar
 ---
 
 <div class="deep-space-glow" aria-hidden="true"></div>
@@ -13,10 +13,12 @@
     inset: 0;
     pointer-events: none;
     z-index: 0;
+    /* Fondo abisal más oscuro y profundo, como mirar por la ventana de una nave espacial */
     background: 
-      radial-gradient(circle at 15% 15%, rgba(131, 191, 255, 0.085) 0%, transparent 50%),
-      radial-gradient(circle at 85% 20%, rgba(114, 234, 213, 0.085) 0%, transparent 45%),
-      radial-gradient(circle at 50% 85%, rgba(194, 167, 255, 0.075) 0%, transparent 55%);
+      radial-gradient(circle at 20% 15%, rgba(114, 234, 213, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 80% 25%, rgba(131, 191, 255, 0.05) 0%, transparent 45%),
+      radial-gradient(circle at 50% 90%, rgba(194, 167, 255, 0.04) 0%, transparent 55%),
+      #06080E;
   }
 
   .film-grain {
@@ -24,8 +26,8 @@
     inset: 0;
     pointer-events: none;
     z-index: 1;
-    opacity: 0.015;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.012;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   }
 
   #cosmic-canvas {
@@ -33,7 +35,7 @@
     inset: 0;
     pointer-events: none;
     z-index: 1;
-    opacity: 0.65;
+    opacity: 0.75;
   }
 </style>
 
@@ -52,6 +54,8 @@
       y: number;
       size: number;
       alpha: number;
+      baseAlpha: number;
+      twinkleSpeed: number;
       speedY: number;
       speedX: number;
       color: string;
@@ -67,17 +71,20 @@
       height = canvas.height = window.innerHeight;
       particles = [];
 
-      // Densidad al 100% de la calibración (1 partícula cada 14000 px^2)
-      const count = Math.floor((width * height) / 14000);
+      // Densidad equilibrada para dar sensación de inmensidad estelar
+      const count = Math.floor((width * height) / 12000);
       for (let i = 0; i < count; i++) {
+        const baseA = Math.random() * 0.45 + 0.15;
         particles.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          size: Math.random() * 1.1 + 0.3,
-          alpha: Math.random() * 0.5 + 0.1,
-          speedY: -(Math.random() * 0.12 + 0.02), // microgravedad ascendente suave
-          speedX: (Math.random() - 0.5) * 0.04,
-          color: Math.random() > 0.85 ? '#72EAD5' : (Math.random() > 0.7 ? '#83BFFF' : '#E6E2D6'),
+          size: Math.random() < 0.2 ? Math.random() * 1.4 + 0.6 : Math.random() * 0.8 + 0.2, // Estrellas variables
+          alpha: baseA,
+          baseAlpha: baseA,
+          twinkleSpeed: Math.random() * 0.015 + 0.003,
+          speedY: -(Math.random() * 0.08 + 0.015), // Movimiento suave y lento en gravedad cero
+          speedX: (Math.random() - 0.5) * 0.02,
+          color: Math.random() > 0.85 ? '#72EAD5' : (Math.random() > 0.65 ? '#83BFFF' : '#E6E2D6'),
         });
       }
     }
@@ -102,10 +109,17 @@
         p.y += p.speedY;
         p.x += p.speedX;
 
+        // Suave parpadeo estelar
+        p.alpha += (Math.random() - 0.5) * p.twinkleSpeed;
+        if (p.alpha < p.baseAlpha * 0.5) p.alpha = p.baseAlpha * 0.5;
+        if (p.alpha > p.baseAlpha * 1.5) p.alpha = p.baseAlpha * 1.5;
+
         if (p.y < 0) {
           p.y = height;
           p.x = Math.random() * width;
         }
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
@@ -125,7 +139,6 @@
     } else {
       loop();
 
-      // Pausar si la pestaña no está activa para ahorrar 100% de CPU
       document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
           if (animationFrameId) cancelAnimationFrame(animationFrameId);
@@ -136,7 +149,6 @@
     }
   }
 
-  // Ejecutar al cargar y en cada navegación de cliente en Astro
   setupCosmicCanvas();
   document.addEventListener('astro:page-load', setupCosmicCanvas);
 </script>
