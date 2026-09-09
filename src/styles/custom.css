@@ -7,8 +7,8 @@
   --sn-base: #0A0D15;
   --sn-raised: #121622;
   --sn-overlay: #181C2A;
-  --sn-border: rgba(255, 255, 255, 0.07);
-  --sn-border-focus: rgba(114, 234, 213, 0.45);
+  --sn-border: rgba(255, 255, 255, 0.06);
+  --sn-border-focus: rgba(114, 234, 213, 0.4);
 
   --sn-text: #E2E8F0;
   --sn-text-muted: #94A3B8;
@@ -24,7 +24,7 @@
   --sn-red: #EF7785;
 
   /* Mapeo de Starlight a Static Noise */
-  --sl-color-accent-low: rgba(114, 234, 213, 0.12);
+  --sl-color-accent-low: rgba(114, 234, 213, 0.1);
   --sl-color-accent: var(--sn-cyan);
   --sl-color-accent-high: var(--sn-blue);
 
@@ -39,7 +39,7 @@
 
   --sl-color-bg: transparent;
   --sl-color-bg-nav: rgba(10, 13, 22, 0.45);
-  --sl-color-bg-sidebar: rgba(10, 13, 22, 0.42);
+  --sl-color-bg-sidebar: rgba(10, 13, 22, 0.38);
   --sl-color-hairline: var(--sn-border);
   --sl-color-hairline-light: rgba(255, 255, 255, 0.03);
 
@@ -51,11 +51,11 @@
   /* Expressive Code Customization */
   --ec-codeBg: #07090E;
   --ec-codeColor: var(--sn-text);
-  --ec-uiBg: var(--sn-base);
+  --ec-uiBg: #0D111A;
   --ec-uiFg: var(--sn-text-muted);
-  --ec-brdCol: rgba(114, 234, 213, 0.2);
-  --ec-tabBg: var(--sn-base);
-  --ec-tabActBg: var(--sn-raised);
+  --ec-brdCol: rgba(255, 255, 255, 0.07);
+  --ec-tabBg: #0D111A;
+  --ec-tabActBg: #141824;
   --ec-tabActFg: var(--sn-cyan);
   --ec-tabActBrdCol: var(--sn-cyan);
   --ec-codeFontFamily: var(--sl-font-mono);
@@ -73,11 +73,11 @@ body {
   color: var(--sn-text);
   font-family: var(--sl-font-system);
   letter-spacing: -0.01em;
-  line-height: 1.7;
+  line-height: 1.75;
   -webkit-font-smoothing: antialiased;
 }
 
-/* TIPOGRAFÍA ARTÍSTICA PARA ENCABEZADOS (Space Grotesk) */
+/* TIPOGRAFÍA ARTÍSTICA PARA ENCABEZADOS (Space Grotesk) - Sin líneas invasivas */
 h1, h2, h3, h4, h5, h6,
 .hero h1,
 .card-title,
@@ -91,33 +91,35 @@ h1, h2, h3, h4, h5, h6,
 }
 
 h1 {
-  font-size: clamp(2rem, 3.5vw, 2.75rem) !important;
+  font-size: clamp(2.2rem, 3.5vw, 3rem) !important;
   line-height: 1.2 !important;
-  margin-bottom: 1.25rem !important;
+  margin-bottom: 1.5rem !important;
 }
 
 h2 {
   font-size: clamp(1.4rem, 2.2vw, 1.85rem) !important;
   line-height: 1.25 !important;
-  margin-top: 2.5rem !important;
-  margin-bottom: 1rem !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  padding-bottom: 0.5rem;
+  margin-top: 3.5rem !important;
+  margin-bottom: 1.2rem !important;
+  /* Eliminada la línea rígida inferior para que el contenido respire */
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
 }
 
 h3 {
   font-size: 1.2rem !important;
-  margin-top: 2rem !important;
+  margin-top: 2.25rem !important;
   margin-bottom: 0.75rem !important;
 }
 
-/* Párrafos legibles con Inter */
+/* Párrafos y prosa: amplios, limpios y descansados */
 .sl-markdown-content p,
 .sl-markdown-content li {
   font-family: var(--sl-font-system);
-  font-size: 1rem;
-  line-height: 1.75;
+  font-size: 1.02rem;
+  line-height: 1.8;
   color: var(--sn-text);
+  max-width: 68ch;
 }
 
 .sl-markdown-content strong {
@@ -125,56 +127,63 @@ h3 {
   font-weight: 600;
 }
 
-/* ========================================================= */
-/* CRISTAL DE CABINA DE NAVE ESPACIAL (GLASSMORPHISM REAL)   */
-/* ========================================================= */
-
-/* Header con cristal translúcido y suave halo */
-header.header {
-  backdrop-filter: blur(24px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
-  background: rgba(10, 13, 22, 0.48) !important;
-  border-bottom: 1px solid rgba(114, 234, 213, 0.15) !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), inset 0 -1px 0 rgba(255, 255, 255, 0.04) !important;
+/* Separador horizontal orgánico y suave (sin cortes bruscos) */
+.sl-markdown-content hr {
+  border: none !important;
+  height: 1px !important;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%) !important;
+  margin: 3.5rem 0 !important;
 }
 
-/* Sidebar de cristal real (anulando cualquier fondo opaco interno de Starlight) */
+/* ========================================================= */
+/* NAVEGACIÓN Y CABINA (CRISTAL SUTIL Y ELEGANTE)           */
+/* ========================================================= */
+
+/* Header con cristal translúcido suave */
+header.header {
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  background: rgba(10, 13, 22, 0.45) !important;
+  border-bottom: 1px solid var(--sn-border) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Sidebar de cristal real */
 nav.sidebar,
 .sidebar-pane,
 .sidebar-content,
 sl-sidebar-pane {
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
-  background: rgba(10, 13, 22, 0.42) !important;
-  border-right: 1px solid rgba(114, 234, 213, 0.15) !important;
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(20px) saturate(170%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(170%) !important;
+  background: rgba(10, 13, 22, 0.38) !important;
+  border-right: 1px solid var(--sn-border) !important;
+  box-shadow: none !important;
 }
 
 /* Links activos y hover en el Sidebar */
 .sidebar a[aria-current="page"] {
-  background: rgba(114, 234, 213, 0.12) !important;
+  background: rgba(114, 234, 213, 0.08) !important;
   color: var(--sn-cyan) !important;
   border-left: 2px solid var(--sn-cyan);
   border-radius: 4px;
   font-weight: 600;
-  box-shadow: inset 0 0 12px rgba(114, 234, 213, 0.08);
 }
 
 .sidebar a:hover:not([aria-current="page"]) {
   color: #FFFFFF !important;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.03);
   border-radius: 4px;
 }
 
-/* Tabla de Contenidos a la derecha con cristal suave */
+/* Tabla de Contenidos a la derecha */
 aside.right-sidebar-container,
 .right-sidebar,
 .right-sidebar-panel,
 starlight-toc {
-  background: rgba(10, 13, 22, 0.35) !important;
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-  border-left: 1px solid rgba(114, 234, 213, 0.12) !important;
+  background: rgba(10, 13, 22, 0.3) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-left: 1px solid var(--sn-border) !important;
 }
 
 starlight-toc a[aria-current="true"] {
@@ -183,24 +192,17 @@ starlight-toc a[aria-current="true"] {
 }
 
 /* ========================================================= */
-/* PANEL GIGANTE DE LECTURA (HOLO-VIEWPORT DE NAVE ESPACIAL) */
+/* ÁREA DE LECTURA NATURAL (SIN ENJAULAR EN CAJAS MÚLTIPLES) */
 /* ========================================================= */
-@media (min-width: 50rem) {
-  /* En páginas de documentación enmarcamos el contenido en el panel gigante de cristal */
-  :root:not([data-has-hero]) .main-pane {
-    padding: 2rem 2.5rem 4rem 2.5rem;
-  }
+.content-panel {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
 
-  :root:not([data-has-hero]) .content-panel {
-    background: rgba(12, 16, 26, 0.55);
-    backdrop-filter: blur(24px) saturate(170%);
-    -webkit-backdrop-filter: blur(24px) saturate(170%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    padding: 2.75rem 3.5rem !important;
-    margin-bottom: 2rem;
-  }
+.main-pane {
+  padding-block: 2.5rem 5rem !important;
 }
 
 /* Enlaces del contenido */
@@ -264,13 +266,13 @@ starlight-toc a[aria-current="true"] {
 .sl-link-button.primary:hover {
   background: var(--sn-cyan) !important;
   color: #06080E !important;
-  box-shadow: 0 0 26px rgba(114, 234, 213, 0.45) !important;
+  box-shadow: 0 0 24px rgba(114, 234, 213, 0.45) !important;
   transform: translateY(-2px);
 }
 
 /* Botón Secundario: Vidrio oscuro con acento Azul */
 .sl-link-button.secondary {
-  background: rgba(24, 28, 38, 0.75) !important;
+  background: rgba(24, 28, 38, 0.65) !important;
   border: 1px solid var(--sn-border) !important;
   color: var(--sn-text) !important;
   backdrop-filter: blur(10px) !important;
@@ -279,22 +281,21 @@ starlight-toc a[aria-current="true"] {
 .sl-link-button.secondary:hover {
   border-color: var(--sn-blue) !important;
   color: var(--sn-blue) !important;
-  background: rgba(131, 191, 255, 0.12) !important;
-  box-shadow: 0 0 18px rgba(131, 191, 255, 0.25) !important;
+  background: rgba(131, 191, 255, 0.1) !important;
   transform: translateY(-2px);
 }
 
 /* Botón Minimal: Borde sutil y texto claro */
 .sl-link-button.minimal {
   background: transparent !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
   color: var(--sn-text-muted) !important;
 }
 
 .sl-link-button.minimal:hover {
   color: var(--sn-text) !important;
-  border-color: rgba(255, 255, 255, 0.25) !important;
-  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
   transform: translateY(-2px);
 }
 
@@ -304,7 +305,7 @@ starlight-toc a[aria-current="true"] {
 
 /* Botón disparador en el Navbar */
 button[data-open-modal] {
-  background: rgba(24, 28, 38, 0.55) !important;
+  background: rgba(24, 28, 38, 0.5) !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   border-radius: 6px !important;
   padding: 0.4rem 0.75rem !important;
@@ -317,7 +318,7 @@ button[data-open-modal] {
 }
 
 button[data-open-modal]:hover {
-  background: rgba(24, 28, 38, 0.8) !important;
+  background: rgba(24, 28, 38, 0.75) !important;
   border-color: var(--sn-border-focus) !important;
   color: var(--sl-color-white) !important;
   box-shadow: 0 0 14px rgba(114, 234, 213, 0.18) !important;
@@ -354,7 +355,7 @@ dialog:where(.astro-b5kgnn7o) {
   min-height: 0 !important;
   max-height: 75vh !important;
   border-radius: 12px !important;
-  border: 1px solid rgba(114, 234, 213, 0.4) !important;
+  border: 1px solid rgba(114, 234, 213, 0.35) !important;
   background: rgba(10, 13, 22, 0.94) !important;
   backdrop-filter: blur(28px) saturate(190%) !important;
   -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
@@ -511,7 +512,7 @@ dialog:where(.astro-b5kgnn7o)::backdrop {
 }
 
 .feature-card {
-  background: rgba(14, 18, 28, 0.5);
+  background: rgba(14, 18, 28, 0.45);
   border: 1px solid var(--sn-border);
   border-radius: 8px;
   padding: 1.6rem;
@@ -538,7 +539,7 @@ dialog:where(.astro-b5kgnn7o)::backdrop {
 }
 
 .feature-card:hover {
-  background: rgba(18, 24, 38, 0.8);
+  background: rgba(18, 24, 38, 0.7);
   border-color: var(--sn-border-focus);
   transform: translateY(-3px);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 16px rgba(114, 234, 213, 0.12);
@@ -590,7 +591,7 @@ dialog:where(.astro-b5kgnn7o)::backdrop {
   align-items: center;
   margin-top: auto;
   padding-top: 0.85rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .card-footer code {
@@ -613,73 +614,82 @@ dialog:where(.astro-b5kgnn7o)::backdrop {
   transform: translateX(4px);
 }
 
-/* BLOQUES DE CÓDIGO CON EXPRESSIVE CODE */
+/* BLOQUES DE CÓDIGO: Sobrios, oscuros, sin marcos llamativos */
 .expressive-code {
-  margin: 1.75rem 0 !important;
+  margin: 2rem 0 !important;
 }
 
 .expressive-code .frame {
-  border: 1px solid rgba(114, 234, 213, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
   border-radius: 8px !important;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45) !important;
+  background: #07090E !important;
 }
 
 .expressive-code .header {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  background: rgba(14, 18, 28, 0.6) !important;
   font-family: var(--sl-font-mono) !important;
   font-size: 0.82rem !important;
 }
 
-/* TABLAS CON BORDES FINOS Y ESPACIADO LIMPIO */
+/* TABLAS LIGERAS Y MINIMALISTAS (SIN JAULAS NI BORDES GRUESOS) */
 .sl-markdown-content table {
-  border: 1px solid var(--sn-border) !important;
-  border-radius: 6px;
-  overflow: hidden;
-  background: rgba(18, 22, 34, 0.35);
-  margin: 1.5rem 0;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  margin: 2rem 0;
+  width: 100%;
 }
 
 .sl-markdown-content th {
-  background: var(--sn-raised) !important;
-  color: var(--sn-text) !important;
+  background: transparent !important;
+  color: #FFFFFF !important;
   font-family: var(--sl-font-mono);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-bottom: 1px solid var(--sn-border) !important;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
   padding: 0.75rem 1rem !important;
 }
 
 .sl-markdown-content td {
-  border-bottom: 1px solid var(--sn-border) !important;
-  padding: 0.75rem 1rem !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  padding: 0.85rem 1rem !important;
 }
 
-/* CALLOUTS / ASIDES DE STARLIGHT */
+/* CALLOUTS / ASIDES: Sutiles sin bordes pesados */
 .starlight-aside {
   border-radius: 6px !important;
+  border-left-width: 2px !important;
   backdrop-filter: blur(8px);
-  margin: 1.5rem 0 !important;
+  margin: 1.75rem 0 !important;
 }
 
 .starlight-aside--note {
   border-color: var(--sn-blue) !important;
-  background: rgba(131, 191, 255, 0.05) !important;
+  background: rgba(131, 191, 255, 0.04) !important;
 }
 
 .starlight-aside--tip {
   border-color: var(--sn-cyan) !important;
-  background: rgba(114, 234, 213, 0.05) !important;
+  background: rgba(114, 234, 213, 0.04) !important;
 }
 
 .starlight-aside--caution {
   border-color: var(--sn-yellow) !important;
-  background: rgba(237, 208, 113, 0.05) !important;
+  background: rgba(237, 208, 113, 0.04) !important;
 }
 
 .starlight-aside--danger {
   border-color: var(--sn-red) !important;
-  background: rgba(239, 119, 133, 0.05) !important;
+  background: rgba(239, 119, 133, 0.04) !important;
 }
 
 /* FOCO VISIBLE ACCESIBLE */
