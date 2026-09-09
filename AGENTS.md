@@ -30,9 +30,17 @@ OhMyConfig/
 ├── README.md                    # Concise user manual, quick overview and documentation hub
 ├── AGENTS.md                    # AI Agent architectural context and guidelines
 ├── CONCEPTS.md                  # Vocabulario compartido del proyecto para orientar discusiones de dominio
-├── .gitignore                   # Ignored files (.atl/, .DS_Store, .vitepress cache/dist)
-├── .vitepress/
-│   └── config.mjs               # VitePress site configuration (srcDir: "documentation", Static Noise theme)
+├── .gitignore                   # Ignored files (.atl/, .DS_Store, dist/, .astro/)
+├── package.json                 # Documentation site dependencies (Astro + Starlight)
+├── astro.config.mjs             # Astro Starlight configuration (base: /OhMyConfig/, overrides)
+├── tsconfig.json                # TypeScript configuration for Astro & Starlight
+├── src/                         # Documentation website source
+│   ├── content.config.ts        # Content Layer mapping documentation/*.md
+│   ├── styles/
+│   │   └── custom.css           # Static Noise theme & Expressive Code styling
+│   └── components/
+│       ├── CosmicAtmosphere.astro  # Dynamic cosmic canvas (60fps, calibrated light/particles/grain)
+│       └── CosmicPageFrame.astro   # Starlight PageFrame component override
 ├── .github/
 │   └── workflows/
 │       └── docs.yml             # GitHub Actions CI/CD to build & deploy docs to GitHub Pages
@@ -151,8 +159,8 @@ OhMyConfig/
    - Accents: Blue (`#83BFFF`), Cyan (`#72EAD5`), Green (`#A3D98B`), Magenta/Purple (`#C2A7FF` / `#F08BC2`), Yellow/Orange (`#EDD071` / `#F3A261`), Red (`#EF7785`), Dim/Comments (`#9299AE` / `#62697B`).
 2. **Pure Documentation Principle**:
    - The `documentation/` directory contains **only pure Markdown files** without framework config bloat.
-   - VitePress configuration lives externally in `.vitepress/config.mjs` with `srcDir: "documentation"`.
-   - CI/CD in `.github/workflows/docs.yml` builds and deploys to GitHub Pages automatically.
+   - Documentation platform is built on **Astro + Starlight** with zero JavaScript on reader content, styled with the Static Noise palette and a calibrated cosmic atmosphere canvas.
+   - CI/CD in `.github/workflows/docs.yml` builds with `npm run build` and deploys to GitHub Pages automatically.
    - Compound Engineering artifacts are separated from user docs under `.compound-engineering/artifacts/` via `.compound-engineering/config.yaml` (`docs_root`).
 3. **Zero-Friction Offline Execution**: Avoid dynamic external downloads inside runtime configs; bundle or locally cache required binaries/WASM plugins within the repo.
 4. **Non-Destructive Overwrites**: Configuration installers must never silently discard user files without `.bak_` backups or user consent.

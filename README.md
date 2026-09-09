@@ -1,7 +1,7 @@
 # ⚡ OhMyConfig
 
 <p align="center">
-  <a href="https://hcastillaq.github.io/OhMyConfig/"><img src="https://img.shields.io/badge/📖_Documentación_Web-Online-7aa2f7?style=for-the-badge&logo=vitepress&logoColor=white" alt="Documentation"></a>
+  <a href="https://hcastillaq.github.io/OhMyConfig/"><img src="https://img.shields.io/badge/⚡_Documentación_Web-Online-72EAD5?style=for-the-badge&logo=astro&logoColor=0F1117" alt="Documentation"></a>
   <img src="https://img.shields.io/badge/macOS-Apple%20Silicon%20%7C%20Intel-72EAD5?style=for-the-badge&logo=apple&logoColor=0F1117" alt="macOS">
   <img src="https://img.shields.io/badge/Theme-Static%20Noise-72EAD5?style=for-the-badge" alt="Theme">
   <img src="https://img.shields.io/badge/License-MIT-9ece6a?style=for-the-badge" alt="License">
@@ -130,10 +130,10 @@ OhMyConfig/
 
 ## 🚀 Publicación Web Automática
 
-La documentación completa de este repositorio se compila y publica automáticamente en **GitHub Pages** mediante **VitePress** a través de GitHub Actions:
+La documentación completa de este repositorio se compila y publica automáticamente en **GitHub Pages** mediante **Astro + Starlight** a través de GitHub Actions:
 
 ```text
-[Repositorio Local] ──(Push en documentation/ o .vitepress/)──► [GitHub Actions CI/CD] ──► [GitHub Pages Web]
+[Repositorio Local] ──(Push en documentation/ o src/)──► [GitHub Actions CI/CD] ──► [GitHub Pages Web]
 ```
 
 Accedé a la documentación interactiva:  

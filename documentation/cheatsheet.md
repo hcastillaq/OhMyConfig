@@ -1,3 +1,8 @@
+---
+title: "Tabla Maestra de Alias y Atajos"
+description: "Referencia rápida de todos los alias, atajos y comandos de OhMyConfig."
+---
+
 # ⚡ Tabla Maestra de Alias y Atajos
 
 Referencia rápida de todos los alias, herramientas y atajos disponibles en **OhMyConfig**.

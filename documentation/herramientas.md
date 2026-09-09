@@ -1,3 +1,8 @@
+---
+title: "Catálogo de Herramientas CLI & TUI"
+description: "Herramientas modernas en Rust y Go que sustituyen utilidades Unix tradicionales."
+---
+
 # 🧰 Catálogo Maestro de Herramientas CLI & TUI
 
 OhMyConfig sustituye las herramientas tradicionales de Unix por utilidades de última generación escritas principalmente en **Rust** y **Go**, garantizando máximo rendimiento, seguridad de tipos y una estética unificada bajo **Static Noise**.

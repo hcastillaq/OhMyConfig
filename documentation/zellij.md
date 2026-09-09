@@ -1,3 +1,8 @@
+---
+title: "Guía Maestra de Zellij"
+description: "Multiplexor moderno en Rust con barra unificada zjstatus.wasm y navegación por paneles."
+---
+
 # 🪟 Guía Maestra de Zellij (`zj`)
 
 Zellij es un multiplexor de terminal moderno escrito en **Rust**, configurado en OhMyConfig con un layout de **1 sola línea inferior** (`layouts/default.kdl`) utilizando el plugin local **`zjstatus.wasm`** y la paleta **Static Noise**:

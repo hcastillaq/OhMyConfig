@@ -5,7 +5,10 @@ on:
     branches: [main]
     paths:
       - 'documentation/**'
-      - '.vitepress/**'
+      - 'src/**'
+      - 'astro.config.mjs'
+      - 'package.json'
+      - 'package-lock.json'
       - '.github/workflows/docs.yml'
   workflow_dispatch:
 
@@ -32,15 +35,15 @@ jobs:
         with:
           node-version: 20
 
-      - name: Build with VitePress
+      - name: Build with Astro
         run: |
-          npm install -D vitepress vue @vue/server-renderer
-          npx vitepress build
+          npm ci
+          npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .vitepress/dist
+          path: dist
 
   deploy:
     environment:

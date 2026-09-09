@@ -47,7 +47,7 @@ Todo módulo en OhMyConfig debe integrarse en **5 capas sin excepción**:
 5. **Verificación de Integridad:**
    - Ejecutar `bash -n omc cli/lib/*.sh cli/commands/*.sh` para asegurar que no haya errores de sintaxis.
    - Ejecutar `./omc doctor` y comprobar que reconozca el nuevo módulo y reporte el estado de los paquetes.
-   - Ejecutar `npx vitepress build` para verificar que la documentación compila sin errores.
+   - Ejecutar `npm run build` para verificar que la documentación compila sin errores.
 
 ---
 
@@ -55,5 +55,5 @@ Todo módulo en OhMyConfig debe integrarse en **5 capas sin excepción**:
 
 - `bash -n omc cli/lib/*.sh cli/commands/*.sh` pasa con código de salida 0.
 - `./omc doctor` lista el nuevo módulo con sus herramientas asociadas.
-- `npx vitepress build` compila limpiamente.
+- `npm run build` compila limpiamente.
 - No quedan archivos huérfanos ni dependencias no documentadas.

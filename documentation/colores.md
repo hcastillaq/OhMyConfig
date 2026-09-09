@@ -1,3 +1,8 @@
+---
+title: "Paleta Static Noise"
+description: "Especificación completa de tokens, roles y colores canónicos de Static Noise."
+---
+
 # Paleta Static Noise
 
 OhMyConfig usa **Static Noise** como su único esquema cromático oficial, reemplazando a Tokyonight para ofrecer una identidad visual retro-punk futurista de alta legibilidad, señal eléctrica sobre superficies oscuras neutrales y coherencia semántica estricta entre terminal, editor, multiplexer, TUIs, agente Pi y documentación.
@@ -97,7 +102,7 @@ Static Noise está calibrado para superar los criterios WCAG 2.1 AA en interface
 
 ## 5. Variables portables
 
-Para integraciones web, VitePress, CSS o herramientas compatibles con variables de diseño:
+Para integraciones web (Astro, Starlight, CSS) o herramientas compatibles con variables de diseño:
 
 ```css
 :root {
