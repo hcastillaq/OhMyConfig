@@ -1,0 +1,139 @@
+:root {
+  --sn-void: #0F1117;
+  --sn-base: #141720;
+  --sn-raised: #1B1F2A;
+  --sn-overlay: #202532;
+  --sn-selection: #252A38;
+  --sn-border: #343A4A;
+  --sn-border-focus: #72EAD5;
+
+  --sn-text: #E6E2D6;
+  --sn-text-soft: #C9C8C2;
+  --sn-muted: #9299AE;
+  --sn-disabled: #62697B;
+
+  --sn-cyan: #72EAD5;
+  --sn-blue: #83BFFF;
+  --sn-purple: #C2A7FF;
+  --sn-pink: #F08BC2;
+  --sn-green: #A3D98B;
+  --sn-yellow: #EDD071;
+  --sn-orange: #F3A261;
+  --sn-red: #EF7785;
+
+  --sn-cyan-dim: #193C3B;
+  --sn-blue-dim: #20344D;
+  --sn-purple-dim: #332B4D;
+  --sn-pink-dim: #48283D;
+  --sn-green-dim: #293B2C;
+  --sn-yellow-dim: #443B25;
+  --sn-orange-dim: #493124;
+  --sn-red-dim: #48262E;
+
+  /* Mapeo de variables VitePress a Static Noise */
+  --vp-c-bg: var(--sn-base);
+  --vp-c-bg-alt: var(--sn-void);
+  --vp-c-bg-elv: var(--sn-raised);
+  --vp-c-bg-soft: var(--sn-raised);
+
+  --vp-c-border: var(--sn-border);
+  --vp-c-divider: var(--sn-border);
+  --vp-c-gutter: var(--sn-border);
+
+  --vp-c-text-1: var(--sn-text);
+  --vp-c-text-2: var(--sn-text-soft);
+  --vp-c-text-3: var(--sn-muted);
+
+  --vp-c-brand-1: var(--sn-cyan);
+  --vp-c-brand-2: var(--sn-blue);
+  --vp-c-brand-3: var(--sn-cyan-dim);
+  --vp-c-brand-soft: var(--sn-cyan-dim);
+
+  --vp-c-default-1: var(--sn-text);
+  --vp-c-default-2: var(--sn-text-soft);
+  --vp-c-default-3: var(--sn-muted);
+  --vp-c-default-soft: var(--sn-raised);
+
+  /* Alertas / Callouts */
+  --vp-c-tip-1: var(--sn-green);
+  --vp-c-tip-2: var(--sn-green);
+  --vp-c-tip-3: var(--sn-green);
+  --vp-c-tip-soft: var(--sn-green-dim);
+
+  --vp-c-warning-1: var(--sn-yellow);
+  --vp-c-warning-2: var(--sn-yellow);
+  --vp-c-warning-3: var(--sn-yellow);
+  --vp-c-warning-soft: var(--sn-yellow-dim);
+
+  --vp-c-danger-1: var(--sn-red);
+  --vp-c-danger-2: var(--sn-red);
+  --vp-c-danger-3: var(--sn-red);
+  --vp-c-danger-soft: var(--sn-red-dim);
+
+  --vp-c-info-1: var(--sn-blue);
+  --vp-c-info-2: var(--sn-blue);
+  --vp-c-info-3: var(--sn-blue);
+  --vp-c-info-soft: var(--sn-blue-dim);
+
+  /* Bloques de código */
+  --vp-code-bg: var(--sn-void);
+  --vp-code-color: var(--sn-text);
+  --vp-code-inline-bg: var(--sn-raised);
+  --vp-code-inline-color: var(--sn-pink);
+
+  /* Navbar y Sidebar */
+  --vp-nav-bg-color: var(--sn-void);
+  --vp-sidebar-bg-color: var(--sn-void);
+}
+
+/* Foco accesible no cromático y visible */
+:focus-visible {
+  outline: 2px solid var(--sn-cyan) !important;
+  outline-offset: 2px !important;
+}
+
+/* Enlaces */
+a {
+  color: var(--sn-blue);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: var(--sn-cyan);
+}
+
+/* Sidebar activo */
+.VPSidebarItem.is-active > .item .text {
+  color: var(--sn-cyan) !important;
+  font-weight: 600;
+}
+
+/* Scroll horizontal en bloques de código */
+.vp-doc div[class*="language-"] {
+  overflow-x: auto;
+  border: 1px solid var(--sn-border);
+  border-radius: 8px;
+}
+
+/* Accesibilidad táctil móvil (mínimo 44px) */
+@media (max-width: 960px) {
+  .VPNavBarHamburger,
+  .VPNavBarSearch,
+  .VPDocFooter .pager-link {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* Reducción de movimiento */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

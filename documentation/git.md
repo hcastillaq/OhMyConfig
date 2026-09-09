@@ -1,6 +1,6 @@
 # 🐙 Guía Maestra de Git y Control de Versiones
 
-OhMyConfig integra un stack completo para Git donde la terminal rápida, el motor de diffs visuales, el navegador interactivo y las herramientas de refactorización cooperan armónicamente bajo la paleta **Tokyonight Night**.
+OhMyConfig integra un stack completo para Git donde la terminal rápida, el motor de diffs visuales, el navegador interactivo y las herramientas de refactorización cooperan armónicamente bajo la paleta **Static Noise**.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐

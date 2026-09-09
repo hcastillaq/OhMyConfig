@@ -210,7 +210,7 @@ modules=core terminal editor search cli devops ai
    mise use -g python@latest
    mise use -g go@latest
    ```
-3. **Abrir Ghostty** para disfrutar del renderizado GPU y el tema Tokyonight completo.
+3. **Abrir Ghostty** para disfrutar del renderizado GPU y el tema Static Noise completo.
 4. **Instalar Pi base y añadir extensiones sólo si las necesitás:**
    ```bash
    ./omc dev

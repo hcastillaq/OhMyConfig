@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'docs/**'
+      - 'documentation/**'
       - '.vitepress/**'
       - '.github/workflows/docs.yml'
   workflow_dispatch:

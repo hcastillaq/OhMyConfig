@@ -1,6 +1,6 @@
 # 🛠️ Guía Maestra de Neovim (Editor Principal)
 
-OhMyConfig utiliza el núcleo de **LazyVim** como motor base de alto rendimiento, delegando el mantenimiento upstream de plugins a la comunidad mientras preserva una capa de usuario limpia y personalizada bajo la estética **Tokyonight Night** con transparencia adaptativa para Ghostty.
+OhMyConfig utiliza el núcleo de **LazyVim** como motor base de alto rendimiento, delegando el mantenimiento upstream de plugins a la comunidad mientras preserva una capa de usuario limpia y personalizada bajo la estética **Static Noise** con transparencia adaptativa para Ghostty.
 
 ```text
 config/nvim/
@@ -13,7 +13,7 @@ config/nvim/
     │   ├── autocmds.lua          # Eventos y hooks personalizados
     │   └── lazy.lua              # Bootstrap de LazyVim y carga de módulos
     └── plugins/
-        ├── colorscheme.lua       # Tema Tokyonight Night con transparencia adaptativa
+        ├── colorscheme.lua       # Módulo Lua propio Static Noise con transparencia adaptativa
         ├── neo-tree.lua          # Símbolos limpios de estado de Git en el explorador
         └── neogen.lua            # Generador de docstrings estructurados (JSDoc, TSDoc, LuaDoc)
 ```

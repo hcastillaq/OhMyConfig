@@ -8,8 +8,8 @@ Referencia rápida de todos los alias, herramientas y atajos disponibles en **Oh
 
 | Alias / Atajo | Comando Real | Descripción |
 | :--- | :--- | :--- |
-| **`v`** | `nvim` | Editor principal Neovim Tokyonight |
-| **`zj`** | `zellij` | Multiplexor de terminal con barra Tokyonight |
+| **`v`** | `nvim` | Editor principal Neovim Static Noise |
+| **`zj`** | `zellij` | Multiplexor de terminal con barra Static Noise |
 | **`rg <patron>`** | `ripgrep` | Búsqueda de texto en archivos en milisegundos |
 | **`fd <nombre>`** | `fd` | Búsqueda moderna de archivos y carpetas |
 | **`sd 'old' 'new'`**| `sd` | Reemplazo intuitivo de texto en archivos |
@@ -25,7 +25,7 @@ Referencia rápida de todos los alias, herramientas y atajos disponibles en **Oh
 | **`ls`** | `eza --icons` | Lista limpia con íconos |
 | **`ll`** | `eza -la --icons` | Lista detallada completa |
 | **`tree`** | `eza --tree --icons` | Estructura en árbol visual |
-| **`cat`** | `bat --style=plain` | Visor con sintaxis coloreada Tokyonight |
+| **`cat`** | `bat --style=plain` | Visor con sintaxis coloreada Static Noise |
 | **`btm`** | `bottom` | Monitor interactivo de sistema (CPU/RAM/Discos) |
 | **`du`** | `dust` | Uso visual de espacio en disco en barras |
 | **`procs`** | `procs` | Visor de procesos moderno con `--port` y `--tree` |

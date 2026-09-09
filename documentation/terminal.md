@@ -10,7 +10,7 @@ Emulador de terminal nativo para macOS con aceleración por GPU (Metal):
 
 * **Desenfoque y Transparencia:** Configurado con *blur radius 20*, opacidad al 0.95 y sin marcos de ventana de macOS.
 * **Tipografía:** JetBrains Mono Nerd Font con ligaduras de código habilitadas.
-* **Cursor:** Estilo bloque en color Cyan Tokyonight (`#7dcfff`).
+* **Cursor:** Estilo bloque en color Cyan Static Noise (`#72EAD5`).
 * **Selección:** Fondo azul de alto contraste (`#3d59a1`) con texto blanco (`#ffffff`). Consulta `documentation/colores.md` para los roles y extensiones disponibles.
 
 ---

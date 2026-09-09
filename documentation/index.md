@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "⚡ OhMyConfig"
   text: "Entorno de Desarrollo Moderno y Minimalista para macOS"
-  tagline: "Utilidades de última generación en Rust y Go, estilizadas bajo la paleta Tokyonight Night con glifos Nerd Font v3."
+  tagline: "Utilidades de última generación en Rust y Go, estilizadas bajo la paleta Static Noise con glifos Nerd Font v3."
   actions:
     - theme: brand
       text: 🚀 Comenzar Instalación

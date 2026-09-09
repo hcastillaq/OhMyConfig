@@ -1,6 +1,6 @@
 # 🪟 Guía Maestra de Zellij (`zj`)
 
-Zellij es un multiplexor de terminal moderno escrito en **Rust**, configurado en OhMyConfig con un layout de **1 sola línea inferior** (`layouts/default.kdl`) utilizando el plugin local **`zjstatus.wasm`** y la paleta **Tokyonight**:
+Zellij es un multiplexor de terminal moderno escrito en **Rust**, configurado en OhMyConfig con un layout de **1 sola línea inferior** (`layouts/default.kdl`) utilizando el plugin local **`zjstatus.wasm`** y la paleta **Static Noise**:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -11,8 +11,8 @@ Zellij es un multiplexor de terminal moderno escrito en **Rust**, configurado en
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-* **Resaltado de Foco de Alto Contraste:** El panel activo se ilumina instantáneamente con bordes redondeados en **Cyan Tokyonight (`#7dcfff`)** y cabecera en **Azul (`#7aa2f7`)**, mientras los paneles inactivos permanecen en un tono oscuro discreto (`#292e42`).
-* **Selección Visible:** Los componentes modernos de Zellij (`text_selected`, `list_selected`, `table_cell_selected`, `ribbon_selected`) usan contraste alto Tokyonight: texto claro sobre **Azul selección (`#3d59a1`)** o texto oscuro sobre **Cyan neón (`#50f5ff`)**, para que menús, listas, búsqueda y ribbons activos se distingan sin perder coherencia visual.
+* **Resaltado de Foco de Alto Contraste:** El panel activo se ilumina instantáneamente con bordes redondeados en **Cyan Static Noise (`#72EAD5`)** y cabecera en **Azul (`#83BFFF`)**, mientras los paneles inactivos permanecen en un tono oscuro discreto (`#343A4A`).
+* **Selección Visible:** Los componentes modernos de Zellij (`text_selected`, `list_selected`, `table_cell_selected`, `ribbon_selected`) usan contraste alto Static Noise: texto claro sobre **CyanDim selección (`#193C3B`)** o texto oscuro sobre **Cyan (`#72EAD5`)**, para que menús, listas, búsqueda y ribbons activos se distingan sin perder coherencia visual.
 
 ---
 

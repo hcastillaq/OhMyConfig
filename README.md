@@ -3,11 +3,11 @@
 <p align="center">
   <a href="https://hcastillaq.github.io/OhMyConfig/"><img src="https://img.shields.io/badge/📖_Documentación_Web-Online-7aa2f7?style=for-the-badge&logo=vitepress&logoColor=white" alt="Documentation"></a>
   <img src="https://img.shields.io/badge/macOS-Apple%20Silicon%20%7C%20Intel-7dcfff?style=for-the-badge&logo=apple&logoColor=white" alt="macOS">
-  <img src="https://img.shields.io/badge/Theme-Tokyonight%20Night-bb9af7?style=for-the-badge" alt="Theme">
+  <img src="https://img.shields.io/badge/Theme-Static%20Noise-72EAD5?style=for-the-badge" alt="Theme">
   <img src="https://img.shields.io/badge/License-MIT-9ece6a?style=for-the-badge" alt="License">
 </p>
 
-> **Entorno de desarrollo moderno, modular e idempotente para macOS**, estilizado bajo la paleta **Tokyonight Night** con glifos **Nerd Font v3**, utilidades de última generación escritas en **Rust** y **Go**, y agentes autónomos de **IA en terminal**.
+> **Entorno de desarrollo moderno, modular e idempotente para macOS**, estilizado bajo la paleta **Static Noise** con glifos **Nerd Font v3**, utilidades de última generación escritas en **Rust** y **Go**, y agentes autónomos de **IA en terminal**.
 
 ---
 
@@ -88,14 +88,14 @@ OhMyConfig/
 * **`Ctrl + t`** / **`Alt + c`**: Búsqueda difusa de archivos / carpetas con FZF.
 * **`y`**: Administrador de archivos Yazi (salta al directorio al salir con `q`).
 * **`ls`** / **`ll`** / **`tree`**: Listados visuales con íconos vía Eza.
-* **`cat <archivo>`**: Visor con sintaxis coloreada Tokyonight vía Bat.
+* **`cat <archivo>`**: Visor con sintaxis coloreada Static Noise vía Bat.
 * **`btm`** / **`du`**: Monitor de sistema (Bottom) / Uso visual de disco (Dust).
 * **`procs --port <p>`**: Visor de procesos y puertos.
 * **`xh`** / **`jqp`**: Cliente HTTP para APIs / Playground interactivo JQ.
 * **`tokei`**: Conteo de líneas de código y estadísticas del proyecto.
 
 ### 3. Editor Neovim (`<Space>` = Leader)
-* **`v`** / **`v <archivo>`**: Abrir Neovim con tema Tokyonight.
+* **`v`** / **`v <archivo>`**: Abrir Neovim con tema Static Noise.
 * **`<Space> + e`**: Abrir / Ocultar explorador de archivos lateral.
 * **`Ctrl + h/j/k/l`**: Moverse fluidamente entre paneles y divisiones.
 * **`Shift + l`** / **`Shift + h`**: Pestaña siguiente / anterior.
@@ -121,7 +121,7 @@ OhMyConfig/
 
 ### 5. Git y Control de Versiones
 * **`gs`** (`git status`), **`gaa`** (`git add .`), **`gc`** (`git commit`), **`gp`** (`git push`).
-* **`gl`** / **`glog`**: Árboles visuales de commits coloreados con Tokyonight.
+* **`gl`** / **`glog`**: Árboles visuales de commits coloreados con Static Noise.
 * **`glp`**: Historial detallado con diffs interactivos en Git-Delta.
 * **`lg`**: Interfaz visual completa de Lazygit.
 * **`of`**: Radiografía visual con telemetría del repositorio vía Onefetch.

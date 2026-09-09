@@ -6,7 +6,7 @@ This document provides system architecture, design invariants, configuration str
 
 ## 1. Overview & Purpose
 
-**OhMyConfig** is an automated, modular, and idempotent dotfiles and developer environment configuration for macOS. It replaces legacy Unix tools with high-performance modern CLI/TUI utilities (primarily built with Rust and Go), styled consistently with the **Tokyonight** palette, Nerd Font icon telemetry, and integrated with terminal-based AI coding agents.
+**OhMyConfig** is an automated, modular, and idempotent dotfiles and developer environment configuration for macOS. It replaces legacy Unix tools with high-performance modern CLI/TUI utilities (primarily built with Rust and Go), styled consistently with the **Static Noise** palette, Nerd Font icon telemetry, and integrated with terminal-based AI coding agents.
 
 ---
 
@@ -26,12 +26,12 @@ OhMyConfig/
 │       ├── brew.sh              # Homebrew detection, verification & helpers
 │       ├── catalog.sh           # Granular module & package definitions
 │       ├── deploy.sh            # Safe symlink/copy file deployment engine
-│       └── ui.sh                # Shared Tokyonight styling & Gum UI primitives
+│       └── ui.sh                # Shared Static Noise styling & Gum UI primitives
 ├── README.md                    # Concise user manual, quick overview and documentation hub
 ├── AGENTS.md                    # AI Agent architectural context and guidelines
 ├── .gitignore                   # Ignored files (.atl/, .DS_Store, .vitepress cache/dist)
 ├── .vitepress/
-│   └── config.mjs               # VitePress site configuration (srcDir: "documentation", Tokyonight theme)
+│   └── config.mjs               # VitePress site configuration (srcDir: "documentation", Static Noise theme)
 ├── .github/
 │   └── workflows/
 │       └── docs.yml             # GitHub Actions CI/CD to build & deploy docs to GitHub Pages
@@ -48,7 +48,7 @@ OhMyConfig/
 │   ├── git.md                   # Git, Lazygit & Delta guide
 │   ├── terminal.md              # Ghostty, Fish, Starship & Atuin guide
 │   ├── herramientas.md          # Modern CLI/TUI tools guide
-│   ├── colores.md               # Tokyonight palette reference
+│   ├── colores.md               # Static Noise palette reference
 │   └── cheatsheet.md            # Master Alias & Keymap Cheatsheet
 └── config/                      # Source configuration directory (mirrors ~/.config/)
     ├── fish/
@@ -58,13 +58,13 @@ OhMyConfig/
     ├── starship/
     │   └── starship.toml        # Fast prompt theme with git/runtime/k8s modules
     ├── zellij/
-    │   ├── config.kdl           # Zellij multiplexer settings & Tokyonight palette
+    │   ├── config.kdl           # Zellij multiplexer settings & Static Noise palette
     │   ├── layouts/
     │   │   └── default.kdl      # 1-line layout powered by local zjstatus.wasm
     │   └── plugins/
     │       └── zjstatus.wasm    # Pre-packaged local WASM status-bar plugin
     ├── lazygit/
-    │   └── config.yml           # Git TUI config, Tokyonight theme & Delta integration
+    │   └── config.yml           # Git TUI config, Static Noise theme & Delta integration
     ├── bottom/
     │   └── bottom.toml          # System & process monitor theme/layout
     ├── atuin/
@@ -81,10 +81,10 @@ OhMyConfig/
             │   ├── autocmds.lua # User event triggers and hooks
             │   └── lazy.lua     # LazyVim core bootstrap & plugin setup
             └── plugins/
-                ├── colorscheme.lua # Tokyonight Night theme with adaptive blur/transparency
+                ├── colorscheme.lua # Static Noise theme with adaptive blur/transparency
                 ├── neo-tree.lua    # Clean Git status symbols without empty boxes
                 ├── neogen.lua      # Intelligent docstring generator (JSDoc, TSDoc, Google)
-                └── which-key.lua   # Tokyonight-styled Which-Key v3 specs & Spanish groups
+                └── which-key.lua   # Static Noise-styled Which-Key v3 specs & Spanish groups
 ```
 
 ---
@@ -99,10 +99,10 @@ OhMyConfig/
 - **State Profile (`.omc-profile`)**: Persists active modules and deployment mode for non-destructive incremental updates and diagnostics.
 
 ### 3.2 Terminal & Shell Layer
-- **Ghostty**: Modern GPU-accelerated terminal emulator configured with JetBrains Mono Nerd Font, font ligatures, window blur, and Tokyonight styling.
+- **Ghostty**: Modern GPU-accelerated terminal emulator configured with JetBrains Mono Nerd Font, font ligatures, window blur, and Static Noise styling.
 - **Fish Shell (`config/fish/config.fish`)**:
   - Environment variables: `STARSHIP_CONFIG`, `BAT_THEME`, `XDG_CONFIG_HOME`, `EDITOR`.
-  - FZF Integration: Complete Tokyonight Night color mapping with `fd` file/directory providers.
+  - FZF Integration: Complete Static Noise color mapping with `fd` file/directory providers.
   - Atuin Integration: Database-driven shell history initialization.
   - Interactive wrappers: Yazi wrapper (`y`) that changes directory upon exit with `q`, and `cds` for `.DS_Store` sanitization.
   - Aliases & Abbreviations: Fast shortcuts for Git (`g`, `gs`, `gc`, `gl`, `glog`, `glp`, `of`), Modern CLI (`ls` -> `eza`, `cat` -> `bat`, `du` -> `dust`, `zj` -> `zellij`, `jqp`, `v` -> `nvim`), and Zoxide directory traversal (`..`, `...`, `-`).
@@ -113,7 +113,7 @@ OhMyConfig/
 - **mise**: Universal polyglot runtime manager (Node, Python, Go, Rust, Java, etc.) replacing separate tools like `nvm` and `pyenv`.
 
 ### 3.4 Terminal Multiplexer (`config/zellij/`)
-- **Zellij**: Modern Rust multiplexer configured with Tokyonight palette and `default_layout "default"`.
+- **Zellij**: Modern Rust multiplexer configured with Static Noise palette and `default_layout "default"`.
 - **Active Pane High-Contrast Focus**: Active focused pane is styled in radiant Cyan (`#7dcfff`) with Blue title bar (`#7aa2f7`), while inactive panes remain in subtle dark slate (`#292e42`).
 - **Direct Navigation**: Seamless pane focus switching with `Alt + hjkl` (left, down, up, right), tab switching with `Alt + [` / `Alt + ]`, and direct tab jumps with `Alt + 1..9`.
 - **Move / Swap Panes (`Ctrl + h`)**: Physical pane reordering and swapping via `Ctrl + h` (Move mode) with `h/j/k/l` or `Tab`.
@@ -124,7 +124,7 @@ OhMyConfig/
 ### 3.5 Neovim IDE Layer (`config/nvim/`)
 - **LazyVim Core Engine**: Leverages upstream-maintained plugin architecture for zero maintenance overhead.
 - **User Custom Layer**:
-  - `colorscheme.lua`: Configures Tokyonight Night with adaptive transparency & blur for Ghostty.
+  - `colorscheme.lua`: Configures Static Noise with adaptive transparency & blur for Ghostty.
   - `neo-tree.lua`: High-contrast, clean Git status indicators without empty box artifacts.
   - `neogen.lua`: Automated structured docstring generation (`<leader>cn`).
   - `which-key.lua`: Friendly Spanish categorization and preserved window (`<c-w>`) and buffer proxies for Which-Key v3.
@@ -137,16 +137,16 @@ OhMyConfig/
 - **Optional Pi Packages**: Add capabilities only when needed with `pi install <package>` and inspect the current environment with `pi list`.
   - Current optional examples in this setup include `pi-subagents`, `pi-ask-user`, `pi-web-access`, `pi-hermes-memory`, `@ff-labs/pi-fff`, `@narumitw/pi-lsp`, `pi-antigravity`, `pi-smart-compact`, `pi-skill-dollar`, and `git:github.com/EveryInc/compound-engineering-plugin`.
 - **Lifecycle Commands**: `omc dev` manages the Pi base CLI (`install`, `status`, `update`, `doctor`, `remove`). Optional packages are managed by native Pi commands (`pi list`, `pi install`, `pi remove`).
-- **Project-Local Pi Config**: OhMyConfig selects a native Tokyonight theme and custom TUI header from `.pi/settings.json`, loading resources stored under `config/pi/themes/` and `config/pi/extensions/` via paths relative to `.pi/` (`../config/pi/...`). Run `pi --approve` or `/trust` to load them.
+- **Project-Local Pi Config**: OhMyConfig selects a native Static Noise theme and custom TUI header from `.pi/settings.json`, loading resources stored under `config/pi/themes/` and `config/pi/extensions/` via paths relative to `.pi/` (`../config/pi/...`). Run `pi --approve` or `/trust` to load them.
 
 ---
 
 ## 4. Design Invariants & Conventions
 
-1. **Tokyonight Palette Consistency**:
-   - Primary Background: `#1a1b26` (or `#15161e` for deep dark / borders)
-   - Primary Foreground: `#c0caf5`
-   - Accents: Blue (`#7aa2f7`), Cyan (`#7dcfff`), Green (`#9ece6a`), Magenta/Purple (`#bb9af7`), Yellow/Orange (`#e0af68` / `#ff9e64`), Red (`#f7768e`), Dim/Comments (`#565f89` / `#737aa2`).
+1. **Static Noise Palette Consistency**:
+   - Primary Background: `#141720` (or `#0F1117` for deep dark / borders / void)
+   - Primary Foreground: `#E6E2D6`
+   - Accents: Blue (`#83BFFF`), Cyan (`#72EAD5`), Green (`#A3D98B`), Magenta/Purple (`#C2A7FF` / `#F08BC2`), Yellow/Orange (`#EDD071` / `#F3A261`), Red (`#EF7785`), Dim/Comments (`#9299AE` / `#62697B`).
 2. **Pure Documentation Principle**:
    - The `documentation/` directory contains **only pure Markdown files** without framework config bloat.
    - VitePress configuration lives externally in `.vitepress/config.mjs` with `srcDir: "documentation"`.
