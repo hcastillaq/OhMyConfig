@@ -3,8 +3,6 @@ title: "Ecosistema AI & Coding Agents (Pi)"
 description: "Agente Pi en terminal, instalación mínima y extensiones opcionales para OhMyConfig."
 ---
 
-# Ecosistema AI & Coding Agents (Pi)
-
 OhMyConfig usa **Pi** como agente de IA principal en terminal. El flujo base del proyecto debe ser mínimo: instalar el binario `pi`, abrir una sesión y añadir extensiones sólo cuando una workflow las necesite.
 
 ---

@@ -1,3 +1,6 @@
+/* Tipografías Web Oficiales: Space Grotesk (Artística Cósmica) + Inter (Legible Dev) + JetBrains Mono */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 :root {
   /* Static Noise Canonical Tokens */
   --sn-void: #0B0D13;
@@ -40,8 +43,10 @@
   --sl-color-hairline: var(--sn-border);
   --sl-color-hairline-light: rgba(255, 255, 255, 0.04);
 
-  --sl-font-system: "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --sl-font-mono: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+  /* Sistema Dual de Tipografías */
+  --sl-font-system: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --sl-font-display: "Space Grotesk", "Inter", -apple-system, sans-serif;
+  --sl-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   /* Expressive Code Customization */
   --ec-codeBg: #090B0F;
@@ -68,7 +73,56 @@ body {
   color: var(--sn-text);
   font-family: var(--sl-font-system);
   letter-spacing: -0.01em;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+}
+
+/* TIPOGRAFÍA ARTÍSTICA PARA ENCABEZADOS (Space Grotesk) */
+h1, h2, h3, h4, h5, h6,
+.hero h1,
+.card-title,
+.footer-title,
+.brand-text,
+.site-title {
+  font-family: var(--sl-font-display) !important;
+  letter-spacing: -0.03em !important;
+  font-weight: 700 !important;
+  color: #FFFFFF;
+}
+
+h1 {
+  font-size: clamp(2rem, 3.5vw, 2.75rem) !important;
+  line-height: 1.2 !important;
+  margin-bottom: 1.25rem !important;
+}
+
+h2 {
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem) !important;
+  line-height: 1.25 !important;
+  margin-top: 2.5rem !important;
+  margin-bottom: 1rem !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 0.5rem;
+}
+
+h3 {
+  font-size: 1.2rem !important;
+  margin-top: 2rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+/* Párrafos legibles con Inter */
+.sl-markdown-content p,
+.sl-markdown-content li {
+  font-family: var(--sl-font-system);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--sn-text);
+}
+
+.sl-markdown-content strong {
+  color: #FFFFFF;
+  font-weight: 600;
 }
 
 /* Header con efecto cristal cósmico translúcido (Glassmorphism) */
@@ -133,13 +187,14 @@ starlight-toc a[aria-current="true"] {
   background: linear-gradient(180deg, #FFFFFF 30%, rgba(230, 226, 214, 0.7) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: -0.04em;
-  font-size: clamp(2.5rem, calc(1.5rem + 4vw), 4rem) !important;
+  letter-spacing: -0.04em !important;
+  font-size: clamp(2.75rem, calc(1.5rem + 4.5vw), 4.25rem) !important;
   font-weight: 800 !important;
 }
 
 .hero .tagline {
   color: var(--sn-text-muted) !important;
+  font-family: var(--sl-font-system) !important;
   font-size: 1.15rem !important;
   max-width: 65ch;
   line-height: 1.6;
@@ -272,14 +327,15 @@ starlight-toc a[aria-current="true"] {
 }
 
 .card-title {
-  font-family: var(--sl-font-system);
-  font-size: 1.15rem;
-  font-weight: 600;
+  font-family: var(--sl-font-display) !important;
+  font-size: 1.2rem !important;
+  font-weight: 700 !important;
   color: #FFFFFF;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.02em !important;
 }
 
 .card-desc {
+  font-family: var(--sl-font-system);
   font-size: 0.92rem;
   line-height: 1.6;
   color: var(--sn-text-muted);

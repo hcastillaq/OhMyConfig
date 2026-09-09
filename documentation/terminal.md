@@ -3,8 +3,6 @@ title: "Terminal, Shell, Prompt y Runtimes"
 description: "Ghostty GPU terminal, Fish shell interactiva, prompt Starship y runtime mise."
 ---
 
-# Terminal, Shell, Prompt y Runtimes
-
 OhMyConfig combina un emulador acelerado por GPU, una shell interactiva, un gestor de runtimes políglota universal y un prompt reactivo diseñados para macOS.
 
 ---

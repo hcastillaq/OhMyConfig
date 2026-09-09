@@ -3,8 +3,6 @@ title: "Guía Maestra de Neovim"
 description: "Configuración modular de Neovim basada en LazyVim Core con estética Static Noise."
 ---
 
-# Guía Maestra de Neovim (Editor Principal)
-
 OhMyConfig utiliza el núcleo de **LazyVim** como motor base de alto rendimiento, delegando el mantenimiento upstream de plugins a la comunidad mientras preserva una capa de usuario limpia y personalizada bajo la estética **Static Noise** con transparencia adaptativa para Ghostty.
 
 ```text

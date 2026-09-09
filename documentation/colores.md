@@ -3,8 +3,6 @@ title: "Paleta Static Noise"
 description: "Especificación completa de tokens, roles y colores canónicos de Static Noise."
 ---
 
-# Paleta Static Noise
-
 OhMyConfig usa **Static Noise** como su único esquema cromático oficial, reemplazando a Tokyonight para ofrecer una identidad visual retro-punk futurista de alta legibilidad, señal eléctrica sobre superficies oscuras neutrales y coherencia semántica estricta entre terminal, editor, multiplexer, TUIs, agente Pi y documentación.
 
 > **Nota histórica de reemplazo:** Static Noise sustituye de forma definitiva a Tokyonight en todo el entorno OhMyConfig. Esta mención es puramente histórica para contextualizar la migración; Tokyonight no se encuentra operativo en ninguna configuración activa.
