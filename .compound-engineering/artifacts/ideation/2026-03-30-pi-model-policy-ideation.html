@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pi Model Policy — Ideación de Arquitectura y Capacidades</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sn-void: #06080E;
+      --sn-base: #0A0D15;
+      --sn-raised: #121622;
+      --sn-card: rgba(18, 22, 34, 0.7);
+      --sn-border: rgba(255, 255, 255, 0.08);
+      --sn-border-focus: rgba(114, 234, 213, 0.4);
+      --sn-text: #E2E8F0;
+      --sn-text-muted: #94A3B8;
+      --sn-text-dim: #475569;
+      --sn-cyan: #72EAD5;
+      --sn-blue: #83BFFF;
+      --sn-purple: #C2A7FF;
+      --sn-green: #A3D98B;
+      --sn-yellow: #EDD071;
+      --sn-orange: #F3A261;
+      --sn-red: #EF7785;
+      --font-display: "Space Grotesk", -apple-system, sans-serif;
+      --font-body: "Inter", -apple-system, sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--sn-void);
+      color: var(--sn-text);
+      font-family: var(--font-body);
+      line-height: 1.65;
+      padding: 3rem 1.5rem 6rem 1.5rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 58rem;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 3.5rem;
+      border-bottom: 1px solid var(--sn-border);
+      padding-bottom: 2rem;
+    }
+
+    .badge-bar {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .badge {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--sn-border);
+      color: var(--sn-text-muted);
+    }
+
+    .badge.cyan {
+      background: rgba(114, 234, 213, 0.1);
+      border-color: rgba(114, 234, 213, 0.3);
+      color: var(--sn-cyan);
+    }
+
+    .badge.blue {
+      background: rgba(131, 191, 255, 0.1);
+      border-color: rgba(131, 191, 255, 0.3);
+      color: var(--sn-blue);
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3rem);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: #FFFFFF;
+      margin-bottom: 0.75rem;
+    }
+
+    .lead {
+      font-size: 1.1rem;
+      color: var(--sn-text-muted);
+      max-width: 60ch;
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: #FFFFFF;
+      margin: 3rem 0 1.25rem 0;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: #FFFFFF;
+      margin-bottom: 0.5rem;
+    }
+
+    p { margin-bottom: 1.2rem; color: var(--sn-text); }
+
+    /* Axes Grid */
+    .axes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .axis-card {
+      background: var(--sn-card);
+      border: 1px solid var(--sn-border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .axis-num {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--sn-cyan);
+      margin-bottom: 0.4rem;
+    }
+
+    .axis-title {
+      font-weight: 600;
+      color: #FFFFFF;
+      margin-bottom: 0.35rem;
+    }
+
+    .axis-desc {
+      font-size: 0.88rem;
+      color: var(--sn-text-muted);
+      line-height: 1.5;
+    }
+
+    /* Idea Cards */
+    .idea-card {
+      background: var(--sn-card);
+      border: 1px solid var(--sn-border);
+      border-radius: 10px;
+      padding: 1.75rem;
+      margin-bottom: 1.75rem;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .idea-card:hover {
+      border-color: var(--sn-border-focus);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .idea-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .idea-rank {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--sn-cyan);
+      margin-right: 0.75rem;
+    }
+
+    .idea-title-wrap {
+      display: flex;
+      align-items: baseline;
+    }
+
+    .idea-meta {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--sn-border);
+    }
+
+    .tag.lens { color: var(--sn-blue); border-color: rgba(131, 191, 255, 0.25); }
+    .tag.axis { color: var(--sn-purple); border-color: rgba(194, 167, 255, 0.25); }
+    .tag.conf-high { color: var(--sn-green); border-color: rgba(163, 217, 139, 0.25); }
+    .tag.cx-small { color: var(--sn-cyan); border-color: rgba(114, 234, 213, 0.25); }
+
+    .idea-desc {
+      font-size: 1rem;
+      margin-bottom: 1.25rem;
+      color: #E2E8F0;
+    }
+
+    .grid-props {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      background: rgba(10, 13, 21, 0.5);
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .prop-title {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--sn-text-dim);
+      margin-bottom: 0.25rem;
+    }
+
+    .prop-val {
+      font-size: 0.9rem;
+      color: var(--sn-text-muted);
+      line-height: 1.5;
+    }
+
+    .basis-box {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      background: rgba(6, 8, 14, 0.7);
+      border-left: 2px solid var(--sn-cyan);
+      padding: 0.6rem 0.85rem;
+      border-radius: 0 4px 4px 0;
+      color: var(--sn-cyan);
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      font-size: 0.9rem;
+    }
+
+    th {
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--sn-text-dim);
+      border-bottom: 1px solid var(--sn-border);
+      padding: 0.75rem 1rem;
+    }
+
+    td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--sn-text-muted);
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--sn-text);
+    }
+
+    /* Menu / Next Steps */
+    .next-steps-menu {
+      background: rgba(14, 18, 28, 0.7);
+      border: 1px solid var(--sn-border-focus);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-top: 3.5rem;
+    }
+
+    .menu-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      color: #FFFFFF;
+      margin-bottom: 0.75rem;
+    }
+
+    .menu-options {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .menu-options li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.92rem;
+    }
+
+    .menu-options code {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      background: rgba(114, 234, 213, 0.1);
+      color: var(--sn-cyan);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    footer.composition-signal {
+      margin-top: 5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--sn-border);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--sn-text-dim);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge-bar">
+        <span class="badge cyan">CE-IDEATE</span>
+        <span class="badge blue">ELSEWHERE-SOFTWARE</span>
+        <span class="badge">PI ECOSYSTEM</span>
+        <span class="badge">YEAR 2026</span>
+      </div>
+      <h1>Pi Model Policy — Ideación de Arquitectura y Capacidades</h1>
+      <p class="lead">Exploración divergente, filtrado adversarial y síntesis de soluciones para el router autónomo de modelos y niveles de razonamiento en subagentes de Pi.</p>
+    </header>
+
+    <!-- Contexto & Grounding -->
+    <section>
+      <h2>01. Contexto & Fundamentación</h2>
+      <p>
+        En el ecosistema Pi coexisten modelos de alta gama (Sol, Astra, Opus) y modelos de alta velocidad/bajo costo (Luna, Terra, Gemini Flash). Frameworks de agentes como Compound Engineering o SDD disparan enjambres de subagentes especializados (researchers, implementers, reviewers, auditors). Sin un router inteligente, cada subagente hereda estáticamente el modelo de la sesión, quemando cuotas caras en tareas de baja complejidad y saturando un solo proveedor.
+      </p>
+      <p>
+        <strong>Objetivo del Sistema:</strong> Desacoplar la intención de trabajo (Tiers: <code>FAST</code>, <code>RESEARCH</code>, <code>BUILD</code>, <code>REASON</code>, <code>ARCHITECT</code>, <code>ORACLE</code>) de los nombres de modelos, distribuyendo la carga de manera eficiente, transparente y sin escalado automático de costos.
+      </p>
+    </section>
+
+    <!-- Ejes del Tema -->
+    <section>
+      <h2>02. Ejes de Superficie (5 Dimensiones Ortogonales)</h2>
+      <div class="axes-grid">
+        <div class="axis-card">
+          <div class="axis-num">EJE 1</div>
+          <div class="axis-title">Intercepción & Runtime</div>
+          <div class="axis-desc">Punto de enganche con Pi sin parchar upstream (hooks de <code>tool_call</code>, mutación in-flight, sync de config).</div>
+        </div>
+        <div class="axis-card">
+          <div class="axis-num">EJE 2</div>
+          <div class="axis-title">Clasificación & Heurística</div>
+          <div class="axis-desc">Inferencia de tier mediante nombres, herramientas asignadas (<code>write</code>, <code>bash</code>, <code>read</code>) y metadata del agente.</div>
+        </div>
+        <div class="axis-card">
+          <div class="axis-num">EJE 3</div>
+          <div class="axis-title">Telemetría de Cuotas & Salud</div>
+          <div class="axis-desc">Detección de rate limits (429), saturación de proveedores, circuit breakers y multi-homing de subagentes.</div>
+        </div>
+        <div class="axis-card">
+          <div class="axis-num">EJE 4</div>
+          <div class="axis-title">Políticas, Fallbacks & Perfiles</div>
+          <div class="axis-desc">Resolución de modelos disponibles en <code>ctx.modelRegistry</code>, perfiles (balanced/saver/quality) y descenso de costo en fallos.</div>
+        </div>
+        <div class="axis-card">
+          <div class="axis-num">EJE 5</div>
+          <div class="axis-title">Transparencia & Control</div>
+          <div class="axis-desc">Comandos de auditoría (<code>/model-policy explain</code>, <code>status</code>, <code>matrix</code>) y overrides explícitos del desarrollador.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ideas Sobrevivientes -->
+    <section>
+      <h2>03. Soluciones & Candidatas Sobrevivientes (Rankeadas)</h2>
+
+      <!-- Idea 1 -->
+      <article class="idea-card" id="idea-1">
+        <div class="idea-header">
+          <div class="idea-title-wrap">
+            <span class="idea-rank">#1</span>
+            <h3>Zero-Touch Tool Interceptor (Mutador In-Flight en <code>tool_call</code>)</h3>
+          </div>
+          <div class="idea-meta">
+            <span class="tag lens">Inversion/Removal</span>
+            <span class="tag axis">Eje 1: Intercepción</span>
+            <span class="tag conf-high">Conf: High</span>
+            <span class="tag cx-small">Cx: S</span>
+          </div>
+        </div>
+        <p class="idea-desc">
+          En lugar de sobreescribir archivos en disco o parchar el paquete <code>pi-subagents</code>, la extensión aprovecha el evento nativo de Pi <code>pi.on("tool_call")</code>. Dado que <code>event.input</code> es mutable por contrato de Pi, cuando se dispara una llamada al tool <code>subagent</code> sin modelo explícito, la extensión resuelve el modelo óptimo y muta <code>event.input.model = "${resolvedModel}:${thinking}"</code> en memoria justo antes de su ejecución.
+        </p>
+        <div class="grid-props">
+          <div>
+            <div class="prop-title">Por qué es ganadora</div>
+            <div class="prop-val">Cero fricción de instalación, cero acoplamiento con versiones internas de pi-subagents, respeta cualquier override explícito preexistente.</div>
+          </div>
+          <div>
+            <div class="prop-title">Riesgos / Tradeoffs</div>
+            <div class="prop-val">Solo intercepta llamadas al tool `subagent` directo; para flujos con `workflowScript` interno se requiere un analizador ligero de parámetros.</div>
+          </div>
+        </div>
+        <div class="basis-box">
+          Base direct: <code>docs/extensions.md:788</code> ("event.input is mutable. Mutate it in place to patch tool arguments before execution. Mutations affect actual tool execution.")
+        </div>
+      </article>
+
+      <!-- Idea 2 -->
+      <article class="idea-card" id="idea-2">
+        <div class="idea-header">
+          <div class="idea-title-wrap">
+            <span class="idea-rank">#2</span>
+            <h3>Self-Bootstrapping Policy desde el Registro Activo (<code>ctx.modelRegistry</code>)</h3>
+          </div>
+          <div class="idea-meta">
+            <span class="tag lens">Automation</span>
+            <span class="tag axis">Eje 4: Políticas</span>
+            <span class="tag conf-high">Conf: High</span>
+            <span class="tag cx-small">Cx: S</span>
+          </div>
+        </div>
+        <p class="idea-desc">
+          Elimina la necesidad de que el usuario redacte archivos YAML antes de usar la extensión. Al iniciar la sesión, Pi Model Policy consulta <code>ctx.modelRegistry.getAvailable()</code>. Con una tabla interna de capacidades conocidas, clasifica automáticamente los modelos autenticados en los 6 tiers (e.g., Luna → FAST/RESEARCH, Gemini Flash → BUILD, Terra → REASON, Sol → ARCHITECT, Astra/Opus → ORACLE).
+        </p>
+        <div class="grid-props">
+          <div>
+            <div class="prop-title">Por qué es ganadora</div>
+            <div class="prop-val">Funciona "out of the box" desde el segundo 1 para cualquier desarrollador, adaptándose instantáneamente si añade o quita API keys de proveedores.</div>
+          </div>
+          <div>
+            <div class="prop-title">Riesgos / Tradeoffs</div>
+            <div class="prop-val">Modelos nuevos o desconocidos requieren caer a un tier FAST por defecto (seguro por diseño) hasta ser identificados.</div>
+          </div>
+        </div>
+        <div class="basis-box">
+          Base direct: <code>docs/extensions.md:1015</code> ("ctx.modelRegistry.getAvailable() returns effective models with configured auth.")
+        </div>
+      </article>
+
+      <!-- Idea 3 -->
+      <article class="idea-card" id="idea-3">
+        <div class="idea-header">
+          <div class="idea-title-wrap">
+            <span class="idea-rank">#3</span>
+            <h3>Motor Híbrido de Clasificación por Permisos de Tools & Firma</h3>
+          </div>
+          <div class="idea-meta">
+            <span class="tag lens">Leverage</span>
+            <span class="tag axis">Eje 2: Clasificación</span>
+            <span class="tag conf-high">Conf: High</span>
+            <span class="tag cx-small">Cx: M</span>
+          </div>
+        </div>
+        <p class="idea-desc">
+          Supera la fragilidad de depender exclusivamente de expresiones regulares en los nombres de los agentes. Analiza la firma de herramientas declaradas del agente: si posee herramientas de mutación (<code>edit</code>, <code>write</code>, <code>bash</code>), clasifica a <code>BUILD</code>; si solo tiene herramientas de lectura (<code>read</code>, <code>grep</code>, <code>find</code>), clasifica a <code>RESEARCH</code> o <code>REASON</code>; si tiene herramientas restringidas y un system prompt de análisis estratégico, clasifica a <code>ARCHITECT</code>.
+        </p>
+        <div class="grid-props">
+          <div>
+            <div class="prop-title">Por qué es ganadora</div>
+            <div class="prop-val">Clasifica correctamente agentes de terceros o personalizados cuyos nombres no contengan palabras clave típicas como "worker" o "scout".</div>
+          </div>
+          <div>
+            <div class="prop-title">Riesgos / Tradeoffs</div>
+            <div class="prop-val">Agentes con tools de solo lectura pueden ser tanto scouts rápidos como evaluadores complejos; el nombre y la descripción resuelven el desempate.</div>
+          </div>
+        </div>
+        <div class="basis-box">
+          Base direct: <code>pi-subagents/src/agents/agent-management.ts:769</code> ("agent.tools, agent.description, agent.name are exposed in discoverAgentsAll.")
+        </div>
+      </article>
+
+      <!-- Idea 4 -->
+      <article class="idea-card" id="idea-4">
+        <div class="idea-header">
+          <div class="idea-title-wrap">
+            <span class="idea-rank">#4</span>
+            <h3>Promoción Dinámica por Ventana de Contexto (Context-Window Aware)</h3>
+          </div>
+          <div class="idea-meta">
+            <span class="tag lens">Assumption-Breaking</span>
+            <span class="tag axis">Eje 4: Políticas</span>
+            <span class="tag conf-high">Conf: High</span>
+            <span class="tag cx-small">Cx: M</span>
+          </div>
+        </div>
+        <p class="idea-desc">
+          Rompe el supuesto de que el tier de un agente es estático. Si un agente clasificado en <code>RESEARCH</code> (típicamente asignado a Luna con ventana moderada) recibe un payload de tarea masivo (>60k tokens de historial o logs pesados), el router lo promueve dinámicamente a un modelo con ventana gigante (como Gemini 3.8 Flash con 1M tokens), previniendo que la tarea falle por overflow de contexto.
+        </p>
+        <div class="grid-props">
+          <div>
+            <div class="prop-title">Por qué es ganadora</div>
+            <div class="prop-val">Evita fallos silenciosos y truncamientos en tareas pesadas de exploración profunda sin encarecer las consultas rutinarias pequeñas.</div>
+          </div>
+          <div>
+            <div class="prop-title">Riesgos / Tradeoffs</div>
+            <div class="prop-val">Requiere una estimación rápida de tokens en el prompt/tarea del subagente antes de emitir la llamada.</div>
+          </div>
+        </div>
+        <div class="basis-box">
+          Base reasoned: El tamaño de payload de subagentes en flujos como CE varía entre 2K y 200K tokens; asignar modelos fijos de ventana corta causa caídas de ejecución.
+        </div>
+      </article>
+
+      <!-- Idea 5 -->
+      <article class="idea-card" id="idea-5">
+        <div class="idea-header">
+          <div class="idea-title-wrap">
+            <span class="idea-rank">#5</span>
+            <h3>Circuit Breaker Pasivo para Rate-Limits (429) sin Escalado Hacia Arriba</h3>
+          </div>
+          <div class="idea-meta">
+            <span class="tag lens">Pain & Friction</span>
+            <span class="tag axis">Eje 3: Telemetría</span>
+            <span class="tag conf-high">Conf: High</span>
+            <span class="tag cx-small">Cx: M</span>
+          </div>
+        </div>
+        <p class="idea-desc">
+          Escucha los resultados y errores emitidos en las ejecuciones de subagentes. Si un proveedor lanza un error 429 (Rate Limit), 503 (Overloaded) o Quota Exceeded, coloca a ese proveedor en una lista de enfriamiento temporal (cooldown de 10-15 min) en memoria. Las subsiguientes llamadas de ese tier se redirigen inmediatamente a un modelo alternativo del mismo nivel o inferior, jamás escalando a modelos reservados caros.
+        </p>
+        <div class="grid-props">
+          <div>
+            <div class="prop-title">Por qué es ganadora</div>
+            <div class="prop-val">Protege al usuario de bloqueos repentinos en mitad de un workflow multiagente y garantiza que una caída no consuma la cuota de modelos premium.</div>
+          </div>
+          <div>
+            <div class="prop-title">Riesgos / Tradeoffs</div>
+            <div class="prop-val">Debe distinguir claramente entre un error de cuota/rate-limit del proveedor y un error interno de código del subagente.</div>
+          </div>
+        </div>
+        <div class="basis-box">
+          Base external: Patrón de Resiliencia / Circuit Breaker de Hystrix/Envoy aplicado a enjambres de inferencia LLM.
+        </div>
+      </article>
+
+      <!-- Idea 6 -->
+      <article class="idea-card" id="idea-6">
+        <div class="idea-header">
+          <div class="idea-title-wrap">
+            <span class="idea-rank">#6</span>
+            <h3>Multi-Homing & Balanceo de Proveedores en Subagentes Paralelos</h3>
+          </div>
+          <div class="idea-meta">
+            <span class="tag lens">Compounding</span>
+            <span class="tag axis">Eje 3: Telemetría</span>
+            <span class="tag conf-high">Conf: Med</span>
+            <span class="tag cx-small">Cx: M</span>
+          </div>
+        </div>
+        <p class="idea-desc">
+          Cuando un workflow lanza múltiples subagentes en paralelo (ej. <code>ce-code-review</code> lanzando 5 reviewers concurrentes), en lugar de saturar un único proveedor con 5 peticiones simultáneas, el router distribuye los subagentes entre los proveedores disponibles del mismo tier (ej. 2 a OpenAI, 2 a Google/Antigravity, 1 a Anthropic), acelerando el tiempo total y evitando picos de concurrencia.
+        </p>
+        <div class="grid-props">
+          <div>
+            <div class="prop-title">Por qué es ganadora</div>
+            <div class="prop-val">Aprovecha la concurrencia real entre distintas cuentas de API, reduciendo a la mitad los tiempos de espera en revisiones paralelas grandes.</div>
+          </div>
+          <div>
+            <div class="prop-title">Riesgos / Tradeoffs</div>
+            <div class="prop-val">Variación sutil en el estilo de formato o razonamiento entre diferentes familias de modelos dentro del mismo tier.</div>
+          </div>
+        </div>
+        <div class="basis-box">
+          Base external: Round-Robin DNS / Multi-cloud balancing para distribución de picos de concurrencia.
+        </div>
+      </article>
+
+      <!-- Idea 7 -->
+      <article class="idea-card" id="idea-7">
+        <div class="idea-header">
+          <div class="idea-title-wrap">
+            <span class="idea-rank">#7</span>
+            <h3>Trazabilidad Explicativa & Simulador de Matriz (<code>/model-policy explain</code> & <code>matrix</code>)</h3>
+          </div>
+          <div class="idea-meta">
+            <span class="tag lens">Cross-Domain Analogy</span>
+            <span class="tag axis">Eje 5: Transparencia</span>
+            <span class="tag conf-high">Conf: High</span>
+            <span class="tag cx-small">Cx: S</span>
+          </div>
+        </div>
+        <p class="idea-desc">
+          Proporciona visibilidad total: el comando <code>/model-policy explain &lt;agent&gt;</code> imprime el árbol de decisión paso a paso (Entrada → Detección de Tools/Nombre → Tier → Perfil Activo → Modelo y Thinking asignado). Además, <code>/model-policy matrix</code> genera una tabla interactiva mostrando cómo se resolverían los 70+ agentes instalados bajo los perfiles <code>balanced</code>, <code>quota-saver</code> y <code>quality</code>.
+        </p>
+        <div class="grid-props">
+          <div>
+            <div class="prop-title">Por qué es ganadora</div>
+            <div class="prop-val">Genera confianza inmediata en el usuario, permitiéndole entender y auditar el comportamiento del router antes de lanzar flujos masivos.</div>
+          </div>
+          <div>
+            <div class="prop-title">Riesgos / Tradeoffs</div>
+            <div class="prop-val">Requiere formateo visual limpio con Gum o helpers TUI de Pi para no saturar la terminal.</div>
+          </div>
+        </div>
+        <div class="basis-box">
+          Base direct: Requisito explícito del brief de diseño ("Explainability: Las decisiones del router nunca deberían ser una caja negra").
+        </div>
+      </article>
+    </section>
+
+    <!-- Resumen de Rechazos -->
+    <section>
+      <h2>04. Ideas Evaluadas y Rechazadas (Filtrado Adversarial)</h2>
+      <p>Para mantener el MVP enfocado y liviano, se descartaron las ideas que agregaban complejidad desmedida, acoplamiento frágil o degradación de determinismo:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Idea Candidata</th>
+            <th>Lente / Origen</th>
+            <th>Motivo de Rechazo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Auto-Negociación de Modelo en Runtime por el Subagente</strong></td>
+            <td>Constraint-Flipping</td>
+            <td>Agrega latencia no determinista (el subagente gastaría tokens iniciales decidiendo si degradarse). El padre o router debe decidir antes del spawn.</td>
+          </tr>
+          <tr>
+            <td><strong>Reescritura de AST para <code>workflowScript</code></strong></td>
+            <td>Inversion / Automation</td>
+            <td>Demasiado frágil ante cambios de sintaxis o TypeScript en <code>pi-subagents</code>. La mutación en <code>tool_call</code> resuelve el 95% de los casos sin tocar ASTs.</td>
+          </tr>
+          <tr>
+            <td><strong>Token Bucket / QoS de Red en Memoria</strong></td>
+            <td>Cross-Domain Analogy</td>
+            <td>Excesivo para un CLI. Los subagentes en Pi se ejecutan secuencialmente o en batches controlados, no en flujos continuos de miles de paquetes por segundo.</td>
+          </tr>
+          <tr>
+            <td><strong>Ledger de Cuotas Persistente en Disco Cross-Session</strong></td>
+            <td>Compounding</td>
+            <td>Riesgo de estados stale/corruptos si el usuario recarga créditos o cambia de red fuera de Pi. Es más confiable mantener la salud de proveedores en memoria por sesión.</td>
+          </tr>
+          <tr>
+            <td><strong>Modo "Emergencia $0" Exclusivo a Ollama Local</strong></td>
+            <td>Constraint-Flipping</td>
+            <td>Muchos modelos locales pequeños fallan en seguir contratos estrictos de tool-calling de subagentes. Es mejor como perfil opcional avanzado que como requisito de core.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Menú de Siguientes Pasos (Phase 5) -->
+    <section class="next-steps-menu">
+      <div class="menu-title">Siguientes Pasos Recomendados (Fase 5)</div>
+      <p style="font-size: 0.95rem; color: var(--sn-text-muted); margin-bottom: 1rem;">
+        La fase de ideación ha establecido el mapa de capacidades y las 7 soluciones clave. Elige cómo deseas continuar:
+      </p>
+      <ul class="menu-options">
+        <li>
+          <code>1</code>
+          <span><strong>Iniciar Brainstorming Estructurado (ce-brainstorm):</strong> Definir los requisitos exactos, contratos de tipos y experiencia de usuario del MVP antes de escribir código.</span>
+        </li>
+        <li>
+          <code>2</code>
+          <span><strong>Crear Plan de Implementación Directo (ce-plan):</strong> Pasar directamente a descomponer los archivos (<code>index.ts</code>, <code>classifier.ts</code>, <code>policy.ts</code>, <code>models.ts</code>) y tareas de implementación.</span>
+        </li>
+        <li>
+          <code>3</code>
+          <span><strong>Ajustar o Profundizar en una Solución Específica:</strong> Explorar en detalle el interceptor de <code>tool_call</code> o la matriz de clasificación por permisos de tools.</span>
+        </li>
+      </ul>
+    </section>
+
+    <footer class="composition-signal">
+      Compuesto en 2026 por ce-ideate a partir de la especificación técnica de Pi Model Policy · Guardado en <code>.compound-engineering/artifacts/ideation/2026-03-30-pi-model-policy-ideation.html</code>
+    </footer>
+  </div>
+</body>
+</html>
