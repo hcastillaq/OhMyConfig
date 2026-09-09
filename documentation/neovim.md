@@ -3,7 +3,7 @@ title: "Guía Maestra de Neovim"
 description: "Configuración modular de Neovim basada en LazyVim Core con estética Static Noise."
 ---
 
-# 🛠️ Guía Maestra de Neovim (Editor Principal)
+# Guía Maestra de Neovim (Editor Principal)
 
 OhMyConfig utiliza el núcleo de **LazyVim** como motor base de alto rendimiento, delegando el mantenimiento upstream de plugins a la comunidad mientras preserva una capa de usuario limpia y personalizada bajo la estética **Static Noise** con transparencia adaptativa para Ghostty.
 
@@ -292,5 +292,5 @@ OhMyConfig activa declarativamente soporte para los lenguajes más utilizados en
 | **PHP** | `lang.php` | `phpactor` (o `intelephense`), PHPCS | PHP CLI (`mise use -g php@latest`) |
 | **Docker / YAML / JSON**| `lang.docker`, `lang.yaml`, `lang.json` | Schemas y linters automáticos | Incluidos automáticamente en Mason |
 
-> 💡 **Nota sobre Runtimes y SDKs:** Mason descarga las extensiones y servidores LSP dentro de Neovim, pero servidores como `jdtls` (Java) o `phpactor` (PHP) requieren que el ejecutable base de Java o PHP exista en el sistema (`$PATH`). Si al abrir un archivo Neovim indica que falta un runtime, ejecutá el comando `mise` correspondiente indicado en la tabla.
+> **Nota sobre Runtimes y SDKs:** Mason descarga las extensiones y servidores LSP dentro de Neovim, pero servidores como `jdtls` (Java) o `phpactor` (PHP) requieren que el ejecutable base de Java o PHP exista en el sistema (`$PATH`). Si al abrir un archivo Neovim indica que falta un runtime, ejecutá el comando `mise` correspondiente indicado en la tabla.
 

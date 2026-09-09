@@ -3,7 +3,7 @@ title: "Instalación — CLI omc"
 description: "Guía de instalación guiada, modos de despliegue y uso del CLI interactivo omc."
 ---
 
-# 📦 Instalación — CLI `omc`
+# Instalación — CLI `omc`
 
 OhMyConfig incluye una CLI interactiva (`omc`) escrita en **Bash 3.2+ nativo** con interfaz TUI vía **gum**. Permite seleccionar exactamente qué módulos instalar, diagnosticar el entorno, actualizar herramientas y gestionar el agente de IA Pi sin depender previamente de ninguna shell externa.
 
@@ -116,7 +116,7 @@ Actualiza Homebrew, todas las fórmulas/casks instalados y el agente `pi` (npm g
   AI / Pi (npm globals)
   ✅  pi              0.84.4  (latest)
 
-  🧹 Caché limpiado
+  Caché limpiado
   ✅ Actualización completada.
 ```
 

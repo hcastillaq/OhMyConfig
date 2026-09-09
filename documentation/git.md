@@ -3,7 +3,7 @@ title: "Guía Maestra de Git y Control de Versiones"
 description: "Flujo integrado con lazygit, git-delta y diffs visuales bajo Static Noise."
 ---
 
-# 🐙 Guía Maestra de Git y Control de Versiones
+# Guía Maestra de Git y Control de Versiones
 
 OhMyConfig integra un stack completo para Git donde la terminal rápida, el motor de diffs visuales, el navegador interactivo y las herramientas de refactorización cooperan armónicamente bajo la paleta **Static Noise**.
 
