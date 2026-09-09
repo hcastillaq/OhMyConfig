@@ -11,7 +11,7 @@ set -gx EDITOR "nvim"                                       # Editor de texto pr
 
 # Configuración y colores de FZF (Tokyonight High-Contrast)
 set -gx FZF_DEFAULT_OPTS " \
---color=bg+:#283457,bg:#16161e,spinner:#ff007c,hl:#f7768e \
+--color=bg+:#354b8a,bg:#0f1016,spinner:#f7768e,hl:#f7768e \
 --color=fg:#c0caf5,header:#7aa2f7,info:#7aa2f7,pointer:#7dcfff \
 --color=marker:#9ece6a,fg+:#ffffff,prompt:#7dcfff,hl+:#7dcfff \
 --prompt '❯ ' --pointer '▶ ' --marker '✓ '"
@@ -35,14 +35,14 @@ set -g fish_color_error f7768e --bold                       # Rojo / Coral (#f77
 set -g fish_color_normal e0e6fc                             # Blanco Lavanda Brillante (#e0e6fc) para texto general
 set -g fish_color_param e0e6fc                              # Argumentos y nombres de archivo en texto nítido
 set -g fish_color_option 7aa2f7                             # Flags y opciones (--flag, -l, --all) en Azul Cielo
-set -g fish_color_comment 7a88cf                            # Gris Azulado Luminoso (#7a88cf) - 100% legible
+set -g fish_color_comment 9aa5ce                            # Gris Azulado Luminoso (#9aa5ce) - 100% legible
 set -g fish_color_autosuggestion 636f8f                     # Sugerencias tenues pero con contraste real (#636f8f)
 set -g fish_color_operator 50f5ff                           # Operadores matemáticos y lógicos (=, +, *)
 set -g fish_color_escape b4f9f8                             # Caracteres de escape (\n, \t, etc.)
 
 # 3. Selección y Búsqueda
-set -g fish_color_selection --background=283457             # Fondo azul noche para texto seleccionado
-set -g fish_color_search_match --background=3d59a1          # Fondo azul intenso para coincidencias de búsqueda
+set -g fish_color_selection --background=354b8a             # Fondo azul intenso para texto seleccionado
+set -g fish_color_search_match --background=354b8a          # Fondo azul intenso para coincidencias de búsqueda
 set -g fish_color_cancel f7768e --reverse                   # Indicador de cancelación con contraste invertido
 
 # 4. Telemetría de Usuario / Prompt
@@ -53,13 +53,13 @@ set -g fish_color_host 9ece6a                               # Host en Verde
 # 5. Menú de Autocompletado (Fish Pager Dropdown)
 set -g fish_pager_color_prefix 50f5ff --bold                # Letras que coinciden en Cyan neón
 set -g fish_pager_color_completion e0e6fc                   # Opciones disponibles en Blanco Lavanda
-set -g fish_pager_color_description 7a88cf                  # Descripciones de comandos en Gris legible
+set -g fish_pager_color_description 9aa5ce                  # Descripciones de comandos en Gris legible
 set -g fish_pager_color_progress 7aa2f7 --bold              # Barra de progreso del menú
-set -g fish_pager_color_selected_background --background=3d59a1 # Fondo del ítem seleccionado en Azul Tokyonight
+set -g fish_pager_color_selected_background --background=354b8a # Fondo del ítem seleccionado en Azul Tokyonight
 set -g fish_pager_color_selected_prefix 50f5ff --bold       # Prefijo del ítem seleccionado
 set -g fish_pager_color_selected_completion ffffff --bold   # Texto del ítem seleccionado en Blanco puro
 set -g fish_pager_color_selected_description a9b1d6          # Descripción del ítem seleccionado
-set -g fish_pager_color_secondary_background --background=1f2335 # Fondo alternado para filas pares del menú
+set -g fish_pager_color_secondary_background --background=181a24 # Fondo alternado para filas pares del menú
 
 
 # --- 2. RUTAS DEL SISTEMA (PATH) ---
@@ -90,8 +90,6 @@ function y
     end
 end
 
-# Alias para invocar la guía rápida (implementada modularmente en functions/omc.fish)
-alias guia="omc"
 alias cheat="omc"
 alias ayuda="omc"
 
@@ -113,8 +111,8 @@ alias gs="git status"
 alias gc="git commit"
 alias gch="git checkout"
 alias gd="git diff"
-alias gl="git log --graph --pretty=format:'%C(bold #7dcfff)%h%C(reset) - %C(bold #c099ff)%d%C(reset) %C(#e0e6fc)%s%C(reset) %C(#7a88cf)(%cr)%C(reset) %C(bold #7aa2f7)<%an>%C(reset)' --abbrev-commit --date=relative"
-alias glog="git log --graph --all --pretty=format:'%C(bold #7dcfff)%h%C(reset) - %C(bold #c099ff)%d%C(reset) %C(#e0e6fc)%s%C(reset) %C(#7a88cf)(%cr)%C(reset) %C(bold #7aa2f7)<%an>%C(reset)' --abbrev-commit --date=relative"
+alias gl="git log --graph --pretty=format:'%C(bold #7dcfff)%h%C(reset) - %C(bold #c099ff)%d%C(reset) %C(#e0e6fc)%s%C(reset) %C(#9aa5ce)(%cr)%C(reset) %C(bold #7aa2f7)<%an>%C(reset)' --abbrev-commit --date=relative"
+alias glog="git log --graph --all --pretty=format:'%C(bold #7dcfff)%h%C(reset) - %C(bold #c099ff)%d%C(reset) %C(#e0e6fc)%s%C(reset) %C(#9aa5ce)(%cr)%C(reset) %C(bold #7aa2f7)<%an>%C(reset)' --abbrev-commit --date=relative"
 alias glp="git log -p"                                      # Log completo con diffs coloreados vía Delta
 alias gp="git push"
 alias gaa="git add ."

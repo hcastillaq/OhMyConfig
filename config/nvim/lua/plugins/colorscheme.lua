@@ -29,6 +29,34 @@ return {
         sidebars = "transparent", -- Exploradores y paneles laterales transparentes
         floats = "transparent",   -- Ventanas flotantes, Which-Key y Telescope transparentes
       },
+      on_colors = function(c)
+        -- Overdrive Colors (Alto Contraste y Vivacidad)
+        c.bg = "#13141c"
+        c.bg_dark = "#0f1016"
+        c.bg_float = "#181a24"
+        c.bg_highlight = "#222638"
+        c.bg_popup = "#181a24"
+        c.bg_search = "#50f5ff"
+        c.bg_sidebar = "#0f1016"
+        c.bg_statusline = "#13141c"
+        c.bg_visual = "#354b8a"
+        c.border = "#222638"
+        c.border_highlight = "#7dcfff"
+        c.fg = "#c0caf5"
+        c.fg_dark = "#7a88cf"
+        c.fg_float = "#c0caf5"
+        c.fg_gutter = "#7a88cf"
+        c.fg_sidebar = "#7a88cf"
+        c.blue = "#7aa2f7"
+        c.cyan = "#7dcfff"
+        c.green = "#9ece6a"
+        c.magenta = "#bb9af7"
+        c.orange = "#ff9e64"
+        c.purple = "#bb9af7"
+        c.red = "#f7768e"
+        c.yellow = "#e0af68"
+        c.comment = "#9aa5ce"
+      end,
       on_highlights = function(hl, c)
         -- Fondo del editor y columnas principales
         hl.Normal = { bg = "none" }
@@ -38,6 +66,10 @@ return {
         hl.SignColumn = { bg = "none" }
         hl.StatusLine = { bg = "none" }
         hl.StatusLineNC = { bg = "none" }
+
+        -- Selección legible sobre el fondo transparente de Ghostty
+        hl.Visual = { fg = "#ffffff", bg = "#354b8a" }
+        hl.VisualNOS = { fg = "#ffffff", bg = "#354b8a" }
         
         -- Paneles laterales (Neo-Tree y exploradores)
         hl.NeoTreeNormal = { bg = "none" }
