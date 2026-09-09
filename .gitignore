@@ -1,7 +1,13 @@
 # Local Pi runtime state
 .atl/
 .pi/*
+!.pi/settings.json
 !.pi/skills/
+!.pi/skills/**
+!.pi/themes/
+!.pi/themes/**
+!.pi/extensions/
+!.pi/extensions/**
 .DS_Store
 
 # VitePress build output & cache
@@ -12,3 +18,6 @@ node_modules/
 
 # omc CLI — perfil local (opcional commitear)
 .omc-profile
+
+# Compound Engineering scratch space
+.context/compound-engineering/

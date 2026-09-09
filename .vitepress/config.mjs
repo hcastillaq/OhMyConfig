@@ -3,8 +3,7 @@ export default {
   description: "Dotfiles y Entorno de Desarrollo Moderno para macOS (Tokyonight)",
   lang: "es-ES",
   base: "/OhMyConfig/",
-  srcDir: "docs",
-  srcExclude: ["**/brainstorms/**", "**/plans/**"],
+  srcDir: "documentation",
   cleanUrls: true,
 
   themeConfig: {
@@ -41,6 +40,7 @@ export default {
         items: [
           { text: "Herramientas CLI / TUI", link: "/herramientas" },
           { text: "Tabla Maestra de Atajos", link: "/cheatsheet" },
+          { text: "Paleta Tokyonight", link: "/colores" },
         ],
       },
     ],

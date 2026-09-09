@@ -34,52 +34,48 @@ cd ~/Codigos/OhMyConfig
 
 ## 📚 Guías y Documentación Modular
 
-Cada componente del entorno cuenta con su propia guía detallada dentro de [`docs/`](./docs/):
+Cada componente del entorno cuenta con su propia guía detallada dentro de [`documentation/`](./documentation/):
 
 ```
 OhMyConfig/
 ├── 🚀 Primeros Pasos
-│   ├── 📦 Instalación & Brewfile ───────► docs/instalacion.md
-│   └── 🤖 Ecosistema AI & Agentes ──────► docs/ai.md
+│   ├── 📦 Instalación & Brewfile ───────► documentation/instalacion.md
+│   └── 🤖 Ecosistema AI & Agentes ──────► documentation/ai.md
 │
 ├── 🛠️ Herramientas Centrales
-│   ├── 🛠️ Neovim (Editor IDE) ──────────► docs/neovim.md
-│   ├── 🪟 Zellij (Multiplexor) ─────────► docs/zellij.md
-│   ├── 🐙 Git, Lazygit & Delta ─────────► docs/git.md
-│   └── 🖥️ Terminal, Fish & mise ────────► docs/terminal.md
+│   ├── 🛠️ Neovim (Editor IDE) ──────────► documentation/neovim.md
+│   ├── 🪟 Zellij (Multiplexor) ─────────► documentation/zellij.md
+│   ├── 🐙 Git, Lazygit & Delta ─────────► documentation/git.md
+│   └── 🖥️ Terminal, Fish & mise ────────► documentation/terminal.md
 │
 └── 📖 Referencia Rápida
-    ├── 🧰 Catálogo Completo de Herramientas ► docs/herramientas.md
-    └── ⚡ Tabla Maestra de Atajos ──────► docs/cheatsheet.md
+    ├── 🧰 Catálogo Completo de Herramientas ► documentation/herramientas.md
+    └── ⚡ Tabla Maestra de Atajos ──────► documentation/cheatsheet.md
 ```
 
 | Sección | Descripción | Guía en Web | Archivo Markdown |
 | :--- | :--- | :---: | :---: |
-| **📦 Instalación** | Menú TUI, symlinks, respaldo y catálogo de `Brewfile` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/instalacion) | [`docs/instalacion.md`](./docs/instalacion.md) |
-| **🤖 Ecosistema AI** | Pi coding agent y catálogo de extensiones recomendadas | [Ver Online](https://hcastillaq.github.io/OhMyConfig/ai) | [`docs/ai.md`](./docs/ai.md) |
-| **🛠️ Neovim** | LazyVim core, LSP, autocompletado, GitLens y Neogen | [Ver Online](https://hcastillaq.github.io/OhMyConfig/neovim) | [`docs/neovim.md`](./docs/neovim.md) |
-| **🪟 Zellij** | Multiplexor con foco Cyan brillante y navegación con `Alt` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/zellij) | [`docs/zellij.md`](./docs/zellij.md) |
-| **🐙 Git & Diffs** | Flujo en consola, Lazygit TUI y diffs con Git-Delta | [Ver Online](https://hcastillaq.github.io/OhMyConfig/git) | [`docs/git.md`](./docs/git.md) |
-| **🖥️ Terminal & Shell** | Ghostty (GPU/Blur), Fish Shell, **mise** (Runtimes) y Atuin | [Ver Online](https://hcastillaq.github.io/OhMyConfig/terminal) | [`docs/terminal.md`](./docs/terminal.md) |
-| **🧰 Catálogo de CLI/TUI** | Ripgrep, Fd, Sd, Eza, Bat, Yazi, Bottom, Dust, Procs, Xh, Jq, K9s | [Ver Online](https://hcastillaq.github.io/OhMyConfig/herramientas) | [`docs/herramientas.md`](./docs/herramientas.md) |
-| **⚡ Cheatsheet** | Tabla consolidada de todos los alias y atajos del entorno | [Ver Online](https://hcastillaq.github.io/OhMyConfig/cheatsheet) | [`docs/cheatsheet.md`](./docs/cheatsheet.md) |
+| **📦 Instalación** | Menú TUI, symlinks, respaldo y catálogo de `Brewfile` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/instalacion) | [`documentation/instalacion.md`](./documentation/instalacion.md) |
+| **🤖 Ecosistema AI** | Pi base y extensiones opcionales detectadas con `pi list` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/ai) | [`documentation/ai.md`](./documentation/ai.md) |
+| **🛠️ Neovim** | LazyVim core, LSP, autocompletado, GitLens y Neogen | [Ver Online](https://hcastillaq.github.io/OhMyConfig/neovim) | [`documentation/neovim.md`](./documentation/neovim.md) |
+| **🪟 Zellij** | Multiplexor con foco Cyan brillante y navegación con `Alt` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/zellij) | [`documentation/zellij.md`](./documentation/zellij.md) |
+| **🐙 Git & Diffs** | Flujo en consola, Lazygit TUI y diffs con Git-Delta | [Ver Online](https://hcastillaq.github.io/OhMyConfig/git) | [`documentation/git.md`](./documentation/git.md) |
+| **🖥️ Terminal & Shell** | Ghostty (GPU/Blur), Fish Shell, **mise** (Runtimes) y Atuin | [Ver Online](https://hcastillaq.github.io/OhMyConfig/terminal) | [`documentation/terminal.md`](./documentation/terminal.md) |
+| **🧰 Catálogo de CLI/TUI** | Ripgrep, Fd, Sd, Eza, Bat, Yazi, Bottom, Dust, Procs, Xh, Jq, K9s | [Ver Online](https://hcastillaq.github.io/OhMyConfig/herramientas) | [`documentation/herramientas.md`](./documentation/herramientas.md) |
+| **⚡ Cheatsheet** | Tabla consolidada de todos los alias y atajos del entorno | [Ver Online](https://hcastillaq.github.io/OhMyConfig/cheatsheet) | [`documentation/cheatsheet.md`](./documentation/cheatsheet.md) |
 
 ---
 
 ## ⚡ Cheatsheet Rápido de Referencia
 
-### 1. Ecosistema AI & LazyPi ([lazypi.org](https://lazypi.org))
-* **`./omc dev`**: Instala Pi y el catálogo oficial completo de LazyPi (17 extensiones Core + Optional).
-* **`./omc dev status`**: Diagnóstico del entorno y estado del catálogo LazyPi.
-* **`./omc dev update`**: Actualiza el binario de Pi y todas las extensiones instaladas.
-* **`./omc dev doctor`**: Chequeo de salud del entorno (Node, git, auth, settings).
-* **`./omc dev remove`**: Selector interactivo para desinstalar extensiones.
+### 1. Ecosistema AI & Pi
+* **`./omc dev`**: Instala sólo el CLI base de Pi.
+* **`./omc dev status`**: Muestra versión de Pi y paquetes actuales con `pi list`.
+* **`./omc dev update`**: Actualiza sólo el binario base de Pi.
+* **`./omc dev doctor`**: Chequeo local de Node/npm/Pi.
+* **`pi list`**: Lista extensiones instaladas.
+* **`pi install <paquete>`**: Instala una extensión opcional bajo demanda.
 * **`pi`**: Inicia el agente autónomo de código en terminal.
-* **`/plan <desc>`**: Modo interactivo de planificación socrática en memoria.
-* **`/simplify`**: Limpieza y simplificación de código modificado recientemente.
-* **`/ponytail review`**: Auditoría de sobreingeniería y buenas prácticas.
-* **`/btw <pregunta>`**: Consulta rápida sin contaminar el historial de la conversación.
-* **`$skill-name`**: Mención difusa para autocompletar e inyectar skills en el prompt.
 
 ### 2. Terminal, Runtimes y Búsqueda
 * **`guia`**: Menú interactivo de atajos en consola (`guia nvim`, `guia zj`, `guia git`, `guia search`, `guia cli`, `guia ai`).

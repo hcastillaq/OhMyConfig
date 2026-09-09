@@ -31,11 +31,15 @@ OhMyConfig/
 ├── AGENTS.md                    # AI Agent architectural context and guidelines
 ├── .gitignore                   # Ignored files (.atl/, .DS_Store, .vitepress cache/dist)
 ├── .vitepress/
-│   └── config.mjs               # VitePress site configuration (srcDir: "docs", Tokyonight theme)
+│   └── config.mjs               # VitePress site configuration (srcDir: "documentation", Tokyonight theme)
 ├── .github/
 │   └── workflows/
 │       └── docs.yml             # GitHub Actions CI/CD to build & deploy docs to GitHub Pages
-├── docs/                        # Modular Markdown Documentation (Pure MD without bloat)
+├── .compound-engineering/
+│   ├── config.yaml              # Compound Engineering repo config (docs_root -> .compound-engineering/artifacts)
+│   ├── config.example.yaml      # Current commented template for team defaults
+│   └── artifacts/               # CE-owned outputs: plans, brainstorms, solutions, explainers, reports
+├── documentation/               # Modular Markdown Documentation (Pure MD without bloat)
 │   ├── index.md                 # Documentation landing page
 │   ├── instalacion.md           # Installation & Brewfile guide
 │   ├── ai.md                    # AI ecosystem guide (pi base + recommended extensions)
@@ -44,12 +48,11 @@ OhMyConfig/
 │   ├── git.md                   # Git, Lazygit & Delta guide
 │   ├── terminal.md              # Ghostty, Fish, Starship & Atuin guide
 │   ├── herramientas.md          # Modern CLI/TUI tools guide
+│   ├── colores.md               # Tokyonight palette reference
 │   └── cheatsheet.md            # Master Alias & Keymap Cheatsheet
 └── config/                      # Source configuration directory (mirrors ~/.config/)
     ├── fish/
     │   ├── config.fish          # Shell aliases, wrappers, PATH, FZF/Atuin inits
-    │   └── functions/
-    │       └── guia.fish        # Interactive cheatsheet and keymap guide (guia)
     ├── ghostty/
     │   └── config               # GPU terminal config (font, theme, window blur)
     ├── starship/
@@ -128,13 +131,13 @@ OhMyConfig/
   - `keymaps.lua` & `options.lua`: Seamless `Ctrl + hjkl` window navigation, persistent undo, hybrid line numbers, universal `<C-s>` saving, system clipboard integration.
   - `lazyvim.json`: Dynamic module toggling via `:LazyExtras` (`<leader>px`).
 
-### 3.6 AI Ecosystem & Coding Agents (`cli/commands/dev.sh` & `docs/ai.md`)
+### 3.6 AI Ecosystem & Coding Agents (`cli/commands/dev.sh` & `documentation/ai.md`)
 - **Pi Coding Agent (`pi`)**: High-performance autonomous terminal agent for code exploration, editing, testing, and execution (`@earendil-works/pi-coding-agent`).
-- **Official LazyPi Suite (`@tommy-ca/lazypi`)**: `omc dev` manages the base CLI and the complete 17-tool catalog (Core + Optional):
-  - **Core**: `subagents`, `pi-ask-user`, `pi-skillful`, `mention-skill` (`$`), `goal`, `btw`, `context-usage`, `simplify`, `web-access`, `fff`, `dynamic-workflows`, `ponytail`.
-  - **Optional**: `lsp` (real-time diagnostics), `interactive-shell` (TUI overlays), `autoresearch`, `todos`, `memory` (`pi-memory-md` Git-backed offline).
-  - **Compound Engineering Suite (`ce-*`)**: Complete engineering lifecycle skills (`ce-brainstorm`, `ce-plan`, `ce-doc-review`, `ce-work`, `ce-code-review`, `ce-commit-push-pr`, `ce-compound`).
-- **Lifecycle Commands**: Managed via `omc dev` (`install`, `status`, `update`, `doctor`, `remove`) and globally via `omc update`.
+- **Minimal Base Install**: `omc dev install` installs only the Pi CLI base. It does not bulk-install the LazyPi catalog or optional extensions.
+- **Optional Pi Packages**: Add capabilities only when needed with `pi install <package>` and inspect the current environment with `pi list`.
+  - Current optional examples in this setup include `pi-subagents`, `pi-ask-user`, `pi-web-access`, `pi-hermes-memory`, `@ff-labs/pi-fff`, `@narumitw/pi-lsp`, `pi-antigravity`, `pi-smart-compact`, `pi-skill-dollar`, and `git:github.com/EveryInc/compound-engineering-plugin`.
+- **Lifecycle Commands**: `omc dev` manages the Pi base CLI (`install`, `status`, `update`, `doctor`, `remove`). Optional packages are managed by native Pi commands (`pi list`, `pi install`, `pi remove`).
+- **Project-Local Pi Config**: OhMyConfig provides a native Tokyonight theme and custom TUI header via `.pi/themes/ohmyconfig-tokyonight.json` and `.pi/extensions/ohmyconfig-header.ts`. Run `pi --approve` or `/trust` to load them.
 
 ---
 
@@ -145,9 +148,28 @@ OhMyConfig/
    - Primary Foreground: `#c0caf5`
    - Accents: Blue (`#7aa2f7`), Cyan (`#7dcfff`), Green (`#9ece6a`), Magenta/Purple (`#bb9af7`), Yellow/Orange (`#e0af68` / `#ff9e64`), Red (`#f7768e`), Dim/Comments (`#565f89` / `#737aa2`).
 2. **Pure Documentation Principle**:
-   - The `docs/` directory contains **only pure Markdown files** without framework config bloat.
-   - VitePress configuration lives externally in `.vitepress/config.mjs` with `srcDir: "docs"`.
+   - The `documentation/` directory contains **only pure Markdown files** without framework config bloat.
+   - VitePress configuration lives externally in `.vitepress/config.mjs` with `srcDir: "documentation"`.
    - CI/CD in `.github/workflows/docs.yml` builds and deploys to GitHub Pages automatically.
+   - Compound Engineering artifacts are separated from user docs under `.compound-engineering/artifacts/` via `.compound-engineering/config.yaml` (`docs_root`).
 3. **Zero-Friction Offline Execution**: Avoid dynamic external downloads inside runtime configs; bundle or locally cache required binaries/WASM plugins within the repo.
 4. **Non-Destructive Overwrites**: Configuration installers must never silently discard user files without `.bak_` backups or user consent.
 5. **Platform Scope**: Tailored for macOS (Apple Silicon `/opt/homebrew` and Intel `/usr/local`), supporting fish shell syntax.
+
+<!-- BEGIN COMPOUND PI TOOL MAP -->
+## Compound Engineering (Pi compatibility)
+
+This block is added by the pi-compound-engineering package.
+
+Pi extensions used by skills shipped by this package:
+- Required for full functionality: `pi-subagents` (by nicobailon) provides the `subagent` tool used by ce-compound, ce-code-review, ce-plan, ce-compound-refresh, and other parallel-agent skills.
+- Recommended: `pi-ask-user` (by edlsh) provides the `ask_user` tool; skills fall back to numbered options in chat when it is missing.
+
+Install with:
+  pi install npm:pi-subagents
+  pi install npm:pi-ask-user
+<!-- END COMPOUND PI TOOL MAP -->
+
+## Compound Engineering Reporting
+
+Write every report, summary, or handoff to the user through the `ce-noslop` skill. This applies when you are the top-level agent writing to the user, not when you are a subagent reporting to its caller. Do not apply it to code, config, verbatim quotes, or text the user asked to post as written.
