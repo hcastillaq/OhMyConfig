@@ -16,7 +16,7 @@ Esta skill define las reglas de seguridad y diseño modular para la configuraci�
    - El nombre (`user.name`), correo electrónico (`user.email`), claves de firmado GPG/SSH (`user.signingkey`) y tokens de autenticación de GitHub deben permanecer intactos y privados.
 
 2. **Patrón `include.path`:**
-   - Toda la configuración de estilos Tokyonight, Delta pager y aliases vive exclusivamente dentro del archivo versionado:
+   - Toda la configuración de estilos Static Noise, Delta pager y aliases vive exclusivamente dentro del archivo versionado:
      ```text
      config/git/delta.gitconfig
      ```

@@ -23,7 +23,7 @@ docs/                        # Fuentes puras en Markdown
 ├── herramientas.md          # Catálogo completo de CLI/TUI
 └── cheatsheet.md            # Tabla maestra consolidada de atajos
 
-.vitepress/config.mjs        # Configuración del sitio (nav, sidebar, Tokyonight theme)
+.vitepress/config.mjs        # Configuración del sitio (nav, sidebar, Static Noise theme)
 README.md                    # Manual rápido de GitHub con enlaces al sitio web
 ```
 
