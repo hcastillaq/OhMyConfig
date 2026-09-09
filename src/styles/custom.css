@@ -296,32 +296,72 @@ button[data-open-modal] kbd {
   letter-spacing: 0.04em !important;
 }
 
-/* Modal Dialog (Spotlight HUD) */
-dialog[aria-label] {
-  background: rgba(11, 13, 19, 0.88) !important;
+/* Modal Dialog (Spotlight HUD) - Altura compacta adaptativa que NUNCA ocupa el 100% */
+dialog,
+dialog[open],
+dialog[aria-label],
+site-search dialog,
+dialog:where(.astro-b5kgnn7o) {
+  position: fixed !important;
+  inset: auto !important;
+  top: 15vh !important;
+  bottom: auto !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+  margin: 0 !important;
+  width: min(92vw, 38rem) !important;
+  max-width: 38rem !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: 75vh !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(114, 234, 213, 0.4) !important;
+  background: rgba(11, 13, 19, 0.94) !important;
   backdrop-filter: blur(28px) saturate(190%) !important;
   -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
-  border: 1px solid rgba(114, 234, 213, 0.35) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.85), 0 0 35px rgba(114, 234, 213, 0.15) !important;
-  max-width: 40rem !important;
-  width: 90% !important;
-  /* Eliminación de la altura fija forzada cuando está vacío */
-  min-height: auto !important;
-  height: auto !important;
-  margin-top: 12vh !important;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9), 0 0 30px rgba(114, 234, 213, 0.15) !important;
   overflow: hidden !important;
 }
 
-dialog::backdrop {
+dialog:not([open]) {
+  display: none !important;
+}
+
+dialog[open],
+dialog[open]:where(.astro-b5kgnn7o) {
+  display: flex !important;
+  flex-direction: column !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+dialog::backdrop,
+dialog:where(.astro-b5kgnn7o)::backdrop {
   background: rgba(5, 7, 10, 0.75) !important;
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
 }
 
-.dialog-frame {
+/* Frame interior: se ajusta al contenido real sin inflar la altura */
+.dialog-frame,
+.dialog-frame:where(.astro-b5kgnn7o) {
+  flex-grow: 0 !important;
+  flex-shrink: 1 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: 75vh !important;
   padding: 1.25rem !important;
-  gap: 0.75rem !important;
+  gap: 0 !important;
+  overflow-y: auto !important;
+}
+
+.search-container,
+.search-container:where(.astro-b5kgnn7o),
+#starlight__search {
+  height: auto !important;
+  min-height: 0 !important;
+  flex-grow: 0 !important;
 }
 
 /* Input interior de búsqueda de Pagefind */
