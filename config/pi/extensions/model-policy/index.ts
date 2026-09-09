@@ -80,6 +80,12 @@ export default function piModelPolicy(pi: ExtensionAPI) {
       const thinkingSuffix = thinking && thinking !== "off" ? `:${thinking}` : "";
       input.model = `${resolution.candidate.fullId}${thinkingSuffix}`;
 
+      // Bounded FIFO cache (max 50 entries)
+      if (recentTraces.size >= 50) {
+        const firstKey = recentTraces.keys().next().value;
+        if (firstKey) recentTraces.delete(firstKey);
+      }
+
       recentTraces.set(input.agent, {
         agentName: input.agent,
         tier: classification.tier,
@@ -97,12 +103,21 @@ export default function piModelPolicy(pi: ExtensionAPI) {
   pi.on("tool_result", async (event, ctx) => {
     if (event.toolName !== "subagent") return;
 
-    const resultText =
-      typeof event.result === "string"
-        ? event.result
-        : JSON.stringify(event.result || "");
+    // Only process actual execution errors to eliminate false-positives
+    const eventAny = event as any;
+    if (!eventAny.isError) return;
 
-    if (breaker.detectQuotaError(resultText)) {
+    // Extract textual payload from content or details
+    let errorText = "";
+    if (typeof eventAny.content === "string") {
+      errorText = eventAny.content;
+    } else if (Array.isArray(eventAny.content)) {
+      errorText = eventAny.content.map((c: any) => c?.text || JSON.stringify(c)).join(" ");
+    } else if (eventAny.details) {
+      errorText = typeof eventAny.details === "string" ? eventAny.details : JSON.stringify(eventAny.details);
+    }
+
+    if (breaker.detectQuotaError(errorText, true)) {
       const input = event.input as { model?: string };
       if (input?.model) {
         const provider = input.model.split("/")[0];

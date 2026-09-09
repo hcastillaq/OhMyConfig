@@ -46,12 +46,13 @@ export function qualifyModelForTiers(model: RawPiModel): Tier[] {
   }
 
   // 5. ARCHITECT: High-reasoning structural/planning models
-  if (/sol|opus|ultra|max|architect|o1|o3/.test(normId) || (isReasoning && cost >= 7.0)) {
+  const isMini = normId.includes('mini') || normId.includes('lite') || normId.includes('spark');
+  if ((/sol|opus|ultra|max|architect/.test(normId) || (!isMini && /(o1|o3)/.test(normId))) || (isReasoning && cost >= 7.0)) {
     tiers.push('ARCHITECT');
   }
 
-  // 6. ORACLE: Frontier apex models (Astra, o1, o3, Opus)
-  if (/astra|o1|o3|opus/.test(normId) || cost >= 15.0) {
+  // 6. ORACLE: Frontier apex models (Astra, full o1, full o3, Opus)
+  if ((!isMini && /astra|o1|o3|opus/.test(normId)) || (!isMini && cost >= 15.0)) {
     tiers.push('ORACLE');
   }
 
@@ -144,8 +145,15 @@ export function resolveModelForTier(
   // R2.5: Context Window Promotion if prompt is massive (>30k tokens)
   if (taskLengthTokens > 30000) {
     const allCandidates = Array.from(tierMap.values()).flat();
+    const needsReasoning = targetTier === 'REASON' || targetTier === 'ARCHITECT' || targetTier === 'ORACLE';
+
     const largeContextCandidate = allCandidates
-      .filter(c => c.contextWindow >= 1000000 && !breaker.isCoolingDown(c.provider) && !breaker.isCoolingDown(c.fullId))
+      .filter(c =>
+        c.contextWindow >= 1000000 &&
+        (!needsReasoning || c.reasoning) &&
+        !breaker.isCoolingDown(c.provider) &&
+        !breaker.isCoolingDown(c.fullId)
+      )
       .sort((a, b) => a.cost - b.cost)[0];
 
     if (largeContextCandidate) {

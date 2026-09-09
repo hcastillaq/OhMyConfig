@@ -73,10 +73,13 @@ test('3. CircuitBreaker - Cooldown & Quota Error Detection', () => {
   breaker.recordFailure('openai-codex');
   assert.equal(breaker.isCoolingDown('openai-codex'), true);
 
-  // Error string detection
-  assert.equal(breaker.detectQuotaError('Error: 429 Too Many Requests'), true);
-  assert.equal(breaker.detectQuotaError('Rate limit exceeded for organization'), true);
-  assert.equal(breaker.detectQuotaError('File not found: test.ts'), false);
+  // Error string detection with isError = true
+  assert.equal(breaker.detectQuotaError('Error: 429 Too Many Requests', true), true);
+  assert.equal(breaker.detectQuotaError('Rate limit exceeded for organization', true), true);
+  assert.equal(breaker.detectQuotaError('File not found: test.ts', true), false);
+
+  // False positive immunity: When isError = false (successful code execution), must return false!
+  assert.equal(breaker.detectQuotaError('Fixed issue #429 and TypeScript overloaded method', false), false);
 });
 
 test('4. Model Discovery & Tier Qualification', () => {
@@ -115,6 +118,12 @@ test('4. Model Discovery & Tier Qualification', () => {
   const oracleRes = resolveModelForTier('ORACLE', tierMap, breaker);
   assert.ok(oracleRes.candidate !== null);
   assert.equal(oracleRes.candidate.id, 'gpt-6-astra');
+
+  // Verify mini models do NOT qualify for ORACLE even with o1/o3 in name
+  const miniModel = { provider: 'openai-codex', id: 'o3-mini', reasoning: true };
+  const miniTiers = qualifyModelForTiers(miniModel);
+  assert.ok(!miniTiers.includes('ORACLE'), 'o3-mini must not qualify for ORACLE');
+  assert.ok(!miniTiers.includes('ARCHITECT'), 'o3-mini must not qualify for ARCHITECT');
 });
 
 test('5. Context Window Promotion for Massive Prompts (>30k tokens)', () => {

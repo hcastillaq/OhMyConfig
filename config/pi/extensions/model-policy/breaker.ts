@@ -47,18 +47,23 @@ export class CircuitBreaker {
     return active;
   }
 
-  public detectQuotaError(text: string): boolean {
+  public detectQuotaError(text: string, isError?: boolean): boolean {
+    // Only flag quota errors when the execution actually failed
+    if (isError === false) return false;
     if (!text || typeof text !== 'string') return false;
+
     const lower = text.toLowerCase();
-    return (
-      lower.includes('429') ||
+    const hasQuotaPattern =
+      /\b429\b/.test(lower) ||
+      lower.includes('too many requests') ||
       lower.includes('rate limit') ||
       lower.includes('ratelimit') ||
       lower.includes('quota exceeded') ||
       lower.includes('insufficient_quota') ||
       lower.includes('resource exhausted') ||
-      lower.includes('overloaded') ||
-      lower.includes('503 service unavailable')
-    );
+      lower.includes('model_overloaded') ||
+      lower.includes('503 service unavailable');
+
+    return hasQuotaPattern;
   }
 }
