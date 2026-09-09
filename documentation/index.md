@@ -1,10 +1,10 @@
 ---
 title: OhMyConfig
-description: Entorno de Desarrollo Moderno y Minimalista para macOS (Static Noise)
+description: Entorno de desarrollo para macOS con herramientas en Rust/Go y el tema visual Static Noise
 template: splash
 hero:
   title: OhMyConfig
-  tagline: Entorno de desarrollo para macOS con herramientas de última generación en Rust y Go, estilizadas bajo la paleta Static Noise.
+  tagline: Mi entorno diario para macOS. Herramientas de última generación en Rust y Go, un agente de IA veloz en la terminal y una identidad visual coherente bajo el tema Static Noise.
   actions:
     - text: Comenzar Instalación
       link: /OhMyConfig/instalacion/
@@ -27,7 +27,7 @@ hero:
       <span class="card-title">Ecosistema AI & Pi</span>
     </div>
     <p class="card-desc">
-      Agente Pi autónomo en terminal con instalación base mínima. Extensiones opcionales para Compound Engineering, subagentes en paralelo y memoria persistente.
+      Agente Pi en terminal con instalación base mínima. Sin bloatware: sumás extensiones para Compound Engineering, subagentes en paralelo y memoria persistente solo cuando las necesitás.
     </p>
     <div class="card-footer">
       <code>omc dev status</code>
@@ -42,7 +42,7 @@ hero:
       <span class="card-title">Neovim (LazyVim Core)</span>
     </div>
     <p class="card-desc">
-      Entorno Lua modular con autocompletado ultra veloz (Blink.cmp), LSP preconfigurado, formateo automático, GitSigns y generación estructurada de docstrings.
+      Mi editor de cabecera. Basado en LazyVim para que la comunidad mantenga los plugins mientras yo personalizo atajos rápidos, autocompletado con Blink.cmp y transparencia para Ghostty.
     </p>
     <div class="card-footer">
       <code>v file.rs</code>
@@ -57,7 +57,7 @@ hero:
       <span class="card-title">Multiplexor Zellij</span>
     </div>
     <p class="card-desc">
-      Barra de estado unificada de 1 línea mediante <code>zjstatus.wasm</code> local. Marcos de alto contraste en Cyan y navegación directa entre paneles con <code>Alt</code>.
+      Layout limpio con barra inferior de 1 sola línea usando zjstatus local en WASM. Navegación directa con Alt que jamás interfiere con los atajos de Neovim ni de la shell.
     </p>
     <div class="card-footer">
       <code>zj</code>
@@ -72,7 +72,7 @@ hero:
       <span class="card-title">Ghostty & Fish Shell</span>
     </div>
     <p class="card-desc">
-      Terminal nativo con aceleración Metal y desenfoque de GPU. Shell interactiva Fish con prompt reactivo Starship e historial SQLite vía Atuin.
+      Terminal acelerada por GPU con Metal, desenfoque suave y tipografía Nerd Font. Acompañada por Fish Shell para autocompletado en tiempo real e historial SQLite con Atuin.
     </p>
     <div class="card-footer">
       <code>ghostty</code>
@@ -87,7 +87,7 @@ hero:
       <span class="card-title">Git, Lazygit & Delta</span>
     </div>
     <p class="card-desc">
-      Stack completo de Git con <code>lazygit</code> en TUI, visor visual de diffs sintácticos con <code>git-delta</code> y telemetría de repo con <code>Onefetch</code>.
+      Flujo de control de versiones ágil: alias cortos para la rutina, diffs visuales syntax-highlighted con Delta y Lazygit para resolver commits y ramas complejas sin salir de la consola.
     </p>
     <div class="card-footer">
       <code>lg</code>
@@ -102,7 +102,7 @@ hero:
       <span class="card-title">CLI omc & Despliegue</span>
     </div>
     <p class="card-desc">
-      Instalador interactivo en Bash puro con TUI Gum. Diagnóstico en vivo con <code>doctor</code>, modo symlink para desarrollo y backups automáticos fechados.
+      Instalador en Bash puro que corre en cualquier Mac de fábrica. Te permite elegir módulos, crear symlinks para editar en vivo y nunca te pisa un archivo sin hacer un backup fechado.
     </p>
     <div class="card-footer">
       <code>./omc install --link</code>
@@ -110,3 +110,17 @@ hero:
     </div>
   </a>
 </div>
+
+---
+
+## Por qué armé OhMyConfig
+
+Si trabajás todos los días en la terminal, sabés lo frustrante que es lidiar con dotfiles gigantescos que se rompen con cualquier actualización, configuraciones que instalan 50 paquetes que nadie pidió o setups donde cada herramienta tiene una paleta de colores distinta.
+
+OhMyConfig nació con una idea muy simple: **un entorno para macOS rápido, predecible y visualmente armónico**, pensado para que puedas clonar el repo en una máquina nueva y estar programando al instante sin pelear con dependencias.
+
+### Los 3 pilares del proyecto
+
+1. **Rendimiento real con Rust y Go:** Sustituí las utilidades tradicionales de Unix por equivalentes modernos (`eza`, `bat`, `ripgrep`, `dust`, `zoxide`, `zellij`). Responden en microsegundos y aprovechan la aceleración de hardware.
+2. **Tema visual Static Noise:** Cero incoherencia visual. Neovim, Zellij, Ghostty, Lazygit y el agente Pi comparten exactamente los mismos tokens cromáticos de alto contraste: negros profundos neutrales (`#0B0D13` y `#11141D`) y acentos en Cyan (`#72EAD5`), Azul (`#83BFFF`) y Púrpura (`#C2A7FF`).
+3. **Despliegue seguro e idempotente:** La CLI `omc` está escrita en Bash nativo de macOS (3.2+) para no depender de que tengas Fish o Zsh configurados previamente. Compara tus archivos locales con `cmp -s`, genera copias de seguridad con timestamp antes de modificar nada y te da la opción de usar enlaces simbólicos directos para que cualquier cambio en este repo impacte al momento en tu sistema.

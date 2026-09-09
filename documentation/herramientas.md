@@ -3,7 +3,9 @@ title: "Catálogo de Herramientas CLI & TUI"
 description: "Herramientas modernas en Rust y Go que sustituyen utilidades Unix tradicionales."
 ---
 
-OhMyConfig sustituye las herramientas tradicionales de Unix por utilidades de última generación escritas principalmente en **Rust** y **Go**, garantizando máximo rendimiento, seguridad de tipos y una estética unificada bajo **Static Noise**.
+Muchas de las utilidades estándar de Unix que vienen instaladas por defecto en macOS fueron creadas hace décadas (`grep`, `find`, `sed`, `cat`, `ls`, `ps`, `top`). En su momento eran revolucionarias, pero hoy existen alternativas modernas escritas en **Rust** y **Go** que aprovechan el hardware actual, entienden `.gitignore` de forma nativa, colorean el código con la paleta **Static Noise** y responden en microsegundos.
+
+En OhMyConfig sustituí el arsenal clásico por herramientas que realmente dan gusto usar en el día a día:
 
 ---
 

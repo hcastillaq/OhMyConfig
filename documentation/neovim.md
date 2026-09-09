@@ -3,7 +3,9 @@ title: "Guía Maestra de Neovim"
 description: "Configuración modular de Neovim basada en LazyVim Core con estética Static Noise."
 ---
 
-OhMyConfig utiliza el núcleo de **LazyVim** como motor base de alto rendimiento, delegando el mantenimiento upstream de plugins a la comunidad mientras preserva una capa de usuario limpia y personalizada bajo la estética **Static Noise** con transparencia adaptativa para Ghostty.
+Neovim es mi editor principal y el corazón de este setup. Durante años mantuve configuraciones gigantescas en Lua que inevitablemente se rompían con cualquier actualización de plugins. 
+
+Para resolverlo de forma definitiva, en OhMyConfig elegí construir sobre el motor de **LazyVim**: una base mantenida y optimizada por la comunidad que inicia en milisegundos, sobre la cual monto mi propia capa de usuario: atajos ergonómicos con `<Space>`, navegación fluida entre splits, autocompletado veloz con `Blink.cmp` y el tema visual **Static Noise** con transparencia adaptativa para la terminal Ghostty.
 
 ```text
 config/nvim/

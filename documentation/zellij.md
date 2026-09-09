@@ -3,7 +3,11 @@ title: "Guía Maestra de Zellij"
 description: "Multiplexor moderno en Rust con barra unificada zjstatus.wasm y navegación por paneles."
 ---
 
-Zellij es un multiplexor de terminal moderno escrito en **Rust**, configurado en OhMyConfig con un layout de **1 sola línea inferior** (`layouts/default.kdl`) utilizando el plugin local **`zjstatus.wasm`** y la paleta **Static Noise**:
+Zellij es mi multiplexor de terminal favorito. Si venís de Tmux, sabés lo tedioso que puede ser configurar una barra de estado que no dependa de diez scripts frágiles en bash. 
+
+Zellij está escrito en **Rust**, vuela en rendimiento y en OhMyConfig lo configuré con dos principios clave:
+1. **Atajos Alt-first sin conflictos:** Limpié los atajos por defecto con `clear-defaults=true`. Zellij jamás te va a interceptar una combinación con `Ctrl` que uses en Neovim o en la shell; todo el control de paneles y pestañas se hace con `Alt` / `Option`.
+2. **Barra de estado de 1 sola línea:** Uso el plugin local compilado en WebAssembly **`zjstatus.wasm`** para unificar pestañas, modo activo y sesión en una línea mínima al pie, dejándote el 98% de la pantalla para programar.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -14,8 +18,8 @@ Zellij es un multiplexor de terminal moderno escrito en **Rust**, configurado en
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-* **Resaltado de Foco de Alto Contraste:** El panel activo se ilumina instantáneamente con bordes redondeados en **Cyan Static Noise (`#72EAD5`)** y cabecera en **Azul (`#83BFFF`)**, mientras los paneles inactivos permanecen en un tono oscuro discreto (`#343A4A`).
-* **Selección Visible:** Los componentes modernos de Zellij (`text_selected`, `list_selected`, `table_cell_selected`, `ribbon_selected`) usan contraste alto Static Noise: texto claro sobre **CyanDim selección (`#193C3B`)** o texto oscuro sobre **Cyan (`#72EAD5`)**, para que menús, listas, búsqueda y ribbons activos se distingan sin perder coherencia visual.
+* **Foco de alto contraste:** El panel donde estás parado se ilumina con bordes en **Cyan Static Noise (`#72EAD5`)** y cabecera en **Azul (`#83BFFF`)**, mientras los paneles inactivos quedan en un gris oscuro discreto (`#343A4A`).
+* **Selección clara:** Listas, menús y scrollback usan contraste estricto sobre fondos atenuados (`#193C3B`) para que siempre sepas qué estás seleccionando.
 
 ---
 

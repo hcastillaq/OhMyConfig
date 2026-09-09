@@ -3,9 +3,11 @@ title: "Paleta Static Noise"
 description: "Especificación completa de tokens, roles y colores canónicos de Static Noise."
 ---
 
-OhMyConfig usa **Static Noise** como su único esquema cromático oficial, reemplazando a Tokyonight para ofrecer una identidad visual retro-punk futurista de alta legibilidad, señal eléctrica sobre superficies oscuras neutrales y coherencia semántica estricta entre terminal, editor, multiplexer, TUIs, agente Pi y documentación.
+Armé el tema visual **Static Noise** porque estaba cansado de tener un entorno donde cada herramienta usaba una paleta distinta: el editor con un tema, la terminal con otro y las utilidades CLI con colores estándar que chocaban entre sí.
 
-> **Nota histórica de reemplazo:** Static Noise sustituye de forma definitiva a Tokyonight en todo el entorno OhMyConfig. Esta mención es puramente histórica para contextualizar la migración; Tokyonight no se encuentra operativo en ninguna configuración activa.
+Static Noise es el **sistema cromático y tema visual oficial** de OhMyConfig. Diseñado específicamente para programar muchas horas sin fatiga visual en macOS: fondos abisales neutrales (`#0B0D13` y `#11141D`), texto nítido en marfil frío (`#EDEDEA`) y acentos eléctricos de alto contraste en Cyan (`#72EAD5`), Azul (`#83BFFF`) y Púrpura (`#C2A7FF`).
+
+> **Nota sobre el origen:** Static Noise reemplaza de forma definitiva a Tokyonight en todo el entorno OhMyConfig para garantizar que Neovim, Zellij, Ghostty, Fish, Lazygit, el agente Pi y esta documentación compartan exactamente la misma identidad visual.
 
 ---
 

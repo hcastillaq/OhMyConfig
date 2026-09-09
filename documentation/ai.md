@@ -1,153 +1,91 @@
 ---
 title: "Ecosistema AI & Coding Agents (Pi)"
-description: "Agente Pi en terminal, instalación mínima y extensiones opcionales para OhMyConfig."
+description: "Agente Pi en terminal, instalación base mínima y extensiones recomendadas para OhMyConfig."
 ---
 
-OhMyConfig usa **Pi** como agente de IA principal en terminal. El flujo base del proyecto debe ser mínimo: instalar el binario `pi`, abrir una sesión y añadir extensiones sólo cuando una workflow las necesite.
+En OhMyConfig uso **Pi** (`@earendil-works/pi-coding-agent`) como agente principal de inteligencia artificial en la terminal. 
+
+La filosofía acá es la misma que con el resto del setup: **cero bloat**. No me gusta que un instalador me meta 30 extensiones que no pedí y que solo agregan lentitud y consumo de memoria. Por eso, el flujo parte de una instalación base mínima y liviana, y vas incorporando paquetes según lo que tu día a día te pida.
 
 ---
 
 ## 1. Instalación base
 
+Instalás el CLI base directamente con nuestro gestor:
+
 ```bash
 ./omc dev install
 ```
 
-Este comando instala únicamente el CLI base:
+Por debajo, este comando instala únicamente el paquete oficial:
 
 ```bash
 npm install -g @earendil-works/pi-coding-agent
 ```
 
-Después de instalarlo, inicia una sesión con:
+Una vez instalado, podés abrir una sesión interactiva en cualquier carpeta con:
 
 ```bash
 pi
 ```
 
-Para revisar los paquetes de Pi presentes en tu entorno:
+Y para consultar qué extensiones tenés activas en ese momento:
 
 ```bash
 pi list
 ```
 
-> OhMyConfig ya no instala todo el catálogo LazyPi por defecto. Las extensiones se tratan como herramientas opcionales para mantener el setup liviano y evitar dependencias que no uses.
-
 ---
 
-## 2. Paquetes opcionales detectados con `pi list`
+## 2. Extensiones recomendadas para potenciar tu workflow
 
-La siguiente lista refleja los paquetes presentes actualmente en este entorno. Podés reinstalarlos o añadirlos en otra máquina con `pi install <paquete>` sólo cuando los necesites.
+Estas son las extensiones que uso y recomiendo para transformar a Pi en un verdadero compañero de desarrollo en proyectos reales. Podés instalar cualquiera de ellas en cualquier momento con `pi install <paquete>`:
 
-| Paquete | Comando de instalación | Para qué sirve |
+### Agentes, delegación y revisión de código
+
+| Extensión | Instalación | Por qué la recomiendo |
 | :--- | :--- | :--- |
-| `npm:@juanibiapina/pi-extension-settings` | `pi install npm:@juanibiapina/pi-extension-settings` | Ajustes adicionales para la sesión de Pi. |
-| `npm:pi-antigravity` | `pi install npm:pi-antigravity` | Generación de imágenes vía Antigravity/Gemini desde Pi. |
-| `npm:pi-subagents` | `pi install npm:pi-subagents` | Delegación a subagentes, workflows paralelos y worktrees aislados. |
-| `npm:pi-ask-user` | `pi install npm:pi-ask-user` | Preguntas bloqueantes con UI interactiva para decisiones ambiguas o riesgosas. |
-| `npm:pi-slopchop` | `pi install npm:pi-slopchop` | Revisión/limpieza de prosa para evitar texto genérico o artificial. |
-| `npm:@juanibiapina/pi-powerbar` | `pi install npm:@juanibiapina/pi-powerbar` | Barra/telemetría visual para la interfaz de Pi. |
-| `npm:@narumitw/pi-lsp` | `pi install npm:@narumitw/pi-lsp` | Diagnósticos y arreglos mediante Language Server Protocol. |
-| `npm:pi-smart-compact` | `pi install npm:pi-smart-compact` | Compactación inteligente del contexto en sesiones largas. |
-| `npm:@bramburn/pi-model-council` | `pi install npm:@bramburn/pi-model-council` | Consulta a varios modelos para segunda opinión o decisiones técnicas. |
-| `npm:pi-skill-dollar` | `pi install npm:pi-skill-dollar` | Invocación de skills con sintaxis `$skill-name`. |
-| `npm:@ff-labs/pi-fff` | `pi install npm:@ff-labs/pi-fff` | Búsqueda rápida de archivos y contenido con `fffind`/`ffgrep`. |
-| `npm:pi-hermes-memory` | `pi install npm:pi-hermes-memory` | Memoria persistente, búsqueda de sesiones y skills procedurales. |
-| `npm:pi-web-access` | `pi install npm:pi-web-access` | Búsqueda web, verificación de fuentes y extracción de contenido. |
-| `git:github.com/EveryInc/compound-engineering-plugin` | `pi install git:github.com/EveryInc/compound-engineering-plugin` | Suite Compound Engineering: planificación, review, PRs, handoffs y aprendizajes. |
+| **`pi-subagents`** | `pi install npm:pi-subagents` | Permite a Pi delegar tareas a subagentes en paralelo, ejecutar code reviews estructuradas y aislar cambios en worktrees temporales de Git. Fundamental para tareas complejas. |
+| **`pi-ask-user`** | `pi install npm:pi-ask-user` | Interfaz interactiva de preguntas. Hace que el agente te consulte opciones antes de tomar decisiones arquitectónicas o ejecutar cambios destructivos. |
+| **`pi-model-council`** | `pi install npm:@bramburn/pi-model-council` | Consulta a varios modelos en paralelo (Claude, GPT, Gemini) cuando necesitás una segunda opinión sobre un refactor o un bug elusivo. |
+| **`compound-engineering-plugin`** | `pi install git:github.com/EveryInc/compound-engineering-plugin` | Suite de ingeniería continua: planificación de features (`ce-plan`), ejecución guiada (`ce-work`), reviews y handoffs entre sesiones. |
+
+### Memoria, contexto y búsqueda
+
+| Extensión | Instalación | Por qué la recomiendo |
+| :--- | :--- | :--- |
+| **`pi-hermes-memory`** | `pi install npm:pi-hermes-memory` | Memoria persistente entre sesiones. Recuerda decisiones previas del proyecto, tus convenciones de código y procedimientos que no querés tener que repetirle. |
+| **`pi-smart-compact`** | `pi install npm:pi-smart-compact` | Compactación inteligente del historial de conversación. Mantiene el contexto relevante en sesiones largas sin saturar la ventana de tokens. |
+| **`pi-web-access`** | `pi install npm:pi-web-access` | Búsqueda web y extracción de contenido en tiempo real. Ideal para consultar documentación de librerías recién salidas o verificar APIs. |
+| **`pi-fff`** | `pi install npm:@ff-labs/pi-fff` | Búsqueda ultrarrápida de archivos y contenido en repositorios grandes usando `fffind` y `ffgrep`. |
+
+### Herramientas de desarrollo y lenguaje
+
+| Extensión | Instalación | Por qué la recomiendo |
+| :--- | :--- | :--- |
+| **`pi-lsp`** | `pi install npm:@narumitw/pi-lsp` | Conecta a Pi con tus Language Servers locales (TypeScript, Rust, Go, Python) para diagnósticos precisos y correcciones automáticas de sintaxis. |
+| **`pi-extension-settings`** | `pi install npm:@juanibiapina/pi-extension-settings` | Panel interactivo para configurar variables y opciones de tus extensiones sin tener que editar JSONs a mano. |
+| **`pi-powerbar`** | `pi install npm:@juanibiapina/pi-powerbar` | Barra de telemetría visual inferior para ver tokens, modelo activo y estado del agente de un vistazo. |
+| **`pi-antigravity`** | `pi install npm:pi-antigravity` | Generación de diagramas y prototipos visuales directamente desde la conversación con Gemini/Antigravity. |
 
 ---
 
-## 3. Uso recomendado por necesidad
+## 3. Mi receta según el tipo de trabajo
 
-### Mínimo diario
-
-```bash
-pi
-```
-
-Usalo para editar código, ejecutar comandos, revisar archivos y trabajar en el repo.
-
-### Cuando necesitás subagentes o reviews paralelas
-
-```bash
-pi install npm:pi-subagents
-```
-
-Útil para code review, análisis en paralelo o workflows con worktrees.
-
-### Cuando querés confirmaciones interactivas
-
-```bash
-pi install npm:pi-ask-user
-```
-
-Útil para que el agente pida confirmación antes de cambios ambiguos, destructivos o de arquitectura.
-
-### Cuando necesitás LSP
-
-```bash
-pi install npm:@narumitw/pi-lsp
-```
-
-Útil para diagnósticos de TypeScript, Lua, Go, Rust, Python u otros servidores configurados.
-
-### Cuando necesitás memoria y continuidad
-
-```bash
-pi install npm:pi-hermes-memory
-```
-
-Útil para recordar preferencias, decisiones de proyecto y procedimientos reutilizables entre sesiones.
-
-### Cuando necesitás búsqueda web
-
-```bash
-pi install npm:pi-web-access
-```
-
-Útil para documentación actualizada, verificación de claims y lectura de URLs.
-
-### Cuando querés workflows Compound Engineering
-
-```bash
-pi install git:github.com/EveryInc/compound-engineering-plugin
-```
-
-Habilita skills como `ce-plan`, `ce-work`, `ce-code-review`, `ce-commit-push-pr`, `ce-handoff` y `ce-setup`.
+* **Para el día a día (editar, buscar, tests):** Solo el comando base `pi`. Rápido, enfocado y sin distracciones.
+* **Para proyectos en equipo o refactors grandes:** Sumo `pi-subagents` y `pi-ask-user` para que revise código en paralelo y me pida confirmación antes de tocar archivos críticos.
+* **Para tareas complejas de varios días:** Agrego `pi-hermes-memory` y `compound-engineering-plugin` para que el contexto y las decisiones arquitectónicas sobrevivan entre sesiones.
 
 ---
 
-## 4. Comandos de mantenimiento
+## 4. Estilo visual: tema Static Noise en Pi
 
-```bash
-./omc dev status    # Ver versión de Pi y paquetes actuales con pi list
-./omc dev update    # Actualizar el CLI base de Pi
-./omc dev doctor    # Diagnóstico básico: Node/npm, Pi y paquetes instalados
-./omc dev remove    # Mostrar ayuda para desinstalar paquetes con pi remove
-```
+Para que la ventana de Pi no desentone con Ghostty y Neovim, OhMyConfig incluye un tema visual propio almacenado en `config/pi/`:
 
-Para actualizar o administrar extensiones opcionales, usa los comandos nativos de Pi según corresponda:
+* **`config/pi/themes/ohmyconfig-static-noise.json`:** Aplica los colores oficiales de Static Noise (fondos abisales `#141720`, texto marfil `#E6E2D6`, cursor y foco en Cyan `#72EAD5`).
+* **`config/pi/extensions/ohmyconfig-header.ts`:** Sustituye el encabezado genérico por una barra limpia con el símbolo `π` y metadatos sutiles.
 
-```bash
-pi list
-pi install <paquete>
-pi remove <paquete>
-```
-
----
-
-## 5. Configuración visual project-local
-
-OhMyConfig incluye configuración local de Pi declarada en `.pi/settings.json` y almacenada bajo `config/pi/`:
-
-| Archivo | Rol |
-| :--- | :--- |
-| `.pi/settings.json` | Selecciona el theme `ohmyconfig-static-noise` y carga recursos locales con rutas relativas a `.pi/` (`../config/pi/...`). |
-| `config/pi/themes/ohmyconfig-static-noise.json` | Theme Static Noise para la TUI de Pi. Usa la misma paleta del repo: superficies neutrales oscuras `#141720`, texto `#E6E2D6`, foco cian `#72EAD5` y acentos semánticos. |
-| `config/pi/extensions/ohmyconfig-header.ts` | Reemplaza el header inicial de Pi y agrega una mini-barra persistente encima del editor con el símbolo `π`. |
-
-Para que Pi cargue estos recursos locales, confiá el proyecto una vez desde una sesión interactiva:
+Para activar este tema en tu entorno, abrí una sesión de Pi en este repositorio y confirmá los recursos locales:
 
 ```bash
 pi
@@ -155,7 +93,7 @@ pi
 /reload
 ```
 
-También podés probarlo una vez sin guardar confianza persistente:
+Si solo querés probarlo temporalmente sin guardar la confianza:
 
 ```bash
 pi --approve
@@ -163,6 +101,18 @@ pi --approve
 
 ---
 
-## 6. Principio operativo
+## 5. Comandos de mantenimiento rápido con `omc`
 
-Instala primero **Pi base**. Luego añade sólo las extensiones que respondan a una necesidad real del flujo de trabajo. Esto reduce fricción, dependencias globales y ruido al depurar el entorno.
+Desde la raíz del proyecto podés chequear y actualizar la base de Pi con:
+
+```bash
+./omc dev status    # Revisa la versión del binario y qué extensiones tenés instaladas
+./omc dev update    # Actualiza el paquete global @earendil-works/pi-coding-agent
+./omc dev doctor    # Verifica que Node, npm y el entorno de Pi estén en orden
+```
+
+Y para desinstalar o limpiar extensiones que ya no uses:
+
+```bash
+pi remove <nombre-de-extension>
+```
