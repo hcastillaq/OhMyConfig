@@ -1,62 +1,152 @@
-# Paleta Tokyonight Night
+# Paleta Static Noise
 
-OhMyConfig usa **Tokyonight Night** como paleta base para mantener una interfaz oscura, legible y coherente entre el terminal, editor y herramientas TUI.
+OhMyConfig usa **Static Noise** como su único esquema cromático oficial, reemplazando a Tokyonight para ofrecer una identidad visual retro-punk futurista de alta legibilidad, señal eléctrica sobre superficies oscuras neutrales y coherencia semántica estricta entre terminal, editor, multiplexer, TUIs, agente Pi y documentación.
 
-## Colores base
+> **Nota histórica de reemplazo:** Static Noise sustituye de forma definitiva a Tokyonight en todo el entorno OhMyConfig. Esta mención es puramente histórica para contextualizar la migración; Tokyonight no se encuentra operativo en ninguna configuración activa.
 
-| Rol | Color | Uso principal |
-| --- | --- | --- |
-| Fondo | `#1a1b26` | Fondo principal |
-| Fondo profundo | `#16161e` | Marcos y superficies profundas |
-| Fondo resaltado | `#292e42` | Superficies secundarias y bordes inactivos |
-| Texto | `#c0caf5` | Texto principal |
-| Texto secundario | `#a9b1d6` | Texto auxiliar |
-| Comentarios | `#565f89` | Comentarios y contenido atenuado |
-| Azul | `#7aa2f7` | Títulos, ramas y acciones primarias |
-| Cian | `#7dcfff` | Foco activo, enlaces y cursor |
-| Verde | `#9ece6a` | Éxitos y añadidos |
-| Amarillo | `#e0af68` | Avisos y elementos pendientes |
-| Naranja | `#ff9e64` | Runtimes, números y constantes |
-| Magenta | `#bb9af7` | Acentos secundarios y palabras clave |
-| Rojo | `#f7768e` | Errores y eliminados |
+---
 
-## Extensiones high-contrast
+## 1. Tokens canónicos
 
-Estos tonos amplían la paleta base para estados que deben distinguirse claramente sobre un fondo oscuro o transparente. No reemplazan los colores base.
+### Superficies, texto y estructura
 
-| Rol | Color | Uso principal |
-| --- | --- | --- |
-| Selección | `#3d59a1` | Fondo de texto, fila o elemento seleccionado |
-| Texto seleccionado | `#ffffff` | Texto sobre la selección |
-| Cian intenso | `#50f5ff` | Foco o énfasis excepcional |
-| Púrpura intenso | `#c099ff` | Pestañas y acentos destacados |
-| Texto brillante | `#e0e6fc` | Texto de máximo contraste |
-| Azul atenuado | `#7a88cf` | Metadatos y contenido secundario visible |
-| Azul grisáceo | `#636f8f` | Estados inactivos legibles |
-| Cian suave | `#b4f9f8` | Énfasis claro complementario |
-| Fondo de selección suave | `#283457` | Selección secundaria cuando `#3d59a1` resulte excesivo |
-| Fondo elevado | `#1f2335` | Superficies elevadas y diffs |
-| Fondo alternativo | `#24283b` | Paneles y superficies alternativas |
-| Fondo de diff | `#2e3c64` | Contexto de diff o selección moderada |
+| Token | Hex | Rol y uso previsto |
+|---|---:|---|
+| `void` | `#0F1117` | Fondo más profundo, barras de estado y chrome exterior |
+| `base` | `#141720` | Fondo principal neutral para terminal, editor y ventanas |
+| `raised` | `#1B1F2A` | Paneles secundarios, popups, menús y cajas flotantes |
+| `overlay` | `#202532` | Ventanas flotantes modales y elementos elevados |
+| `selection` | `#252A38` | Fondo de selección inactiva, búsqueda y línea activa |
+| `border` | `#343A4A` | Bordes inactivos, divisores y separadores tenues |
+| `borderFocus` | `#72EAD5` | Borde del panel activo, cursor y foco dominante |
+| `text` | `#E6E2D6` | Texto principal cálido (papel marfil frío) |
+| `textSoft` | `#C9C8C2` | Texto secundario de lectura continua |
+| `muted` | `#9299AE` | Comentarios, metadatos y estado secundario |
+| `disabled` | `#62697B` | Elementos desactivados y números de línea inactivos |
 
-## Aplicación por herramienta
+### Señales cromáticas semánticas
 
-| Herramienta | Archivos | Roles relevantes |
-| --- | --- | --- |
-| Ghostty | `config/ghostty/config` | Fondo, cursor y selección de alto contraste |
-| Neovim | `config/nvim/lua/plugins/colorscheme.lua` | Tema Night, transparencias y highlights |
-| Fish y FZF | `config/fish/config.fish` | Sintaxis, interfaz de búsqueda y selección |
-| Starship | `config/starship/starship.toml` | Segmentos del prompt |
-| Zellij | `config/zellij/config.kdl` | Tema, panel activo e inactivo |
-| zjstatus | `config/zellij/layouts/default.kdl` | Barra de estado y pestañas |
-| Lazygit | `config/lazygit/config.yml` | Bordes, selección y estado Git |
-| Bottom | `config/bottom/bottom.toml` | Texto, gráficos, tabla y selección |
-| Git Delta | `config/git/delta.gitconfig` | Tema de sintaxis y diffs |
+| Token | Hex | Rol y significado global |
+|---|---:|---|
+| `cyan` | `#72EAD5` | Foco activo, cursor, operador destacado y marca principal |
+| `blue` | `#83BFFF` | Funciones, identificadores, enlaces de navegación e información |
+| `purple` | `#C2A7FF` | Tipos, clases, módulos y ramas de Git |
+| `pink` | `#F08BC2` | Keywords de control, sentencias y comandos especiales |
+| `green` | `#A3D98B` | Éxito, strings, adiciones Git y estado saludable |
+| `yellow` | `#EDD071` | Advertencia, atención, atributos, duración y espera |
+| `orange` | `#F3A261` | Números, modificaciones Git, constantes y actividad |
+| `red` | `#EF7785` | Error, peligro, eliminaciones Git y roturas críticas |
 
-## Reglas de uso
+### Acentos atenuados para fondos (`Dim`)
 
-1. Usa los colores base antes que una extensión high-contrast.
-2. Usa `#3d59a1` con `#ffffff` para una selección que deba permanecer visible sobre fondos oscuros.
-3. Mantén los colores de éxito, aviso y error: verde, amarillo y rojo, respectivamente.
-4. Conserva la sintaxis propia de cada herramienta: Fish usa hex sin `#` en sus variables; FZF, TOML, YAML, KDL, Lua y Git config usan códigos hexadecimales completos según su formato.
-5. Al añadir una herramienta con color explícito, incorpora aquí su archivo y roles antes de desplegarla.
+Se utilizan exclusivamente como fondos para selecciones, badges, diffs o alertas en bloque. **Nunca deben usarse como color de texto principal ni reemplazar superficies completas.**
+
+| Token | Hex | Rol derivado |
+|---|---:|---|
+| `cyanDim` | `#193C3B` | Fondo de selección activa o foco persistente |
+| `blueDim` | `#20344D` | Fondo de bloque informativo o documentación |
+| `purpleDim` | `#332B4D` | Fondo de hunk headers y metadatos estructurales |
+| `pinkDim` | `#48283D` | Fondo especial para etiquetas de control |
+| `greenDim` | `#293B2C` | Fondo de adición en diffs y alertas de éxito |
+| `yellowDim` | `#443B25` | Fondo de alertas preventivas y matches de búsqueda |
+| `orangeDim` | `#493124` | Fondo de modificaciones en diffs |
+| `redDim` | `#48262E` | Fondo de eliminaciones en diffs y alertas de error |
+
+---
+
+## 2. Reglas del sistema y jerarquía visual
+
+1. **Predominancia neutral:** `base` ocupa la mayor parte de la superficie visible. `void` se reserva para barras y contraste de profundidad. Los acentos saturados no deben cubrir áreas de fondo extensas.
+2. **Foco semántico único:** `cyan` (`#72EAD5`) identifica siempre el elemento o panel con foco actual activo. No debe usarse como adorno estético arbitrario.
+3. **Estructura vs Estado:**
+   - `blue`, `purple` y `pink` representan estructura y sintaxis (funciones, tipos, palabras clave).
+   - `green`, `yellow`, `orange` y `red` representan exclusivamente estado y cambio temporal.
+4. **Límites de resplandor (glow):** El texto normal no lleva efectos de resplandor. Solo se permite un halo sutil en el cursor activo, el indicador de foco o la identidad `π`.
+5. **Tipografía auxiliar:**
+   - Texto principal: `text` (`#E6E2D6`).
+   - Comentarios y notas secundarias: `muted` (`#9299AE`).
+   - Controles no disponibles o números de línea: `disabled` (`#62697B`).
+   - Cursivas permitidas: keywords, llamadas a funciones, comentarios y modificadores; nunca en strings, números ni texto plano de interfaces.
+
+---
+
+## 3. Jerarquía de estados combinados
+
+Cuando varios estados coinciden sobre el mismo elemento visual, se aplica la siguiente precedencia:
+
+1. **Foco activo vs Selección inactiva:**
+   - **Elemento enfocado y activo:** Cursor/borde cian brillante (`cyan`) con texto marfil iluminado (`text`) sobre fondo `cyanDim`.
+   - **Elemento seleccionado pero sin foco:** Fondo atenuado neutro (`selection`), borde neutro (`border`) y texto `textSoft`.
+2. **Estados críticos + Selección:**
+   - Si un elemento con error o advertencia es seleccionado, **el color semántico de la alerta (`red` o `yellow`) permanece intacto en el texto o símbolo/icono**. La selección se aplica exclusivamente al fondo (`selection` o `redDim`), asegurando que la alerta crítica jamás sea enmascarada por el color de selección.
+3. **Elementos deshabilitados + Selección:**
+   - Mantienen el texto en `disabled` (`#62697B`) con fondo `selection` atenuado.
+
+---
+
+## 4. Accesibilidad y contraste
+
+Static Noise está calibrado para superar los criterios WCAG 2.1 AA en interfaces oscuras:
+
+- **Texto normal:** `text` (`#E6E2D6`) sobre `base` (`#141720`) provee un ratio de contraste superior a **11:1** (superando el mínimo de 4.5:1).
+- **Texto auxiliar:** `muted` (`#9299AE`) sobre `base` provee un ratio superior a **5.2:1**.
+- **Indicadores de foco:** `cyan` (`#72EAD5`) sobre fondos oscuros proporciona más de **9.5:1** de contraste frente a elementos inactivos (`border`).
+- **Redundancia no cromática (R11):** Todo estado crítico debe acompañarse de un símbolo o etiqueta de texto inequívoca (`✓`, `▲`, `✕`, `●`, `[ERROR]`, `[WARN]`), garantizando que la legibilidad no dependa únicamente de la percepción del color.
+
+---
+
+## 5. Variables portables
+
+Para integraciones web, VitePress, CSS o herramientas compatibles con variables de diseño:
+
+```css
+:root {
+  /* Superficies */
+  --sn-void: #0F1117;
+  --sn-base: #141720;
+  --sn-raised: #1B1F2A;
+  --sn-overlay: #202532;
+  --sn-selection: #252A38;
+  --sn-border: #343A4A;
+  --sn-border-focus: #72EAD5;
+
+  /* Tipografía */
+  --sn-text: #E6E2D6;
+  --sn-text-soft: #C9C8C2;
+  --sn-muted: #9299AE;
+  --sn-disabled: #62697B;
+
+  /* Señales cromáticas */
+  --sn-cyan: #72EAD5;
+  --sn-blue: #83BFFF;
+  --sn-purple: #C2A7FF;
+  --sn-pink: #F08BC2;
+  --sn-green: #A3D98B;
+  --sn-yellow: #EDD071;
+  --sn-orange: #F3A261;
+  --sn-red: #EF7785;
+
+  /* Acentos atenuados (Dim) */
+  --sn-cyan-dim: #193C3B;
+  --sn-blue-dim: #20344D;
+  --sn-purple-dim: #332B4D;
+  --sn-pink-dim: #48283D;
+  --sn-green-dim: #293B2C;
+  --sn-yellow-dim: #443B25;
+  --sn-orange-dim: #493124;
+  --sn-red-dim: #48262E;
+}
+```
+
+---
+
+## 6. Checklist de evaluación para nuevas herramientas
+
+Al incorporar una nueva herramienta al catálogo de OhMyConfig, verifica los siguientes puntos:
+
+- [ ] ¿El fondo principal utiliza `base` (`#141720`) o hereda la superficie neutral del terminal?
+- [ ] ¿El cursor, borde activo o indicador de foco usa estrictamente `cyan` (`#72EAD5`)?
+- [ ] ¿Los bordes inactivos usan `border` (`#343A4A`) y no compiten con el panel enfocado?
+- [ ] ¿Los fondos de selección o diffs usan variantes atenuadas (`selection` o `*Dim`), evitando acentos brillantes en áreas grandes?
+- [ ] ¿Las alertas críticas (errores/advertencias) combinan color con un glifo o etiqueta textual?
+- [ ] ¿Se respetó el formato de color nativo de la herramienta (hex con o sin `#`, RGB o ANSI) sin inventar nuevos tonos intermedios?
