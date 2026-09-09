@@ -40,6 +40,8 @@ export default defineConfig({
       customCss: ['./src/styles/custom.css'],
       components: {
         PageFrame: './src/components/CosmicPageFrame.astro',
+        Header: './src/components/CosmicHeader.astro',
+        SiteTitle: './src/components/CosmicSiteTitle.astro',
       },
     }),
   ],
