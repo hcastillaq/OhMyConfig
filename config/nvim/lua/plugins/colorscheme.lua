@@ -1,87 +1,191 @@
 -- ==============================================================================
--- TEMA VISUAL: TOKYONIGHT NIGHT (CON TRANSPARENCIA ADAPTATIVA)
+-- TEMA VISUAL: STATIC NOISE (MÓDULO LUA NATIVO PROPIO)
 -- ==============================================================================
--- Se adapta automáticamente a la transparencia y desenfoque (blur) de Ghostty.
+-- Cero dependencias externas. Implementa la paleta y semántica de Static Noise
+-- adaptándose automáticamente a la transparencia y desenfoque (blur) de Ghostty.
+
+local function apply_static_noise()
+  local p = {
+    void = "#0F1117",
+    base = "#141720",
+    raised = "#1B1F2A",
+    overlay = "#202532",
+    selection = "#252A38",
+    border = "#343A4A",
+    borderFocus = "#72EAD5",
+    text = "#E6E2D6",
+    textSoft = "#C9C8C2",
+    muted = "#9299AE",
+    disabled = "#62697B",
+    cyan = "#72EAD5",
+    blue = "#83BFFF",
+    purple = "#C2A7FF",
+    pink = "#F08BC2",
+    green = "#A3D98B",
+    yellow = "#EDD071",
+    orange = "#F3A261",
+    red = "#EF7785",
+    cyanDim = "#193C3B",
+    blueDim = "#20344D",
+    purpleDim = "#332B4D",
+    pinkDim = "#48283D",
+    greenDim = "#293B2C",
+    yellowDim = "#443B25",
+    orangeDim = "#493124",
+    redDim = "#48262E",
+  }
+
+  vim.g.colors_name = "static-noise"
+  vim.o.termguicolors = true
+
+  local hl = function(group, opts)
+    vim.api.nvim_set_hl(0, group, opts)
+  end
+
+  -- Editor Base (Transparente para heredar Ghostty)
+  hl("Normal", { fg = p.text, bg = "none" })
+  hl("NormalNC", { fg = p.textSoft, bg = "none" })
+  hl("NormalFloat", { fg = p.text, bg = "none" })
+  hl("FloatBorder", { fg = p.borderFocus, bg = "none" })
+  hl("FloatTitle", { fg = p.cyan, bold = true, bg = "none" })
+  hl("Cursor", { fg = p.void, bg = p.cyan })
+  hl("CursorLine", { bg = p.selection })
+  hl("CursorLineNr", { fg = p.cyan, bold = true })
+  hl("LineNr", { fg = p.disabled })
+  hl("SignColumn", { bg = "none" })
+  hl("ColorColumn", { bg = p.selection })
+  hl("VertSplit", { fg = p.border, bg = "none" })
+  hl("WinSeparator", { fg = p.border, bg = "none" })
+  hl("StatusLine", { fg = p.text, bg = "none" })
+  hl("StatusLineNC", { fg = p.muted, bg = "none" })
+
+  -- Visual Selection y Búsqueda
+  hl("Visual", { fg = p.text, bg = p.cyanDim })
+  hl("VisualNOS", { fg = p.text, bg = p.cyanDim })
+  hl("Search", { fg = p.yellow, bg = p.yellowDim })
+  hl("IncSearch", { fg = p.void, bg = p.cyan, bold = true })
+  hl("CurSearch", { fg = p.void, bg = p.cyan, bold = true })
+
+  -- Pmenu (Autocompletado)
+  hl("Pmenu", { fg = p.text, bg = p.raised })
+  hl("PmenuSel", { fg = p.cyan, bg = p.cyanDim, bold = true })
+  hl("PmenuSbar", { bg = p.overlay })
+  hl("PmenuThumb", { bg = p.border })
+
+  -- Sintaxis Estándar
+  hl("Comment", { fg = p.muted, italic = true })
+  hl("Constant", { fg = p.orange })
+  hl("String", { fg = p.green })
+  hl("Character", { fg = p.green })
+  hl("Number", { fg = p.orange })
+  hl("Boolean", { fg = p.orange, bold = true })
+  hl("Float", { fg = p.orange })
+  hl("Identifier", { fg = p.text })
+  hl("Function", { fg = p.blue, italic = true })
+  hl("Statement", { fg = p.pink, italic = true })
+  hl("Conditional", { fg = p.pink, italic = true })
+  hl("Repeat", { fg = p.pink, italic = true })
+  hl("Label", { fg = p.pink })
+  hl("Operator", { fg = p.cyan })
+  hl("Keyword", { fg = p.pink, italic = true })
+  hl("Exception", { fg = p.pink, bold = true })
+  hl("PreProc", { fg = p.purple })
+  hl("Include", { fg = p.pink, italic = true })
+  hl("Type", { fg = p.purple })
+  hl("StorageClass", { fg = p.purple })
+  hl("Structure", { fg = p.purple })
+  hl("Special", { fg = p.cyan })
+  hl("SpecialChar", { fg = p.cyan })
+  hl("Underlined", { underline = true })
+  hl("Error", { fg = p.red, bold = true })
+  hl("Todo", { fg = p.yellow, bold = true })
+
+  -- Treesitter
+  hl("@variable", { fg = p.text })
+  hl("@variable.builtin", { fg = p.cyan })
+  hl("@variable.parameter", { fg = p.textSoft })
+  hl("@function", { fg = p.blue, italic = true })
+  hl("@function.builtin", { fg = p.blue })
+  hl("@function.call", { fg = p.blue })
+  hl("@method", { fg = p.blue })
+  hl("@keyword", { fg = p.pink, italic = true })
+  hl("@keyword.function", { fg = p.pink, italic = true })
+  hl("@keyword.return", { fg = p.pink, italic = true })
+  hl("@string", { fg = p.green })
+  hl("@number", { fg = p.orange })
+  hl("@boolean", { fg = p.orange, bold = true })
+  hl("@type", { fg = p.purple })
+  hl("@type.builtin", { fg = p.purple })
+  hl("@property", { fg = p.yellow })
+  hl("@constructor", { fg = p.purple })
+  hl("@operator", { fg = p.cyan })
+  hl("@punctuation.delimiter", { fg = p.muted })
+  hl("@punctuation.bracket", { fg = p.textSoft })
+
+  -- Diagnósticos LSP
+  hl("DiagnosticError", { fg = p.red })
+  hl("DiagnosticWarn", { fg = p.yellow })
+  hl("DiagnosticInfo", { fg = p.blue })
+  hl("DiagnosticHint", { fg = p.cyan })
+  hl("DiagnosticUnderlineError", { undercurl = true, sp = p.red })
+  hl("DiagnosticUnderlineWarn", { undercurl = true, sp = p.yellow })
+  hl("DiagnosticUnderlineInfo", { undercurl = true, sp = p.blue })
+  hl("DiagnosticUnderlineHint", { undercurl = true, sp = p.cyan })
+
+  -- Git Signos y Diffs
+  hl("GitSignsAdd", { fg = p.green })
+  hl("GitSignsChange", { fg = p.orange })
+  hl("GitSignsDelete", { fg = p.red })
+  hl("DiffAdd", { bg = p.greenDim })
+  hl("DiffChange", { bg = p.orangeDim })
+  hl("DiffDelete", { bg = p.redDim })
+  hl("DiffText", { bg = p.blueDim })
+
+  -- Neo-tree & Snacks / Telescope
+  hl("NeoTreeNormal", { fg = p.text, bg = "none" })
+  hl("NeoTreeNormalNC", { fg = p.muted, bg = "none" })
+  hl("NeoTreeEndOfBuffer", { fg = p.border, bg = "none" })
+  hl("NeoTreeRootName", { fg = p.cyan, bold = true })
+  hl("NeoTreeDirectoryName", { fg = p.blue })
+  hl("NeoTreeDirectoryIcon", { fg = p.blue })
+  hl("NeoTreeGitAdded", { fg = p.green })
+  hl("NeoTreeGitModified", { fg = p.orange })
+  hl("NeoTreeGitDeleted", { fg = p.red })
+  hl("TelescopeNormal", { fg = p.text, bg = "none" })
+  hl("TelescopeBorder", { fg = p.borderFocus, bg = "none" })
+  hl("SnacksPickerNormal", { fg = p.text, bg = "none" })
+  hl("SnacksPickerNormalNC", { fg = p.textSoft, bg = "none" })
+  hl("WhichKey", { fg = p.cyan })
+  hl("WhichKeyGroup", { fg = p.purple })
+  hl("WhichKeyDesc", { fg = p.text })
+end
 
 return {
-  -- 1. Indicar a LazyVim que use tokyonight-night como tema por defecto
+  -- 1. Registrar e indicar a LazyVim que use static-noise como tema por defecto
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "tokyonight-night",
+      colorscheme = "static-noise",
     },
   },
 
-  -- 2. Configurar Tokyonight con fondo transparente y paneles integrados
+  -- 2. Plugin local sin repositorios externos para aplicar Static Noise
   {
-    "folke/tokyonight.nvim",
+    dir = vim.fn.stdpath("config"),
+    name = "static-noise-theme",
     lazy = false,
     priority = 1000,
-    opts = {
-      style = "night",
-      transparent = true, -- Habilita fondo transparente para heredar el de Ghostty
-      terminal_colors = true,
-      styles = {
-        comments = { italic = true },
-        keywords = { italic = true },
-        functions = {},
-        variables = {},
-        sidebars = "transparent", -- Exploradores y paneles laterales transparentes
-        floats = "transparent",   -- Ventanas flotantes, Which-Key y Telescope transparentes
-      },
-      on_colors = function(c)
-        -- Overdrive Colors (Alto Contraste y Vivacidad)
-        c.bg = "#13141c"
-        c.bg_dark = "#0f1016"
-        c.bg_float = "#181a24"
-        c.bg_highlight = "#222638"
-        c.bg_popup = "#181a24"
-        c.bg_search = "#50f5ff"
-        c.bg_sidebar = "#0f1016"
-        c.bg_statusline = "#13141c"
-        c.bg_visual = "#354b8a"
-        c.border = "#222638"
-        c.border_highlight = "#7dcfff"
-        c.fg = "#c0caf5"
-        c.fg_dark = "#7a88cf"
-        c.fg_float = "#c0caf5"
-        c.fg_gutter = "#7a88cf"
-        c.fg_sidebar = "#7a88cf"
-        c.blue = "#7aa2f7"
-        c.cyan = "#7dcfff"
-        c.green = "#9ece6a"
-        c.magenta = "#bb9af7"
-        c.orange = "#ff9e64"
-        c.purple = "#bb9af7"
-        c.red = "#f7768e"
-        c.yellow = "#e0af68"
-        c.comment = "#9aa5ce"
-      end,
-      on_highlights = function(hl, c)
-        -- Fondo del editor y columnas principales
-        hl.Normal = { bg = "none" }
-        hl.NormalNC = { bg = "none" }
-        hl.NormalFloat = { bg = "none" }
-        hl.FloatBorder = { fg = c.border_highlight, bg = "none" }
-        hl.SignColumn = { bg = "none" }
-        hl.StatusLine = { bg = "none" }
-        hl.StatusLineNC = { bg = "none" }
-
-        -- Selección legible sobre el fondo transparente de Ghostty
-        hl.Visual = { fg = "#ffffff", bg = "#354b8a" }
-        hl.VisualNOS = { fg = "#ffffff", bg = "#354b8a" }
-        
-        -- Paneles laterales (Neo-Tree y exploradores)
-        hl.NeoTreeNormal = { bg = "none" }
-        hl.NeoTreeNormalNC = { bg = "none" }
-        hl.NeoTreeEndOfBuffer = { bg = "none" }
-        
-        -- Ventanas de búsqueda flotantes
-        hl.TelescopeNormal = { bg = "none" }
-        hl.TelescopeBorder = { fg = c.border_highlight, bg = "none" }
-        hl.SnacksPickerNormal = { bg = "none" }
-        hl.SnacksPickerNormalNC = { bg = "none" }
-      end,
-    },
+    config = function()
+      apply_static_noise()
+      -- Registrar autocmd para reaplicar highlights si LazyVim intenta cambiar de esquema
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        pattern = "*",
+        callback = function(ev)
+          if ev.match ~= "static-noise" then
+            apply_static_noise()
+          end
+        end,
+      })
+    end,
   },
 }
