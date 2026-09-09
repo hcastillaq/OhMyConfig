@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://hcastillaq.github.io/OhMyConfig/"><img src="https://img.shields.io/badge/📖_Documentación_Web-Online-7aa2f7?style=for-the-badge&logo=vitepress&logoColor=white" alt="Documentation"></a>
-  <img src="https://img.shields.io/badge/macOS-Apple%20Silicon%20%7C%20Intel-7dcfff?style=for-the-badge&logo=apple&logoColor=white" alt="macOS">
+  <img src="https://img.shields.io/badge/macOS-Apple%20Silicon%20%7C%20Intel-72EAD5?style=for-the-badge&logo=apple&logoColor=0F1117" alt="macOS">
   <img src="https://img.shields.io/badge/Theme-Static%20Noise-72EAD5?style=for-the-badge" alt="Theme">
   <img src="https://img.shields.io/badge/License-MIT-9ece6a?style=for-the-badge" alt="License">
 </p>
