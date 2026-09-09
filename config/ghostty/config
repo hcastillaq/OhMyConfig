@@ -49,5 +49,9 @@ cursor-style-blink = false
 cursor-color = "#72EAD5"
 cursor-text = "#0F1117"
 
+# --- TECLADO Y MODIFICADORES (MACOS) ---
+# Permite que la tecla Option emita secuencias Alt/Escape reales en terminal para Zellij
+macos-option-as-alt = true
+
 # --- INTEGRACIÓN CON FISH ---
 shell-integration = "fish"

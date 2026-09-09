@@ -97,16 +97,16 @@ OhMyConfig/
 ### 3. Editor Neovim (`<Space>` = Leader)
 * **`v`** / **`v <archivo>`**: Abrir Neovim con tema Static Noise.
 * **`<Space> + e`**: Abrir / Ocultar explorador de archivos lateral.
-* **`Ctrl + h/j/k/l`**: Moverse fluidamente entre paneles y divisiones.
+* **`Ctrl + h/j/k/l`**: Moverse fluidamente entre divisiones de Neovim.
 * **`Shift + l`** / **`Shift + h`**: Pestaña siguiente / anterior.
-* **`<Space> + bd`**: Cerrar pestaña actual limpiamente sin dejar `[No Name]`.
 * **`Ctrl + s`**: Guardar archivo actual en cualquier modo (normal o inserción).
+* **`p`** (en modo visual): Pegar del sistema sin sobreescribir lo copiado.
+* **`<Space> + s`**: **Buscar** (`sf` archivos, `sg` texto live grep, `sw` palabra bajo cursor, `ss` símbolos, `sb` buffers).
+* **`<Space> + r`**: **Reemplazar** (`rp` en proyecto con Grug-Far, `rw` palabra actual, `rb` en archivo con confirmación).
+* **`<Space> + c`**: **Código** (`ca` Quick Fix, `cr` renombrar símbolo, `cf` formatear, `cd` error de línea, `cn` docstring).
 * **`<Space> + w`**: Menú de ventanas y divisiones (splits: horizontal, vertical, cerrar).
 * **`s` + 2 letras**: Salto instantáneo a cualquier palabra en pantalla (Flash).
 * **`gd`** / **`K`**: Ir a definición / Ver documentación flotante (LSP).
-* **`<Space> + cr`**: Renombrar variable en todo el proyecto con LSP.
-* **`<Space> + sr`**: Buscar y reemplazar texto en todo el proyecto (Grug-Far).
-* **`<Space> + cn`**: Generar docstrings estructurados automáticamente (Neogen).
 * **`<Space> + px`**: Menú interactivo `:LazyExtras` para activar/desactivar lenguajes con `x`.
 
 ### 4. Multiplexor Zellij (`zj`)

@@ -106,11 +106,11 @@ Neovim es un **editor modal**: cambiás de modo según lo que quieras hacer.
 | **Menú de Ventanas y Splits** | **`<Space> + w`** | Menú interactivo de gestión y división de ventanas |
 | **Cerrar pestaña actual limpiamente** | **`<Space> + bd`** | Cierra el archivo sin dejar pestañas `[No Name]` |
 | **Cerrar todas las demás pestañas** | **`<Space> + bo`** | Cierra todos los buffers excepto el actual |
-| **Siguiente / Anterior pestaña** | **`<Space> + bl`** / **`<Space> + bh`** | Navega por la barra superior de pestañas (`Shift + l/h`) |
+| **Siguiente / Anterior pestaña** | **`Shift + l`** / **`Shift + h`** | Navega por la barra superior de pestañas (`]b` / `[b`) |
 | **Alternar con la pestaña previa** | **`<Space> + bb`** | Salta instantáneamente a la última pestaña visitada |
-| **Elegir pestaña interactivamente** | **`<Space> + bj`** | Abre selector difuso interactivo de pestañas |
+| **Elegir pestaña interactivamente** | **`<Space> + bj`** (o `<Space> + sb`) | Abre selector difuso interactivo de pestañas |
 | **Fijar pestaña actual (Pin)** | **`<Space> + bp`** | Fija la pestaña para evitar cerrarla por error |
-| **Cerrar ventana / split** | **`<Space> + q`** (o `:q`) | Cierra la ventana activa |
+| **Cerrar ventana / split** | **`<Space> + wd`** (o `:q`) | Cierra la ventana activa |
 | **DESHACER (Undo Persistente)** | **`u`** | Deshace cambios (incluso tras apagar la PC) |
 | **REHACER (Redo)** | **`Ctrl + r`** | Rehace el cambio deshecho |
 | **Descartar cambios y recargar** | **`:e!`** | Vuelve a leer el archivo desde el disco |
@@ -136,31 +136,29 @@ Neovim es un **editor modal**: cambiás de modo según lo que quieras hacer.
 
 ---
 
-## 6. Búsqueda y Reemplazo
+## 6. Búsqueda y Reemplazo (`<Space> + s` y `<Space> + r`)
 
-### A. Buscar dentro del archivo actual
-* **`/palabra` + `<Enter>`**: Buscar hacia adelante | **`?palabra` + `<Enter>`**: Buscar hacia atrás.
-* **`n`**: Siguiente coincidencia | **`N`**: Coincidencia anterior.
-* **`*`**: Busca la palabra del cursor hacia adelante | **`#`**: Hacia atrás.
-* **`<Esc>`**: Limpia el resaltado amarillo de búsqueda.
-* **`<Space> + /`**: Buscador difuso interactivo en el archivo (Telescope).
+### A. Menú de Búsqueda (`<Space> + s`)
+* **`<Space> + sf`** (o `<Space> + <Space>`): Buscar archivos en el proyecto por nombre.
+* **`<Space> + sg`**: Buscar texto en todos los archivos del proyecto (*Live Grep*).
+* **`<Space> + sw`**: Buscar ocurrencias de la palabra bajo el cursor en todo el proyecto.
+* **`<Space> + ss`**: Buscar funciones, clases y símbolos en el archivo actual.
+* **`<Space> + sS`**: Buscar símbolos en todo el proyecto (Workspace Symbols).
+* **`<Space> + sb`**: Selector interactivo de buffers y pestañas abiertas.
+* **`<Space> + s/`**: Buscador difuso interactivo dentro del archivo actual.
+* **`<Space> + st`**: Buscar comentarios `TODO`, `FIXME`, `BUG` en el proyecto.
+* **`s` + 2 letras**: Salto instantáneo a cualquier palabra visible en pantalla (Flash).
 
-### B. Reemplazar una Selección o Palabra
+### B. Menú de Reemplazo (`<Space> + r`)
+* **`<Space> + rp`**: Panel interactivo de Búsqueda y Reemplazo global en el proyecto (*Grug-Far*).
+* **`<Space> + rw`**: Abrir Grug-Far con la palabra actual (o texto seleccionado en modo visual) pre-cargada.
+* **`<Space> + rb`**: Reemplazar en el archivo actual con confirmación visual paso a paso (`:%s///gc`). En modo visual reemplaza solo en la selección (`:'<,'>s///gc`).
+
+### C. Reemplazo Rápido en Línea o Selección (Atajos Nativos de Vim)
 * **Reemplazar selección escribiendo:** Seleccioná con `v` $\rightarrow$ presioná **`c`** $\rightarrow$ escribí lo nuevo.
 * **Cambiar palabra actual:** **`ciw`** $\rightarrow$ borra la palabra y te deja escribiendo.
 * **Cambiar contenido entre comillas:** **`ci"`** o **`ci'`**.
 * **Cambiar contenido entre paréntesis/llaves:** **`ci(`** o **`ci{`**.
-
-### C. Reemplazar Todas las Coincidencias en el Archivo Actual
-* **Reemplazar en todo el archivo:** `:%s/antiguo/nuevo/g`
-* **Reemplazar pidiendo confirmación:** `:%s/antiguo/nuevo/gc` *(y = sí, n = no, a = todas, q = cancelar)*.
-* **Reemplazar solo la palabra exacta:** `:%s/\<antiguo\>/nuevo/g`
-* **Super-Tip para la palabra del cursor:** Escribí `:%s/` $\rightarrow$ tocá **`Ctrl + r`** y luego **`Ctrl + w`** $\rightarrow$ `/nuevo/g` $\rightarrow$ `<Enter>`.
-
-### D. Reemplazar en Todo el Proyecto (Multi-archivo)
-* **1. Renombrar Variable / Función con LSP:** Parate sobre el identificador y presioná **`<Space> + cr`** (*Code Rename*).
-* **2. Buscar y Reemplazar Texto Libre en Todo el Proyecto (TUI):** Presioná **`<Space> + sr`** (*Search & Replace con Grug-Far*).
-* **3. Reemplazo masivo por consola:** `sd 'antiguo' 'nuevo' src/**/*.ts`.
 
 ---
 
@@ -169,21 +167,21 @@ Neovim es un **editor modal**: cambiás de modo según lo que quieras hacer.
 ### A. Tabla de Atajos de Navegación e Inteligencia
 | Qué querés hacer | Atajo | Explicación |
 | :--- | :--- | :--- |
+| **Acciones de código / Quick Fix**| **`<Space> + ca`** | Menú flotante con soluciones sugeridas (*Code Action*) |
+| **Acciones de archivo completo (Organizar)** | **`<Space> + cA`** | Organizar imports o correcciones globales (*Source Action*) |
+| **Renombrar símbolo en todo el proyecto** | **`<Space> + cr`** | Renombra la variable/función de forma segura (*Code Rename*) |
+| **Formatear el archivo actual** | **`<Space> + cf`** | Aplica Prettier, Stylua, Ruff/Black, etc. |
+| **Ver error / diagnóstico de la línea** | **`<Space> + cd`** | Muestra el diagnóstico y mensaje de error en ventana flotante |
+| **Panel de Errores del Proyecto**| **`<Space> + cx`** (o `<Space> + xx`) | Abre panel inferior con todos los errores del proyecto (Trouble) |
+| **Generar documentación (Neogen)**| **`<Space> + cn`** | Genera docstrings estructurados (JSDoc, Google, TSDoc) |
 | **Ir a la definición de una función/variable** | **`gd`** | Salta a donde se creó (*Go to Definition*) |
 | **Volver al lugar anterior tras el salto** | **`Ctrl + o`** | Regresa en el historial de saltos (*Jump Back*) |
 | **Avanzar de nuevo en el historial** | **`Ctrl + i`** | Avanza en el historial de saltos (*Jump Forward*) |
 | **Ir a la implementación o interfaz** | **`gI`** | Salta a la clase o código concreto que la implementa |
 | **Ir a la definición de tipo** | **`gy`** | Salta a la declaración del tipo/interfaz (*Type Definition*) |
-| **Ver referencias / dónde se usa** | **`gr`** | Lista todos los usos del símbolo con Telescope/Snacks |
-| **Buscar palabra bajo el cursor en proyecto** | **`<Space> + sw`** | Búsqueda grep de la palabra actual en archivos |
+| **Ver referencias / dónde se usa** | **`gr`** | Lista todos los usos del símbolo con Snacks/picker |
 | **Ver documentación y tipos flotantes** | **`K`** | Muestra el docstring y tipos de la función (*Hover*) |
-| **Renombrar símbolo en todo el proyecto** | **`<Space> + cr`** | Renombra la variable/función de forma segura (*Code Rename*) |
-| **Acciones de código / Correcciones automáticas**| **`<Space> + ca`** | Menú flotante con soluciones sugeridas (*Code Action*) |
-| **Acciones de archivo completo (Organizar)** | **`<Space> + cA`** | Organizar imports o correcciones globales (*Source Action*) |
-| **Formatear el archivo actual** | **`<Space> + cf`** | Aplica Prettier, Stylua, Ruff/Black, etc. |
-| **Ver error / diagnóstico de la línea** | **`<Space> + cd`** | Muestra el diagnóstico y mensaje de error en ventana flotante |
 | **Saltar al error siguiente / anterior** | **`]d`** / **`[d`** | Navega por los errores de sintaxis (*Next/Prev Diagnostic*) |
-| **Panel de Diagnósticos del Proyecto (Trouble)**| **`<Space> + xx`** | Abre panel inferior con todos los errores del proyecto |
 
 ---
 
@@ -238,9 +236,9 @@ Cuando el editor resalta un error de tipado, un módulo no importado o una adver
   - **`<Space> + cn`**: Genera la plantilla de documentación oficial (**JSDoc/TSDoc**, **Google Docstrings**, **LuaDoc**) con parámetros y tipos.
   - **`<Space> + cnc`**: Documentar clase | **`<Space> + cnt`**: Documentar tipo/interfaz.
   - **`<Tab>`**: Salta entre los campos autogenerados para escribir las descripciones.
-* **Comentarios Rápidos Multilenguaje (`ts-comments`):**
-  - **`<Space> + cc`** (o **`gcc`**): Comentar / Descomentar línea actual en modo normal.
-  - **`<Space> + cc`** (o **`gc`** en visual): Comentar / Descomentar bloque seleccionado en modo visual.
+* **Comentarios Rápidos Multilenguaje:**
+  - **`gcc`**: Comentar / Descomentar línea actual en modo normal.
+  - **`gc`**: Comentar / Descomentar bloque seleccionado en modo visual.
   - **`<Space> + cb`**: Añadir una nueva línea comentada debajo de la actual.
 ---
 
