@@ -48,7 +48,7 @@ Los modos siguen disponibles para operaciones menos frecuentes, pero ya no usan 
 | **Move** | **`Alt + m`** | `Esc`, `Enter` o `Alt + m` | Mover físicamente el panel activo |
 | **Resize** | **`Alt + z`** | `Esc`, `Enter` o `Alt + z` | Ajustar tamaño de paneles |
 | **Scroll** | **`Alt + s`** | `Esc`, `Enter` o `Alt + s` | Revisar historial, buscar y editar scrollback |
-| **Session** | **`Alt + o`** | `Esc`, `Enter` o `Alt + o` | Detach, session manager, configuración y plugin manager |
+| **Session** | **`Alt + o`** | `Esc`, `Enter` o `Alt + o` | Detach, session manager y plugin manager |
 
 ---
 
@@ -57,7 +57,8 @@ Los modos siguen disponibles para operaciones menos frecuentes, pero ya no usan 
 | Tecla dentro del modo | Acción |
 | :---: | :--- |
 | **`h/j/k/l`** o flechas | Mover foco entre paneles |
-| **`n`** / **`d`** | Crear nuevo panel abajo |
+| **`n`** | Crear nuevo panel |
+| **`d`** | Crear nuevo panel abajo |
 | **`r`** | Crear nuevo panel a la derecha |
 | **`x`** | Cerrar el panel activo |
 | **`f`** | Alternar fullscreen |
@@ -94,12 +95,10 @@ Los modos siguen disponibles para operaciones menos frecuentes, pero ya no usan 
 * **Modo Scroll y búsqueda (`Alt + s`):**
   - **`j/k`**: scrollear línea por línea.
   - **`d/u`**: media página abajo / arriba.
-  - **`h/l`**, `PageUp` / `PageDown`: página arriba / abajo.
+  - **`b`** / **`f`**, `PageUp` / `PageDown`: página arriba / abajo.
   - **`s`**: buscar texto en el historial.
   - **`e`**: abrir el historial en Neovim.
-  - **`c`**: copiar la última salida de comando.
 * **Modo Session (`Alt + o`):**
   - **`d`**: desconectarse (*Detach*).
   - **`w`**: abrir el gestor de sesiones.
-  - **`c`**: abrir configuración.
   - **`p`**: abrir plugin manager.

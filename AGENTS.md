@@ -29,6 +29,7 @@ OhMyConfig/
 │       └── ui.sh                # Shared Static Noise styling & Gum UI primitives
 ├── README.md                    # Concise user manual, quick overview and documentation hub
 ├── AGENTS.md                    # AI Agent architectural context and guidelines
+├── CONCEPTS.md                  # Vocabulario compartido del proyecto para orientar discusiones de dominio
 ├── .gitignore                   # Ignored files (.atl/, .DS_Store, .vitepress cache/dist)
 ├── .vitepress/
 │   └── config.mjs               # VitePress site configuration (srcDir: "documentation", Static Noise theme)
@@ -39,6 +40,7 @@ OhMyConfig/
 │   ├── config.yaml              # Compound Engineering repo config (docs_root -> .compound-engineering/artifacts)
 │   ├── config.example.yaml      # Current commented template for team defaults
 │   └── artifacts/               # CE-owned outputs: plans, brainstorms, solutions, explainers, reports
+│       └── solutions/           # Casos resueltos buscables por categoría y frontmatter (module, tags, problem_type), relevantes al implementar o depurar áreas documentadas
 ├── documentation/               # Modular Markdown Documentation (Pure MD without bloat)
 │   ├── index.md                 # Documentation landing page
 │   ├── instalacion.md           # Installation & Brewfile guide

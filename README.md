@@ -57,7 +57,7 @@ OhMyConfig/
 | :--- | :--- | :---: | :---: |
 | **📦 Instalación** | Menú TUI, symlinks, respaldo y catálogo de `Brewfile` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/instalacion) | [`documentation/instalacion.md`](./documentation/instalacion.md) |
 | **🤖 Ecosistema AI** | Pi base y extensiones opcionales detectadas con `pi list` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/ai) | [`documentation/ai.md`](./documentation/ai.md) |
-| **🛠️ Neovim** | LazyVim core, LSP, autocompletado, GitLens y Neogen | [Ver Online](https://hcastillaq.github.io/OhMyConfig/neovim) | [`documentation/neovim.md`](./documentation/neovim.md) |
+| **🛠️ Neovim** | LazyVim core, LSP, autocompletado, GitSigns y Neogen | [Ver Online](https://hcastillaq.github.io/OhMyConfig/neovim) | [`documentation/neovim.md`](./documentation/neovim.md) |
 | **🪟 Zellij** | Multiplexor con foco Cyan brillante y navegación con `Alt` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/zellij) | [`documentation/zellij.md`](./documentation/zellij.md) |
 | **🐙 Git & Diffs** | Flujo en consola, Lazygit TUI y diffs con Git-Delta | [Ver Online](https://hcastillaq.github.io/OhMyConfig/git) | [`documentation/git.md`](./documentation/git.md) |
 | **🖥️ Terminal & Shell** | Ghostty (GPU/Blur), Fish Shell, **mise** (Runtimes) y Atuin | [Ver Online](https://hcastillaq.github.io/OhMyConfig/terminal) | [`documentation/terminal.md`](./documentation/terminal.md) |
@@ -78,7 +78,7 @@ OhMyConfig/
 * **`pi`**: Inicia el agente autónomo de código en terminal.
 
 ### 2. Terminal, Runtimes y Búsqueda
-* **`guia`**: Menú interactivo de atajos en consola (`guia nvim`, `guia zj`, `guia git`, `guia search`, `guia cli`, `guia ai`).
+* **`cheat`** / **`ayuda`**: Alias de `omc` para abrir la ayuda de la CLI.
 * **`mise use -g <lang>@<ver>`**: Gestor universal de versiones (Node, Python, Go, Rust, Java).
 * **`rg <patron>`**: Búsqueda ultrarrápida de texto en todo el proyecto (Ripgrep).
 * **`fd <nombre>`**: Búsqueda moderna de archivos y carpetas (reemplazo de `find`).
@@ -116,8 +116,8 @@ OhMyConfig/
 * **`Alt + n`**: Crear nuevo panel directamente.
 * **`Alt + f`**: Maximizar / Restaurar panel activo (Pantalla completa).
 * **`Alt + w`**: Alternar paneles flotantes (Floating Panes).
-* **`Ctrl + h`**: **Modo Mover** para intercambiar físicamente la posición de paneles (`h/j/k/l` o `Tab`).
-* **`Ctrl + p`** (Paneles) / **`Ctrl + t`** (Pestañas) / **`Ctrl + s`** (Scroll e historial) / **`Ctrl + n`** (Resize).
+* **`Alt + m`**: **Modo Mover** para intercambiar físicamente la posición de paneles (`h/j/k/l` o `Tab`).
+* **`Alt + p`** (Paneles) / **`Alt + Shift + t`** (Pestañas) / **`Alt + s`** (Scroll e historial) / **`Alt + z`** (Resize).
 
 ### 5. Git y Control de Versiones
 * **`gs`** (`git status`), **`gaa`** (`git add .`), **`gc`** (`git commit`), **`gp`** (`git push`).
@@ -133,7 +133,7 @@ OhMyConfig/
 La documentación completa de este repositorio se compila y publica automáticamente en **GitHub Pages** mediante **VitePress** a través de GitHub Actions:
 
 ```text
-[Repositorio Local] ──(Push en docs/)──► [GitHub Actions CI/CD] ──► [GitHub Pages Web]
+[Repositorio Local] ──(Push en documentation/ o .vitepress/)──► [GitHub Actions CI/CD] ──► [GitHub Pages Web]
 ```
 
 Accedé a la documentación interactiva:  

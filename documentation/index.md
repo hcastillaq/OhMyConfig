@@ -22,7 +22,7 @@ features:
     details: Agente Pi ultra rápido en terminal, con instalación base mínima y extensiones opcionales para Compound Engineering (CE), subagentes y memoria.
   - icon: 🛠️
     title: Neovim como IDE Principal
-    details: Motor LazyVim modular en Lua con LSP, autocompletado ultra veloz (Blink.cmp), GitLens, Treesitter y generación de docstrings.
+    details: Motor LazyVim modular en Lua con LSP, autocompletado ultra veloz (Blink.cmp), GitSigns, Treesitter y generación de docstrings.
   - icon: 🪟
     title: Multiplexor Zellij
     details: Barra de estado unificada de 1 línea con zjstatus.wasm local, marcos de alto contraste en Cyan y navegación directa con Alt.

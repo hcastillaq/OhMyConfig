@@ -6,6 +6,8 @@ OhMyConfig utiliza el núcleo de **LazyVim** como motor base de alto rendimiento
 config/nvim/
 ├── init.lua                      # Entrada principal (Bootstrap de LazyVim)
 ├── lazyvim.json                  # Registro de módulos y lenguajes activos (LazyExtras)
+├── colors/
+│   └── static-noise.lua           # Esquema de color propio
 └── lua/
     ├── config/
     │   ├── options.lua           # Opciones nativas (números híbridos, undo persistente, tabs)
@@ -13,9 +15,10 @@ config/nvim/
     │   ├── autocmds.lua          # Eventos y hooks personalizados
     │   └── lazy.lua              # Bootstrap de LazyVim y carga de módulos
     └── plugins/
-        ├── colorscheme.lua       # Módulo Lua propio Static Noise con transparencia adaptativa
+        ├── colorscheme.lua       # Carga el esquema Static Noise
         ├── neo-tree.lua          # Símbolos limpios de estado de Git en el explorador
-        └── neogen.lua            # Generador de docstrings estructurados (JSDoc, TSDoc, LuaDoc)
+        ├── neogen.lua            # Generador de docstrings estructurados (JSDoc, TSDoc, LuaDoc)
+        └── which-key.lua         # Grupos y etiquetas de atajos
 ```
 
 ---
@@ -239,21 +242,16 @@ Cuando el editor resalta un error de tipado, un módulo no importado o una adver
   - **`<Space> + cc`** (o **`gcc`**): Comentar / Descomentar línea actual en modo normal.
   - **`<Space> + cc`** (o **`gc`** en visual): Comentar / Descomentar bloque seleccionado en modo visual.
   - **`<Space> + cb`**: Añadir una nueva línea comentada debajo de la actual.
-* **Manipulación de Envolturas (`mini.surround`):**
-  - **`gsa`**: Envolver palabra (`gsa` + `iw` + `"` $\rightarrow$ `"palabra"`).
-  - **`gsd`**: Borrar envoltura (`gsd"` sobre `"hola"` $\rightarrow$ `hola`).
-  - **`gsr`**: Reemplazar envoltura (`gsr'"` sobre `'texto'` $\rightarrow$ `"texto"`).
-
 ---
 
-## 9. GitLens y Control de Cambios en Vivo
+## 9. GitSigns y Control de Cambios en Vivo
 
 | Qué querés hacer | Atajo | Explicación |
 | :--- | :--- | :--- |
 | **Saltar al siguiente cambio de Git** | **`]c`** | Salta al próximo bloque modificado (*Next Hunk*) |
 | **Saltar al cambio anterior de Git** | **`[c`** | Salta al bloque modificado anterior (*Prev Hunk*) |
 | **Abrir Lazygit flotante** | **`<Space> + gg`** | Abre interfaz visual completa de Lazygit en Neovim |
-| **Ver Diff flotante de la línea** | **`<Space> + gp`** | Vista previa emergente de qué cambió |
+| **Ver Diff flotante de la línea** | **`<Space> + ghp`** | Vista previa emergente de qué cambió |
 | **Git Blame detallado en ventana** | **`<Space> + gb`** | Muestra el commit completo y autor |
 | **Alternar Git Blame en línea (Toggle)** | **`<Space> + gB`** | Activa / desactiva el texto al final de la línea |
 | **Ver Diff lado a lado contra HEAD** | **`<Space> + gd`** | Abre división lateral con diff de Git |

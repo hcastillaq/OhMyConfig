@@ -8,10 +8,10 @@ OhMyConfig combina un emulador acelerado por GPU, una shell interactiva, un gest
 
 Emulador de terminal nativo para macOS con aceleración por GPU (Metal):
 
-* **Desenfoque y Transparencia:** Configurado con *blur radius 20*, opacidad al 0.95 y sin marcos de ventana de macOS.
+* **Desenfoque y Transparencia:** Configurado con *blur radius 20*, opacidad al 0.90 y sin marcos de ventana de macOS.
 * **Tipografía:** JetBrains Mono Nerd Font con ligaduras de código habilitadas.
 * **Cursor:** Estilo bloque en color Cyan Static Noise (`#72EAD5`).
-* **Selección:** Fondo atenuado de alto contraste (`#193C3B` / `#252A38`) con texto marfil (`#E6E2D6`). Consulta `documentation/colores.md` para los roles y extensiones disponibles.
+* **Selección:** Fondo atenuado de alto contraste (`#253A43`) con texto marfil (`#E6E2D6`). Consulta `documentation/colores.md` para los roles y extensiones disponibles.
 
 ---
 

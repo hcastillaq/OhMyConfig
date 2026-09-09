@@ -8,14 +8,15 @@ Referencia rápida de todos los alias, herramientas y atajos disponibles en **Oh
 
 | Alias / Atajo | Comando Real | Descripción |
 | :--- | :--- | :--- |
-| **`v`** | `nvim` | Editor principal Neovim Static Noise |
+| **`cheat`** / **`ayuda`** | `omc` | Alias para abrir la ayuda de la CLI |
+| **`v`** / **`vi`** / **`vim`** | `nvim` | Editor principal Neovim Static Noise |
 | **`zj`** | `zellij` | Multiplexor de terminal con barra Static Noise |
 | **`rg <patron>`** | `ripgrep` | Búsqueda de texto en archivos en milisegundos |
 | **`fd <nombre>`** | `fd` | Búsqueda moderna de archivos y carpetas |
 | **`sd 'old' 'new'`**| `sd` | Reemplazo intuitivo de texto en archivos |
 | **`cd <carpeta>`** | `zoxide (z)` | Salto inteligente a carpetas frecuentes |
 | **`zi`** | `zoxide (zi)` | Selector interactivo de carpetas con FZF |
-| **`..` / `...`** | `z ..` / `z ../..` | Subir 1 o 2 niveles de carpetas |
+| **`..` / `...` / `....`** | `z ..` / `z ../..` / `z ../../..` | Subir 1, 2 o 3 niveles de carpetas |
 | **`-`** | `z -` | Regresar al directorio previo |
 | **`Ctrl + r`** | `atuin search` | Historial SQLite con buscador difuso y tiempos |
 | **`Ctrl + t`** | `fzf (fd files)` | Búsqueda difusa de archivos en la terminal |
@@ -24,6 +25,7 @@ Referencia rápida de todos los alias, herramientas y atajos disponibles en **Oh
 | **`yz`** | `yazi` | File manager directo |
 | **`ls`** | `eza --icons` | Lista limpia con íconos |
 | **`ll`** | `eza -la --icons` | Lista detallada completa |
+| **`la`** | `eza -a --icons` | Lista archivos ocultos |
 | **`tree`** | `eza --tree --icons` | Estructura en árbol visual |
 | **`cat`** | `bat --style=plain` | Visor con sintaxis coloreada Static Noise |
 | **`btm`** | `bottom` | Monitor interactivo de sistema (CPU/RAM/Discos) |
@@ -31,7 +33,7 @@ Referencia rápida de todos los alias, herramientas y atajos disponibles en **Oh
 | **`procs`** | `procs` | Visor de procesos moderno con `--port` y `--tree` |
 | **`tokei`** | `tokei` | Estadísticas y conteo de líneas de código |
 | **`xh`** | `xh` | Cliente HTTP veloz para probar endpoints |
-| **`jqp`** | `jqp` | Playground interactivo para filtros de JQ |
+| **`jqp`** / **`jqplay`** | `jqp` | Playground interactivo para filtros de JQ |
 | **`lazydocker`** | `lazydocker` | Panel visual interactivo para Docker |
 | **`k9s`** | `k9s` | Panel visual interactivo para Kubernetes |
 | **`kubectx / kubens`**| `kubectx / kubens` | Cambiar de contexto / namespace en K8s |
@@ -126,7 +128,7 @@ Referencia rápida de todos los alias, herramientas y atajos disponibles en **Oh
 | **`<Space> + pm`** | Normal | Abrir panel `:Mason` de servidores y herramientas |
 | **`gcc`** / **`gc`** | Normal / Visual | Comentar línea o bloque seleccionado de código |
 | **`<Space> + gg`** | Normal | Abrir interfaz visual de Lazygit en ventana flotante |
-| **`<Space> + gp`** | Normal | Vista previa flotante del Diff de Git |
+| **`<Space> + ghp`** | Normal | Vista previa flotante del Diff de Git |
 | **`<Space> + gb`** / **`gB`** | Normal | Git Blame en ventana / alternar en línea |
 | **`<Space> + gd`** | Normal | Ver Diff lado a lado contra HEAD |
 | **`]c`** / **`[c`** | Normal | Siguiente / Anterior cambio de Git (Hunk) |

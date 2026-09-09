@@ -73,7 +73,7 @@ OhMyConfig sustituye las herramientas tradicionales de Unix por utilidades de ú
 * `tree`: Visualización de carpetas en árbol con íconos (`eza --tree`).
 
 ### **bat (`cat`) — Visor de Archivos con Sintaxis**
-* `cat <archivo>`: Visor con sintaxis coloreada Static Noise, marcas de Git y números de línea.
+* `cat <archivo>`: Visor con sintaxis coloreada Static Noise en formato plano.
 
 ### **glow (`md`) — Renderizador de Markdown**
 * `md README.md`: Lee archivos Markdown con formato enriquecido en la consola.
