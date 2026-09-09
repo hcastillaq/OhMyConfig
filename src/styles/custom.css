@@ -7,8 +7,8 @@
   --sn-base: #0A0D15;
   --sn-raised: #121622;
   --sn-overlay: #181C2A;
-  --sn-border: rgba(255, 255, 255, 0.06);
-  --sn-border-focus: rgba(114, 234, 213, 0.4);
+  --sn-border: rgba(255, 255, 255, 0.08);
+  --sn-border-focus: rgba(114, 234, 213, 0.45);
 
   --sn-text: #E2E8F0;
   --sn-text-muted: #94A3B8;
@@ -41,7 +41,11 @@
   --sl-color-bg-nav: rgba(10, 13, 22, 0.45);
   --sl-color-bg-sidebar: rgba(10, 13, 22, 0.38);
   --sl-color-hairline: var(--sn-border);
-  --sl-color-hairline-light: rgba(255, 255, 255, 0.03);
+  --sl-color-hairline-light: rgba(255, 255, 255, 0.04);
+
+  /* Sistema de Dimensiones y Espacios Amplios */
+  --sl-content-width: 52rem;
+  --sl-sidebar-width: 17.5rem;
 
   /* Sistema Dual de Tipografías */
   --sl-font-system: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -53,7 +57,7 @@
   --ec-codeColor: var(--sn-text);
   --ec-uiBg: #0D111A;
   --ec-uiFg: var(--sn-text-muted);
-  --ec-brdCol: rgba(255, 255, 255, 0.07);
+  --ec-brdCol: rgba(255, 255, 255, 0.08);
   --ec-tabBg: #0D111A;
   --ec-tabActBg: #141824;
   --ec-tabActFg: var(--sn-cyan);
@@ -77,7 +81,124 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* TIPOGRAFÍA ARTÍSTICA PARA ENCABEZADOS (Space Grotesk) - Sin líneas invasivas */
+/* ========================================================= */
+/* ESTRUCTURA Y NAVEGACIÓN (LÍNEAS SUTILES, CERO DOBLE BORDE) */
+/* ========================================================= */
+
+/* Header con cristal y línea sutil inferior */
+header.header {
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  background: rgba(10, 13, 22, 0.45) !important;
+  border-bottom: 1px solid var(--sn-border) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Eliminar el contenedor padre para evitar el doble borde */
+nav.sidebar {
+  border: none !important;
+  border-right: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Sidebar real con un ÚNICO borde sutil de separación */
+.sidebar-pane,
+sl-sidebar-pane {
+  backdrop-filter: blur(20px) saturate(170%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(170%) !important;
+  background: rgba(10, 13, 22, 0.4) !important;
+  border: none !important;
+  border-right: 1px solid var(--sn-border) !important;
+  border-inline-end: 1px solid var(--sn-border) !important;
+  box-shadow: none !important;
+}
+
+.sidebar-content {
+  background: transparent !important;
+  border: none !important;
+  padding: 1.5rem 1.25rem 2rem 1.25rem !important;
+}
+
+/* Links del Sidebar */
+.sidebar a {
+  font-size: 0.9rem !important;
+  padding: 0.45rem 0.75rem !important;
+  border-radius: 5px;
+  transition: all 0.15s ease;
+}
+
+.sidebar a[aria-current="page"] {
+  background: rgba(114, 234, 213, 0.08) !important;
+  color: var(--sn-cyan) !important;
+  border-left: 2px solid var(--sn-cyan);
+  font-weight: 600;
+}
+
+.sidebar a:hover:not([aria-current="page"]) {
+  color: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Sidebar derecho (TOC - Table of Contents) con línea sutil de separación */
+aside.right-sidebar-container,
+.right-sidebar-container {
+  border: none !important;
+}
+
+.right-sidebar,
+.right-sidebar-panel {
+  background: rgba(10, 13, 22, 0.3) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: none !important;
+  border-left: 1px solid var(--sn-border) !important;
+  border-inline-start: 1px solid var(--sn-border) !important;
+  padding: 2rem 1.5rem !important;
+}
+
+starlight-toc a[aria-current="true"] {
+  color: var(--sn-cyan) !important;
+  font-weight: 600;
+}
+
+starlight-toc a:hover {
+  color: #FFFFFF !important;
+}
+
+/* ========================================================= */
+/* ESPACIADO Y SEPARACIÓN DEL CONTENIDO CENTRAL             */
+/* ========================================================= */
+
+/* Evitar que el contenido quede pegado al TOC derecho */
+@media (min-width: 72rem) {
+  [data-has-sidebar][data-has-toc] .main-pane {
+    padding-inline-end: 4rem !important;
+  }
+}
+
+.main-pane {
+  padding-block: 2.5rem 5rem !important;
+  padding-inline-start: 2rem !important;
+  padding-inline-end: 2rem !important;
+}
+
+.content-panel {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.sl-container {
+  max-width: var(--sl-content-width) !important;
+  margin-inline: 0 auto !important;
+}
+
+/* ========================================================= */
+/* TIPOGRAFÍA Y RITMO VERTICAL CALIBRADO                     */
+/* ========================================================= */
+
 h1, h2, h3, h4, h5, h6,
 .hero h1,
 .card-title,
@@ -93,6 +214,7 @@ h1, h2, h3, h4, h5, h6,
 h1 {
   font-size: clamp(2.2rem, 3.5vw, 3rem) !important;
   line-height: 1.2 !important;
+  margin-top: 0.5rem !important;
   margin-bottom: 1.5rem !important;
 }
 
@@ -101,7 +223,6 @@ h2 {
   line-height: 1.25 !important;
   margin-top: 3.5rem !important;
   margin-bottom: 1.2rem !important;
-  /* Eliminada la línea rígida inferior para que el contenido respire */
   border-bottom: none !important;
   padding-bottom: 0 !important;
 }
@@ -112,14 +233,19 @@ h3 {
   margin-bottom: 0.75rem !important;
 }
 
-/* Párrafos y prosa: amplios, limpios y descansados */
+/* Párrafos legibles y confortables */
 .sl-markdown-content p,
 .sl-markdown-content li {
   font-family: var(--sl-font-system);
   font-size: 1.02rem;
   line-height: 1.8;
   color: var(--sn-text);
-  max-width: 68ch;
+  max-width: var(--sl-content-width);
+  margin-bottom: 1.4rem;
+}
+
+.sl-markdown-content li {
+  margin-bottom: 0.4rem;
 }
 
 .sl-markdown-content strong {
@@ -127,82 +253,12 @@ h3 {
   font-weight: 600;
 }
 
-/* Separador horizontal orgánico y suave (sin cortes bruscos) */
+/* Separador horizontal orgánico */
 .sl-markdown-content hr {
   border: none !important;
   height: 1px !important;
   background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%) !important;
   margin: 3.5rem 0 !important;
-}
-
-/* ========================================================= */
-/* NAVEGACIÓN Y CABINA (CRISTAL SUTIL Y ELEGANTE)           */
-/* ========================================================= */
-
-/* Header con cristal translúcido suave */
-header.header {
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
-  background: rgba(10, 13, 22, 0.45) !important;
-  border-bottom: 1px solid var(--sn-border) !important;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3) !important;
-}
-
-/* Sidebar de cristal real */
-nav.sidebar,
-.sidebar-pane,
-.sidebar-content,
-sl-sidebar-pane {
-  backdrop-filter: blur(20px) saturate(170%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(170%) !important;
-  background: rgba(10, 13, 22, 0.38) !important;
-  border-right: 1px solid var(--sn-border) !important;
-  box-shadow: none !important;
-}
-
-/* Links activos y hover en el Sidebar */
-.sidebar a[aria-current="page"] {
-  background: rgba(114, 234, 213, 0.08) !important;
-  color: var(--sn-cyan) !important;
-  border-left: 2px solid var(--sn-cyan);
-  border-radius: 4px;
-  font-weight: 600;
-}
-
-.sidebar a:hover:not([aria-current="page"]) {
-  color: #FFFFFF !important;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 4px;
-}
-
-/* Tabla de Contenidos a la derecha */
-aside.right-sidebar-container,
-.right-sidebar,
-.right-sidebar-panel,
-starlight-toc {
-  background: rgba(10, 13, 22, 0.3) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  border-left: 1px solid var(--sn-border) !important;
-}
-
-starlight-toc a[aria-current="true"] {
-  color: var(--sn-cyan) !important;
-  font-weight: 600;
-}
-
-/* ========================================================= */
-/* ÁREA DE LECTURA NATURAL (SIN ENJAULAR EN CAJAS MÚLTIPLES) */
-/* ========================================================= */
-.content-panel {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-
-.main-pane {
-  padding-block: 2.5rem 5rem !important;
 }
 
 /* Enlaces del contenido */
