@@ -18,8 +18,8 @@ hero:
 
 features:
   - icon: 🤖
-    title: Ecosistema AI & LazyPi
-    details: Agente Pi ultra rápido en terminal con Compound Engineering (CE), subagentes en paralelo, planificación guiada y memoria Markdown offline.
+    title: Ecosistema AI & Pi
+    details: Agente Pi ultra rápido en terminal, con instalación base mínima y extensiones opcionales para Compound Engineering (CE), subagentes y memoria.
   - icon: 🛠️
     title: Neovim como IDE Principal
     details: Motor LazyVim modular en Lua con LSP, autocompletado ultra veloz (Blink.cmp), GitLens, Treesitter y generación de docstrings.

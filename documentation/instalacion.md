@@ -118,17 +118,27 @@ Actualiza Homebrew, todas las fórmulas/casks instalados y el agente `pi` (npm g
 
 ---
 
-### `omc dev` — Gestión del Agente Pi & Suite LazyPi
+### `omc dev` — Gestión del Agente Pi
 
-Instala el agente base **`pi`** y el catálogo oficial completo de **LazyPi** ([lazypi.org](https://lazypi.org)) con 17 extensiones curadas para desarrollo autónomo, subagentes, diagnósticos LSP y memoria offline.
+Instala únicamente el agente base **`pi`**. Las extensiones y paquetes adicionales de Pi son opcionales y se agregan bajo demanda con los comandos nativos de Pi.
 
 ```bash
-./omc dev              # Instala pi y todo el catálogo de LazyPi (Core + Optional)
-./omc dev status       # Diagnóstico de salud y estado de las 17 extensiones
-./omc dev update       # Actualiza el binario de pi y todas las extensiones
+./omc dev              # Instala sólo el CLI base de Pi
+./omc dev status       # Muestra la versión de Pi y los paquetes instalados
+./omc dev update       # Actualiza sólo el CLI base de Pi
 ./omc dev doctor       # Chequeo de salud del entorno (Node, git, auth, settings)
-./omc dev remove       # Selector interactivo para desinstalar extensiones
+./omc dev remove       # Ayuda para administrar extensiones con pi remove
 ```
+
+Para consultar e instalar extensiones opcionales:
+
+```bash
+pi list
+pi install <paquete>
+pi remove <paquete>
+```
+
+Consultá [Ecosistema AI & Coding Agents](./ai.md) para ver los paquetes opcionales recomendados y cuándo usarlos.
 
 ---
 
@@ -201,7 +211,8 @@ modules=core terminal editor search cli devops ai
    mise use -g go@latest
    ```
 3. **Abrir Ghostty** para disfrutar del renderizado GPU y el tema Tokyonight completo.
-4. **Instalar pi y la suite oficial LazyPi (Core + Optional):**
+4. **Instalar Pi base y añadir extensiones sólo si las necesitás:**
    ```bash
    ./omc dev
+   # Opcional: pi install <paquete>
    ```
