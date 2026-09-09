@@ -114,7 +114,7 @@ OhMyConfig/
 
 ### 3.4 Terminal Multiplexer (`config/zellij/`)
 - **Zellij**: Modern Rust multiplexer configured with Static Noise palette and `default_layout "default"`.
-- **Active Pane High-Contrast Focus**: Active focused pane is styled in radiant Cyan (`#7dcfff`) with Blue title bar (`#7aa2f7`), while inactive panes remain in subtle dark slate (`#292e42`).
+- **Active Pane High-Contrast Focus**: Active focused pane is styled in radiant Cyan (`#72EAD5`) with Blue title bar (`#83BFFF`), while inactive panes remain in subtle dark slate (`#343A4A`).
 - **Direct Navigation**: Seamless pane focus switching with `Alt + hjkl` (left, down, up, right), tab switching with `Alt + [` / `Alt + ]`, and direct tab jumps with `Alt + 1..9`.
 - **Move / Swap Panes (`Ctrl + h`)**: Physical pane reordering and swapping via `Ctrl + h` (Move mode) with `h/j/k/l` or `Tab`.
 - **Layout & Status Bar Architecture (`layouts/default.kdl` + `plugins/zjstatus.wasm`)**:

@@ -98,46 +98,48 @@ alias ayuda="omc"
 
 # Eza (Reemplazo moderno de ls)
 alias ls="eza --icons --group-directories-first"
-alias ll="eza -la --icons --group-directories-first --git"
-alias lt="eza --tree --level=2 --icons"
+alias ll="eza -la --icons --group-directories-first"
+alias la="eza -a --icons --group-directories-first"
+alias tree="eza --tree --icons"
 
 # Bat (Reemplazo moderno de cat)
-alias cat="bat --paging=never"
+alias cat="bat --style=plain"
 
-# Dust (Reemplazo moderno de du)
-alias du="dust"
+# Git (Static Noise visual log)
+alias g="git"
+alias gs="git status"
+alias gc="git commit"
+alias gch="git checkout"
+alias gd="git diff"
+alias gl="git log --graph --pretty=format:'%C(bold #72EAD5)%h%C(reset) - %C(bold #C2A7FF)%d%C(reset) %C(#E6E2D6)%s%C(reset) %C(#9299AE)(%cr)%C(reset) %C(bold #83BFFF)<%an>%C(reset)' --abbrev-commit --date=relative"
+alias glog="git log --graph --all --pretty=format:'%C(bold #72EAD5)%h%C(reset) - %C(bold #C2A7FF)%d%C(reset) %C(#E6E2D6)%s%C(reset) %C(#9299AE)(%cr)%C(reset) %C(bold #83BFFF)<%an>%C(reset)' --abbrev-commit --date=relative"
+alias glp="git log -p"                                      # Log completo con diffs coloreados vía Delta
+alias gp="git push"
+alias gaa="git add ."
+alias of="onefetch"                                         # Resumen visual de repositorio Git
 
-# Zellij (Multiplexor moderno)
+# TUI & Herramientas
+alias lg="lazygit"
 alias zj="zellij"
+alias yz="yazi"
+alias du="dust"
+alias btm="bottom"
+alias md="glow"
 
-# JQP (Playground interactivo de jq)
-alias jqplay="jqp"
-
-# Neovim (Editor de texto)
+# Editor
 alias v="nvim"
 alias vi="nvim"
 alias vim="nvim"
 
 # Zoxide (Navegación inteligente)
-alias ..="z .."
-alias ...="z ../.."
+alias cd="z"
+abbr -a .. "z .."
+abbr -a ... "z ../.."
+abbr -a .... "z ../../.."
 alias -="cd -"
 
-# Atajos rápidos de Git
-abbr -a g git
-abbr -a gs "git status -sb"
-abbr -a ga "git add"
-abbr -a gc "git commit -m"
-abbr -a gp "git push"
-abbr -a gl "git pull"
-abbr -a gd "git diff"
-abbr -a gco "git checkout"
-abbr -a gb "git branch"
-abbr -a glog "git log --oneline --graph --decorate"
-abbr -a glp "git log --oneline --graph --decorate -n 10"
-
-# Abrir archivos/carpetas en Neovim con FZF
-abbr -a of "nvim (fzf)"
+# JQP (Playground interactivo de jq)
+alias jqplay="jqp"
 
 
 # --- 5. INICIALIZACIÓN DE HERRAMIENTAS DINÁMICAS ---

@@ -145,6 +145,16 @@ keybinds clear-defaults=true {
         bind "o" { SearchToggleOption "WholeWord"; }
     }
 
+    entersearch {
+        bind "Esc" { SwitchToMode "Scroll"; }
+        bind "Enter" { SwitchToMode "Search"; }
+    }
+
+    renametab {
+        bind "Esc" { UndoRenameTab; SwitchToMode "Normal"; }
+        bind "Enter" { SwitchToMode "Normal"; }
+    }
+
     session {
         bind "Esc" "Enter" "Alt o" { SwitchToMode "Normal"; }
         bind "d" { Detach; }
