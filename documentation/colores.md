@@ -7,8 +7,6 @@ Armé el tema visual **Static Noise** porque estaba cansado de tener un entorno 
 
 Static Noise es el **sistema cromático y tema visual oficial** de OhMyConfig. Diseñado específicamente para programar muchas horas sin fatiga visual en macOS: fondos abisales neutrales (`#0B0D13` y `#11141D`), texto nítido en marfil frío (`#EDEDEA`) y acentos eléctricos de alto contraste en Cyan (`#72EAD5`), Azul (`#83BFFF`) y Púrpura (`#C2A7FF`).
 
-> **Nota sobre el origen:** Static Noise reemplaza de forma definitiva a Tokyonight en todo el entorno OhMyConfig para garantizar que Neovim, Zellij, Ghostty, Fish, Lazygit, el agente Pi y esta documentación compartan exactamente la misma identidad visual.
-
 ---
 
 ## 1. Tokens canónicos
@@ -96,7 +94,7 @@ Static Noise está calibrado para superar los criterios WCAG 2.1 AA en interface
 - **Texto normal:** `text` (`#E6E2D6`) sobre `base` (`#141720`) provee un ratio de contraste superior a **11:1** (superando el mínimo de 4.5:1).
 - **Texto auxiliar:** `muted` (`#9299AE`) sobre `base` provee un ratio superior a **5.2:1**.
 - **Indicadores de foco:** `cyan` (`#72EAD5`) sobre fondos oscuros proporciona más de **9.5:1** de contraste frente a elementos inactivos (`border`).
-- **Redundancia no cromática (R11):** Todo estado crítico debe acompañarse de un símbolo o etiqueta de texto inequívoca (`✓`, `▲`, `✕`, `●`, `[ERROR]`, `[WARN]`), garantizando que la legibilidad no dependa únicamente de la percepción del color.
+- **Redundancia no cromática:** Todo estado crítico debe acompañarse de un símbolo o etiqueta de texto inequívoca (`✓`, `▲`, `✕`, `●`, `[ERROR]`, `[WARN]`), garantizando que la legibilidad no dependa únicamente de la percepción del color.
 
 ---
 
@@ -142,16 +140,3 @@ Para integraciones web (Astro, Starlight, CSS) o herramientas compatibles con va
   --sn-red-dim: #48262E;
 }
 ```
-
----
-
-## 6. Checklist de evaluación para nuevas herramientas
-
-Al incorporar una nueva herramienta al catálogo de OhMyConfig, verifica los siguientes puntos:
-
-- [ ] ¿El fondo principal utiliza `base` (`#141720`) o hereda la superficie neutral del terminal?
-- [ ] ¿El cursor, borde activo o indicador de foco usa estrictamente `cyan` (`#72EAD5`)?
-- [ ] ¿Los bordes inactivos usan `border` (`#343A4A`) y no compiten con el panel enfocado?
-- [ ] ¿Los fondos de selección o diffs usan variantes atenuadas (`selection` o `*Dim`), evitando acentos brillantes en áreas grandes?
-- [ ] ¿Las alertas críticas (errores/advertencias) combinan color con un glifo o etiqueta textual?
-- [ ] ¿Se respetó el formato de color nativo de la herramienta (hex con o sin `#`, RGB o ANSI) sin inventar nuevos tonos intermedios?
