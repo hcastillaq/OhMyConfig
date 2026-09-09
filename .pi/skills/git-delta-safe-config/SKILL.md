@@ -3,28 +3,22 @@ name: git-delta-safe-config
 description: "Trigger: configurar git, git alias, delta config, lazygit config, delta theme, git delta safe. Garantiza la configuración no destructiva de Git y Delta mediante include.path sin tocar credenciales."
 ---
 
-# Git & Delta Safe Config Skill
+# Git & Delta Safe Configuration Skill
 
-Esta skill define las reglas de seguridad y diseño modular para la configuración de Git, Git-Delta y Lazygit en **OhMyConfig**.
+Esta skill garantiza la configuración segura, no destructiva y modular de Git, Delta y Lazygit dentro del ecosistema OhMyConfig.
 
 ---
 
-## Principio de No Destructividad
+## Principio Fundamental: `include.path`
 
-1. **Invariante de Credenciales:**
-   - La configuración de OhMyConfig **NUNCA** debe sobreescribir ni modificar directamente el archivo `~/.gitconfig` del usuario.
-   - El nombre (`user.name`), correo electrónico (`user.email`), claves de firmado GPG/SSH (`user.signingkey`) y tokens de autenticación de GitHub deben permanecer intactos y privados.
-
-2. **Patrón `include.path`:**
-   - Toda la configuración de estilos Static Noise, Delta pager y aliases vive exclusivamente dentro del archivo versionado:
-     ```text
-     config/git/delta.gitconfig
-     ```
-   - El instalador `deploy.sh` vincula este archivo agregando una directiva de inclusión en `~/.gitconfig`:
-     ```ini
-     [include]
-         path = ~/.config/git/delta.gitconfig
-     ```
+- **NUNCA** sobreescribir directamente `~/.gitconfig`.
+- Toda la configuración de estilos Static Noise, Delta pager y aliases vive exclusivamente dentro del archivo versionado:
+  `config/git/delta.gitconfig`
+- El instalador (`cli/commands/install.sh`) enlaza este archivo en el `~/.gitconfig` del usuario mediante:
+  ```bash
+  git config --global --add include.path "~/.config/git/delta.gitconfig"
+  ```
+- Este enfoque preserva credenciales de usuario (`user.name`, `user.email`, llaves SSH/GPG) y configuraciones previas intactas.
 
 ---
 
@@ -41,20 +35,20 @@ Esta skill define las reglas de seguridad y diseño modular para la configuraci�
     navigate = true
     line-numbers = true
     side-by-side = false
-    syntax-theme = TwoDark
-    minus-style = syntax "#3b222c"
-    minus-emph-style = syntax "#702d3d"
-    plus-style = syntax "#1c333b"
-    plus-emph-style = syntax "#2e5c54"
-    line-numbers-minus-style = "#f7768e"
-    line-numbers-plus-style = "#9ece6a"
-    line-numbers-left-style = "#7a88cf"
-    line-numbers-right-style = "#7a88cf"
-    line-numbers-zero-style = "#565f89"
+    syntax-theme = ansi
+    minus-style = syntax "#48262E"
+    minus-emph-style = syntax "#6B2B38"
+    plus-style = syntax "#293B2C"
+    plus-emph-style = syntax "#3A5C3E"
+    line-numbers-minus-style = "#EF7785"
+    line-numbers-plus-style = "#A3D98B"
+    line-numbers-left-style = "#9299AE"
+    line-numbers-right-style = "#9299AE"
+    line-numbers-zero-style = "#62697B"
 
 [alias]
-    lg = "log --graph --pretty=format:'%C(bold #7dcfff)%h%C(reset) - %C(bold #c099ff)%d%C(reset) %C(#e0e6fc)%s%C(reset) %C(#7a88cf)(%cr)%C(reset) %C(bold #7aa2f7)<%an>%C(reset)' --abbrev-commit --date=relative"
-    lga = "log --graph --all --pretty=format:'%C(bold #7dcfff)%h%C(reset) - %C(bold #c099ff)%d%C(reset) %C(#e0e6fc)%s%C(reset) %C(#7a88cf)(%cr)%C(reset) %C(bold #7aa2f7)<%an>%C(reset)' --abbrev-commit --date=relative"
+    lg = "log --graph --pretty=format:'%C(bold #72EAD5)%h%C(reset) - %C(bold #C2A7FF)%d%C(reset) %C(#E6E2D6)%s%C(reset) %C(#9299AE)(%cr)%C(reset) %C(bold #83BFFF)<%an>%C(reset)' --abbrev-commit --date=relative"
+    lga = "log --graph --all --pretty=format:'%C(bold #72EAD5)%h%C(reset) - %C(bold #C2A7FF)%d%C(reset) %C(#E6E2D6)%s%C(reset) %C(#9299AE)(%cr)%C(reset) %C(bold #83BFFF)<%an>%C(reset)' --abbrev-commit --date=relative"
 ```
 
 ---
@@ -64,15 +58,15 @@ Esta skill define las reglas de seguridad y diseño modular para la configuraci�
 Lazygit debe renderizar diffs usando el pager de Delta:
 ```yaml
 git:
-  paging:
-    colorArg: always
-    pager: delta --dark --paging=never
+  diffRenderers:
+    - colorArg: always
+      command: delta --dark --paging=never --line-numbers
 ```
 
 ---
 
-## Protocolo de Modificación
+## Procedimiento de Verificación
 
-1. Solo editar `config/git/delta.gitconfig` o `config/lazygit/config.yml`.
-2. Verificar con `git diff` interactivo y `git lg` que el renderizado de colores y números de línea sea impecable.
-3. Asegurar que ningún dato de autoría personal sea incluido en los archivos versionados.
+1. Verificar que `config/git/delta.gitconfig` contenga la sintaxis limpia de Delta sin información sensible.
+2. Ejecutar `git diff` o `git lg` para comprobar el renderizado correcto con sintaxis de Static Noise.
+3. Verificar que `git config --global --get-all include.path` contenga la referencia al archivo.

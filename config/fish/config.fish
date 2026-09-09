@@ -136,7 +136,7 @@ alias cd="z"
 abbr -a .. "z .."
 abbr -a ... "z ../.."
 abbr -a .... "z ../../.."
-alias -="cd -"
+abbr -a - "z -"
 
 # JQP (Playground interactivo de jq)
 alias jqplay="jqp"

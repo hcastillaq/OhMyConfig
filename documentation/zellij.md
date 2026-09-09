@@ -4,7 +4,7 @@ Zellij es un multiplexor de terminal moderno escrito en **Rust**, configurado en
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
-│ [Panel 1: Neovim] (Cyan Brillante #7dcfff)  │ [Panel 2: Tests / Logs] │
+│ [Panel 1: Neovim] (Cyan Static Noise #72EAD5) │ [Panel 2: Tests / Logs] │
 │                                             │                         │
 ├────────────────────────────────────────────────────────────────────────┤
 │ NORMAL │ 1: dev  2: git                     │ ⚡ session │ 🕒 14:30    │

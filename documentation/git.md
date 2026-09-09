@@ -30,7 +30,7 @@ OhMyConfig integra un stack completo para Git donde la terminal rápida, el moto
 ## 2. Visualización de Historial y Árboles de Commits
 
 ### `gl` — Árbol de commits de la rama actual
-Muestra el grafo de bifurcación, hash corto en azul (`#7aa2f7`), referencias de ramas/tags en púrpura (`#bb9af7`), mensaje en blanco, tiempo relativo en gris y autor en cyan.
+Muestra el grafo de bifurcación, hash corto en cyan (`#72EAD5`), referencias de ramas/tags en púrpura (`#C2A7FF`), mensaje en marfil (`#E6E2D6`), tiempo relativo en gris (`#9299AE`) y autor en azul (`#83BFFF`).
 ```bash
 gl
 ```
