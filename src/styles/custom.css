@@ -43,10 +43,6 @@
   --sl-color-hairline: var(--sn-border);
   --sl-color-hairline-light: rgba(255, 255, 255, 0.04);
 
-  /* Sistema de Dimensiones y Espacios Amplios */
-  --sl-content-width: 52rem;
-  --sl-sidebar-width: 17.5rem;
-
   /* Sistema Dual de Tipografías */
   --sl-font-system: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --sl-font-display: "Space Grotesk", "Inter", -apple-system, sans-serif;
@@ -82,7 +78,7 @@ body {
 }
 
 /* ========================================================= */
-/* ESTRUCTURA Y NAVEGACIÓN (LÍNEAS SUTILES, CERO DOBLE BORDE) */
+/* ESTRUCTURA Y NAVEGACIÓN (3 COLUMNAS PRESERVADAS NATIVAS)  */
 /* ========================================================= */
 
 /* Header con cristal y línea sutil inferior */
@@ -94,7 +90,7 @@ header.header {
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* Eliminar el contenedor padre para evitar el doble borde */
+/* Eliminar el contenedor padre nav para evitar el doble borde */
 nav.sidebar {
   border: none !important;
   border-right: none !important;
@@ -102,22 +98,23 @@ nav.sidebar {
   box-shadow: none !important;
 }
 
-/* Sidebar real con un ÚNICO borde sutil de separación */
+/* Sidebar izquierdo real con un ÚNICO borde sutil */
 .sidebar-pane,
 sl-sidebar-pane {
   backdrop-filter: blur(20px) saturate(170%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(170%) !important;
   background: rgba(10, 13, 22, 0.4) !important;
-  border: none !important;
-  border-right: 1px solid var(--sn-border) !important;
   border-inline-end: 1px solid var(--sn-border) !important;
+  border-right: 1px solid var(--sn-border) !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
   box-shadow: none !important;
 }
 
 .sidebar-content {
   background: transparent !important;
   border: none !important;
-  padding: 1.5rem 1.25rem 2rem 1.25rem !important;
 }
 
 /* Links del Sidebar */
@@ -140,22 +137,15 @@ sl-sidebar-pane {
   background: rgba(255, 255, 255, 0.04);
 }
 
-/* Sidebar derecho (TOC - Table of Contents) flotante y limpio, SIN bordes */
-aside.right-sidebar-container,
-.right-sidebar-container,
+/* Sidebar derecho (TOC - Table of Contents): SIN bordes, flotante y limpio */
 .right-sidebar,
-.right-sidebar-panel,
-starlight-toc,
-.right-sidebar:where(.astro-lrzkfocr),
-.right-sidebar-container:where(.astro-lrzkfocr) {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+.right-sidebar:where(.astro-lrzkfocr) {
   border: none !important;
   border-left: none !important;
   border-inline-start: none !important;
-  box-shadow: none !important;
-  padding: 2rem 1.5rem !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 starlight-toc a[aria-current="true"] {
@@ -168,12 +158,8 @@ starlight-toc a:hover {
 }
 
 /* ========================================================= */
-/* CENTRADO PERFECTO Y ESPACIADO DEL CONTENIDO              */
+/* ÁREA DE CONTENIDO: CENTRADO Y SEPARACIÓN DEL TOC DERECHO */
 /* ========================================================= */
-
-.main-pane {
-  padding-block: 2.5rem 5rem !important;
-}
 
 .content-panel {
   background: transparent !important;
@@ -182,15 +168,10 @@ starlight-toc a:hover {
   padding: 0 !important;
 }
 
-/* Centrado horizontal automático y equilibrado */
-.sl-container {
-  max-width: var(--sl-content-width) !important;
-  margin-inline: auto !important;
-}
-
+/* Separación interna para que el texto no se pegue al TOC derecho */
 @media (min-width: 72rem) {
-  [data-has-sidebar][data-has-toc] .main-pane {
-    padding-inline: 2.5rem !important;
+  .sl-container {
+    padding-inline-end: 3rem;
   }
 }
 
@@ -239,7 +220,6 @@ h3 {
   font-size: 1.02rem;
   line-height: 1.8;
   color: var(--sn-text);
-  max-width: var(--sl-content-width);
   margin-bottom: 1.4rem;
 }
 
