@@ -1,5 +1,5 @@
 # ==============================================================================
-# CONFIGURACIÓN MODULAR DE DELTA & ALIAS TOKYONIGHT PARA GIT
+# CONFIGURACIÓN MODULAR DE DELTA & ALIAS STATIC NOISE PARA GIT
 # ==============================================================================
 # Este archivo es incluido vía include.path en la configuración global de Git.
 # NO contiene credenciales de usuario ni datos personales.
@@ -14,20 +14,20 @@
     navigate = true
     line-numbers = true
     side-by-side = false
-    syntax-theme = TwoDark
-    minus-style = syntax "#4a212b"
-    minus-emph-style = syntax "#702d3d"
-    plus-style = syntax "#1d3b2a"
-    plus-emph-style = syntax "#2e5c54"
-    line-numbers-minus-style = "#f7768e"
-    line-numbers-plus-style = "#9ece6a"
-    line-numbers-left-style = "#9aa5ce"
-    line-numbers-right-style = "#9aa5ce"
-    line-numbers-zero-style = "#7a88cf"
+    syntax-theme = ansi
+    minus-style = syntax "#48262E"
+    minus-emph-style = syntax "#6B2B38"
+    plus-style = syntax "#293B2C"
+    plus-emph-style = syntax "#3A5C3E"
+    line-numbers-minus-style = "#EF7785"
+    line-numbers-plus-style = "#A3D98B"
+    line-numbers-left-style = "#9299AE"
+    line-numbers-right-style = "#9299AE"
+    line-numbers-zero-style = "#62697B"
 
 [alias]
-    lg = "log --graph --pretty=format:'%C(bold #7dcfff)%h%C(reset) - %C(bold #c099ff)%d%C(reset) %C(#e0e6fc)%s%C(reset) %C(#9aa5ce)(%cr)%C(reset) %C(bold #7aa2f7)<%an>%C(reset)' --abbrev-commit --date=relative"
-    lga = "log --graph --all --pretty=format:'%C(bold #7dcfff)%h%C(reset) - %C(bold #c099ff)%d%C(reset) %C(#e0e6fc)%s%C(reset) %C(#9aa5ce)(%cr)%C(reset) %C(bold #7aa2f7)<%an>%C(reset)' --abbrev-commit --date=relative"
+    lg = "log --graph --pretty=format:'%C(bold #72EAD5)%h%C(reset) - %C(bold #C2A7FF)%d%C(reset) %C(#E6E2D6)%s%C(reset) %C(#9299AE)(%cr)%C(reset) %C(bold #83BFFF)<%an>%C(reset)' --abbrev-commit --date=relative"
+    lga = "log --graph --all --pretty=format:'%C(bold #72EAD5)%h%C(reset) - %C(bold #C2A7FF)%d%C(reset) %C(#E6E2D6)%s%C(reset) %C(#9299AE)(%cr)%C(reset) %C(bold #83BFFF)<%an>%C(reset)' --abbrev-commit --date=relative"
 
 [merge]
     conflictstyle = diff3

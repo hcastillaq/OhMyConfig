@@ -4,7 +4,7 @@ layout {
         plugin location="file:~/.config/zellij/plugins/zjstatus.wasm" {
             // Layout general
             format_left   "{mode} {tabs}"
-            format_right  "#[bg=#181a24,fg=#7dcfff,bold] 󰊠 {session} #[bg=#24283b,fg=#e0e6fc] 󱑎 {datetime} "
+            format_right  "#[bg=#1B1F2A,fg=#72EAD5,bold]  {session} #[bg=#202532,fg=#E6E2D6]  {datetime} "
             format_space  " "
 
             format_hide_on_overlength "true"
@@ -12,29 +12,29 @@ layout {
 
             border_enabled  "false"
 
-            // Modos con estilo Tokyonight High-Contrast
-            mode_normal        "#[bg=#50f5ff,fg=#0f1016,bold] 󰕮 NORMAL #[bg=default,fg=default]"
-            mode_locked        "#[bg=#f7768e,fg=#0f1016,bold]  LOCKED #[bg=default,fg=default]"
-            mode_pane          "#[bg=#9ece6a,fg=#0f1016,bold] 󰙅 PANE #[bg=#24283b,fg=#9ece6a] 󰞔 #[fg=#7dcfff,bold]n#[fg=#c0caf5]:new #[fg=#7dcfff,bold]d#[fg=#c0caf5]:down #[fg=#7dcfff,bold]r#[fg=#c0caf5]:right #[fg=#f7768e,bold]x#[fg=#c0caf5]:close #[fg=#e0af68,bold]f#[fg=#c0caf5]:full #[fg=#bb9af7,bold]w#[fg=#c0caf5]:float #[fg=#7aa2f7,bold]z#[fg=#c0caf5]:frames #[bg=default,fg=default]"
-            mode_tab           "#[bg=#c099ff,fg=#0f1016,bold] 󰈔 TAB #[bg=#24283b,fg=#c099ff] 󰞔 #[fg=#7dcfff,bold]n#[fg=#c0caf5]:new #[fg=#f7768e,bold]x#[fg=#c0caf5]:close #[fg=#7dcfff,bold]h/l#[fg=#c0caf5]:move #[fg=#e0af68,bold]r#[fg=#c0caf5]:rename #[fg=#9ece6a,bold]s#[fg=#c0caf5]:sync #[bg=default,fg=default]"
-            mode_resize        "#[bg=#e0af68,fg=#0f1016,bold] 󰩨 RESIZE #[bg=#24283b,fg=#e0af68] 󰞔 #[fg=#7dcfff,bold]+/-#[fg=#c0caf5]:size #[fg=#7dcfff,bold]h/j/k/l#[fg=#c0caf5]:dir #[bg=default,fg=default]"
-            mode_scroll        "#[bg=#7dcfff,fg=#0f1016,bold] 󰈞 SCROLL #[bg=#24283b,fg=#7dcfff] 󰞔 #[fg=#7dcfff,bold]j/k#[fg=#c0caf5]:scroll #[fg=#7dcfff,bold]d/u#[fg=#c0caf5]:page #[fg=#e0af68,bold]s#[fg=#c0caf5]:search #[fg=#9ece6a,bold]e#[fg=#c0caf5]:edit #[bg=default,fg=default]"
-            mode_session       "#[bg=#ff9e64,fg=#0f1016,bold] 󱑎 SESSION #[bg=#24283b,fg=#ff9e64] 󰞔 #[fg=#f7768e,bold]d#[fg=#c0caf5]:detach #[fg=#7dcfff,bold]w#[fg=#c0caf5]:manager #[bg=default,fg=default]"
-            mode_move          "#[bg=#e0af68,fg=#0f1016,bold] 󰪹 MOVE #[bg=#24283b,fg=#e0af68] 󰞔 #[fg=#7dcfff,bold]h/j/k/l#[fg=#c0caf5]:move pane #[bg=default,fg=default]"
-            mode_search        "#[bg=#7dcfff,fg=#0f1016,bold] 󰍉 SEARCH #[bg=#24283b,fg=#7dcfff] 󰞔 #[fg=#7dcfff,bold]n/p#[fg=#c0caf5]:next/prev #[fg=#e0af68,bold]c#[fg=#c0caf5]:case #[fg=#9ece6a,bold]w#[fg=#c0caf5]:wrap #[bg=default,fg=default]"
-            mode_tmux          "#[bg=#ff9e64,fg=#0f1016,bold] 󰒋 TMUX #[bg=default,fg=default]"
+            // Modos con estilo Static Noise (Cian foco para normal, semántica de estados)
+            mode_normal        "#[bg=#72EAD5,fg=#0F1117,bold]  NORMAL #[bg=default,fg=default]"
+            mode_locked        "#[bg=#EF7785,fg=#0F1117,bold]  LOCKED #[bg=default,fg=default]"
+            mode_pane          "#[bg=#83BFFF,fg=#0F1117,bold]  PANE #[bg=#202532,fg=#83BFFF]  #[fg=#72EAD5,bold]n#[fg=#E6E2D6]:new #[fg=#72EAD5,bold]d#[fg=#E6E2D6]:down #[fg=#72EAD5,bold]r#[fg=#E6E2D6]:right #[fg=#EF7785,bold]x#[fg=#E6E2D6]:close #[fg=#EDD071,bold]f#[fg=#E6E2D6]:full #[fg=#C2A7FF,bold]w#[fg=#E6E2D6]:float #[fg=#83BFFF,bold]z#[fg=#E6E2D6]:frames #[bg=default,fg=default]"
+            mode_tab           "#[bg=#C2A7FF,fg=#0F1117,bold]  TAB #[bg=#202532,fg=#C2A7FF]  #[fg=#72EAD5,bold]n#[fg=#E6E2D6]:new #[fg=#EF7785,bold]x#[fg=#E6E2D6]:close #[fg=#72EAD5,bold]h/l#[fg=#E6E2D6]:move #[fg=#EDD071,bold]r#[fg=#E6E2D6]:rename #[fg=#A3D98B,bold]s#[fg=#E6E2D6]:sync #[bg=default,fg=default]"
+            mode_resize        "#[bg=#F3A261,fg=#0F1117,bold]  RESIZE #[bg=#202532,fg=#F3A261]  #[fg=#72EAD5,bold]+/-#[fg=#E6E2D6]:size #[fg=#72EAD5,bold]h/j/k/l#[fg=#E6E2D6]:dir #[bg=default,fg=default]"
+            mode_scroll        "#[bg=#A3D98B,fg=#0F1117,bold]  SCROLL #[bg=#202532,fg=#A3D98B]  #[fg=#72EAD5,bold]j/k#[fg=#E6E2D6]:scroll #[fg=#72EAD5,bold]d/u#[fg=#E6E2D6]:page #[fg=#EDD071,bold]s#[fg=#E6E2D6]:search #[fg=#A3D98B,bold]e#[fg=#E6E2D6]:edit #[bg=default,fg=default]"
+            mode_session       "#[bg=#F08BC2,fg=#0F1117,bold]  SESSION #[bg=#202532,fg=#F08BC2]  #[fg=#EF7785,bold]d#[fg=#E6E2D6]:detach #[fg=#72EAD5,bold]w#[fg=#E6E2D6]:manager #[bg=default,fg=default]"
+            mode_move          "#[bg=#EDD071,fg=#0F1117,bold]  MOVE #[bg=#202532,fg=#EDD071]  #[fg=#72EAD5,bold]h/j/k/l#[fg=#E6E2D6]:move pane #[bg=default,fg=default]"
+            mode_search        "#[bg=#A3D98B,fg=#0F1117,bold]  SEARCH #[bg=#202532,fg=#A3D98B]  #[fg=#72EAD5,bold]n/p#[fg=#E6E2D6]:next/prev #[fg=#EDD071,bold]c#[fg=#E6E2D6]:case #[fg=#A3D98B,bold]w#[fg=#E6E2D6]:wrap #[bg=default,fg=default]"
+            mode_tmux          "#[bg=#F3A261,fg=#0F1117,bold]  TMUX #[bg=default,fg=default]"
 
-            // Pestañas (con píldora resaltada para la activa)
-            tab_normal              "#[bg=#181a24,fg=#9aa5ce] {index} #[bg=#24283b,fg=#c0caf5] {name} #[bg=default,fg=default] "
-            tab_normal_fullscreen   "#[bg=#181a24,fg=#9aa5ce] {index} #[bg=#24283b,fg=#c0caf5] {name} #[fg=#c099ff]󰊓 #[bg=default,fg=default] "
-            tab_normal_sync         "#[bg=#181a24,fg=#9aa5ce] {index} #[bg=#24283b,fg=#c0caf5] {name} #[fg=#9ece6a]󰓦 #[bg=default,fg=default] "
+            // Pestañas (con píldora cian/cyanDim para la activa)
+            tab_normal              "#[bg=#1B1F2A,fg=#9299AE] {index} #[bg=#202532,fg=#C9C8C2] {name} #[bg=default,fg=default] "
+            tab_normal_fullscreen   "#[bg=#1B1F2A,fg=#9299AE] {index} #[bg=#202532,fg=#C9C8C2] {name} #[fg=#C2A7FF] #[bg=default,fg=default] "
+            tab_normal_sync         "#[bg=#1B1F2A,fg=#9299AE] {index} #[bg=#202532,fg=#C9C8C2] {name} #[fg=#A3D98B] #[bg=default,fg=default] "
             
-            tab_active              "#[bg=#354b8a,fg=#ffffff,bold] {index} #[bg=#50f5ff,fg=#0f1016,bold] {name} #[bg=default,fg=default] "
-            tab_active_fullscreen   "#[bg=#354b8a,fg=#ffffff,bold] {index} #[bg=#c099ff,fg=#0f1016,bold] {name} 󰊓 #[bg=default,fg=default] "
-            tab_active_sync         "#[bg=#354b8a,fg=#ffffff,bold] {index} #[bg=#9ece6a,fg=#0f1016,bold] {name} 󰓦 #[bg=default,fg=default] "
+            tab_active              "#[bg=#193C3B,fg=#E6E2D6,bold] {index} #[bg=#72EAD5,fg=#0F1117,bold] {name} #[bg=default,fg=default] "
+            tab_active_fullscreen   "#[bg=#193C3B,fg=#E6E2D6,bold] {index} #[bg=#C2A7FF,fg=#0F1117,bold] {name}  #[bg=default,fg=default] "
+            tab_active_sync         "#[bg=#193C3B,fg=#E6E2D6,bold] {index} #[bg=#A3D98B,fg=#0F1117,bold] {name}  #[bg=default,fg=default] "
 
             // Hora
-            datetime          "#[fg=#e0e6fc,bold]{format}"
+            datetime          "#[fg=#E6E2D6,bold]{format}"
             datetime_format   "%H:%M"
             datetime_timezone "local"
         }
