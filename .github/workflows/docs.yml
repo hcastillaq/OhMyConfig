@@ -34,7 +34,7 @@ jobs:
 
       - name: Build with VitePress
         run: |
-          npm install -D vitepress
+          npm install -D vitepress vue @vue/server-renderer
           npx vitepress build
 
       - name: Upload artifact
