@@ -174,15 +174,85 @@ export default function piModelPolicy(pi: ExtensionAPI) {
   // 3. Comandos de Usuario: Explicabilidad y Diagnóstico en Terminal
   // ---------------------------------------------------------------------------
   pi.registerCommand("model-policy", {
-    description: "Inspecciona y explica el enrutamiento inteligente de modelos para subagentes",
+    description: "Enrutador inteligente de modelos y cuotas para subagentes",
     getArgumentCompletions: (prefix: string) => {
-      const subcommands = ["status", "explain", "profile", "cooldowns", "help"];
-      const matches = subcommands.filter((cmd) => cmd.startsWith(prefix));
-      return matches.length > 0 ? matches.map((m) => ({ value: m, label: m })) : null;
+      const cleanPrefix = prefix.trimStart();
+
+      // Autocompletado de opciones para el subcomando 'profile'
+      if (cleanPrefix.startsWith("profile")) {
+        const subArg = cleanPrefix.slice("profile".length).trimStart();
+        const profiles = [
+          {
+            value: "profile balanced",
+            label: "balanced",
+            description: "Modo equilibrado: balance óptimo calidad/costo (por defecto)"
+          },
+          {
+            value: "profile quota-saver",
+            label: "quota-saver",
+            description: "Modo ahorro estricto: minimiza thinking y modelos costosos"
+          },
+          {
+            value: "profile quality",
+            label: "quality",
+            description: "Modo producción: máxima precisión con thinking high"
+          }
+        ];
+        const matches = profiles.filter(p => p.label.startsWith(subArg));
+        return matches.length > 0 ? matches : profiles;
+      }
+
+      // Autocompletado de agentes comunes para el subcomando 'explain'
+      if (cleanPrefix.startsWith("explain")) {
+        const subArg = cleanPrefix.slice("explain".length).trimStart();
+        const commonAgents = [
+          { value: "explain ce-security-reviewer", label: "ce-security-reviewer", description: "Reviewer de seguridad (Tier REASON)" },
+          { value: "explain ce-correctness-reviewer", label: "ce-correctness-reviewer", description: "Reviewer de correctitud (Tier REASON)" },
+          { value: "explain ce-architecture-strategist", label: "ce-architecture-strategist", description: "Estratega de arquitectura (Tier ARCHITECT)" },
+          { value: "explain ce-git-history-analyzer", label: "ce-git-history-analyzer", description: "Analista de historial (Tier RESEARCH)" },
+          { value: "explain worker", label: "worker", description: "Implementador de código (Tier BUILD)" },
+          { value: "explain scout", label: "scout", description: "Explorador rápido de archivos (Tier FAST)" },
+          { value: "explain oracle", label: "oracle", description: "Árbitro y consejo de frontera (Tier ORACLE)" }
+        ];
+        const matches = commonAgents.filter(a => a.label.startsWith(subArg));
+        return matches.length > 0 ? matches : commonAgents;
+      }
+
+      // Autocompletado de subcomandos principales
+      const subcommands = [
+        {
+          value: "status",
+          label: "status",
+          description: "Muestra la tabla de los 6 tiers, modelos y fallbacks"
+        },
+        {
+          value: "profile",
+          label: "profile",
+          description: "Consulta o cambia el perfil activo (balanced, quota-saver, quality)"
+        },
+        {
+          value: "explain",
+          label: "explain",
+          description: "Muestra la traza de decisión y reglas para un subagente"
+        },
+        {
+          value: "cooldowns",
+          label: "cooldowns",
+          description: "Lista proveedores en enfriamiento temporal por rate-limits (429)"
+        },
+        {
+          value: "help",
+          label: "help",
+          description: "Muestra la guía completa de comandos y opciones"
+        }
+      ];
+
+      const matches = subcommands.filter(cmd => cmd.label.startsWith(cleanPrefix));
+      return matches.length > 0 ? matches : subcommands;
     },
     handler: async (args: string, ctx: ExtensionContext) => {
       const parts = args.trim().split(/\s+/);
-      const subcmd = parts[0] || "status";
+      const subcmd = parts[0] || "help";
       const config = loadConfig(ctx.cwd);
       if (activeProfileOverride) {
         config.profile = activeProfileOverride;
@@ -235,9 +305,9 @@ export default function piModelPolicy(pi: ExtensionAPI) {
       if (subcmd === "explain") {
         const targetAgent = parts[1];
         if (!targetAgent) {
-          if (ctx.ui?.notify) {
-            ctx.ui.notify("Uso: /model-policy explain <nombre-del-agente>", "warning");
-          }
+          const err = "Uso: /model-policy explain <nombre-del-agente>\nEjemplo: /model-policy explain ce-security-reviewer";
+          if (ctx.ui?.notify) ctx.ui.notify(err, "warning");
+          else console.log(err);
           return;
         }
 
@@ -262,14 +332,15 @@ export default function piModelPolicy(pi: ExtensionAPI) {
         const lines: string[] = [];
         lines.push(`⚡ Árbol de Decisión: ${trace.agentName}`);
         lines.push("────────────────────────────────────────────────────────────────────────");
-        lines.push(`1. Clasificación de Tier : ${trace.tier}`);
+        lines.push(`1. Perfil activo         : ${config.profile || "balanced"}`);
+        lines.push(`2. Clasificación de Tier : ${trace.tier}`);
         lines.push(`   Motivo                : ${trace.reason}`);
         lines.push(`   Fuente de regla       : ${trace.ruleSource}`);
-        lines.push(`2. Modelo Asignado       : ${trace.selectedModel}`);
+        lines.push(`3. Modelo Asignado       : ${trace.selectedModel}`);
         lines.push(`   Nivel de Thinking     : ${trace.thinkingLevel}`);
-        lines.push(`3. Cadena de Fallbacks   : ${trace.candidateChain.join(" → ") || "(ninguno)"}`);
+        lines.push(`4. Cadena de Fallbacks   : ${trace.candidateChain.join(" → ") || "(ninguno)"}`);
         if (trace.cooldownAvoided && trace.cooldownAvoided.length > 0) {
-          lines.push(`4. Excluidos por 429     : ${trace.cooldownAvoided.join(", ")}`);
+          lines.push(`5. Excluidos por 429     : ${trace.cooldownAvoided.join(", ")}`);
         }
         lines.push("────────────────────────────────────────────────────────────────────────");
 
@@ -288,9 +359,24 @@ export default function piModelPolicy(pi: ExtensionAPI) {
 
         if (!targetProfile) {
           const current = config.profile || "balanced";
-          const msg = `Perfil activo actual: '${current}'. Perfiles disponibles: ${validProfiles.join(", ")}`;
-          if (ctx.ui?.notify) ctx.ui.notify(msg, "info");
-          else console.log(msg);
+          const lines: string[] = [];
+          lines.push("⚡ Pi Model Policy — Gestión de Perfil de Enrutamiento");
+          lines.push("────────────────────────────────────────────────────────────────────────");
+          lines.push(`Perfil actual: '${current}'`);
+          lines.push("");
+          lines.push("PERFILES DISPONIBLES:");
+          lines.push("  • balanced    : Equilibrio óptimo entre calidad y consumo de créditos (recomendado).");
+          lines.push("  • quota-saver : Máximo ahorro: reduce thinking a low/off y prioriza modelos económicos.");
+          lines.push("  • quality     : Máxima precisión: eleva thinking a high y asigna modelos superiores.");
+          lines.push("");
+          lines.push("CÓMO CAMBIAR DE PERFIL:");
+          lines.push("  /model-policy profile balanced");
+          lines.push("  /model-policy profile quota-saver");
+          lines.push("  /model-policy profile quality");
+          lines.push("────────────────────────────────────────────────────────────────────────");
+
+          if (ctx.ui?.notify) ctx.ui.notify(lines.join("\n"), "info");
+          else console.log(lines.join("\n"));
           return;
         }
 
@@ -302,9 +388,13 @@ export default function piModelPolicy(pi: ExtensionAPI) {
         }
 
         activeProfileOverride = targetProfile;
-        const successMsg = `⚡ Perfil cambiado a '${targetProfile}' para la sesión actual. Ejecuta /model-policy status para ver la nueva distribución.`;
-        if (ctx.ui?.notify) ctx.ui.notify(successMsg, "info");
-        else console.log(successMsg);
+        const lines: string[] = [];
+        lines.push(`⚡ Perfil cambiado exitosamente a '${targetProfile}'.`);
+        lines.push(`La flota de subagentes ahora opera bajo la estrategia '${targetProfile}'.`);
+        lines.push("Ejecuta '/model-policy status' para ver la nueva asignación de modelos y thinkings.");
+
+        if (ctx.ui?.notify) ctx.ui.notify(lines.join("\n"), "info");
+        else console.log(lines.join("\n"));
         return;
       }
 
@@ -312,24 +402,60 @@ export default function piModelPolicy(pi: ExtensionAPI) {
       if (subcmd === "cooldowns") {
         const active = breaker.getActiveCooldowns();
         if (active.length === 0) {
-          if (ctx.ui?.notify) ctx.ui.notify("No hay proveedores en cooldown en este momento.", "info");
+          if (ctx.ui?.notify) ctx.ui.notify("No hay proveedores en cooldown en este momento. Todos saludables.", "info");
+          else console.log("No hay proveedores en cooldown.");
           return;
         }
-        const lines = ["Proveedores en Cooldown activo:", ...active.map((a) => `• ${a.target}: ${a.remainingSec}s`)];
+        const lines = [
+          "⚡ Proveedores en Cooldown activo (10m por error 429/cuota):",
+          "────────────────────────────────────────────────────────────────────────",
+          ...active.map((a) => `  • ${a.target.padEnd(20)} : ${a.remainingSec}s restantes`),
+          "────────────────────────────────────────────────────────────────────────"
+        ];
         if (ctx.ui?.notify) ctx.ui.notify(lines.join("\n"), "warning");
+        else console.log(lines.join("\n"));
         return;
       }
 
-      // --- COMANDO: help ---
+      // --- COMANDO: help (Manual explicativo completo) ---
       const help = [
-        "Comandos de /model-policy:",
-        "  /model-policy status          - Muestra la tabla de tiers activos y modelos asignados",
-        "  /model-policy explain <agent> - Explica la decisión y reglas aplicadas a un subagente",
-        "  /model-policy cooldowns       - Lista los proveedores en cooldown por rate-limits",
-        "  /model-policy help            - Muestra esta ayuda"
+        "⚡ Pi Model Policy — Enrutador Inteligente de Modelos para Subagentes",
+        "────────────────────────────────────────────────────────────────────────",
+        "COMANDOS DISPONIBLES:",
+        "",
+        "  /model-policy status",
+        "      Muestra la tabla de los 6 tiers de capacidad, el modelo primario",
+        "      asignado, nivel de thinking, costo estimado y cadena de fallbacks.",
+        "",
+        "  /model-policy profile [balanced | quota-saver | quality]",
+        "      Consulta el perfil activo o cambia la postura de gasto y potencia:",
+        "        • balanced    : Balance óptimo entre calidad y ahorro (predeterminado).",
+        "        • quota-saver : Modo ahorro: minimiza tokens de thinking y prioriza modelos baratos.",
+        "        • quality     : Modo producción: eleva thinking a high y usa modelos superiores.",
+        "      Ejemplos:",
+        "        /model-policy profile              (ver perfil actual y opciones)",
+        "        /model-policy profile quota-saver  (activar modo ahorro de cuota)",
+        "        /model-policy profile quality      (activar modo máxima calidad)",
+        "",
+        "  /model-policy explain <agente>",
+        "      Muestra el árbol de decisión paso a paso para un subagente específico:",
+        "      heurísticas aplicadas, tier resultante, desempate y modelo asignado.",
+        "      Ejemplos:",
+        "        /model-policy explain ce-security-reviewer",
+        "        /model-policy explain worker",
+        "        /model-policy explain scout",
+        "",
+        "  /model-policy cooldowns",
+        "      Lista los proveedores en período de enfriamiento temporal (10m) debido a",
+        "      errores 429 (rate-limits) o cuota agotada.",
+        "",
+        "  /model-policy help",
+        "      Muestra este manual interactivo.",
+        "────────────────────────────────────────────────────────────────────────"
       ].join("\n");
 
       if (ctx.ui?.notify) ctx.ui.notify(help, "info");
+      else console.log(help);
     }
   });
 }
