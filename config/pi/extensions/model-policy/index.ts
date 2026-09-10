@@ -263,35 +263,107 @@ export default function piModelPolicy(pi: ExtensionAPI) {
 
       // --- COMANDO: status ---
       if (subcmd === "status") {
+        const pad = (str: string, len: number) => String(str || "").padEnd(len);
+        const formatWindow = (tokens: number) => {
+          if (tokens >= 1000000) return `${(tokens / 1000000).toFixed(1)}M`;
+          if (tokens >= 1000) return `${Math.round(tokens / 1000)}K`;
+          return `${tokens}`;
+        };
+
         const lines: string[] = [];
+        const uniqueProviders = Array.from(new Set(availableModels.map(m => m.provider))).join(", ") || "(ninguno)";
+
         lines.push("⚡ Pi Model Policy — Estado de Enrutamiento de Subagentes");
-        lines.push("────────────────────────────────────────────────────────────────────────");
-        lines.push(`Perfil activo: ${config.profile || "balanced"} · Modelos descubiertos: ${availableModels.length}`);
+        lines.push("────────────────────────────────────────────────────────────────────────────────────────────");
+        lines.push(`Perfil activo: ${config.profile || "balanced"} · Modelos disponibles: ${availableModels.length} · Proveedores: ${uniqueProviders}`);
         lines.push("");
+
+        // SECCIÓN 1: Asignación Activa de Tiers
+        lines.push("🎯 ASIGNACIÓN ACTIVA POR TIERS");
+        lines.push("────────────────────────────────────────────────────────────────────────────────────────────");
+        lines.push(
+          pad("Tier", 11) +
+          pad("Proveedor", 15) +
+          pad("Modelo Primario", 24) +
+          pad("Thinking", 10) +
+          pad("Costo", 10) +
+          "Fallbacks"
+        );
+        lines.push("────────────────────────────────────────────────────────────────────────────────────────────");
 
         const tiers: Tier[] = ["FAST", "RESEARCH", "BUILD", "REASON", "ARCHITECT", "ORACLE"];
         for (const tier of tiers) {
           const res = resolveModelForTier(tier, tierMap, breaker, 0, config);
-          const primary = res.candidate ? res.candidate.fullId : "(sin modelo disponible)";
+          const provider = res.candidate ? res.candidate.provider : "—";
+          const modelId = res.candidate ? res.candidate.id : "(sin modelo)";
           const thinking = res.candidate?.recommendedThinking || "off";
           const cost = res.candidate ? `$${res.candidate.cost.toFixed(2)}/M` : "N/A";
           const fallbacks = res.chain.slice(1).join(", ") || "(ninguno)";
 
-          lines.push(`  ${tier.padEnd(10)} → ${primary.padEnd(32)} [${thinking}] (${cost})`);
-          if (fallbacks !== "(ninguno)") {
-            lines.push(`               Fallbacks: ${fallbacks}`);
-          }
+          lines.push(
+            pad(tier, 11) +
+            pad(provider, 15) +
+            pad(modelId, 24) +
+            pad(thinking, 10) +
+            pad(cost, 10) +
+            fallbacks
+          );
         }
 
+        // SECCIÓN 2: Catálogo de Modelos Autodescubiertos
+        lines.push("");
+        lines.push(`📦 CATÁLOGO DE MODELOS AUTODESCUBIERTOS (${availableModels.length})`);
+        lines.push("────────────────────────────────────────────────────────────────────────────────────────────");
+        lines.push(
+          pad("Proveedor", 15) +
+          pad("Modelo", 24) +
+          pad("Categoría", 24) +
+          pad("Costo / M", 12) +
+          "Ventana"
+        );
+        lines.push("────────────────────────────────────────────────────────────────────────────────────────────");
+
+        const sortedCandidates = [...candidates].sort((a, b) => {
+          if (a.provider !== b.provider) return a.provider.localeCompare(b.provider);
+          return a.cost - b.cost;
+        });
+
+        for (const c of sortedCandidates) {
+          let category = "Estándar (Fast/Build)";
+          if (c.cost >= 15.0 || (!c.cost && c.reasoning && c.contextWindow <= 64000)) {
+            category = "Frontera (Oracle)";
+          } else if (c.cost >= 7.0 && c.reasoning) {
+            category = "Estructural (Architect)";
+          } else if (c.reasoning) {
+            category = "Pensante (Reasoning)";
+          } else if (c.contextWindow >= 1000000) {
+            category = "Estándar (1M Context)";
+          }
+
+          const costStr = c.cost > 0 ? `$${c.cost.toFixed(2)}` : "Gratis ($0)";
+          const windowStr = formatWindow(c.contextWindow);
+
+          lines.push(
+            pad(c.provider, 15) +
+            pad(c.id, 24) +
+            pad(category, 24) +
+            pad(costStr, 12) +
+            windowStr
+          );
+        }
+
+        // SECCIÓN 3: Estado de Salud y Enfriamientos
+        lines.push("────────────────────────────────────────────────────────────────────────────────────────────");
         const activeCooldowns = breaker.getActiveCooldowns();
         if (activeCooldowns.length > 0) {
-          lines.push("");
-          lines.push("⚠️  Proveedores en enfriamiento temporal (Cooldown activo):");
+          lines.push("⚠️  Proveedores en enfriamiento temporal (Cooldown activo por 429/cuota):");
           for (const cd of activeCooldowns) {
-            lines.push(`   • ${cd.target}: ${cd.remainingSec}s restantes`);
+            lines.push(`   • ${cd.target.padEnd(16)} : ${cd.remainingSec}s restantes`);
           }
+        } else {
+          lines.push("Salud: ✅ Todos los proveedores saludables (sin rate-limits ni bloqueos activos).");
         }
-        lines.push("────────────────────────────────────────────────────────────────────────");
+        lines.push("────────────────────────────────────────────────────────────────────────────────────────────");
 
         if (ctx.ui?.notify) {
           ctx.ui.notify(lines.join("\n"), "info");
