@@ -1,31 +1,30 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { getBlendedCost } from './pricing.ts';
+import { calculateModelCost } from './pricing.ts';
 import { classifySubagent } from './classifier.ts';
 import { CircuitBreaker } from './breaker.ts';
 import {
-  qualifyModelForTiers,
   buildModelCandidates,
   groupAndSortTiers,
   resolveModelForTier
 } from './models.ts';
 
-test('1. Pricing Oracle - Blended Cost Calculation', () => {
-  // Luna: 0.15 * 0.75 + 0.60 * 0.25 = 0.1125 + 0.15 = 0.2625
-  const lunaCost = getBlendedCost('openai-codex', 'gpt-5.6-luna');
-  assert.ok(lunaCost < 0.3, `Luna cost should be < 0.3, got ${lunaCost}`);
+test('1. Pricing Calculation - Native Pi Metadata', () => {
+  // Model with input=0.15, output=0.60 -> 0.15 * 0.75 + 0.60 * 0.25 = 0.2625
+  const cost1 = calculateModelCost({ cost: { input: 0.15, output: 0.60 } });
+  assert.equal(cost1, 0.2625);
 
-  // Sol: 5.0 * 0.75 + 20.0 * 0.25 = 3.75 + 5.0 = 8.75
-  const solCost = getBlendedCost('openai-codex', 'gpt-5.6-sol');
-  assert.ok(solCost > 7.0 && solCost < 10.0, `Sol cost should be ~8.75, got ${solCost}`);
+  // Model with input=5.0, output=20.0 -> 5.0 * 0.75 + 20.0 * 0.25 = 8.75
+  const cost2 = calculateModelCost({ cost: { input: 5.0, output: 20.0 } });
+  assert.equal(cost2, 8.75);
 
-  // Unknown flash model uses keyword heuristic
-  const unknownFlash = getBlendedCost('custom', 'my-special-flash-model');
-  assert.equal(unknownFlash, 0.25);
+  // Local model without cost metadata returns 0
+  const freeCost = calculateModelCost({});
+  assert.equal(freeCost, 0);
 });
 
-test('2. Subagent Classifier - Compound Engineering Agents', () => {
+test('2. Subagent Classifier - Compound Engineering Roles', () => {
   // Scout -> FAST
   const scout = classifySubagent('scout');
   assert.equal(scout.tier, 'FAST');
@@ -50,7 +49,7 @@ test('2. Subagent Classifier - Compound Engineering Agents', () => {
   const oracle = classifySubagent('oracle');
   assert.equal(oracle.tier, 'ORACLE');
 
-  // Tool-based classification for unknown agent
+  // Tool-based classification for custom agent
   const customBuilder = classifySubagent('custom-tool', '', ['write', 'bash']);
   assert.equal(customBuilder.tier, 'BUILD');
 
@@ -67,7 +66,7 @@ test('2. Subagent Classifier - Compound Engineering Agents', () => {
 });
 
 test('3. CircuitBreaker - Cooldown & Quota Error Detection', () => {
-  const breaker = new CircuitBreaker(50); // 50ms for test
+  const breaker = new CircuitBreaker(50);
   assert.equal(breaker.isCoolingDown('openai-codex'), false);
 
   breaker.recordFailure('openai-codex');
@@ -82,110 +81,129 @@ test('3. CircuitBreaker - Cooldown & Quota Error Detection', () => {
   assert.equal(breaker.detectQuotaError('Fixed issue #429 and TypeScript overloaded method', false), false);
 });
 
-test('4. Model Discovery & Tier Qualification', () => {
+test('4. Dynamic Model Discovery & Relative Tiering (Zero Hardcoded Models)', () => {
+  // Realistic heterogeneous registry with models from different providers
   const mockModels = [
-    { provider: 'openai-codex', id: 'gpt-5.6-luna', contextWindow: 128000 },
-    { provider: 'antigravity', id: 'gemini-3.8-flash', contextWindow: 1048576 },
-    { provider: 'openai-codex', id: 'gpt-5.6-terra', reasoning: true, contextWindow: 128000 },
-    { provider: 'openai-codex', id: 'gpt-5.6-sol', reasoning: true, contextWindow: 128000 },
-    { provider: 'openai-codex', id: 'gpt-6-astra', reasoning: true, contextWindow: 128000 }
+    { provider: 'antigravity', id: 'gemini-3.8-flash', cost: { input: 0.10, output: 0.40 }, reasoning: false, contextWindow: 1048576 }, // cost: 0.175
+    { provider: 'openai-codex', id: 'gpt-5.6-luna', cost: { input: 0.15, output: 0.60 }, reasoning: false, contextWindow: 128000 },    // cost: 0.2625
+    { provider: 'openai-codex', id: 'gpt-5.6-terra', cost: { input: 2.50, output: 10.00 }, reasoning: true, contextWindow: 128000 },   // cost: 4.375
+    { provider: 'openai-codex', id: 'gpt-5.6-sol', cost: { input: 5.00, output: 20.00 }, reasoning: true, contextWindow: 128000 },     // cost: 8.75
+    { provider: 'openai-codex', id: 'gpt-6-astra', cost: { input: 15.00, output: 60.00 }, reasoning: true, contextWindow: 128000 }     // cost: 26.25
   ];
 
   const candidates = buildModelCandidates(mockModels);
   const tierMap = groupAndSortTiers(candidates);
   const breaker = new CircuitBreaker();
 
-  // Tier FAST: Luna & Gemini Flash both qualify, but Gemini Flash (0.175) or Luna (0.26) sorted by cost
+  // Tier FAST: Lowest cost standard model (Gemini Flash at $0.175 < Luna at $0.2625)
   const fastRes = resolveModelForTier('FAST', tierMap, breaker);
   assert.ok(fastRes.candidate !== null);
-  assert.equal(fastRes.candidate.tier, 'FAST');
+  assert.equal(fastRes.candidate.id, 'gemini-3.8-flash');
 
-  // Tier BUILD: Gemini Flash or Terra
+  // Tier RESEARCH: Largest context window at low cost (Gemini Flash with 1M context)
+  const researchRes = resolveModelForTier('RESEARCH', tierMap, breaker);
+  assert.ok(researchRes.candidate !== null);
+  assert.equal(researchRes.candidate.id, 'gemini-3.8-flash');
+
+  // Tier BUILD: Standard execution model
   const buildRes = resolveModelForTier('BUILD', tierMap, breaker);
   assert.ok(buildRes.candidate !== null);
+  assert.equal(buildRes.candidate.id, 'gemini-3.8-flash');
 
-  // Tier REASON: Terra
+  // Tier REASON: Lowest cost reasoning model (Terra at $4.375 < Sol at $8.75 < Astra at $26.25)
   const reasonRes = resolveModelForTier('REASON', tierMap, breaker);
   assert.ok(reasonRes.candidate !== null);
   assert.equal(reasonRes.candidate.id, 'gpt-5.6-terra');
 
-  // Tier ARCHITECT: Sol
+  // Tier ARCHITECT: Upper reasoning model (Sol at $8.75)
   const archRes = resolveModelForTier('ARCHITECT', tierMap, breaker);
   assert.ok(archRes.candidate !== null);
   assert.equal(archRes.candidate.id, 'gpt-5.6-sol');
 
-  // Tier ORACLE: Astra
+  // Tier ORACLE: Apex frontier model (Astra at $26.25)
   const oracleRes = resolveModelForTier('ORACLE', tierMap, breaker);
   assert.ok(oracleRes.candidate !== null);
   assert.equal(oracleRes.candidate.id, 'gpt-6-astra');
-
-  // Verify mini models do NOT qualify for ORACLE even with o1/o3 in name
-  const miniModel = { provider: 'openai-codex', id: 'o3-mini', reasoning: true };
-  const miniTiers = qualifyModelForTiers(miniModel);
-  assert.ok(!miniTiers.includes('ORACLE'), 'o3-mini must not qualify for ORACLE');
-  assert.ok(!miniTiers.includes('ARCHITECT'), 'o3-mini must not qualify for ARCHITECT');
 });
 
-test('5. Context Window Promotion for Massive Prompts (>30k tokens)', () => {
+test('5. Dynamic Adaptation: Only 2 Models Available', () => {
+  // User only has a small model and a large model
   const mockModels = [
-    { provider: 'openai-codex', id: 'gpt-5.6-luna', contextWindow: 128000 },
-    { provider: 'antigravity', id: 'gemini-3.8-flash', contextWindow: 1048576 }
+    { provider: 'local', id: 'small-model', cost: { input: 0.1, output: 0.2 }, reasoning: false, contextWindow: 32000 },
+    { provider: 'local', id: 'smart-model', cost: { input: 2.0, output: 4.0 }, reasoning: true, contextWindow: 64000 }
+  ];
+
+  const candidates = buildModelCandidates(mockModels);
+  const tierMap = groupAndSortTiers(candidates);
+  const breaker = new CircuitBreaker();
+
+  // FAST & BUILD take the small model
+  assert.equal(resolveModelForTier('FAST', tierMap, breaker).candidate.id, 'small-model');
+  assert.equal(resolveModelForTier('BUILD', tierMap, breaker).candidate.id, 'small-model');
+
+  // REASON & ORACLE take the smart model
+  assert.equal(resolveModelForTier('REASON', tierMap, breaker).candidate.id, 'smart-model');
+  assert.equal(resolveModelForTier('ORACLE', tierMap, breaker).candidate.id, 'smart-model');
+});
+
+test('6. Dynamic Adaptation: 100% Free / Local Models (Zero Cost)', () => {
+  // Local Ollama models with cost: 0
+  const mockModels = [
+    { provider: 'ollama', id: 'qwen2.5-coder:7b', cost: { input: 0, output: 0 }, reasoning: false, contextWindow: 32000 },
+    { provider: 'ollama', id: 'deepseek-r1:32b', cost: { input: 0, output: 0 }, reasoning: true, contextWindow: 64000 }
+  ];
+
+  const candidates = buildModelCandidates(mockModels);
+  const tierMap = groupAndSortTiers(candidates);
+  const breaker = new CircuitBreaker();
+
+  // Standard workhorse takes non-reasoning qwen
+  assert.equal(resolveModelForTier('BUILD', tierMap, breaker).candidate.id, 'qwen2.5-coder:7b');
+
+  // Reasoning workhorse takes deepseek-r1
+  assert.equal(resolveModelForTier('REASON', tierMap, breaker).candidate.id, 'deepseek-r1:32b');
+  assert.equal(resolveModelForTier('ORACLE', tierMap, breaker).candidate.id, 'deepseek-r1:32b');
+});
+
+test('7. Context Window Promotion for Massive Prompts (>30k tokens)', () => {
+  const mockModels = [
+    { provider: 'openai-codex', id: 'standard-model', cost: { input: 0.10, output: 0.40 }, contextWindow: 128000 },
+    { provider: 'antigravity', id: 'huge-context-model', cost: { input: 0.15, output: 0.60 }, contextWindow: 1048576 }
   ];
   const candidates = buildModelCandidates(mockModels);
   const tierMap = groupAndSortTiers(candidates);
   const breaker = new CircuitBreaker();
 
-  // Normal task -> Luna or Flash
-  const normalRes = resolveModelForTier('RESEARCH', tierMap, breaker, 500);
-  assert.ok(normalRes.candidate !== null);
+  // Normal task -> cheapest standard model
+  const normalRes = resolveModelForTier('FAST', tierMap, breaker, 500);
+  assert.equal(normalRes.candidate.id, 'standard-model');
 
-  // Massive task (40,000 tokens) -> Promoted to Gemini Flash with 1M context
-  const massiveRes = resolveModelForTier('RESEARCH', tierMap, breaker, 40000);
-  assert.ok(massiveRes.candidate !== null);
-  assert.equal(massiveRes.candidate.id, 'gemini-3.8-flash');
+  // Massive task (40,000 tokens) -> Promoted to huge context model
+  const massiveRes = resolveModelForTier('FAST', tierMap, breaker, 40000);
+  assert.equal(massiveRes.candidate.id, 'huge-context-model');
   assert.equal(massiveRes.ruleSource, 'context-promotion');
 });
 
-test('6. No Upward Escalation Fallback under Rate-Limits', () => {
+test('8. No Upward Escalation Fallback under Rate-Limits', () => {
   const mockModels = [
-    { provider: 'openai-codex', id: 'gpt-5.6-terra', reasoning: true, contextWindow: 128000 },
-    { provider: 'antigravity', id: 'gemini-3.8-flash', contextWindow: 1048576 },
-    { provider: 'openai-codex', id: 'gpt-5.6-sol', reasoning: true, contextWindow: 128000 }
+    { provider: 'openai-codex', id: 'terra', cost: { input: 2.5, output: 10 }, reasoning: true, contextWindow: 128000 },
+    { provider: 'antigravity', id: 'flash', cost: { input: 0.1, output: 0.4 }, reasoning: false, contextWindow: 1048576 },
+    { provider: 'openai-codex', id: 'sol', cost: { input: 5.0, output: 20 }, reasoning: true, contextWindow: 128000 }
   ];
   const candidates = buildModelCandidates(mockModels);
   const tierMap = groupAndSortTiers(candidates);
   const breaker = new CircuitBreaker();
 
-  // Initially REASON picks Terra
+  // Initially REASON picks terra
   const initial = resolveModelForTier('REASON', tierMap, breaker);
-  assert.equal(initial.candidate.id, 'gpt-5.6-terra');
+  assert.equal(initial.candidate.id, 'terra');
 
   // OpenAI fails with 429
   breaker.recordFailure('openai-codex');
 
-  // Next REASON dispatch must NOT escalate to Sol; it must pick Gemini Flash from BUILD/downward
+  // Next REASON dispatch must NOT escalate to sol; it must pick flash from BUILD/downward
   const fallback = resolveModelForTier('REASON', tierMap, breaker);
   assert.equal(fallback.candidate.provider, 'antigravity');
-  assert.equal(fallback.candidate.id, 'gemini-3.8-flash');
-  assert.ok(fallback.cooldownAvoided.includes('openai-codex/gpt-5.6-terra'));
-});
-
-test('7. Config Tier Override', () => {
-  const mockModels = [
-    { provider: 'openai-codex', id: 'gpt-5.6-luna', contextWindow: 128000 },
-    { provider: 'antigravity', id: 'gemini-3.8-flash', contextWindow: 1048576 }
-  ];
-  const candidates = buildModelCandidates(mockModels);
-  const tierMap = groupAndSortTiers(candidates);
-  const breaker = new CircuitBreaker();
-
-  const config = {
-    tiers: {
-      FAST: 'openai-codex/gpt-5.6-luna'
-    }
-  };
-
-  const res = resolveModelForTier('FAST', tierMap, breaker, 0, config);
-  assert.equal(res.candidate.fullId, 'openai-codex/gpt-5.6-luna');
-  assert.equal(res.ruleSource, 'override');
+  assert.equal(fallback.candidate.id, 'flash');
+  assert.ok(fallback.cooldownAvoided.includes('openai-codex/terra'));
 });

@@ -1,5 +1,5 @@
 import type { Tier, ThinkingLevel, ModelCandidate, PolicyConfig, DecisionTrace } from './types.ts';
-import { getBlendedCost } from './pricing.ts';
+import { calculateModelCost } from './pricing.ts';
 import type { CircuitBreaker } from './breaker.ts';
 
 export interface RawPiModel {
@@ -8,6 +8,10 @@ export interface RawPiModel {
   name?: string;
   contextWindow?: number;
   reasoning?: boolean;
+  cost?: {
+    input?: number;
+    output?: number;
+  };
 }
 
 const DEFAULT_THINKING_PER_TIER: Record<Tier, ThinkingLevel> = {
@@ -19,95 +23,120 @@ const DEFAULT_THINKING_PER_TIER: Record<Tier, ThinkingLevel> = {
   ORACLE: 'high'
 };
 
-export function qualifyModelForTiers(model: RawPiModel): Tier[] {
-  const normId = model.id.toLowerCase();
-  const tiers: Tier[] = [];
-  const cost = getBlendedCost(model.provider, model.id);
-  const isReasoning = Boolean(model.reasoning) || /reason|thinking|r1|pro|sonnet|sol|astra|o1|o3|opus/.test(normId);
-
-  // 1. FAST: Fast, lightweight, low cost (< $2/M)
-  if (cost <= 2.0 || /lite|mini|flash|spark|luna|haiku/.test(normId)) {
-    tiers.push('FAST');
-  }
-
-  // 2. RESEARCH: Lightweight to mid-cost, good for analysis and search
-  if (cost <= 4.0 || /research|luna|flash|terra|haiku/.test(normId)) {
-    tiers.push('RESEARCH');
-  }
-
-  // 3. BUILD: Solid code capabilities, cost-effective
-  if (/flash|coder|code|terra|dev|work|sonnet/.test(normId) || (cost >= 0.1 && cost <= 6.0)) {
-    tiers.push('BUILD');
-  }
-
-  // 4. REASON: Reasoning capability / critical analysis
-  if (isReasoning || /terra|sonnet|pro|reason|correct|r1/.test(normId)) {
-    tiers.push('REASON');
-  }
-
-  // 5. ARCHITECT: High-reasoning structural/planning models
-  const isMini = normId.includes('mini') || normId.includes('lite') || normId.includes('spark');
-  if ((/sol|opus|ultra|max|architect/.test(normId) || (!isMini && /(o1|o3)/.test(normId))) || (isReasoning && cost >= 7.0)) {
-    tiers.push('ARCHITECT');
-  }
-
-  // 6. ORACLE: Frontier apex models (Astra, full o1, full o3, Opus)
-  if ((!isMini && /astra|o1|o3|opus/.test(normId)) || (!isMini && cost >= 15.0)) {
-    tiers.push('ORACLE');
-  }
-
-  // Fallback: If model qualified for nothing, treat as BUILD or FAST based on cost
-  if (tiers.length === 0) {
-    tiers.push(cost > 2.0 ? 'BUILD' : 'FAST');
-  }
-
-  return tiers;
-}
-
 export function buildModelCandidates(availableModels: RawPiModel[]): ModelCandidate[] {
-  const candidates: ModelCandidate[] = [];
+  return availableModels.map((m) => {
+    const cost = calculateModelCost(m);
+    const reasoning = Boolean(m.reasoning);
+    const contextWindow = typeof m.contextWindow === 'number' && m.contextWindow > 0
+      ? m.contextWindow
+      : 128000;
 
-  for (const m of availableModels) {
-    const cost = getBlendedCost(m.provider, m.id);
-    const qualifiedTiers = qualifyModelForTiers(m);
-    const fullId = `${m.provider}/${m.id}`;
-    const contextWindow = m.contextWindow || (m.id.includes('gemini') ? 1048576 : 128000);
-    const reasoning = Boolean(m.reasoning) || /reason|thinking|r1|pro|sonnet|sol|astra|o1|o3|opus/.test(m.id);
-
-    for (const tier of qualifiedTiers) {
-      candidates.push({
-        provider: m.provider,
-        id: m.id,
-        fullId,
-        tier,
-        cost,
-        reasoning,
-        contextWindow,
-        recommendedThinking: DEFAULT_THINKING_PER_TIER[tier]
-      });
-    }
-  }
-
-  return candidates;
+    return {
+      provider: m.provider,
+      id: m.id,
+      fullId: `${m.provider}/${m.id}`,
+      tier: 'FAST', // Assigned dynamically in groupAndSortTiers
+      cost,
+      reasoning,
+      contextWindow,
+      recommendedThinking: 'off'
+    };
+  });
 }
 
+/**
+ * Autodiscovers and groups models into the 6 abstract capability tiers
+ * dynamically from their native metadata (cost, reasoning, contextWindow).
+ * Zero hardcoded model names or brand regexes.
+ */
 export function groupAndSortTiers(
   candidates: ModelCandidate[]
 ): Map<Tier, ModelCandidate[]> {
   const map = new Map<Tier, ModelCandidate[]>();
-  const allTiers: Tier[] = ['FAST', 'RESEARCH', 'BUILD', 'REASON', 'ARCHITECT', 'ORACLE'];
+  if (candidates.length === 0) return map;
 
-  for (const tier of allTiers) {
-    const tierCandidates = candidates.filter(c => c.tier === tier);
-    // Sort by: Cost ASC (Cheapest first), then Context Window DESC
-    tierCandidates.sort((a, b) => {
-      if (Math.abs(a.cost - b.cost) > 0.001) {
-        return a.cost - b.cost;
-      }
+  // 1. Sort global pool by cost ascending (cheapest first)
+  const sortedByCostAsc = [...candidates].sort((a, b) => {
+    if (Math.abs(a.cost - b.cost) > 0.0001) return a.cost - b.cost;
+    return b.contextWindow - a.contextWindow;
+  });
+
+  // 2. Separate into standard and reasoning pools
+  const standardPool = sortedByCostAsc.filter(c => !c.reasoning);
+  const reasoningPool = sortedByCostAsc.filter(c => c.reasoning);
+
+  // If user has no reasoning models, use cost percentiles from the whole pool
+  const hasReasoning = reasoningPool.length > 0;
+  const effectiveStandard = standardPool.length > 0 ? standardPool : sortedByCostAsc;
+  const effectiveReasoning = hasReasoning ? reasoningPool : sortedByCostAsc;
+
+  // --- FAST TIER ---
+  // Lowest cost standard models, ordered by cost ASC
+  map.set('FAST', effectiveStandard.map(c => ({
+    ...c,
+    tier: 'FAST' as Tier,
+    recommendedThinking: DEFAULT_THINKING_PER_TIER.FAST
+  })));
+
+  // --- RESEARCH TIER ---
+  // Prioritizes large context window at low cost
+  const researchSorted = [...effectiveStandard].sort((a, b) => {
+    if (Math.abs(a.cost - b.cost) < 1.0) {
       return b.contextWindow - a.contextWindow;
-    });
-    map.set(tier, tierCandidates);
+    }
+    return a.cost - b.cost;
+  });
+  map.set('RESEARCH', researchSorted.map(c => ({
+    ...c,
+    tier: 'RESEARCH' as Tier,
+    recommendedThinking: DEFAULT_THINKING_PER_TIER.RESEARCH
+  })));
+
+  // --- BUILD TIER ---
+  // Mid-range execution models (standard pool sorted by cost ASC)
+  map.set('BUILD', effectiveStandard.map(c => ({
+    ...c,
+    tier: 'BUILD' as Tier,
+    recommendedThinking: DEFAULT_THINKING_PER_TIER.BUILD
+  })));
+
+  // --- REASON TIER ---
+  // Most cost-effective reasoning models (reasoning pool sorted by cost ASC)
+  map.set('REASON', effectiveReasoning.map(c => ({
+    ...c,
+    tier: 'REASON' as Tier,
+    recommendedThinking: DEFAULT_THINKING_PER_TIER.REASON
+  })));
+
+  // --- ARCHITECT TIER ---
+  // High-capacity reasoning models (upper bracket of reasoning pool)
+  // If multiple reasoning models exist, exclude the apex model which is reserved for ORACLE
+  let architectPool: ModelCandidate[];
+  if (effectiveReasoning.length >= 3) {
+    // Take the middle to upper tier, excluding the single most expensive apex model
+    const withoutApex = effectiveReasoning.slice(0, effectiveReasoning.length - 1);
+    architectPool = withoutApex.slice(Math.floor(withoutApex.length / 2));
+    if (architectPool.length === 0) architectPool = [withoutApex[withoutApex.length - 1]];
+  } else if (effectiveReasoning.length === 2) {
+    architectPool = [effectiveReasoning[0]];
+  } else {
+    architectPool = effectiveReasoning;
   }
+
+  map.set('ARCHITECT', architectPool.map(c => ({
+    ...c,
+    tier: 'ARCHITECT' as Tier,
+    recommendedThinking: DEFAULT_THINKING_PER_TIER.ARCHITECT
+  })));
+
+  // --- ORACLE TIER ---
+  // Apex frontier model (highest capability / highest cost in the user's reasoning pool)
+  const oraclePool = [...effectiveReasoning].reverse(); // Highest cost first
+  map.set('ORACLE', oraclePool.map(c => ({
+    ...c,
+    tier: 'ORACLE' as Tier,
+    recommendedThinking: DEFAULT_THINKING_PER_TIER.ORACLE
+  })));
 
   return map;
 }
@@ -127,7 +156,7 @@ export function resolveModelForTier(
   const cooldownAvoided: string[] = [];
   const tierOrder: Tier[] = ['ORACLE', 'ARCHITECT', 'REASON', 'BUILD', 'RESEARCH', 'FAST'];
 
-  // Check explicit tier override from config
+  // 1. Check explicit tier override from user configuration
   if (config?.tiers && config.tiers[targetTier]) {
     const overrideId = config.tiers[targetTier]!;
     const all = Array.from(tierMap.values()).flat();
@@ -142,7 +171,7 @@ export function resolveModelForTier(
     }
   }
 
-  // R2.5: Context Window Promotion if prompt is massive (>30k tokens)
+  // 2. R2.5: Context Window Promotion if prompt payload is massive (>30k tokens)
   if (taskLengthTokens > 30000) {
     const allCandidates = Array.from(tierMap.values()).flat();
     const needsReasoning = targetTier === 'REASON' || targetTier === 'ARCHITECT' || targetTier === 'ORACLE';
@@ -166,7 +195,7 @@ export function resolveModelForTier(
     }
   }
 
-  // Evaluate candidate chain for the requested tier
+  // 3. Evaluate candidate chain for the requested tier
   const rawList = tierMap.get(targetTier) || [];
   const activeChain: ModelCandidate[] = [];
 
@@ -187,7 +216,7 @@ export function resolveModelForTier(
     };
   }
 
-  // Fallback downward: find an eligible model from lower tiers (no upward escalation)
+  // 4. Fallback downward: find an eligible model from lower tiers (no upward escalation)
   const targetIdx = tierOrder.indexOf(targetTier);
   for (let i = targetIdx + 1; i < tierOrder.length; i++) {
     const lowerTier = tierOrder[i];
@@ -206,7 +235,7 @@ export function resolveModelForTier(
     }
   }
 
-  // Absolute fallback: pick any non-cooling candidate from any tier
+  // 5. Absolute fallback: pick lowest cost non-cooling model from any tier
   const anyAvailable = Array.from(tierMap.values())
     .flat()
     .filter(c => !breaker.isCoolingDown(c.provider) && !breaker.isCoolingDown(c.fullId))
