@@ -17,6 +17,7 @@ export default defineConfig({
           items: [
             { label: 'Instalación & Brewfile', slug: 'instalacion' },
             { label: 'Ecosistema AI & Pi', slug: 'ai' },
+            { label: 'Pi Model Policy (Router)', slug: 'model-policy' },
           ],
         },
         {

@@ -46,7 +46,7 @@ Estas son las extensiones que uso y recomiendo para transformar a Pi en un verda
 | Extensión | Instalación | Por qué la recomiendo |
 | :--- | :--- | :--- |
 | **`pi-subagents`** | `pi install npm:pi-subagents` | Permite a Pi delegar tareas a subagentes en paralelo, ejecutar code reviews estructuradas y aislar cambios en worktrees temporales de Git. Fundamental para tareas complejas. |
-| **`pi-model-policy`** | Incluida en `config/pi/extensions/` | Enrutador inteligente para subagentes. Asigna automáticamente el modelo y nivel de *thinking* óptimo según la tarea (FAST, RESEARCH, BUILD, REASON, ARCHITECT, ORACLE), desempatando por menor costo por token y protegiendo cuotas sin escalado ascendente. |
+| **`pi-model-policy`** | Incluida en `config/pi/extensions/` | Enrutador inteligente para subagentes. Asigna automáticamente el modelo y nivel de *thinking* óptimo según la tarea (FAST, RESEARCH, BUILD, REASON, ARCHITECT, ORACLE), desempatando por menor costo por token y protegiendo cuotas sin escalado ascendente. Ver [guía completa de Pi Model Policy](/OhMyConfig/model-policy/). |
 | **`pi-ask-user`** | `pi install npm:pi-ask-user` | Interfaz interactiva de preguntas. Hace que el agente te consulte opciones antes de tomar decisiones arquitectónicas o ejecutar cambios destructivos. |
 | **`pi-model-council`** | `pi install npm:@bramburn/pi-model-council` | Consulta a varios modelos en paralelo (Claude, GPT, Gemini) cuando necesitás una segunda opinión sobre un refactor o un bug elusivo. |
 | **`compound-engineering-plugin`** | `pi install git:github.com/EveryInc/compound-engineering-plugin` | Suite de ingeniería continua: planificación de features (`ce-plan`), ejecución guiada (`ce-work`), reviews y handoffs entre sesiones. |
