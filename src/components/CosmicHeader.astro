@@ -1,0 +1,125 @@
+---
+import Search from 'virtual:starlight/components/Search';
+import SocialIcons from 'virtual:starlight/components/SocialIcons';
+import CosmicSiteTitle from './CosmicSiteTitle.astro';
+
+const currentPath = Astro.url.pathname;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const navLinks = [
+  { label: 'Inicio', href: `${base}/` },
+  { label: 'Instalación', href: `${base}/instalacion/` },
+  { label: 'AI & Pi', href: `${base}/ai/` },
+  { label: 'Neovim', href: `${base}/neovim/` },
+  { label: 'Zellij', href: `${base}/zellij/` },
+  { label: 'Git', href: `${base}/git/` },
+  { label: 'Terminal', href: `${base}/terminal/` },
+  { label: 'Cheatsheet', href: `${base}/cheatsheet/` },
+];
+---
+
+<div class="cosmic-header">
+  <div class="header-brand">
+    <CosmicSiteTitle />
+  </div>
+
+  <nav class="header-nav" aria-label="Navegación principal">
+    {navLinks.map((link) => {
+      const isExact = currentPath === link.href || currentPath === link.href.replace(/\/$/, '');
+      const isActive = link.href === `${base}/` ? isExact : currentPath.startsWith(link.href.replace(/\/$/, ''));
+      return (
+        <a href={link.href} class:list={['nav-item', { active: isActive }]}>
+          {link.label}
+        </a>
+      );
+    })}
+  </nav>
+
+  <div class="header-right">
+    <div class="search-box">
+      <Search />
+    </div>
+    <div class="social-box">
+      <SocialIcons />
+    </div>
+  </div>
+</div>
+
+<style>
+  .cosmic-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    height: 100%;
+    width: 100%;
+    padding: 0 8px;
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .header-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 4px 0;
+  }
+
+  .header-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-item {
+    font-family: var(--sl-font-mono);
+    font-size: 13px;
+    color: var(--sn-text-muted, #8E95A5);
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+  }
+
+  .nav-item:hover {
+    color: var(--sl-color-white);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .nav-item.active {
+    color: var(--sl-color-accent);
+    background: rgba(114, 234, 213, 0.08);
+    border-color: rgba(114, 234, 213, 0.25);
+    font-weight: 500;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .search-box {
+    display: flex;
+    align-items: center;
+  }
+
+  .social-box {
+    display: flex;
+    align-items: center;
+  }
+
+  @media (max-width: 900px) {
+    .header-nav {
+      display: none;
+    }
+  }
+</style>

@@ -134,6 +134,12 @@ EOF
             cat << 'EOF'
 pi/themes/ohmyconfig-static-noise.json
 pi/extensions/ohmyconfig-header.ts
+pi/extensions/model-policy/index.ts
+pi/extensions/model-policy/types.ts
+pi/extensions/model-policy/models.ts
+pi/extensions/model-policy/classifier.ts
+pi/extensions/model-policy/pricing.ts
+pi/extensions/model-policy/breaker.ts
 EOF
             ;;
         search|devops)

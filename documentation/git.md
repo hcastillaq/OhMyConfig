@@ -1,6 +1,13 @@
-# 🐙 Guía Maestra de Git y Control de Versiones
+---
+title: "Guía Maestra de Git y Control de Versiones"
+description: "Flujo integrado con lazygit, git-delta y diffs visuales bajo Static Noise."
+---
 
-OhMyConfig integra un stack completo para Git donde la terminal rápida, el motor de diffs visuales, el navegador interactivo y las herramientas de refactorización cooperan armónicamente bajo la paleta **Static Noise**.
+El control de versiones es donde pasamos gran parte del día. En lugar de tipear comandos largos o depender de interfaces pesadas que te sacan de la consola, en OhMyConfig armé un flujo de tres niveles:
+
+1. **Alias rápidos de consola (`gs`, `gc`, `gd`, `gl`):** Para las operaciones del segundo a segundo (ver estado, commitear, inspeccionar el diff inmediato).
+2. **Diffs visuales con Delta (`git-delta`):** Cada vez que corrés un `git diff` o mirás el log, Delta te muestra el código coloreado con sintaxis de verdad, números de línea y soporte para el tema **Static Noise**.
+3. **Interfaz TUI con Lazygit (`lg`):** Cuando necesitás granularidad visual (hacer stage de líneas sueltas, editar un commit anterior, navegar ramas o resolver conflictos de merge complejos sin dolor).
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐

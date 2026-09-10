@@ -1,6 +1,6 @@
 ---
 name: docs-sync-and-build
-description: "Trigger: actualizar docs, nueva guia, docs sync, vitepress build, sincronizar documentacion. Sincroniza guías, cheatsheets y valida la compilación con VitePress."
+description: "Trigger: actualizar docs, nueva guia, docs sync, astro build, sincronizar documentacion. Sincroniza guías, cheatsheets y valida la compilación con Astro Starlight."
 ---
 
 # Docs Sync and Build Skill
@@ -23,7 +23,7 @@ documentation/               # Fuentes puras en Markdown
 ├── herramientas.md          # Catálogo completo de CLI/TUI
 └── cheatsheet.md            # Tabla maestra consolidada de atajos
 
-.vitepress/config.mjs        # Configuración del sitio (srcDir: documentation, nav, sidebar y tema Static Noise)
+astro.config.mjs             # Configuración del sitio (Astro + Starlight, sidebar y tema Static Noise)
 README.md                    # Manual rápido de GitHub con enlaces al sitio web
 ```
 
@@ -33,14 +33,14 @@ README.md                    # Manual rápido de GitHub con enlaces al sitio web
 
 1. **Principio de Documentación Pura:**
    - La carpeta `documentation/` contiene **exclusivamente archivos Markdown puros** sin dependencias de frameworks ni bloat.
-   - La configuración vive fuera, en `.vitepress/config.mjs` con `srcDir: "documentation"`.
+   - La configuración vive fuera, en `astro.config.mjs` consumiendo `documentation/`.
 
 2. **Sincronización Multilateral:**
    - Si se añade un atajo o comando nuevo:
      1. Actualizar la guía específica en `documentation/<tema>.md`.
      2. Actualizar la tabla maestra en `documentation/cheatsheet.md`.
      3. Actualizar la sección de referencia rápida en `README.md`.
-     4. Si es una nueva página `.md`, registrarla en `nav` y `sidebar` de `.vitepress/config.mjs`.
+     4. Si es una nueva página `.md`, registrarla en el `sidebar` de `astro.config.mjs`.
 
 3. **Neutralidad de Ejemplos en IA (`docs/ai.md`):**
    - Los ejemplos conceptuales de SDD, Skills, Memoria y Plan Mode deben ser casos generales de software (ej: APIs REST, OAuth2, Rate Limiting), evitando referenciar la propia CLI de `omc` para evitar confusiones.
@@ -51,10 +51,10 @@ README.md                    # Manual rápido de GitHub con enlaces al sitio web
 
 1. **Verificar Enlaces y Formato:**
    - Comprobar que todas las rutas relativas (`./neovim.md`, `/instalacion`) sean válidas.
-2. **Compilación Local con VitePress:**
+2. **Compilación Local con Astro:**
    - Ejecutar la compilación de prueba:
      ```bash
-     npm install && npx vitepress build
+     npm run build
      ```
 3. **Criterio de Aprobación:**
-   - `build complete in X.XXs` con 0 errores de Rollup y 0 enlaces rotos.
+   - Compilación completa con 0 errores y generación exitosa del índice Pagefind.

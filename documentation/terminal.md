@@ -1,6 +1,14 @@
-# Terminal, Shell, Prompt y Runtimes
+---
+title: "Terminal, Shell, Prompt y Runtimes"
+description: "Ghostty GPU terminal, Fish shell interactiva, prompt Starship y runtime mise."
+---
 
-OhMyConfig combina un emulador acelerado por GPU, una shell interactiva, un gestor de runtimes políglota universal y un prompt reactivo diseñados para macOS.
+La terminal es el punto de partida de todo mi flujo de trabajo. En lugar de lidiar con configuraciones pesadas de Zsh que tardan dos segundos en abrir una pestaña, combiné cuatro piezas pensadas para responder al instante en macOS:
+
+1. **Ghostty (GPU Metal):** Emulador nativo para macOS con aceleración por hardware, desenfoque suave de ventana y tipografía JetBrains Mono Nerd Font.
+2. **Fish Shell:** Shell moderna que te ofrece autocompletado en tiempo real según tu historial sin necesidad de configurar frameworks complejos como Oh My Zsh.
+3. **Starship:** Prompt reactivo en Rust que te muestra el directorio, la rama de Git y el runtime activo en milisegundos.
+4. **Atuin:** Base de datos SQLite para tu historial, permitiéndote buscar cualquier comando ejecutado hace meses con duración, fecha y directorio.
 
 ---
 
@@ -51,15 +59,15 @@ Shell interactiva con autocompletado en tiempo real y coloreado sintáctico cali
 
 ## 4. Starship (Prompt Reactivo)
 
-Prompt ultrarrápido escrito en Rust con telemetría contextual y glifos flat (JetBrains Mono Nerd Font):
+Prompt ultrarrápido escrito en Rust con telemetría contextual y glifos minimalistas:
 
-* **Directorio actual (`#83BFFF`):** Con indicador de solo lectura ``.
-*  **Rama y estado de Git (`#C2A7FF` / `#F3A261`):** Cambios pendientes, commits adelantados/atrasados.
-* 󰒋 **Runtimes activos vía mise:** Versión en tiempo real de Node ``, Python ``, Java ``, Rust ``, Go ``.
-* 󱃾 **Contexto de Kubernetes (`#72EAD5`):** Cluster/namespace activo.
-*  **Contexto de Docker (`#83BFFF`):** Daemon/compose activo.
-*  **Duración de comandos (`#EDD071`):** Muestra el tiempo de ejecución si supera los 2 segundos (` 3s`).
-* ❯ **Carácter de entrada:** `#72EAD5` (éxito) o `#EF7785` (error).
+* **Directorio actual (`#83BFFF`):** Indica la ruta actual con marcador de solo lectura cuando no hay permisos de escritura.
+* **Rama y estado de Git (`#C2A7FF` / `#F3A261`):** Muestra si estás adelantado, atrasado o con cambios pendientes en la rama.
+* **Runtimes activos vía mise:** Muestra la versión activa de Node, Python, Java, Rust o Go.
+* **Contexto de Kubernetes (`#72EAD5`):** Cluster y namespace activo.
+* **Contexto de Docker (`#83BFFF`):** Estado del daemon de contenedores.
+* **Duración de comandos (`#EDD071`):** Muestra el tiempo de ejecución si supera los 2 segundos.
+* **Carácter de entrada (❯):** Cyan (`#72EAD5`) en comandos exitosos, Rojo (`#EF7785`) si el comando anterior falló.
 
 ---
 

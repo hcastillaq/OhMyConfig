@@ -1,10 +1,17 @@
-# 📦 Instalación — CLI `omc`
+---
+title: "Instalación — CLI omc"
+description: "Guía de instalación guiada, modos de despliegue y uso del CLI interactivo omc."
+---
 
-OhMyConfig incluye una CLI interactiva (`omc`) escrita en **Bash 3.2+ nativo** con interfaz TUI vía **gum**. Permite seleccionar exactamente qué módulos instalar, diagnosticar el entorno, actualizar herramientas y gestionar el agente de IA Pi sin depender previamente de ninguna shell externa.
+Diseñé la CLI `omc` para que configurar una Mac desde cero deje de ser un dolor de cabeza. 
+
+En lugar de obligarte a instalar herramientas previas o cambiar tu shell antes de empezar, el script está escrito en **Bash nativo de macOS (3.2+)** con una interfaz de terminal limpia gracias a **Gum**. Podés clonar el repositorio en una máquina recién formateada y ejecutar el instalador directamente.
 
 ---
 
-## 1. Primera Instalación
+## 1. Instalación paso a paso
+
+Abrí la aplicación Terminal de macOS y ejecutá:
 
 ```bash
 git clone https://github.com/hcastillaq/OhMyConfig.git ~/Codigos/OhMyConfig
@@ -12,207 +19,91 @@ cd ~/Codigos/OhMyConfig
 ./omc install
 ```
 
-El CLI te guía con dos pantallas interactivas:
+El instalador te va a presentar dos pasos interactivos muy sencillos:
 
-**Paso 1 — Modo de despliegue:**
-```
-❯ Symlinks (recomendado — cambios en repo se reflejan al instante)
-  Copia con respaldo
-```
-Navegá con `↑ ↓` y confirmá con `Enter`.
+### Paso 1: Modo de despliegue
 
-**Paso 2 — Selección de módulos:**
+```text
+❯ Symlinks (recomendado — cualquier cambio en el repo se refleja en vivo)
+  Copia con respaldo (copia estática de los archivos de configuración)
 ```
-  Seleccioná módulos (espacio = marcar/desmarcar, Enter = confirmar)
 
+> **Mi recomendación:** Elegí **Symlinks**. De esa forma, cuando ajustes un atajo en `config/nvim/` o agregues un alias en `config/fish/`, el cambio impacta inmediatamente en tu sistema sin tener que reinstalar nada.
+
+### Paso 2: Selección de módulos
+
+Elegí exactamente qué herramientas querés que se configuren en tu máquina (espacio para marcar/desmarcar, Enter para confirmar):
+
+```text
 • Core         Fish · Starship · mise · Atuin · Nerd Fonts
 • Terminal     Ghostty · Zellij
 • Editor       Neovim · Git-Delta · Lazygit · gh · Bat · Glow
-• Búsqueda     rg · fd · fzf · sd · yazi · zoxide · eza · dust
-• CLI / TUI    btm · procs · xh · jq · jqp · tokei · onefetch
-• DevOps       lazydocker · k9s · kubectx/kubens
-• AI / Pi      pi (Coding Agent en terminal)
+• Búsqueda     ripgrep · fd · fzf · sd · yazi · zoxide · eza · dust
+• CLI / TUI    bottom · procs · xh · jq · jqp · tokei · onefetch
+• DevOps       lazydocker · k9s · kubectx / kubens
+• AI / Pi      pi (Coding Agent autónomo en terminal)
 ```
-
-| Tecla | Acción |
-| :---: | :--- |
-| `↑` / `↓` | Mover cursor |
-| `Espacio` | Marcar / desmarcar módulo |
-| `Enter` | Confirmar selección e instalar |
-| `q` / `Esc` | Cancelar |
 
 ---
 
-## 2. Referencia Completa de Comandos
+## 2. Seguridad primero: nunca te pisa una configuración
 
-### `omc install` — Instalador Interactivo
+Una de mis mayores obsesiones al armar este proyecto fue la seguridad de tus archivos:
+
+1. **Comparación inteligente:** Antes de tocar un archivo en `~/.config/`, `omc` lo compara con el archivo fuente usando `cmp -s`. Si son idénticos, no hace nada.
+2. **Backups automáticos:** Si detecta que modificaste un archivo localmente, genera automáticamente una copia de seguridad fechada (`archivo.bak_YYYYMMDD_HHMMSS`) en el mismo directorio antes de reemplazarlo o enlazarlo.
+3. **Idempotencia:** Podés correr `./omc install` diez veces seguidas; si no hubo cambios, el resultado será exactamente el mismo sin duplicar configuraciones ni corromper tus herramientas.
+
+---
+
+## 3. Comandos de la CLI `omc`
+
+La CLI incluye todo lo necesario para mantener tu entorno al día:
+
+### `omc install` — Instalación y actualización de módulos
 
 ```bash
-./omc install                  # Menú TUI para elegir modo y módulos
-./omc install --all            # Instala todos los módulos en modo symlink
-./omc install --all --link     # Equivalente explícito: todos los módulos en modo symlink
-./omc install --link           # Menú de módulos pero fuerza modo symlink
+./omc install                  # Menú interactivo para elegir modo y módulos
+./omc install --all            # Instala todos los módulos directamente en modo symlink
+./omc install --link           # Menú interactivo forzando enlaces simbólicos
 ```
 
----
+### `omc doctor` — Diagnóstico en tiempo real
 
-### `omc doctor` — Diagnóstico del Entorno
-
-Muestra el estado de cada herramienta instalada, su versión y qué módulos faltan. Funciona en máquinas nuevas sin necesitar perfil previo.
+Te muestra de un vistazo qué herramientas están instaladas, qué versión tienen y si falta alguna dependencia. Es el primer comando que te recomiendo correr si sentís que algo no responde:
 
 ```bash
 ./omc doctor
 ```
 
-Salida de ejemplo:
-```
-⚡ OhMyConfig — Estado del Entorno
-────────────────────────────────────────────────────────
-  Core
-  ✅  fish                   4.0.2
-  ✅  starship               1.26.0
-  ✅  mise                   2024.12.0
-  ✅  atuin                  18.4.0
+### `omc update` — Actualización integral con un solo comando
 
-  Editor
-  ✅  nvim                   0.12.5
-  ✅  delta                  0.19.2
-  ✅  lazygit                0.44.1
-
-  AI / Pi
-  ✅  pi                     0.84.4
-
-  Infraestructura
-  ✅  brew                   4.4.17
-  ✅  gum                    2.0.0
-  ✅  node                   22.14.0 (via mise)
-
-  Perfil: modo=symlink  módulos=[core terminal editor search cli devops ai]
-  ✅ 33 instaladas · 0 faltantes
-────────────────────────────────────────────────────────
-```
-
----
-
-### `omc update` — Actualización Completa
-
-Actualiza Homebrew, todas las fórmulas/casks instalados y el agente `pi` (npm global) de una sola vez.
+Actualiza Homebrew, todas las fórmulas de terminal, las aplicaciones de escritorio (casks) y el agente de IA `pi` en un único paso:
 
 ```bash
 ./omc update
 ```
 
-```
-⚡ OhMyConfig — Actualizando entorno
-  ⠋ Actualizando repositorio de Homebrew...   ✅ Hecho
-  ⠋ Actualizando fórmulas instaladas...       ✅ 4 paquetes actualizados
-  ⠋ Actualizando casks instalados...          ✅ Hecho
+### `omc dev` — Administrador del agente Pi
 
-  AI / Pi (npm globals)
-  ✅  pi              0.84.4  (latest)
+Gestiona el ciclo de vida del agente Pi sin meterte en scripts de npm:
 
-  🧹 Caché limpiado
-  ✅ Actualización completada.
+```bash
+./omc dev install   # Instala el CLI oficial @earendil-works/pi-coding-agent
+./omc dev status    # Revisa la versión actual y qué extensiones tenés activas
+./omc dev update    # Actualiza Pi a la versión más reciente
+./omc dev doctor    # Verifica Node, npm y el entorno de Pi
 ```
 
 ---
 
-### `omc dev` — Gestión del Agente Pi
+## 4. Estructura de tu perfil (`.omc-profile`)
 
-Instala únicamente el agente base **`pi`**. Las extensiones y paquetes adicionales de Pi son opcionales y se agregan bajo demanda con los comandos nativos de Pi.
-
-```bash
-./omc dev              # Instala sólo el CLI base de Pi
-./omc dev status       # Muestra la versión de Pi y los paquetes instalados
-./omc dev update       # Actualiza sólo el CLI base de Pi
-./omc dev doctor       # Chequeo local de Node, npm y Pi; también ejecuta pi list
-./omc dev remove       # Ayuda para administrar extensiones con pi remove
-```
-
-Para consultar e instalar extensiones opcionales:
-
-```bash
-pi list
-pi install <paquete>
-pi remove <paquete>
-```
-
-Consultá [Ecosistema AI & Coding Agents](./ai.md) para ver los paquetes opcionales recomendados y cuándo usarlos.
-
----
-
-### `omc --help` — Ayuda General
-
-```bash
-./omc --help
-./omc -h
-```
-
----
-
-## 3. Modos de Despliegue
-
-### Symlinks (Recomendado para desarrollo activo de dotfiles)
-Crea enlaces simbólicos de `~/.config/` directamente a los archivos del repositorio. Cualquier edición en el repo se refleja de inmediato sin reinstalar.
-
-```bash
-./omc install --all --link
-```
-
-### Copia con Respaldo
-Copia los archivos a `~/.config/`. Si existe un archivo modificado, genera un respaldo automático con timestamp (`.bak_YYYYMMDD_HHMMSS`) antes de sobrescribir. Recomendado para producción o máquinas compartidas.
-
-```bash
-./omc install
-# Elegí "Copia con respaldo" en el selector interactivo.
-```
-
----
-
-## 4. Módulos Disponibles
-
-| Módulo | Herramientas | Configs desplegadas |
-| :--- | :--- | :--- |
-| **core** | Fish · Starship · mise · Atuin · Nerd Fonts | `fish/config.fish`, `starship.toml`, `atuin/config.toml` |
-| **terminal** | Ghostty · Zellij | `ghostty/config`, `zellij/config.kdl`, layouts, plugins |
-| **editor** | Neovim · Git-Delta · Lazygit · gh · Bat · Glow | `nvim/`, `lazygit/config.yml`, `git/delta.gitconfig` |
-| **search** | rg · fd · fzf · sd · yazi · zoxide · eza · dust | — (integradas en Fish) |
-| **cli** | btm · procs · xh · jq · jqp · tokei · onefetch | `bottom/bottom.toml` |
-| **devops** | lazydocker · k9s · kubectx/kubens | — |
-| **ai** | pi (Coding Agent en terminal) | `~/.pi/themes/ohmyconfig-static-noise.json`, `~/.pi/extensions/ohmyconfig-header.ts` (Pi base por npm global) |
-
----
-
-## 5. Perfil de Instalación (`.omc-profile`)
-
-Al finalizar, `omc install` guarda un perfil local:
+Cuando terminás la instalación, `omc` guarda un archivo `.omc-profile` en la raíz del repositorio recordando qué modo elegiste y qué módulos tenés activos:
 
 ```toml
-# .omc-profile — generado por omc install
 deploy_mode=symlink
 modules=core terminal editor search cli devops ai
 ```
 
-El instalador lo crea como estado local y `omc doctor` lo muestra como referencia. `omc update` no filtra sus actualizaciones por este archivo, y el perfil está ignorado por Git.
-
----
-
-## 6. Pasos Posteriores Recomendados
-
-1. **Establecer Fish como shell por defecto en macOS:**
-   ```bash
-   echo "$(which fish)" | sudo tee -a /etc/shells
-   chsh -s "$(which fish)"
-   ```
-2. **Instalar tus runtimes con mise:**
-   ```bash
-   mise use -g node@lts
-   mise use -g python@latest
-   mise use -g go@latest
-   ```
-3. **Abrir Ghostty** para disfrutar del renderizado GPU y el tema Static Noise completo.
-4. **Instalar Pi base y añadir extensiones sólo si las necesitás:**
-   ```bash
-   ./omc dev
-   # Opcional: pi install <paquete>
-   ```
+Esto permite que futuras actualizaciones o revisiones con `omc doctor` sepan exactamente qué revisar sin tener que preguntarte de nuevo.

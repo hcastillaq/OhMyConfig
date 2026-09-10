@@ -1,0 +1,154 @@
+---
+// Cosmic Atmosphere Component — OhMyConfig
+// Concepto: Ventana de nave espacial con universo abisal y polvo estelar
+---
+
+<div class="deep-space-glow" aria-hidden="true"></div>
+<div class="film-grain" aria-hidden="true"></div>
+<canvas id="cosmic-canvas" aria-hidden="true"></canvas>
+
+<style>
+  .deep-space-glow {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    /* Fondo abisal más oscuro y profundo, como mirar por la ventana de una nave espacial */
+    background: 
+      radial-gradient(circle at 20% 15%, rgba(114, 234, 213, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 80% 25%, rgba(131, 191, 255, 0.05) 0%, transparent 45%),
+      radial-gradient(circle at 50% 90%, rgba(194, 167, 255, 0.04) 0%, transparent 55%),
+      #06080E;
+  }
+
+  .film-grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.012;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  #cosmic-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.75;
+  }
+</style>
+
+<script>
+  function setupCosmicCanvas() {
+    const canvas = document.getElementById('cosmic-canvas') as HTMLCanvasElement | null;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width = 0;
+    let height = 0;
+    interface Particle {
+      x: number;
+      y: number;
+      size: number;
+      alpha: number;
+      baseAlpha: number;
+      twinkleSpeed: number;
+      speedY: number;
+      speedX: number;
+      color: string;
+    }
+    let particles: Particle[] = [];
+    let animationFrameId: number | null = null;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function resize() {
+      if (!canvas) return;
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      particles = [];
+
+      // Densidad equilibrada para dar sensación de inmensidad estelar
+      const count = Math.floor((width * height) / 12000);
+      for (let i = 0; i < count; i++) {
+        const baseA = Math.random() * 0.45 + 0.15;
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: Math.random() < 0.2 ? Math.random() * 1.4 + 0.6 : Math.random() * 0.8 + 0.2, // Estrellas variables
+          alpha: baseA,
+          baseAlpha: baseA,
+          twinkleSpeed: Math.random() * 0.015 + 0.003,
+          speedY: -(Math.random() * 0.08 + 0.015), // Movimiento suave y lento en gravedad cero
+          speedX: (Math.random() - 0.5) * 0.02,
+          color: Math.random() > 0.85 ? '#72EAD5' : (Math.random() > 0.65 ? '#83BFFF' : '#E6E2D6'),
+        });
+      }
+    }
+
+    function renderStatic() {
+      if (!ctx) return;
+      ctx.clearRect(0, 0, width, height);
+      for (const p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.alpha;
+        ctx.fill();
+      }
+    }
+
+    function loop() {
+      if (!ctx) return;
+      ctx.clearRect(0, 0, width, height);
+
+      for (const p of particles) {
+        p.y += p.speedY;
+        p.x += p.speedX;
+
+        // Suave parpadeo estelar
+        p.alpha += (Math.random() - 0.5) * p.twinkleSpeed;
+        if (p.alpha < p.baseAlpha * 0.5) p.alpha = p.baseAlpha * 0.5;
+        if (p.alpha > p.baseAlpha * 1.5) p.alpha = p.baseAlpha * 1.5;
+
+        if (p.y < 0) {
+          p.y = height;
+          p.x = Math.random() * width;
+        }
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.alpha;
+        ctx.fill();
+      }
+
+      animationFrameId = requestAnimationFrame(loop);
+    }
+
+    window.addEventListener('resize', resize, { passive: true });
+    resize();
+
+    if (prefersReducedMotion) {
+      renderStatic();
+    } else {
+      loop();
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        } else {
+          loop();
+        }
+      });
+    }
+  }
+
+  setupCosmicCanvas();
+  document.addEventListener('astro:page-load', setupCosmicCanvas);
+</script>

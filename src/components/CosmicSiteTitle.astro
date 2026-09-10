@@ -1,0 +1,81 @@
+---
+// Cosmic Site Title & Logo — OhMyConfig
+const href = import.meta.env.BASE_URL;
+---
+
+<a href={href} class="cosmic-brand">
+  <div class="brand-badge">
+    <svg class="brand-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+    </svg>
+  </div>
+  <div class="brand-text">
+    <span class="brand-primary">OhMy</span><span class="brand-accent">Config</span>
+  </div>
+  <span class="brand-tag">v1.0</span>
+</a>
+
+<style>
+  .cosmic-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--sl-color-white);
+    padding: 4px 6px;
+    border-radius: 6px;
+    transition: opacity 0.15s ease;
+  }
+
+  .cosmic-brand:hover {
+    opacity: 0.9;
+  }
+
+  .brand-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, rgba(114, 234, 213, 0.25), rgba(131, 191, 255, 0.1));
+    border: 1px solid rgba(114, 234, 213, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(114, 234, 213, 0.25);
+    flex-shrink: 0;
+  }
+
+  .brand-bolt {
+    width: 15px;
+    height: 15px;
+    color: var(--sl-color-accent);
+    fill: rgba(114, 234, 213, 0.3);
+  }
+
+  .brand-text {
+    font-family: var(--sl-font-mono);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.02em;
+    display: flex;
+  }
+
+  .brand-primary {
+    color: var(--sl-color-white);
+  }
+
+  .brand-accent {
+    color: var(--sl-color-accent);
+  }
+
+  .brand-tag {
+    font-family: var(--sl-font-mono);
+    font-size: 10px;
+    color: var(--sn-purple, #C2A7FF);
+    background: rgba(194, 167, 255, 0.08);
+    border: 1px solid rgba(194, 167, 255, 0.35);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+</style>

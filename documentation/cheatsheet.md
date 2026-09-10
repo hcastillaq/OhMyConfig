@@ -1,6 +1,9 @@
-# ⚡ Tabla Maestra de Alias y Atajos
+---
+title: "Tabla Maestra de Alias y Atajos"
+description: "Referencia rápida de todos los alias, atajos y comandos de OhMyConfig."
+---
 
-Referencia rápida de todos los alias, herramientas y atajos disponibles en **OhMyConfig**.
+Esta es la hoja de trucos de cabecera de OhMyConfig. Si recién instalás el entorno o querés sacarle el máximo provecho en tu día a día, acá tenés todos los alias, atajos y comandos organizados por herramienta para tener a mano en cualquier momento.
 
 ---
 

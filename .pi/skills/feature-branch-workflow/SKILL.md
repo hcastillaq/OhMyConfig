@@ -11,7 +11,7 @@ Esta skill define el ciclo de vida para trabajar con ramas de Git en **OhMyConfi
 
 ## Modelo de Ramas
 
-* **`main`**: Rama de producción y estabilidad. Todo push a `main` en las rutas `docs/**` o `.vitepress/**` dispara el despliegue automático a GitHub Pages (`.github/workflows/docs.yml`).
+* **`main`**: Rama de producción y estabilidad. Todo push a `main` en las rutas `documentation/**` o `src/**` dispara el despliegue automático a GitHub Pages (`.github/workflows/docs.yml`).
 * **`feature/<nombre>`**: Ramas de trabajo para nuevas funcionalidades, refactorizaciones o mejoras de CLI (ej: `feature/cli`, `feature/snapshots`).
 * **`fix/<nombre>`**: Ramas para corrección de errores puntuales (ej: `fix/zellij-keybinds`).
 * **`docs/<nombre>`**: Ramas dedicadas a expansiones mayores de documentación.
@@ -43,7 +43,7 @@ Antes de fusionar a `main` o abrir un Pull Request, ejecutar obligatoriamente:
    ```
 3. **Compilación de Documentación:**
    ```bash
-   npx vitepress build
+   npm run build
    ```
 
 ### 4. Integración Limpia hacia `main`

@@ -1,0 +1,745 @@
+/* Tipografías Web Oficiales: Space Grotesk (Artística Cósmica) + Inter (Legible Dev) + JetBrains Mono */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* Static Noise Canonical Tokens — Espacio Abisal Profundo */
+  --sn-void: #06080E;
+  --sn-base: #0A0D15;
+  --sn-raised: #121622;
+  --sn-overlay: #181C2A;
+  --sn-border: rgba(255, 255, 255, 0.08);
+  --sn-border-focus: rgba(114, 234, 213, 0.45);
+
+  --sn-text: #E2E8F0;
+  --sn-text-muted: #94A3B8;
+  --sn-text-dim: #475569;
+
+  --sn-cyan: #72EAD5;
+  --sn-blue: #83BFFF;
+  --sn-purple: #C2A7FF;
+  --sn-pink: #F08BC2;
+  --sn-green: #A3D98B;
+  --sn-yellow: #EDD071;
+  --sn-orange: #F3A261;
+  --sn-red: #EF7785;
+
+  /* Mapeo de Starlight a Static Noise */
+  --sl-color-accent-low: rgba(114, 234, 213, 0.1);
+  --sl-color-accent: var(--sn-cyan);
+  --sl-color-accent-high: var(--sn-blue);
+
+  --sl-color-white: #FFFFFF;
+  --sl-color-gray-1: var(--sn-text);
+  --sl-color-gray-2: #CBD5E1;
+  --sl-color-gray-3: var(--sn-text-muted);
+  --sl-color-gray-4: var(--sn-text-dim);
+  --sl-color-gray-5: #1E293B;
+  --sl-color-gray-6: var(--sn-raised);
+  --sl-color-black: var(--sn-void);
+
+  --sl-color-bg: transparent;
+  --sl-color-bg-nav: rgba(10, 13, 22, 0.45);
+  --sl-color-bg-sidebar: rgba(10, 13, 22, 0.38);
+  --sl-color-hairline: var(--sn-border);
+  --sl-color-hairline-light: rgba(255, 255, 255, 0.04);
+
+  /* Sistema Dual de Tipografías */
+  --sl-font-system: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --sl-font-display: "Space Grotesk", "Inter", -apple-system, sans-serif;
+  --sl-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Expressive Code Customization */
+  --ec-codeBg: #07090E;
+  --ec-codeColor: var(--sn-text);
+  --ec-uiBg: #0D111A;
+  --ec-uiFg: var(--sn-text-muted);
+  --ec-brdCol: rgba(255, 255, 255, 0.08);
+  --ec-tabBg: #0D111A;
+  --ec-tabActBg: #141824;
+  --ec-tabActFg: var(--sn-cyan);
+  --ec-tabActBrdCol: var(--sn-cyan);
+  --ec-codeFontFamily: var(--sl-font-mono);
+}
+
+/* Forzar tema oscuro inmersivo */
+:root[data-theme='dark'], :root[data-theme='light'] {
+  color-scheme: dark;
+  background-color: var(--sn-void);
+  color: var(--sn-text);
+}
+
+body {
+  background-color: var(--sn-void);
+  color: var(--sn-text);
+  font-family: var(--sl-font-system);
+  letter-spacing: -0.01em;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ========================================================= */
+/* ESTRUCTURA Y NAVEGACIÓN (3 COLUMNAS PRESERVADAS NATIVAS)  */
+/* ========================================================= */
+
+/* Header con cristal y línea sutil inferior */
+header.header {
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  background: rgba(10, 13, 22, 0.45) !important;
+  border-bottom: 1px solid var(--sn-border) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Eliminar el contenedor padre nav para evitar el doble borde */
+nav.sidebar {
+  border: none !important;
+  border-right: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Sidebar izquierdo real con un ÚNICO borde sutil */
+.sidebar-pane,
+sl-sidebar-pane {
+  backdrop-filter: blur(20px) saturate(170%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(170%) !important;
+  background: rgba(10, 13, 22, 0.4) !important;
+  border-inline-end: 1px solid var(--sn-border) !important;
+  border-right: 1px solid var(--sn-border) !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  box-shadow: none !important;
+}
+
+.sidebar-content {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Links del Sidebar */
+.sidebar a {
+  font-size: 0.9rem !important;
+  padding: 0.45rem 0.75rem !important;
+  border-radius: 5px;
+  transition: all 0.15s ease;
+}
+
+.sidebar a[aria-current="page"] {
+  background: rgba(114, 234, 213, 0.08) !important;
+  color: var(--sn-cyan) !important;
+  border-left: 2px solid var(--sn-cyan);
+  font-weight: 600;
+}
+
+.sidebar a:hover:not([aria-current="page"]) {
+  color: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Sidebar derecho (TOC - Table of Contents): SIN bordes, flotante y limpio */
+.right-sidebar,
+.right-sidebar:where(.astro-lrzkfocr) {
+  border: none !important;
+  border-left: none !important;
+  border-inline-start: none !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+starlight-toc a[aria-current="true"] {
+  color: var(--sn-cyan) !important;
+  font-weight: 600;
+}
+
+starlight-toc a:hover {
+  color: #FFFFFF !important;
+}
+
+/* ========================================================= */
+/* ÁREA DE CONTENIDO: CENTRADO Y SEPARACIÓN DEL TOC DERECHO */
+/* ========================================================= */
+
+.content-panel {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* Separación interna para que el texto no se pegue al TOC derecho */
+@media (min-width: 72rem) {
+  .sl-container {
+    padding-inline-end: 3rem;
+  }
+}
+
+/* ========================================================= */
+/* TIPOGRAFÍA Y RITMO VERTICAL CALIBRADO                     */
+/* ========================================================= */
+
+h1, h2, h3, h4, h5, h6,
+.hero h1,
+.card-title,
+.footer-title,
+.brand-text,
+.site-title {
+  font-family: var(--sl-font-display) !important;
+  letter-spacing: -0.03em !important;
+  font-weight: 700 !important;
+  color: #FFFFFF;
+}
+
+h1 {
+  font-size: clamp(2.2rem, 3.5vw, 3rem) !important;
+  line-height: 1.25 !important;
+  /* Espacio generoso superior para separar del navbar */
+  margin-top: 2.25rem !important;
+  margin-bottom: 1.75rem !important;
+}
+
+h2 {
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem) !important;
+  line-height: 1.25 !important;
+  margin-top: 3.5rem !important;
+  margin-bottom: 1.2rem !important;
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+}
+
+h3 {
+  font-size: 1.2rem !important;
+  margin-top: 2.25rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+/* Párrafos legibles y confortables */
+.sl-markdown-content p,
+.sl-markdown-content li {
+  font-family: var(--sl-font-system);
+  font-size: 1.02rem;
+  line-height: 1.8;
+  color: var(--sn-text);
+  margin-bottom: 1.4rem;
+}
+
+.sl-markdown-content li {
+  margin-bottom: 0.4rem;
+}
+
+.sl-markdown-content strong {
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+/* Separador horizontal orgánico */
+.sl-markdown-content hr {
+  border: none !important;
+  height: 1px !important;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%) !important;
+  margin: 3.5rem 0 !important;
+}
+
+/* Enlaces del contenido */
+.sl-markdown-content a:not([class]) {
+  color: var(--sn-blue);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(131, 191, 255, 0.3);
+  transition: all 0.15s ease;
+}
+
+.sl-markdown-content a:not([class]):hover {
+  color: var(--sn-cyan);
+  border-bottom-color: var(--sn-cyan);
+}
+
+/* HERO SECTION ESTILIZADO */
+.hero {
+  padding-block: clamp(3rem, calc(2rem + 6vmin), 6rem) !important;
+}
+
+.hero h1 {
+  background: linear-gradient(180deg, #FFFFFF 30%, rgba(230, 226, 214, 0.7) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.04em !important;
+  font-size: clamp(2.75rem, calc(1.5rem + 4.5vw), 4.25rem) !important;
+  font-weight: 800 !important;
+}
+
+.hero .tagline {
+  color: var(--sn-text-muted) !important;
+  font-family: var(--sl-font-system) !important;
+  font-size: 1.15rem !important;
+  max-width: 65ch;
+  line-height: 1.6;
+}
+
+/* BOTONES DE ACCIÓN (HERO & LINK BUTTONS) */
+.sl-link-button {
+  font-family: var(--sl-font-mono) !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  padding: 0.75rem 1.4rem !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  letter-spacing: -0.01em !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  text-decoration: none !important;
+}
+
+/* Botón Primario: Estilo Flat Cyan con brillo cósmico */
+.sl-link-button.primary {
+  background: rgba(114, 234, 213, 0.12) !important;
+  border: 1px solid var(--sn-cyan) !important;
+  color: var(--sn-cyan) !important;
+  box-shadow: 0 0 16px rgba(114, 234, 213, 0.2) !important;
+}
+
+.sl-link-button.primary:hover {
+  background: var(--sn-cyan) !important;
+  color: #06080E !important;
+  box-shadow: 0 0 24px rgba(114, 234, 213, 0.45) !important;
+  transform: translateY(-2px);
+}
+
+/* Botón Secundario: Vidrio oscuro con acento Azul */
+.sl-link-button.secondary {
+  background: rgba(24, 28, 38, 0.65) !important;
+  border: 1px solid var(--sn-border) !important;
+  color: var(--sn-text) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+.sl-link-button.secondary:hover {
+  border-color: var(--sn-blue) !important;
+  color: var(--sn-blue) !important;
+  background: rgba(131, 191, 255, 0.1) !important;
+  transform: translateY(-2px);
+}
+
+/* Botón Minimal: Borde sutil y texto claro */
+.sl-link-button.minimal {
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: var(--sn-text-muted) !important;
+}
+
+.sl-link-button.minimal:hover {
+  color: var(--sn-text) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  transform: translateY(-2px);
+}
+
+/* ========================================================= */
+/* REDISEÑO COMPLETO DEL BUSCADOR (SPOTLIGHT / RAYCAST HUD) */
+/* ========================================================= */
+
+/* Botón disparador en el Navbar */
+button[data-open-modal] {
+  background: rgba(24, 28, 38, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 6px !important;
+  padding: 0.4rem 0.75rem !important;
+  color: var(--sn-text-muted) !important;
+  font-family: var(--sl-font-system) !important;
+  font-size: 0.85rem !important;
+  backdrop-filter: blur(10px) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  height: 2.25rem !important;
+}
+
+button[data-open-modal]:hover {
+  background: rgba(24, 28, 38, 0.75) !important;
+  border-color: var(--sn-border-focus) !important;
+  color: var(--sl-color-white) !important;
+  box-shadow: 0 0 14px rgba(114, 234, 213, 0.18) !important;
+}
+
+button[data-open-modal] kbd {
+  background: rgba(114, 234, 213, 0.08) !important;
+  border: 1px solid rgba(114, 234, 213, 0.3) !important;
+  color: var(--sn-cyan) !important;
+  font-family: var(--sl-font-mono) !important;
+  border-radius: 4px !important;
+  font-size: 0.7rem !important;
+  padding: 0.15rem 0.45rem !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* Modal Dialog (Spotlight HUD) - Altura compacta adaptativa */
+dialog,
+dialog[open],
+dialog[aria-label],
+site-search dialog,
+dialog:where(.astro-b5kgnn7o) {
+  position: fixed !important;
+  inset: auto !important;
+  top: 15vh !important;
+  bottom: auto !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+  margin: 0 !important;
+  width: min(92vw, 38rem) !important;
+  max-width: 38rem !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: 75vh !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(114, 234, 213, 0.35) !important;
+  background: rgba(10, 13, 22, 0.94) !important;
+  backdrop-filter: blur(28px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9), 0 0 30px rgba(114, 234, 213, 0.15) !important;
+  overflow: hidden !important;
+}
+
+dialog:not([open]) {
+  display: none !important;
+}
+
+dialog[open],
+dialog[open]:where(.astro-b5kgnn7o) {
+  display: flex !important;
+  flex-direction: column !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+dialog::backdrop,
+dialog:where(.astro-b5kgnn7o)::backdrop {
+  background: rgba(3, 5, 8, 0.8) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* Frame interior: se ajusta al contenido real */
+.dialog-frame,
+.dialog-frame:where(.astro-b5kgnn7o) {
+  flex-grow: 0 !important;
+  flex-shrink: 1 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: 75vh !important;
+  padding: 1.25rem !important;
+  gap: 0.75rem !important;
+  overflow-y: auto !important;
+}
+
+.search-container,
+.search-container:where(.astro-b5kgnn7o),
+#starlight__search {
+  height: auto !important;
+  min-height: 0 !important;
+  flex-grow: 0 !important;
+}
+
+/* Input interior de búsqueda de Pagefind */
+#starlight__search {
+  --pagefind-ui-primary: var(--sn-cyan) !important;
+  --pagefind-ui-text: var(--sn-text) !important;
+  --pagefind-ui-font: var(--sl-font-system) !important;
+  --pagefind-ui-background: transparent !important;
+  --pagefind-ui-border: rgba(255, 255, 255, 0.1) !important;
+  --pagefind-ui-border-width: 1px !important;
+}
+
+#starlight__search .pagefind-ui__form {
+  position: relative !important;
+  margin: 0 !important;
+}
+
+#starlight__search .pagefind-ui__search-input {
+  background: rgba(18, 22, 34, 0.65) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
+  color: #FFFFFF !important;
+  font-family: var(--sl-font-system) !important;
+  font-size: 1.05rem !important;
+  padding: 0.85rem 1rem 0.85rem 2.85rem !important;
+  transition: all 0.2s ease !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+  height: 3rem !important;
+}
+
+#starlight__search .pagefind-ui__search-input:focus {
+  border-color: var(--sn-cyan) !important;
+  box-shadow: 0 0 18px rgba(114, 234, 213, 0.25), inset 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+  outline: none !important;
+}
+
+#starlight__search .pagefind-ui__search-clear {
+  color: var(--sn-text-muted) !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
+/* Resultados de búsqueda */
+#starlight__search .pagefind-ui__results-area {
+  margin-top: 1rem !important;
+}
+
+#starlight__search .pagefind-ui__result {
+  background: rgba(18, 22, 34, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 8px !important;
+  padding: 0.85rem 1rem !important;
+  margin-bottom: 0.6rem !important;
+  transition: all 0.15s ease !important;
+}
+
+#starlight__search .pagefind-ui__result:hover,
+#starlight__search .pagefind-ui__result:focus-within {
+  background: rgba(114, 234, 213, 0.08) !important;
+  border-color: rgba(114, 234, 213, 0.4) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+  outline: none !important;
+}
+
+#starlight__search .pagefind-ui__result-title {
+  font-family: var(--sl-font-display) !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  color: #FFFFFF !important;
+}
+
+#starlight__search .pagefind-ui__result-link {
+  color: #FFFFFF !important;
+  text-decoration: none !important;
+}
+
+#starlight__search .pagefind-ui__result-excerpt {
+  font-family: var(--sl-font-system) !important;
+  color: var(--sn-text-muted) !important;
+  font-size: 0.85rem !important;
+  line-height: 1.5 !important;
+  margin-top: 0.25rem !important;
+}
+
+#starlight__search mark {
+  color: var(--sn-cyan) !important;
+  background: rgba(114, 234, 213, 0.15) !important;
+  border-radius: 2px !important;
+  padding: 0 2px !important;
+  font-weight: 600 !important;
+}
+
+/* Mensaje de no resultados o estado vacío */
+#starlight__search .pagefind-ui__message {
+  font-family: var(--sl-font-mono) !important;
+  font-size: 0.85rem !important;
+  color: var(--sn-text-dim) !important;
+  padding: 0.5rem 0 !important;
+}
+
+/* ========================================================= */
+/* GRID DE CARACTERÍSTICAS CÓSMICAS (HOMEPAGE) */
+/* ========================================================= */
+.cosmic-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+  margin: 3.5rem 0 2rem 0;
+}
+
+.feature-card {
+  background: rgba(14, 18, 28, 0.45);
+  border: 1px solid var(--sn-border);
+  border-radius: 8px;
+  padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-decoration: none !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(114, 234, 213, 0.35), transparent);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.feature-card:hover {
+  background: rgba(18, 24, 38, 0.7);
+  border-color: var(--sn-border-focus);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 16px rgba(114, 234, 213, 0.12);
+}
+
+.feature-card:hover::before {
+  opacity: 1;
+}
+
+.card-kicker {
+  font-family: var(--sl-font-mono);
+  font-size: 0.72rem;
+  color: var(--sn-text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.card-glyph {
+  font-size: 1.1rem;
+}
+
+.card-title {
+  font-family: var(--sl-font-display) !important;
+  font-size: 1.2rem !important;
+  font-weight: 700 !important;
+  color: #FFFFFF;
+  letter-spacing: -0.02em !important;
+}
+
+.card-desc {
+  font-family: var(--sl-font-system);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--sn-text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.card-footer code {
+  font-family: var(--sl-font-mono);
+  font-size: 0.78rem;
+  color: var(--sn-cyan);
+  background: rgba(114, 234, 213, 0.08);
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+
+.card-arrow {
+  color: var(--sn-text-dim);
+  font-size: 1rem;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.feature-card:hover .card-arrow {
+  color: var(--sn-cyan);
+  transform: translateX(4px);
+}
+
+/* BLOQUES DE CÓDIGO: Sobrios, oscuros, sin marcos llamativos */
+.expressive-code {
+  margin: 2rem 0 !important;
+}
+
+.expressive-code .frame {
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45) !important;
+  background: #07090E !important;
+}
+
+.expressive-code .header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  background: rgba(14, 18, 28, 0.6) !important;
+  font-family: var(--sl-font-mono) !important;
+  font-size: 0.82rem !important;
+}
+
+/* TABLAS LIGERAS Y MINIMALISTAS (SIN JAULAS NI BORDES GRUESOS) */
+.sl-markdown-content table {
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  margin: 2rem 0;
+  width: 100%;
+}
+
+.sl-markdown-content th {
+  background: transparent !important;
+  color: #FFFFFF !important;
+  font-family: var(--sl-font-mono);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  padding: 0.75rem 1rem !important;
+}
+
+.sl-markdown-content td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  padding: 0.85rem 1rem !important;
+}
+
+/* CALLOUTS / ASIDES: Sutiles sin bordes pesados */
+.starlight-aside {
+  border-radius: 6px !important;
+  border-left-width: 2px !important;
+  backdrop-filter: blur(8px);
+  margin: 1.75rem 0 !important;
+}
+
+.starlight-aside--note {
+  border-color: var(--sn-blue) !important;
+  background: rgba(131, 191, 255, 0.04) !important;
+}
+
+.starlight-aside--tip {
+  border-color: var(--sn-cyan) !important;
+  background: rgba(114, 234, 213, 0.04) !important;
+}
+
+.starlight-aside--caution {
+  border-color: var(--sn-yellow) !important;
+  background: rgba(237, 208, 113, 0.04) !important;
+}
+
+.starlight-aside--danger {
+  border-color: var(--sn-red) !important;
+  background: rgba(239, 119, 133, 0.04) !important;
+}
+
+/* FOCO VISIBLE ACCESIBLE */
+:focus-visible {
+  outline: 2px solid var(--sn-cyan) !important;
+  outline-offset: 2px !important;
+}
+
+/* REDUCCIÓN DE MOVIMIENTO */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

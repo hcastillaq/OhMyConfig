@@ -10,10 +10,9 @@
 !.pi/extensions/**
 .DS_Store
 
-# VitePress build output & cache
-.vitepress/dist
-.vitepress/cache
-docs/.vitepress/
+# Astro & Starlight build output & cache
+dist/
+.astro/
 node_modules/
 
 # omc CLI — perfil local (opcional commitear)
