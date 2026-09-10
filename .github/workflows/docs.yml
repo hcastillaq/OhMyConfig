@@ -6,12 +6,6 @@ on:
       - 'v*'
   pull_request:
     branches: [main]
-    paths:
-      - 'documentation/**'
-      - 'src/**'
-      - 'astro.config.mjs'
-      - 'package.json'
-      - 'package-lock.json'
   workflow_dispatch:
 
 permissions:
