@@ -160,7 +160,7 @@ OhMyConfig/
 2. **Pure Documentation Principle**:
    - The `documentation/` directory contains **only pure Markdown files** without framework config bloat.
    - Documentation platform is built on **Astro + Starlight** with zero JavaScript on reader content, styled with the Static Noise palette and a calibrated cosmic atmosphere canvas.
-   - CI/CD in `.github/workflows/docs.yml` builds with `npm run build` and deploys to GitHub Pages automatically.
+   - CI/CD in `.github/workflows/docs.yml` verifies compilation with `npm run build` on PRs and deploys to GitHub Pages exclusively upon version tag releases (`v*`) or manual dispatch.
    - Compound Engineering artifacts are separated from user docs under `.compound-engineering/artifacts/` via `.compound-engineering/config.yaml` (`docs_root`).
 3. **Zero-Friction Offline Execution**: Avoid dynamic external downloads inside runtime configs; bundle or locally cache required binaries/WASM plugins within the repo.
 4. **Non-Destructive Overwrites**: Configuration installers must never silently discard user files without `.bak_` backups or user consent.
