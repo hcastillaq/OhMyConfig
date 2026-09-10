@@ -18,7 +18,7 @@
  * hacia modelos más caros para salvaguardar el presupuesto del usuario de forma predecible.
  */
 
-import type { Tier, ThinkingLevel, ModelCandidate, PolicyConfig, DecisionTrace } from './types.ts';
+import type { Tier, ThinkingLevel, Profile, ModelCandidate, PolicyConfig, DecisionTrace } from './types.ts';
 import { calculateModelCost } from './pricing.ts';
 import type { CircuitBreaker } from './breaker.ts';
 
@@ -35,16 +35,36 @@ export interface RawPiModel {
 }
 
 /**
- * Niveles recomendados de razonamiento por tier de capacidad.
- * Tiers de alta abstracción reciben mayor profundidad de pensamiento.
+ * Niveles recomendados de razonamiento calibrados según el perfil activo.
+ * - 'quota-saver': Minimiza tokens de pensamiento para alargar la cuota.
+ * - 'balanced': Equilibrio estándar entre profundidad analítica y velocidad.
+ * - 'quality': Maximiza el razonamiento en tareas críticas y de arquitectura.
  */
-const DEFAULT_THINKING_PER_TIER: Record<Tier, ThinkingLevel> = {
-  FAST: 'low',
-  RESEARCH: 'low',
-  BUILD: 'medium',
-  REASON: 'medium',
-  ARCHITECT: 'high',
-  ORACLE: 'high'
+const PROFILE_THINKING: Record<Profile, Record<Tier, ThinkingLevel>> = {
+  'quota-saver': {
+    FAST: 'off',
+    RESEARCH: 'off',
+    BUILD: 'low',
+    REASON: 'low',
+    ARCHITECT: 'medium',
+    ORACLE: 'medium'
+  },
+  'balanced': {
+    FAST: 'low',
+    RESEARCH: 'low',
+    BUILD: 'medium',
+    REASON: 'medium',
+    ARCHITECT: 'high',
+    ORACLE: 'high'
+  },
+  'quality': {
+    FAST: 'low',
+    RESEARCH: 'medium',
+    BUILD: 'medium',
+    REASON: 'high',
+    ARCHITECT: 'high',
+    ORACLE: 'high'
+  }
 };
 
 /**
@@ -72,24 +92,24 @@ export function buildModelCandidates(availableModels: RawPiModel[]): ModelCandid
 }
 
 /**
- * Distribuye dinámicamente los modelos disponibles en los 6 tiers funcionales.
+ * Distribuye dinámicamente los modelos disponibles en los 6 tiers funcionales,
+ * modulando las prioridades y niveles de pensamiento según el perfil activo.
  *
- * Lógica de Asignación:
- * - FAST: Modelos estándar ordenados estrictamente por menor costo.
- * - RESEARCH: Modelos estándar ordenados favoreciendo mayor ventana de contexto a costo accesible.
- * - BUILD: Modelos estándar para ejecución de código y desarrollo.
- * - REASON: El modelo con capacidad de razonamiento de menor costo (análisis eficiente).
- * - ARCHITECT: Modelos con razonamiento en el percentil superior (planificación estructural).
- * - ORACLE: El modelo de mayor capacidad/costo en el pool de razonamiento (modelo de frontera).
+ * Impacto del Perfil:
+ * - 'quota-saver': Desplaza los tiers hacia abajo para priorizar modelos más económicos y reduce el thinking.
+ * - 'balanced': Equilibrio natural donde cada tier recibe su clase óptima de modelo.
+ * - 'quality': Promueve subagentes analíticos y de investigación hacia modelos pensantes superiores con thinking alto.
  */
 export function groupAndSortTiers(
-  candidates: ModelCandidate[]
+  candidates: ModelCandidate[],
+  profile: Profile = 'balanced'
 ): Map<Tier, ModelCandidate[]> {
   const map = new Map<Tier, ModelCandidate[]>();
   if (candidates.length === 0) return map;
 
+  const thinkingConfig = PROFILE_THINKING[profile] || PROFILE_THINKING.balanced;
+
   // Ordenamiento base del pool completo: Menor costo por token primero.
-  // En caso de empate de costo, se prefiere la ventana de contexto más amplia.
   const sortedByCostAsc = [...candidates].sort((a, b) => {
     if (Math.abs(a.cost - b.cost) > 0.0001) return a.cost - b.cost;
     return b.contextWindow - a.contextWindow;
@@ -99,66 +119,74 @@ export function groupAndSortTiers(
   const standardPool = sortedByCostAsc.filter(c => !c.reasoning);
   const reasoningPool = sortedByCostAsc.filter(c => c.reasoning);
 
-  // Adaptabilidad: Si el usuario carece de modelos pensantes (ej. solo modelos locales ligeros),
-  // el pool completo ordenado por costo asume ambos roles sin quebrar la ejecución.
   const hasReasoning = reasoningPool.length > 0;
   const effectiveStandard = standardPool.length > 0 ? standardPool : sortedByCostAsc;
   const effectiveReasoning = hasReasoning ? reasoningPool : sortedByCostAsc;
 
   // --- FAST TIER ---
-  // Modelos de respuesta rápida y mínimo costo por token para sondeos y scouts.
   map.set('FAST', effectiveStandard.map(c => ({
     ...c,
     tier: 'FAST' as Tier,
-    recommendedThinking: DEFAULT_THINKING_PER_TIER.FAST
+    recommendedThinking: thinkingConfig.FAST
   })));
 
   // --- RESEARCH TIER ---
-  // Tareas de investigación y rastreo documental; prioriza ventanas grandes de contexto
-  // en el segmento económico. Para garantizar ordenamiento transitivo y estable en TimSort,
-  // la tolerancia de costo se ancla rígidamente al costo mínimo del pool base.
-  const minCost = effectiveStandard[0]?.cost || 0;
-  const researchSorted = [...effectiveStandard].sort((a, b) => {
-    const aInBudget = (a.cost - minCost) <= 1.0;
-    const bInBudget = (b.cost - minCost) <= 1.0;
-
-    if (aInBudget && bInBudget) {
-      if (b.contextWindow !== a.contextWindow) return b.contextWindow - a.contextWindow;
+  // En 'quality', se priorizan modelos pensantes si existen; de lo contrario, modelos estándar de gran contexto.
+  let researchPool: ModelCandidate[];
+  if (profile === 'quality' && hasReasoning) {
+    researchPool = effectiveReasoning;
+  } else {
+    const minCost = effectiveStandard[0]?.cost || 0;
+    researchPool = [...effectiveStandard].sort((a, b) => {
+      const aInBudget = (a.cost - minCost) <= 1.0;
+      const bInBudget = (b.cost - minCost) <= 1.0;
+      if (aInBudget && bInBudget) {
+        if (b.contextWindow !== a.contextWindow) return b.contextWindow - a.contextWindow;
+        return a.cost - b.cost;
+      }
+      if (aInBudget && !bInBudget) return -1;
+      if (!aInBudget && bInBudget) return 1;
       return a.cost - b.cost;
-    }
-    if (aInBudget && !bInBudget) return -1;
-    if (!aInBudget && bInBudget) return 1;
-    return a.cost - b.cost;
-  });
-  map.set('RESEARCH', researchSorted.map(c => ({
+    });
+  }
+
+  map.set('RESEARCH', researchPool.map(c => ({
     ...c,
     tier: 'RESEARCH' as Tier,
-    recommendedThinking: DEFAULT_THINKING_PER_TIER.RESEARCH
+    recommendedThinking: thinkingConfig.RESEARCH
   })));
 
   // --- BUILD TIER ---
-  // Tareas de programación, aplicación de parches y ejecución de herramientas de sistema.
   map.set('BUILD', effectiveStandard.map(c => ({
     ...c,
     tier: 'BUILD' as Tier,
-    recommendedThinking: DEFAULT_THINKING_PER_TIER.BUILD
+    recommendedThinking: thinkingConfig.BUILD
   })));
 
   // --- REASON TIER ---
-  // Revisiones lógicas, auditorías de seguridad y análisis crítico.
-  // Selecciona el modelo con reasoning más económico para maximizar la duración de la cuota.
-  map.set('REASON', effectiveReasoning.map(c => ({
+  // En 'quota-saver', si los modelos pensantes son caros, prioriza modelos estándar económicos con thinking mínimo.
+  let reasonPool: ModelCandidate[];
+  if (profile === 'quota-saver') {
+    reasonPool = [...effectiveStandard, ...effectiveReasoning];
+  } else if (profile === 'quality' && effectiveReasoning.length >= 2) {
+    // En 'quality', se eleva al modelo pensante superior en vez del más barato
+    reasonPool = [...effectiveReasoning].slice(1);
+  } else {
+    reasonPool = effectiveReasoning;
+  }
+
+  map.set('REASON', reasonPool.map(c => ({
     ...c,
     tier: 'REASON' as Tier,
-    recommendedThinking: DEFAULT_THINKING_PER_TIER.REASON
+    recommendedThinking: thinkingConfig.REASON
   })));
 
   // --- ARCHITECT TIER ---
-  // Tareas de arquitectura, diseño de sistemas y especificación.
-  // Selecciona modelos de razonamiento profundo del segmento medio-alto,
-  // excluyendo el modelo de frontera que queda reservado para ORACLE.
   let architectPool: ModelCandidate[];
-  if (effectiveReasoning.length >= 3) {
+  if (profile === 'quota-saver') {
+    // En modo ahorro, ARCHITECT usa el modelo pensante más económico
+    architectPool = effectiveReasoning;
+  } else if (effectiveReasoning.length >= 3) {
     const withoutApex = effectiveReasoning.slice(0, effectiveReasoning.length - 1);
     architectPool = withoutApex.slice(Math.floor(withoutApex.length / 2));
     if (architectPool.length === 0) architectPool = [withoutApex[withoutApex.length - 1]];
@@ -171,17 +199,22 @@ export function groupAndSortTiers(
   map.set('ARCHITECT', architectPool.map(c => ({
     ...c,
     tier: 'ARCHITECT' as Tier,
-    recommendedThinking: DEFAULT_THINKING_PER_TIER.ARCHITECT
+    recommendedThinking: thinkingConfig.ARCHITECT
   })));
 
   // --- ORACLE TIER ---
-  // Arbitraje final y consultas estratégicas de máxima complejidad.
-  // Asigna el modelo de frontera de mayor capacidad y costo del pool.
-  const oraclePool = [...effectiveReasoning].reverse();
+  // En 'quota-saver', ORACLE se restringe al modelo de arquitectura para no quemar el apex de frontera.
+  let oraclePool: ModelCandidate[];
+  if (profile === 'quota-saver' && effectiveReasoning.length >= 2) {
+    oraclePool = effectiveReasoning.slice(0, effectiveReasoning.length - 1).reverse();
+  } else {
+    oraclePool = [...effectiveReasoning].reverse();
+  }
+
   map.set('ORACLE', oraclePool.map(c => ({
     ...c,
     tier: 'ORACLE' as Tier,
-    recommendedThinking: DEFAULT_THINKING_PER_TIER.ORACLE
+    recommendedThinking: thinkingConfig.ORACLE
   })));
 
   return map;

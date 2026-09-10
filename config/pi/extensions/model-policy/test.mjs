@@ -216,3 +216,33 @@ test('8. No Upward Escalation Fallback under Rate-Limits', () => {
   assert.equal(fallback.candidate.id, 'flash');
   assert.ok(fallback.cooldownAvoided.includes('openai-codex/terra'));
 });
+
+test('9. Active Profile Dynamics - Quota-Saver vs Quality', () => {
+  const mockModels = [
+    { provider: 'antigravity', id: 'flash', cost: { input: 0.1, output: 0.4 }, reasoning: false, contextWindow: 1048576 },
+    { provider: 'openai-codex', id: 'terra', cost: { input: 2.5, output: 10 }, reasoning: true, contextWindow: 128000 },
+    { provider: 'openai-codex', id: 'sol', cost: { input: 5.0, output: 20 }, reasoning: true, contextWindow: 128000 },
+    { provider: 'openai-codex', id: 'astra', cost: { input: 15.0, output: 60 }, reasoning: true, contextWindow: 128000 }
+  ];
+
+  const candidates = buildModelCandidates(mockModels);
+  const breaker = new CircuitBreaker();
+
+  // 1. In 'quota-saver':
+  const saverMap = groupAndSortTiers(candidates, 'quota-saver');
+  const saverReason = resolveModelForTier('REASON', saverMap, breaker);
+  assert.equal(saverReason.candidate.recommendedThinking, 'low'); // Thinking is capped low
+  assert.equal(saverReason.candidate.id, 'flash'); // Prefers cheapest execution model
+
+  const saverArch = resolveModelForTier('ARCHITECT', saverMap, breaker);
+  assert.equal(saverArch.candidate.id, 'terra'); // Takes cheaper reasoning model (terra instead of sol)
+
+  // 2. In 'quality':
+  const qualityMap = groupAndSortTiers(candidates, 'quality');
+  const qualityReason = resolveModelForTier('REASON', qualityMap, breaker);
+  assert.equal(qualityReason.candidate.recommendedThinking, 'high'); // Thinking is maximized
+  assert.equal(qualityReason.candidate.id, 'sol'); // Promoted to superior reasoning model
+
+  const qualityArch = resolveModelForTier('ARCHITECT', qualityMap, breaker);
+  assert.equal(qualityArch.candidate.recommendedThinking, 'high');
+});

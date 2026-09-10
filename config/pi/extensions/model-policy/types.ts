@@ -2,6 +2,8 @@ export type Tier = 'FAST' | 'RESEARCH' | 'BUILD' | 'REASON' | 'ARCHITECT' | 'ORA
 
 export type ThinkingLevel = 'off' | 'minimal' | 'low' | 'medium' | 'high' | 'xhigh' | 'max';
 
+export type Profile = 'balanced' | 'quota-saver' | 'quality';
+
 export interface ModelCandidate {
   provider: string;
   id: string;
@@ -14,7 +16,7 @@ export interface ModelCandidate {
 }
 
 export interface PolicyConfig {
-  profile?: 'balanced' | 'quota-saver' | 'quality';
+  profile?: Profile;
   tiers?: Partial<Record<Tier, string>>;
   agents?: Record<string, { tier?: Tier; model?: string; thinking?: ThinkingLevel }>;
   reserveModels?: string[];

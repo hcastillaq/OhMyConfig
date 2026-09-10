@@ -56,6 +56,7 @@ function loadConfig(cwd?: string): PolicyConfig {
 export default function piModelPolicy(pi: ExtensionAPI) {
   const breaker = new CircuitBreaker();
   const recentTraces = new Map<string, DecisionTrace>();
+  let activeProfileOverride: Profile | null = null;
 
   // ---------------------------------------------------------------------------
   // 1. Intercepción en Vuelo: Enrutamiento Transparente antes de Ejecutar
@@ -77,12 +78,15 @@ export default function piModelPolicy(pi: ExtensionAPI) {
     if (!input || input.model || !input.agent) return;
 
     const config = loadConfig(ctx.cwd);
+    if (activeProfileOverride) {
+      config.profile = activeProfileOverride;
+    }
     const availableModels = ctx.modelRegistry ? ctx.modelRegistry.getAvailable() : [];
     if (availableModels.length === 0) return;
 
     // Autodescubrimiento de modelos y ordenamiento de tiers a partir del registro activo de Pi
     const candidates = buildModelCandidates(availableModels);
-    const tierMap = groupAndSortTiers(candidates);
+    const tierMap = groupAndSortTiers(candidates, config.profile);
 
     // Clasificación del rol funcional del subagente
     const classification = classifySubagent(
@@ -172,7 +176,7 @@ export default function piModelPolicy(pi: ExtensionAPI) {
   pi.registerCommand("model-policy", {
     description: "Inspecciona y explica el enrutamiento inteligente de modelos para subagentes",
     getArgumentCompletions: (prefix: string) => {
-      const subcommands = ["status", "explain", "cooldowns", "help"];
+      const subcommands = ["status", "explain", "profile", "cooldowns", "help"];
       const matches = subcommands.filter((cmd) => cmd.startsWith(prefix));
       return matches.length > 0 ? matches.map((m) => ({ value: m, label: m })) : null;
     },
@@ -180,9 +184,12 @@ export default function piModelPolicy(pi: ExtensionAPI) {
       const parts = args.trim().split(/\s+/);
       const subcmd = parts[0] || "status";
       const config = loadConfig(ctx.cwd);
+      if (activeProfileOverride) {
+        config.profile = activeProfileOverride;
+      }
       const availableModels = ctx.modelRegistry ? ctx.modelRegistry.getAvailable() : [];
       const candidates = buildModelCandidates(availableModels);
-      const tierMap = groupAndSortTiers(candidates);
+      const tierMap = groupAndSortTiers(candidates, config.profile);
 
       // --- COMANDO: status ---
       if (subcmd === "status") {
@@ -271,6 +278,33 @@ export default function piModelPolicy(pi: ExtensionAPI) {
         } else {
           console.log(lines.join("\n"));
         }
+        return;
+      }
+
+      // --- COMANDO: profile [name] ---
+      if (subcmd === "profile") {
+        const targetProfile = parts[1] as Profile | undefined;
+        const validProfiles: Profile[] = ["balanced", "quota-saver", "quality"];
+
+        if (!targetProfile) {
+          const current = config.profile || "balanced";
+          const msg = `Perfil activo actual: '${current}'. Perfiles disponibles: ${validProfiles.join(", ")}`;
+          if (ctx.ui?.notify) ctx.ui.notify(msg, "info");
+          else console.log(msg);
+          return;
+        }
+
+        if (!validProfiles.includes(targetProfile)) {
+          const err = `Perfil '${targetProfile}' no reconocido. Opciones válidas: ${validProfiles.join(", ")}`;
+          if (ctx.ui?.notify) ctx.ui.notify(err, "warning");
+          else console.log(err);
+          return;
+        }
+
+        activeProfileOverride = targetProfile;
+        const successMsg = `⚡ Perfil cambiado a '${targetProfile}' para la sesión actual. Ejecuta /model-policy status para ver la nueva distribución.`;
+        if (ctx.ui?.notify) ctx.ui.notify(successMsg, "info");
+        else console.log(successMsg);
         return;
       }
 
