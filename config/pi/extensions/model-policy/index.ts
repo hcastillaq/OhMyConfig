@@ -284,13 +284,13 @@ export default function piModelPolicy(pi: ExtensionAPI) {
         const lines: string[] = [];
         const uniqueProviders = Array.from(new Set(availableModels.map(m => m.provider))).join(", ") || "(ninguno)";
 
-        lines.push("⚡ Pi Model Policy — Estado de Enrutamiento de Subagentes");
+        lines.push("Pi Model Policy — Estado de Enrutamiento de Subagentes");
         lines.push("───────────────────────────────────────────────────────────────────────────────────────────────────");
         lines.push(`Perfil activo: ${config.profile || "balanced"} · Modelos disponibles: ${availableModels.length} · Proveedores: ${uniqueProviders}`);
         lines.push("");
 
         // SECCIÓN 1: Asignación Activa de Tiers
-        lines.push("📌 1. ASIGNACIÓN ACTIVA POR TIERS");
+        lines.push("1. ASIGNACIÓN ACTIVA POR TIERS");
         lines.push("───────────────────────────────────────────────────────────────────────────────────────────────────");
         lines.push(
           pad("Tier", 11) +
@@ -323,7 +323,7 @@ export default function piModelPolicy(pi: ExtensionAPI) {
 
         // SECCIÓN 2: Catálogo de Modelos Autodescubiertos
         lines.push("");
-        lines.push(`📦 2. CATÁLOGO DE MODELOS AUTODESCUBIERTOS (${availableModels.length})`);
+        lines.push(`2. CATÁLOGO DE MODELOS AUTODESCUBIERTOS (${availableModels.length})`);
         lines.push("───────────────────────────────────────────────────────────────────────────────────────────────────");
         lines.push(
           pad("Proveedor", 15) +
@@ -369,12 +369,12 @@ export default function piModelPolicy(pi: ExtensionAPI) {
         lines.push("───────────────────────────────────────────────────────────────────────────────────────────────────");
         const activeCooldowns = breaker.getActiveCooldowns();
         if (activeCooldowns.length > 0) {
-          lines.push("⚠️  Proveedores en enfriamiento temporal (Cooldown activo por 429/cuota):");
+          lines.push("Proveedores en enfriamiento temporal (Cooldown activo por 429/cuota):");
           for (const cd of activeCooldowns) {
             lines.push(`   • ${cd.target.padEnd(16)} : ${cd.remainingSec}s restantes`);
           }
         } else {
-          lines.push("Salud: ✅ Todos los proveedores saludables (sin rate-limits ni bloqueos activos).");
+          lines.push("Salud: Todos los proveedores saludables (sin rate-limits ni bloqueos activos).");
         }
         lines.push("───────────────────────────────────────────────────────────────────────────────────────────────────");
 
@@ -415,7 +415,7 @@ export default function piModelPolicy(pi: ExtensionAPI) {
         }
 
         const lines: string[] = [];
-        lines.push(`⚡ Árbol de Decisión: ${trace.agentName}`);
+        lines.push(`Árbol de Decisión: ${trace.agentName}`);
         lines.push("────────────────────────────────────────────────────────────────────────");
         lines.push(`1. Perfil activo         : ${config.profile || "balanced"}`);
         lines.push(`2. Clasificación de Tier : ${trace.tier}`);
@@ -445,7 +445,7 @@ export default function piModelPolicy(pi: ExtensionAPI) {
         if (!targetProfile) {
           const current = config.profile || "balanced";
           const lines: string[] = [];
-          lines.push("⚡ Pi Model Policy — Gestión de Perfil de Enrutamiento");
+          lines.push("Pi Model Policy — Gestión de Perfil de Enrutamiento");
           lines.push("────────────────────────────────────────────────────────────────────────");
           lines.push(`Perfil actual: '${current}'`);
           lines.push("");
@@ -474,7 +474,7 @@ export default function piModelPolicy(pi: ExtensionAPI) {
 
         activeProfileOverride = targetProfile;
         const lines: string[] = [];
-        lines.push(`⚡ Perfil cambiado exitosamente a '${targetProfile}'.`);
+        lines.push(`Perfil cambiado exitosamente a '${targetProfile}'.`);
         lines.push(`La flota de subagentes ahora opera bajo la estrategia '${targetProfile}'.`);
         lines.push("Ejecuta '/model-policy status' para ver la nueva asignación de modelos y thinkings.");
 
@@ -492,7 +492,7 @@ export default function piModelPolicy(pi: ExtensionAPI) {
           return;
         }
         const lines = [
-          "⚡ Proveedores en Cooldown activo (10m por error 429/cuota):",
+          "Proveedores en Cooldown activo (10m por error 429/cuota):",
           "────────────────────────────────────────────────────────────────────────",
           ...active.map((a) => `  • ${a.target.padEnd(20)} : ${a.remainingSec}s restantes`),
           "────────────────────────────────────────────────────────────────────────"
@@ -504,7 +504,7 @@ export default function piModelPolicy(pi: ExtensionAPI) {
 
       // --- COMANDO: help (Manual explicativo completo) ---
       const help = [
-        "⚡ Pi Model Policy — Enrutador Inteligente de Modelos para Subagentes",
+        "Pi Model Policy — Enrutador Inteligente de Modelos para Subagentes",
         "────────────────────────────────────────────────────────────────────────",
         "COMANDOS DISPONIBLES:",
         "",
