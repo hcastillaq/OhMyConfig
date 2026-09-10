@@ -1,5 +1,5 @@
 {
   "theme": "ohmyconfig-static-noise",
-  "themes": ["../config/pi/themes"],
-  "extensions": ["../config/pi/extensions"]
+  "themes": ["config/pi/themes"],
+  "extensions": ["config/pi/extensions"]
 }
