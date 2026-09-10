@@ -270,26 +270,37 @@ export default function piModelPolicy(pi: ExtensionAPI) {
           return `${tokens}`;
         };
 
+        const formatFallbacksSummary = (chain: string[]): string => {
+          if (!chain || chain.length <= 1) return "(ninguno)";
+          const fallbacks = chain.slice(1);
+          const shortNames = fallbacks.map(f => f.includes("/") ? f.split("/")[1] : f);
+          if (shortNames.length <= 2) {
+            return shortNames.join(", ");
+          }
+          const remaining = shortNames.length - 2;
+          return `${shortNames[0]}, ${shortNames[1]} (+${remaining})`;
+        };
+
         const lines: string[] = [];
         const uniqueProviders = Array.from(new Set(availableModels.map(m => m.provider))).join(", ") || "(ninguno)";
 
         lines.push("⚡ Pi Model Policy — Estado de Enrutamiento de Subagentes");
-        lines.push("────────────────────────────────────────────────────────────────────────────────────────────");
+        lines.push("───────────────────────────────────────────────────────────────────────────────────────────────────");
         lines.push(`Perfil activo: ${config.profile || "balanced"} · Modelos disponibles: ${availableModels.length} · Proveedores: ${uniqueProviders}`);
         lines.push("");
 
         // SECCIÓN 1: Asignación Activa de Tiers
-        lines.push("🎯 ASIGNACIÓN ACTIVA POR TIERS");
-        lines.push("────────────────────────────────────────────────────────────────────────────────────────────");
+        lines.push("📌 1. ASIGNACIÓN ACTIVA POR TIERS");
+        lines.push("───────────────────────────────────────────────────────────────────────────────────────────────────");
         lines.push(
           pad("Tier", 11) +
           pad("Proveedor", 15) +
           pad("Modelo Primario", 24) +
-          pad("Thinking", 10) +
+          pad("Thinking", 11) +
           pad("Costo", 10) +
-          "Fallbacks"
+          "Cadena de Fallbacks"
         );
-        lines.push("────────────────────────────────────────────────────────────────────────────────────────────");
+        lines.push("───────────────────────────────────────────────────────────────────────────────────────────────────");
 
         const tiers: Tier[] = ["FAST", "RESEARCH", "BUILD", "REASON", "ARCHITECT", "ORACLE"];
         for (const tier of tiers) {
@@ -298,30 +309,30 @@ export default function piModelPolicy(pi: ExtensionAPI) {
           const modelId = res.candidate ? res.candidate.id : "(sin modelo)";
           const thinking = res.candidate?.recommendedThinking || "off";
           const cost = res.candidate ? `$${res.candidate.cost.toFixed(2)}/M` : "N/A";
-          const fallbacks = res.chain.slice(1).join(", ") || "(ninguno)";
+          const fallbacksStr = formatFallbacksSummary(res.chain);
 
           lines.push(
             pad(tier, 11) +
             pad(provider, 15) +
             pad(modelId, 24) +
-            pad(thinking, 10) +
+            pad(thinking, 11) +
             pad(cost, 10) +
-            fallbacks
+            fallbacksStr
           );
         }
 
         // SECCIÓN 2: Catálogo de Modelos Autodescubiertos
         lines.push("");
-        lines.push(`📦 CATÁLOGO DE MODELOS AUTODESCUBIERTOS (${availableModels.length})`);
-        lines.push("────────────────────────────────────────────────────────────────────────────────────────────");
+        lines.push(`📦 2. CATÁLOGO DE MODELOS AUTODESCUBIERTOS (${availableModels.length})`);
+        lines.push("───────────────────────────────────────────────────────────────────────────────────────────────────");
         lines.push(
           pad("Proveedor", 15) +
           pad("Modelo", 24) +
-          pad("Categoría", 24) +
+          pad("Categoría", 26) +
           pad("Costo / M", 12) +
           "Ventana"
         );
-        lines.push("────────────────────────────────────────────────────────────────────────────────────────────");
+        lines.push("───────────────────────────────────────────────────────────────────────────────────────────────────");
 
         const sortedCandidates = [...candidates].sort((a, b) => {
           if (a.provider !== b.provider) return a.provider.localeCompare(b.provider);
@@ -334,10 +345,12 @@ export default function piModelPolicy(pi: ExtensionAPI) {
             category = "Frontera (Oracle)";
           } else if (c.cost >= 7.0 && c.reasoning) {
             category = "Estructural (Architect)";
-          } else if (c.reasoning) {
+          } else if (c.cost >= 2.0 && c.reasoning) {
             category = "Pensante (Reasoning)";
           } else if (c.contextWindow >= 1000000) {
-            category = "Estándar (1M Context)";
+            category = "Estándar (1.0M Context)";
+          } else if (c.reasoning) {
+            category = "Pensante Ligero (Reasoning)";
           }
 
           const costStr = c.cost > 0 ? `$${c.cost.toFixed(2)}` : "Gratis ($0)";
@@ -346,14 +359,14 @@ export default function piModelPolicy(pi: ExtensionAPI) {
           lines.push(
             pad(c.provider, 15) +
             pad(c.id, 24) +
-            pad(category, 24) +
+            pad(category, 26) +
             pad(costStr, 12) +
             windowStr
           );
         }
 
         // SECCIÓN 3: Estado de Salud y Enfriamientos
-        lines.push("────────────────────────────────────────────────────────────────────────────────────────────");
+        lines.push("───────────────────────────────────────────────────────────────────────────────────────────────────");
         const activeCooldowns = breaker.getActiveCooldowns();
         if (activeCooldowns.length > 0) {
           lines.push("⚠️  Proveedores en enfriamiento temporal (Cooldown activo por 429/cuota):");
@@ -363,7 +376,7 @@ export default function piModelPolicy(pi: ExtensionAPI) {
         } else {
           lines.push("Salud: ✅ Todos los proveedores saludables (sin rate-limits ni bloqueos activos).");
         }
-        lines.push("────────────────────────────────────────────────────────────────────────────────────────────");
+        lines.push("───────────────────────────────────────────────────────────────────────────────────────────────────");
 
         if (ctx.ui?.notify) {
           ctx.ui.notify(lines.join("\n"), "info");

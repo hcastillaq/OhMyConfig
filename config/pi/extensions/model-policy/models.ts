@@ -123,6 +123,12 @@ export function groupAndSortTiers(
   const effectiveStandard = standardPool.length > 0 ? standardPool : sortedByCostAsc;
   const effectiveReasoning = hasReasoning ? reasoningPool : sortedByCostAsc;
 
+  // Segmentación por bandas de costo dentro del pool de modelos pensantes
+  const lightReasoning = effectiveReasoning.filter(c => c.cost < 2.0);
+  const midReasoning = effectiveReasoning.filter(c => c.cost >= 2.0 && c.cost < 7.0);
+  const highReasoning = effectiveReasoning.filter(c => c.cost >= 7.0 && c.cost < 15.0);
+  const apexReasoning = effectiveReasoning.filter(c => c.cost >= 15.0);
+
   // --- FAST TIER ---
   map.set('FAST', effectiveStandard.map(c => ({
     ...c,
@@ -131,10 +137,9 @@ export function groupAndSortTiers(
   })));
 
   // --- RESEARCH TIER ---
-  // En 'quality', se priorizan modelos pensantes si existen; de lo contrario, modelos estándar de gran contexto.
   let researchPool: ModelCandidate[];
-  if (profile === 'quality' && hasReasoning) {
-    researchPool = effectiveReasoning;
+  if (profile === 'quality' && midReasoning.length > 0) {
+    researchPool = midReasoning;
   } else {
     const minCost = effectiveStandard[0]?.cost || 0;
     researchPool = [...effectiveStandard].sort((a, b) => {
@@ -164,15 +169,17 @@ export function groupAndSortTiers(
   })));
 
   // --- REASON TIER ---
-  // En 'quota-saver', si los modelos pensantes son caros, prioriza modelos estándar económicos con thinking mínimo.
+  // En 'quota-saver': Usa modelos ligeros de bajo costo (ej. Flash) con thinking mínimo.
+  // En 'balanced': Usa modelos dedicados de razonamiento intermedio (ej. Pro, Terra, Sonnet).
+  // En 'quality': Usa modelos pensantes avanzados (ej. Sol).
   let reasonPool: ModelCandidate[];
   if (profile === 'quota-saver') {
-    reasonPool = [...effectiveStandard, ...effectiveReasoning];
-  } else if (profile === 'quality' && effectiveReasoning.length >= 2) {
-    // En 'quality', se eleva al modelo pensante superior en vez del más barato
-    reasonPool = [...effectiveReasoning].slice(1);
+    reasonPool = lightReasoning.length > 0 ? lightReasoning : effectiveStandard;
+  } else if (profile === 'quality') {
+    reasonPool = highReasoning.length > 0 ? highReasoning : (midReasoning.length > 0 ? midReasoning : effectiveReasoning);
   } else {
-    reasonPool = effectiveReasoning;
+    // Balanced: Prioriza modelos de razonamiento intermedio ($2-$7/M) si existen; si no, el reasoning disponible
+    reasonPool = midReasoning.length > 0 ? midReasoning : effectiveReasoning;
   }
 
   map.set('REASON', reasonPool.map(c => ({
@@ -182,18 +189,16 @@ export function groupAndSortTiers(
   })));
 
   // --- ARCHITECT TIER ---
+  // En 'quota-saver': Usa modelos de razonamiento intermedio para ahorrar.
+  // En 'balanced': Usa modelos de arquitectura profunda ($7-$15/M como Sol) si existen.
+  // En 'quality': Usa modelos estructurales avanzados o de frontera.
   let architectPool: ModelCandidate[];
   if (profile === 'quota-saver') {
-    // En modo ahorro, ARCHITECT usa el modelo pensante más económico
-    architectPool = effectiveReasoning;
-  } else if (effectiveReasoning.length >= 3) {
-    const withoutApex = effectiveReasoning.slice(0, effectiveReasoning.length - 1);
-    architectPool = withoutApex.slice(Math.floor(withoutApex.length / 2));
-    if (architectPool.length === 0) architectPool = [withoutApex[withoutApex.length - 1]];
-  } else if (effectiveReasoning.length === 2) {
-    architectPool = [effectiveReasoning[0]];
+    architectPool = midReasoning.length > 0 ? midReasoning : effectiveReasoning;
+  } else if (profile === 'quality') {
+    architectPool = highReasoning.length > 0 ? highReasoning : (apexReasoning.length > 0 ? apexReasoning : effectiveReasoning);
   } else {
-    architectPool = effectiveReasoning;
+    architectPool = highReasoning.length > 0 ? highReasoning : (midReasoning.length > 0 ? [...midReasoning].reverse() : effectiveReasoning);
   }
 
   map.set('ARCHITECT', architectPool.map(c => ({
@@ -203,12 +208,13 @@ export function groupAndSortTiers(
   })));
 
   // --- ORACLE TIER ---
-  // En 'quota-saver', ORACLE se restringe al modelo de arquitectura para no quemar el apex de frontera.
+  // En 'quota-saver': Reserva el apex y usa modelos de arquitectura.
+  // En 'balanced' / 'quality': Asigna el modelo de frontera de mayor capacidad del pool.
   let oraclePool: ModelCandidate[];
-  if (profile === 'quota-saver' && effectiveReasoning.length >= 2) {
-    oraclePool = effectiveReasoning.slice(0, effectiveReasoning.length - 1).reverse();
+  if (profile === 'quota-saver') {
+    oraclePool = highReasoning.length > 0 ? highReasoning : (midReasoning.length > 0 ? midReasoning : effectiveReasoning);
   } else {
-    oraclePool = [...effectiveReasoning].reverse();
+    oraclePool = apexReasoning.length > 0 ? apexReasoning : [...effectiveReasoning].reverse();
   }
 
   map.set('ORACLE', oraclePool.map(c => ({
