@@ -1,3 +1,16 @@
+/**
+ * Métrica de Costo Ponderado para Inferencia de Subagentes.
+ *
+ * En flujos de trabajo basados en agentes (scouting, lectura de repositorios,
+ * auditorías de código y generación de parches), el volumen de tokens de entrada
+ * supera consistentemente al de salida en una proporción empírica de ~3:1 debido a
+ * la inyección de contexto, historial y archivos leídos.
+ *
+ * Para ordenar y seleccionar modelos objetivamente sin tablas estáticas, calculamos
+ * un costo ponderado único (75% input / 25% output) a partir de las tarifas por
+ * millón de tokens que Pi expone de forma nativa en cada modelo.
+ */
+
 export interface ModelWithCost {
   cost?: {
     input?: number;
@@ -8,9 +21,11 @@ export interface ModelWithCost {
 }
 
 /**
- * Calculates blended cost per 1M tokens from native Pi model metadata.
- * Weight: 75% input, 25% output.
- * If model has no cost metadata (e.g. local Ollama), returns 0.
+ * Computa el costo ponderado efectivo en USD por millón de tokens.
+ *
+ * Garantía: Si un modelo no posee metadatos de costo (por ejemplo, servidores locales
+ * de Ollama o endpoints autohospedados), el costo resultante es 0.0, permitiendo que
+ * estos modelos se prioricen naturalmente en tiers orientados a eficiencia económica.
  */
 export function calculateModelCost(model: ModelWithCost): number {
   if (!model?.cost) return 0;

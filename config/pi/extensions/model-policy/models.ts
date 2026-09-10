@@ -1,3 +1,23 @@
+/**
+ * Orquestador Dinámico de Modelos y Resolución Relativa de Tiers.
+ *
+ * Principio Fundamental: Autodescubrimiento Puro sin Datos Quemados.
+ *
+ * Esta capa no mantiene listas de nombres de modelos comerciales ni umbrales
+ * fijos de precios en dólares. En su lugar, analiza en tiempo de ejecución el catálogo
+ * real de modelos que el usuario tiene autenticados en su sesión de Pi (`ctx.modelRegistry`)
+ * y los particiona matemáticamente utilizando tres señales nativas provistas por el harness:
+ *
+ * 1. `reasoning: boolean` -> Separa modelos estándar de modelos con pensamiento analítico.
+ * 2. `cost: { input, output }` -> Permite ordenar de menor a mayor costo real por millón de tokens.
+ * 3. `contextWindow: number` -> Habilita la promoción automática ante tareas con payloads masivos.
+ *
+ * Invariante de No-Escalado Ascendente:
+ * Cuando un modelo falla o entra en rate-limit, la degradación de fallback busca siempre
+ * candidatos de igual o menor costo dentro del tier o en tiers inferiores. Nunca escala
+ * hacia modelos más caros para salvaguardar el presupuesto del usuario de forma predecible.
+ */
+
 import type { Tier, ThinkingLevel, ModelCandidate, PolicyConfig, DecisionTrace } from './types.ts';
 import { calculateModelCost } from './pricing.ts';
 import type { CircuitBreaker } from './breaker.ts';
@@ -14,6 +34,10 @@ export interface RawPiModel {
   };
 }
 
+/**
+ * Niveles recomendados de razonamiento por tier de capacidad.
+ * Tiers de alta abstracción reciben mayor profundidad de pensamiento.
+ */
 const DEFAULT_THINKING_PER_TIER: Record<Tier, ThinkingLevel> = {
   FAST: 'low',
   RESEARCH: 'low',
@@ -23,6 +47,9 @@ const DEFAULT_THINKING_PER_TIER: Record<Tier, ThinkingLevel> = {
   ORACLE: 'high'
 };
 
+/**
+ * Normaliza los modelos del registro activo de Pi en candidatos evaluables.
+ */
 export function buildModelCandidates(availableModels: RawPiModel[]): ModelCandidate[] {
   return availableModels.map((m) => {
     const cost = calculateModelCost(m);
@@ -35,7 +62,7 @@ export function buildModelCandidates(availableModels: RawPiModel[]): ModelCandid
       provider: m.provider,
       id: m.id,
       fullId: `${m.provider}/${m.id}`,
-      tier: 'FAST', // Assigned dynamically in groupAndSortTiers
+      tier: 'FAST', // Se asignará dinámicamente según el rol en groupAndSortTiers
       cost,
       reasoning,
       contextWindow,
@@ -45,9 +72,15 @@ export function buildModelCandidates(availableModels: RawPiModel[]): ModelCandid
 }
 
 /**
- * Autodiscovers and groups models into the 6 abstract capability tiers
- * dynamically from their native metadata (cost, reasoning, contextWindow).
- * Zero hardcoded model names or brand regexes.
+ * Distribuye dinámicamente los modelos disponibles en los 6 tiers funcionales.
+ *
+ * Lógica de Asignación:
+ * - FAST: Modelos estándar ordenados estrictamente por menor costo.
+ * - RESEARCH: Modelos estándar ordenados favoreciendo mayor ventana de contexto a costo accesible.
+ * - BUILD: Modelos estándar para ejecución de código y desarrollo.
+ * - REASON: El modelo con capacidad de razonamiento de menor costo (análisis eficiente).
+ * - ARCHITECT: Modelos con razonamiento en el percentil superior (planificación estructural).
+ * - ORACLE: El modelo de mayor capacidad/costo en el pool de razonamiento (modelo de frontera).
  */
 export function groupAndSortTiers(
   candidates: ModelCandidate[]
@@ -55,23 +88,25 @@ export function groupAndSortTiers(
   const map = new Map<Tier, ModelCandidate[]>();
   if (candidates.length === 0) return map;
 
-  // 1. Sort global pool by cost ascending (cheapest first)
+  // Ordenamiento base del pool completo: Menor costo por token primero.
+  // En caso de empate de costo, se prefiere la ventana de contexto más amplia.
   const sortedByCostAsc = [...candidates].sort((a, b) => {
     if (Math.abs(a.cost - b.cost) > 0.0001) return a.cost - b.cost;
     return b.contextWindow - a.contextWindow;
   });
 
-  // 2. Separate into standard and reasoning pools
+  // Partición por capacidad de pensamiento analítico nativo
   const standardPool = sortedByCostAsc.filter(c => !c.reasoning);
   const reasoningPool = sortedByCostAsc.filter(c => c.reasoning);
 
-  // If user has no reasoning models, use cost percentiles from the whole pool
+  // Adaptabilidad: Si el usuario carece de modelos pensantes (ej. solo modelos locales ligeros),
+  // el pool completo ordenado por costo asume ambos roles sin quebrar la ejecución.
   const hasReasoning = reasoningPool.length > 0;
   const effectiveStandard = standardPool.length > 0 ? standardPool : sortedByCostAsc;
   const effectiveReasoning = hasReasoning ? reasoningPool : sortedByCostAsc;
 
   // --- FAST TIER ---
-  // Lowest cost standard models, ordered by cost ASC
+  // Modelos de respuesta rápida y mínimo costo por token para sondeos y scouts.
   map.set('FAST', effectiveStandard.map(c => ({
     ...c,
     tier: 'FAST' as Tier,
@@ -79,11 +114,20 @@ export function groupAndSortTiers(
   })));
 
   // --- RESEARCH TIER ---
-  // Prioritizes large context window at low cost
+  // Tareas de investigación y rastreo documental; prioriza ventanas grandes de contexto
+  // en el segmento económico. Para garantizar ordenamiento transitivo y estable en TimSort,
+  // la tolerancia de costo se ancla rígidamente al costo mínimo del pool base.
+  const minCost = effectiveStandard[0]?.cost || 0;
   const researchSorted = [...effectiveStandard].sort((a, b) => {
-    if (Math.abs(a.cost - b.cost) < 1.0) {
-      return b.contextWindow - a.contextWindow;
+    const aInBudget = (a.cost - minCost) <= 1.0;
+    const bInBudget = (b.cost - minCost) <= 1.0;
+
+    if (aInBudget && bInBudget) {
+      if (b.contextWindow !== a.contextWindow) return b.contextWindow - a.contextWindow;
+      return a.cost - b.cost;
     }
+    if (aInBudget && !bInBudget) return -1;
+    if (!aInBudget && bInBudget) return 1;
     return a.cost - b.cost;
   });
   map.set('RESEARCH', researchSorted.map(c => ({
@@ -93,7 +137,7 @@ export function groupAndSortTiers(
   })));
 
   // --- BUILD TIER ---
-  // Mid-range execution models (standard pool sorted by cost ASC)
+  // Tareas de programación, aplicación de parches y ejecución de herramientas de sistema.
   map.set('BUILD', effectiveStandard.map(c => ({
     ...c,
     tier: 'BUILD' as Tier,
@@ -101,7 +145,8 @@ export function groupAndSortTiers(
   })));
 
   // --- REASON TIER ---
-  // Most cost-effective reasoning models (reasoning pool sorted by cost ASC)
+  // Revisiones lógicas, auditorías de seguridad y análisis crítico.
+  // Selecciona el modelo con reasoning más económico para maximizar la duración de la cuota.
   map.set('REASON', effectiveReasoning.map(c => ({
     ...c,
     tier: 'REASON' as Tier,
@@ -109,11 +154,11 @@ export function groupAndSortTiers(
   })));
 
   // --- ARCHITECT TIER ---
-  // High-capacity reasoning models (upper bracket of reasoning pool)
-  // If multiple reasoning models exist, exclude the apex model which is reserved for ORACLE
+  // Tareas de arquitectura, diseño de sistemas y especificación.
+  // Selecciona modelos de razonamiento profundo del segmento medio-alto,
+  // excluyendo el modelo de frontera que queda reservado para ORACLE.
   let architectPool: ModelCandidate[];
   if (effectiveReasoning.length >= 3) {
-    // Take the middle to upper tier, excluding the single most expensive apex model
     const withoutApex = effectiveReasoning.slice(0, effectiveReasoning.length - 1);
     architectPool = withoutApex.slice(Math.floor(withoutApex.length / 2));
     if (architectPool.length === 0) architectPool = [withoutApex[withoutApex.length - 1]];
@@ -130,8 +175,9 @@ export function groupAndSortTiers(
   })));
 
   // --- ORACLE TIER ---
-  // Apex frontier model (highest capability / highest cost in the user's reasoning pool)
-  const oraclePool = [...effectiveReasoning].reverse(); // Highest cost first
+  // Arbitraje final y consultas estratégicas de máxima complejidad.
+  // Asigna el modelo de frontera de mayor capacidad y costo del pool.
+  const oraclePool = [...effectiveReasoning].reverse();
   map.set('ORACLE', oraclePool.map(c => ({
     ...c,
     tier: 'ORACLE' as Tier,
@@ -141,6 +187,15 @@ export function groupAndSortTiers(
   return map;
 }
 
+/**
+ * Resuelve el modelo óptimo, su nivel de thinking y su cadena de fallbacks para un tier.
+ *
+ * Flujo de Resolución:
+ * 1. Comprueba overrides manuales del usuario.
+ * 2. Comprueba si el volumen de tokens exige una ventana de contexto masiva (>30k tokens).
+ * 3. Filtra modelos que se encuentren en período de enfriamiento por rate limits (429).
+ * 4. Si el tier queda desierto por fallos, desciende ordenadamente hacia tiers inferiores (no-escalado).
+ */
 export function resolveModelForTier(
   targetTier: Tier,
   tierMap: Map<Tier, ModelCandidate[]>,
@@ -156,7 +211,7 @@ export function resolveModelForTier(
   const cooldownAvoided: string[] = [];
   const tierOrder: Tier[] = ['ORACLE', 'ARCHITECT', 'REASON', 'BUILD', 'RESEARCH', 'FAST'];
 
-  // 1. Check explicit tier override from user configuration
+  // 1. Respeto a la configuración manual del usuario para este tier
   if (config?.tiers && config.tiers[targetTier]) {
     const overrideId = config.tiers[targetTier]!;
     const all = Array.from(tierMap.values()).flat();
@@ -171,7 +226,9 @@ export function resolveModelForTier(
     }
   }
 
-  // 2. R2.5: Context Window Promotion if prompt payload is massive (>30k tokens)
+  // 2. Promoción Dinámica por Ventana de Contexto (Regla R2.5)
+  // Si la tarea transporta un payload masivo (>30k tokens), priorizamos un modelo
+  // con ventana de 1M tokens para evitar errores de truncamiento en mitad de la ejecución.
   if (taskLengthTokens > 30000) {
     const allCandidates = Array.from(tierMap.values()).flat();
     const needsReasoning = targetTier === 'REASON' || targetTier === 'ARCHITECT' || targetTier === 'ORACLE';
@@ -195,7 +252,7 @@ export function resolveModelForTier(
     }
   }
 
-  // 3. Evaluate candidate chain for the requested tier
+  // 3. Selección dentro del tier solicitado omitiendo proveedores saturados
   const rawList = tierMap.get(targetTier) || [];
   const activeChain: ModelCandidate[] = [];
 
@@ -216,7 +273,8 @@ export function resolveModelForTier(
     };
   }
 
-  // 4. Fallback downward: find an eligible model from lower tiers (no upward escalation)
+  // 4. Cadena de Fallback hacia Abajo (Preservación estricta de costos)
+  // Si todos los modelos del tier están en cooldown, se busca en tiers inferiores.
   const targetIdx = tierOrder.indexOf(targetTier);
   for (let i = targetIdx + 1; i < tierOrder.length; i++) {
     const lowerTier = tierOrder[i];
@@ -235,7 +293,7 @@ export function resolveModelForTier(
     }
   }
 
-  // 5. Absolute fallback: pick lowest cost non-cooling model from any tier
+  // 5. Último recurso: El modelo disponible más económico del registro
   const anyAvailable = Array.from(tierMap.values())
     .flat()
     .filter(c => !breaker.isCoolingDown(c.provider) && !breaker.isCoolingDown(c.fullId))

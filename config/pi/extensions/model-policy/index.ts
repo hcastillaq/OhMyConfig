@@ -1,3 +1,20 @@
+/**
+ * Pi Model Policy — Punto de Entrada de la Extensión.
+ *
+ * Arquitectura de Integración:
+ * 1. Hook Pre-Ejecución (`tool_call`): Intercepta llamadas al tool `subagent` justo antes
+ *    de que el motor de Pi despache el proceso hijo. Al mutar directamente `event.input.model`,
+ *    la extensión inyecta el modelo óptimo sin parchar el código fuente de `pi-subagents`,
+ *    sin tocar dependencias de npm y respetando cualquier modelo que el usuario haya especificado
+ *    manualmente en su prompt (bypass intencional).
+ * 2. Hook Post-Ejecución (`tool_result`): Monitorea de forma no invasiva los resultados
+ *    de subagentes. Solo si la ejecución concluyó en fallo (`isError: true`), analiza si el motivo
+ *    corresponde a saturación de cuota o rate limits (429/503), activando un período de enfriamiento
+ *    temporal para ese proveedor en el Circuit Breaker.
+ * 3. Comandos TUI (`/model-policy`): Ofrece total transparencia y explicabilidad, permitiendo
+ *    al desarrollador auditar en cualquier momento por qué un subagente recibió determinado modelo.
+ */
+
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -7,6 +24,12 @@ import { classifySubagent } from "./classifier.ts";
 import { buildModelCandidates, groupAndSortTiers, resolveModelForTier } from "./models.ts";
 import { CircuitBreaker } from "./breaker.ts";
 
+/**
+ * Carga la configuración opcional del usuario con precedencia:
+ * 1. Proyecto local: `.pi/model-policy.json`
+ * 2. Configuración global de usuario: `~/.pi/agent/model-policy.json`
+ * 3. Configuración por defecto: Perfil 'balanced' sin overrides.
+ */
 function loadConfig(cwd?: string): PolicyConfig {
   const locations: string[] = [];
 
@@ -21,7 +44,8 @@ function loadConfig(cwd?: string): PolicyConfig {
         const content = fs.readFileSync(loc, "utf8");
         return JSON.parse(content);
       } catch {
-        // Silently continue if parsing fails
+        // En caso de error de sintaxis en el JSON, se ignora silenciosamente
+        // para garantizar que la sesión de Pi jamás quede bloqueada.
       }
     }
   }
@@ -33,8 +57,11 @@ export default function piModelPolicy(pi: ExtensionAPI) {
   const breaker = new CircuitBreaker();
   const recentTraces = new Map<string, DecisionTrace>();
 
-  // 1. In-flight tool interception (Pre-execution)
+  // ---------------------------------------------------------------------------
+  // 1. Intercepción en Vuelo: Enrutamiento Transparente antes de Ejecutar
+  // ---------------------------------------------------------------------------
   pi.on("tool_call", async (event, ctx) => {
+    // Solo interceptamos herramientas que orquestan subagentes
     if (event.toolName !== "subagent") return;
 
     const input = event.input as {
@@ -45,17 +72,19 @@ export default function piModelPolicy(pi: ExtensionAPI) {
       tools?: string[];
     };
 
-    // If caller explicitly provided a model, respect it (Bypass)
+    // Si el invocador ya especificó un modelo explícito, se respeta la decisión
+    // humana o del prompt sin intervenir (Principio de no-obstrucción).
     if (!input || input.model || !input.agent) return;
 
     const config = loadConfig(ctx.cwd);
     const availableModels = ctx.modelRegistry ? ctx.modelRegistry.getAvailable() : [];
     if (availableModels.length === 0) return;
 
+    // Autodescubrimiento de modelos y ordenamiento de tiers a partir del registro activo de Pi
     const candidates = buildModelCandidates(availableModels);
     const tierMap = groupAndSortTiers(candidates);
 
-    // Classify subagent
+    // Clasificación del rol funcional del subagente
     const classification = classifySubagent(
       input.agent,
       input.description || "",
@@ -63,10 +92,11 @@ export default function piModelPolicy(pi: ExtensionAPI) {
       config.agents
     );
 
-    // Approximate token count: ~4 chars per token
+    // Estimación rápida de volumen de tokens (~4 caracteres por token)
+    // para activar la promoción a ventanas de 1M cuando el payload es masivo.
     const taskTokens = input.task ? Math.ceil(input.task.length / 4) : 0;
 
-    // Resolve optimal candidate
+    // Resolución del modelo óptimo dentro del tier correspondiente
     const resolution = resolveModelForTier(
       classification.tier,
       tierMap,
@@ -78,9 +108,11 @@ export default function piModelPolicy(pi: ExtensionAPI) {
     if (resolution.candidate) {
       const thinking = resolution.candidate.recommendedThinking;
       const thinkingSuffix = thinking && thinking !== "off" ? `:${thinking}` : "";
+
+      // Mutación directa en memoria del input del tool antes de que pi-subagents lo ejecute
       input.model = `${resolution.candidate.fullId}${thinkingSuffix}`;
 
-      // Bounded FIFO cache (max 50 entries)
+      // Registro acotado en memoria (FIFO, máx 50) para auditoría y diagnóstico
       if (recentTraces.size >= 50) {
         const firstKey = recentTraces.keys().next().value;
         if (firstKey) recentTraces.delete(firstKey);
@@ -99,15 +131,17 @@ export default function piModelPolicy(pi: ExtensionAPI) {
     }
   });
 
-  // 2. Telemetry and Rate-Limit Cooldown (Post-execution)
+  // ---------------------------------------------------------------------------
+  // 2. Telemetría Post-Ejecución: Detección Inmune a Falsos Positivos
+  // ---------------------------------------------------------------------------
   pi.on("tool_result", async (event, ctx) => {
     if (event.toolName !== "subagent") return;
 
-    // Only process actual execution errors to eliminate false-positives
+    // Invariante crítico: Solo analizamos errores reales de ejecución de infraestructura.
+    // Tareas exitosas que devuelvan código discutiendo '429' o 'overload' se ignoran.
     const eventAny = event as any;
     if (!eventAny.isError) return;
 
-    // Extract textual payload from content or details
     let errorText = "";
     if (typeof eventAny.content === "string") {
       errorText = eventAny.content;
@@ -132,7 +166,9 @@ export default function piModelPolicy(pi: ExtensionAPI) {
     }
   });
 
-  // 3. Slash Command for inspection and debugging
+  // ---------------------------------------------------------------------------
+  // 3. Comandos de Usuario: Explicabilidad y Diagnóstico en Terminal
+  // ---------------------------------------------------------------------------
   pi.registerCommand("model-policy", {
     description: "Inspecciona y explica el enrutamiento inteligente de modelos para subagentes",
     getArgumentCompletions: (prefix: string) => {
@@ -148,6 +184,7 @@ export default function piModelPolicy(pi: ExtensionAPI) {
       const candidates = buildModelCandidates(availableModels);
       const tierMap = groupAndSortTiers(candidates);
 
+      // --- COMANDO: status ---
       if (subcmd === "status") {
         const lines: string[] = [];
         lines.push("⚡ Pi Model Policy — Estado de Enrutamiento de Subagentes");
@@ -172,7 +209,7 @@ export default function piModelPolicy(pi: ExtensionAPI) {
         const activeCooldowns = breaker.getActiveCooldowns();
         if (activeCooldowns.length > 0) {
           lines.push("");
-          lines.push("⚠️  Proveedores en enfriamiento temporal (Cooldown):");
+          lines.push("⚠️  Proveedores en enfriamiento temporal (Cooldown activo):");
           for (const cd of activeCooldowns) {
             lines.push(`   • ${cd.target}: ${cd.remainingSec}s restantes`);
           }
@@ -187,6 +224,7 @@ export default function piModelPolicy(pi: ExtensionAPI) {
         return;
       }
 
+      // --- COMANDO: explain <agent> ---
       if (subcmd === "explain") {
         const targetAgent = parts[1];
         if (!targetAgent) {
@@ -196,7 +234,6 @@ export default function piModelPolicy(pi: ExtensionAPI) {
           return;
         }
 
-        // Trace from memory or simulate on the fly
         let trace = recentTraces.get(targetAgent);
         if (!trace) {
           const classification = classifySubagent(targetAgent, "", [], config.agents);
@@ -237,18 +274,19 @@ export default function piModelPolicy(pi: ExtensionAPI) {
         return;
       }
 
+      // --- COMANDO: cooldowns ---
       if (subcmd === "cooldowns") {
         const active = breaker.getActiveCooldowns();
         if (active.length === 0) {
           if (ctx.ui?.notify) ctx.ui.notify("No hay proveedores en cooldown en este momento.", "info");
           return;
         }
-        const lines = ["Proveedores en Cooldown:", ...active.map((a) => `• ${a.target}: ${a.remainingSec}s`)];
+        const lines = ["Proveedores en Cooldown activo:", ...active.map((a) => `• ${a.target}: ${a.remainingSec}s`)];
         if (ctx.ui?.notify) ctx.ui.notify(lines.join("\n"), "warning");
         return;
       }
 
-      // Help
+      // --- COMANDO: help ---
       const help = [
         "Comandos de /model-policy:",
         "  /model-policy status          - Muestra la tabla de tiers activos y modelos asignados",

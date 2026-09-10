@@ -57,6 +57,15 @@ test('2. Subagent Classifier - Compound Engineering Roles', () => {
   const unknown = classifySubagent('mystery-agent', '', []);
   assert.equal(unknown.tier, 'FAST');
 
+  // Subagents containing 'spec' inside other words must NOT trigger ARCHITECT
+  const inspector = classifySubagent('code-inspector', 'Inspect code quality', ['read', 'grep']);
+  assert.notEqual(inspector.tier, 'ARCHITECT', 'inspector must not be ARCHITECT');
+  assert.equal(inspector.tier, 'RESEARCH');
+
+  const specialist = classifySubagent('pattern-specialist', 'Analyze patterns', ['read', 'grep']);
+  assert.notEqual(specialist.tier, 'ARCHITECT', 'specialist must not be ARCHITECT');
+  assert.equal(specialist.tier, 'RESEARCH');
+
   // Explicit user override wins
   const overridden = classifySubagent('scout', '', [], {
     scout: { tier: 'ORACLE' }
