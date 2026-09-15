@@ -54,9 +54,9 @@ docs_root: .compound-engineering/artifacts   # repo-relative dir (default: docs)
 # keys (this config is the persisted fallback); pipeline contexts (e.g., LFG,
 # disable-model-invocation) always force `md`.
 
-# plan_output: html              # md | html (default: md)
-# brainstorm_output: html        # md | html (default: md)
-# ideate_output: md              # md | html (default: html -- ideation docs are human-facing, so HTML is the default; set md to opt out)
+plan_output: md
+brainstorm_output: md
+ideate_output: md
 
 # --- Model elevation ---
 # Send only the reasoning-heavy step of /ce-plan (interpret research, then author

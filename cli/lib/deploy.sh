@@ -115,23 +115,40 @@ deploy_module() {
     local dotfiles_dir="$3"
     local config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
 
-    local configs
-    configs="$(get_module_configs "$mod")"
-    [ -z "$configs" ] && return 0
+    local mod_dir="$dotfiles_dir/modules/$mod"
+    [ ! -d "$mod_dir" ] && return 0
 
-    while IFS= read -r rel_path; do
-        [ -z "$rel_path" ] && continue
-        
-        # Regla especial para Pi: sus archivos van a ~/.pi/agent/
-        if [[ "$rel_path" == pi/* ]]; then
-            local src="$dotfiles_dir/config/$rel_path"
-            local relative_to_pi="${rel_path#pi/}"
-            local dest="$HOME/.pi/agent/$relative_to_pi"
-            deploy_file "$src" "$dest" "$mode"
-        else
-            local src="$dotfiles_dir/config/$rel_path"
-            local dest="$config_home/$rel_path"
-            deploy_file "$src" "$dest" "$mode"
+    for tool_dir in "$mod_dir"/*; do
+        [ ! -d "$tool_dir" ] && continue
+        local manifest="$tool_dir/manifest.sh"
+        if [ -f "$manifest" ]; then
+            local MODULE_NAME=""
+            local MODULE_DESC=""
+            local MODULE_TARGETS=()
+            source "$manifest"
+
+            for target in "${MODULE_TARGETS[@]}"; do
+                [ -z "$target" ] && continue
+                local src_rel="${target%%:*}"
+                local dest_rel="${target#*:}"
+                local src
+                if [ "$src_rel" = "." ] || [ -z "$src_rel" ]; then
+                    src="$tool_dir"
+                else
+                    src="$tool_dir/$src_rel"
+                fi
+                local dest
+
+                # Regla especial para Pi: sus archivos van a ~/.pi/agent/
+                if [[ "$dest_rel" == pi/* ]]; then
+                    local relative_to_pi="${dest_rel#pi/}"
+                    dest="$HOME/.pi/agent/$relative_to_pi"
+                else
+                    dest="$config_home/$dest_rel"
+                fi
+
+                deploy_file "$src" "$dest" "$mode"
+            done
         fi
-    done <<< "$configs"
+    done
 }

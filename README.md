@@ -28,119 +28,71 @@ cd ~/Codigos/OhMyConfig
 ./omc install
 ```
 
-* **CLI `omc`**: Instalador interactivo TUI (vía Gum) que gestiona Homebrew, paquetes de sistema, symlinks a `~/.config/`, diagnóstico (`./omc doctor`), actualizaciones (`./omc update`) y el agente de IA Pi (`./omc dev`).
+* **CLI `omc`**: Herramienta unificada TUI (vía Gum) que gestiona la instalación de módulos, dependencias de Homebrew, enlaces simbólicos a `~/.config/`, diagnóstico (`./omc doctor`), actualizaciones (`./omc update`), el agente de IA Pi (`./omc dev`), la gestión de documentación (`./omc docs`) y el buscador interactivo de atajos en consola (`./omc cheatsheet`).
 
 ---
 
 ## 📚 Guías y Documentación Modular
 
-Cada componente del entorno cuenta con su propia guía detallada dentro de [`documentation/`](./documentation/):
+Cada componente del entorno cuenta con su propia guía detallada dentro de [`apps/docs/src/content/docs/`](./apps/docs/src/content/docs/):
 
 ```
 OhMyConfig/
 ├── 🚀 Primeros Pasos
-│   ├── 📦 Instalación & Brewfile ───────► documentation/instalacion.md
-│   └── 🤖 Ecosistema AI & Agentes ──────► documentation/ai.md
+│   ├── 📦 Instalación & Brewfile ───────► apps/docs/src/content/docs/instalacion.md
+│   └── 🤖 Ecosistema AI & Agentes ──────► apps/docs/src/content/docs/ai.md
 │
 ├── 🛠️ Herramientas Centrales
-│   ├── 🛠️ Neovim (Editor IDE) ──────────► documentation/neovim.md
-│   ├── 🪟 Zellij (Multiplexor) ─────────► documentation/zellij.md
-│   ├── 🐙 Git, Lazygit & Delta ─────────► documentation/git.md
-│   └── 🖥️ Terminal, Fish & mise ────────► documentation/terminal.md
+│   ├── 🛠️ Neovim (Editor IDE) ──────────► apps/docs/src/content/docs/neovim.md
+│   ├── 🪟 Zellij (Multiplexor) ─────────► apps/docs/src/content/docs/zellij.md
+│   ├── 🐙 Git, Lazygit & Delta ─────────► apps/docs/src/content/docs/git.md
+│   └── 🖥️ Terminal, Fish & mise ────────► apps/docs/src/content/docs/terminal.md
 │
 └── 📖 Referencia Rápida
-    ├── 🧰 Catálogo Completo de Herramientas ► documentation/herramientas.md
-    └── ⚡ Tabla Maestra de Atajos ──────► documentation/cheatsheet.md
+    ├── 🧰 Catálogo Completo de Herramientas ► apps/docs/src/content/docs/herramientas.md
+    └── ⚡ Tabla Maestra de Atajos ──────► apps/docs/src/content/docs/cheatsheet.md
 ```
 
 | Sección | Descripción | Guía en Web | Archivo Markdown |
 | :--- | :--- | :---: | :---: |
-| **📦 Instalación** | Menú TUI, symlinks, respaldo y catálogo de `Brewfile` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/instalacion) | [`documentation/instalacion.md`](./documentation/instalacion.md) |
-| **🤖 Ecosistema AI** | Pi base y extensiones opcionales detectadas con `pi list` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/ai) | [`documentation/ai.md`](./documentation/ai.md) |
-| **🛠️ Neovim** | LazyVim core, LSP, autocompletado, GitSigns y Neogen | [Ver Online](https://hcastillaq.github.io/OhMyConfig/neovim) | [`documentation/neovim.md`](./documentation/neovim.md) |
-| **🪟 Zellij** | Multiplexor con foco Cyan brillante y navegación con `Alt` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/zellij) | [`documentation/zellij.md`](./documentation/zellij.md) |
-| **🐙 Git & Diffs** | Flujo en consola, Lazygit TUI y diffs con Git-Delta | [Ver Online](https://hcastillaq.github.io/OhMyConfig/git) | [`documentation/git.md`](./documentation/git.md) |
-| **🖥️ Terminal & Shell** | Ghostty (GPU/Blur), Fish Shell, **mise** (Runtimes) y Atuin | [Ver Online](https://hcastillaq.github.io/OhMyConfig/terminal) | [`documentation/terminal.md`](./documentation/terminal.md) |
-| **🧰 Catálogo de CLI/TUI** | Ripgrep, Fd, Sd, Eza, Bat, Yazi, Bottom, Dust, Procs, Xh, Jq, K9s | [Ver Online](https://hcastillaq.github.io/OhMyConfig/herramientas) | [`documentation/herramientas.md`](./documentation/herramientas.md) |
-| **⚡ Cheatsheet** | Tabla consolidada de todos los alias y atajos del entorno | [Ver Online](https://hcastillaq.github.io/OhMyConfig/cheatsheet) | [`documentation/cheatsheet.md`](./documentation/cheatsheet.md) |
+| **📦 Instalación** | Menú TUI, symlinks, respaldo y catálogo de `Brewfile` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/instalacion) | [`apps/docs/src/content/docs/instalacion.md`](./apps/docs/src/content/docs/instalacion.md) |
+| **🤖 Ecosistema AI** | Pi base y extensiones opcionales detectadas con `pi list` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/ai) | [`apps/docs/src/content/docs/ai.md`](./apps/docs/src/content/docs/ai.md) |
+| **🛠️ Neovim** | LazyVim core, LSP, autocompletado, GitSigns y Neogen | [Ver Online](https://hcastillaq.github.io/OhMyConfig/neovim) | [`apps/docs/src/content/docs/neovim.md`](./apps/docs/src/content/docs/neovim.md) |
+| **🪟 Zellij** | Multiplexor con foco Cyan brillante y navegación con `Alt` | [Ver Online](https://hcastillaq.github.io/OhMyConfig/zellij) | [`apps/docs/src/content/docs/zellij.md`](./apps/docs/src/content/docs/zellij.md) |
+| **🐙 Git & Diffs** | Flujo en consola, Lazygit TUI y diffs con Git-Delta | [Ver Online](https://hcastillaq.github.io/OhMyConfig/git) | [`apps/docs/src/content/docs/git.md`](./apps/docs/src/content/docs/git.md) |
+| **🖥️ Terminal & Shell** | Ghostty (GPU/Blur), Fish Shell, **mise** (Runtimes) y Atuin | [Ver Online](https://hcastillaq.github.io/OhMyConfig/terminal) | [`apps/docs/src/content/docs/terminal.md`](./apps/docs/src/content/docs/terminal.md) |
+| **🧰 Catálogo de CLI/TUI** | Ripgrep, Fd, Sd, Eza, Bat, Yazi, Bottom, Dust, Procs, Xh, Jq, K9s | [Ver Online](https://hcastillaq.github.io/OhMyConfig/herramientas) | [`apps/docs/src/content/docs/herramientas.md`](./apps/docs/src/content/docs/herramientas.md) |
+| **⚡ Cheatsheet** | Tabla consolidada de todos los alias y atajos del entorno | [Ver Online](https://hcastillaq.github.io/OhMyConfig/cheatsheet) | [`apps/docs/src/content/docs/cheatsheet.md`](./apps/docs/src/content/docs/cheatsheet.md) |
 
 ---
 
-## ⚡ Cheatsheet Rápido de Referencia
+## ⚡ Consulta Rápida de Atajos en Terminal
 
-### 1. Ecosistema AI & Pi
-* **`./omc dev`**: Instala sólo el CLI base de Pi.
-* **`./omc dev status`**: Muestra versión de Pi y paquetes actuales con `pi list`.
-* **`./omc dev update`**: Actualiza sólo el binario base de Pi.
-* **`./omc dev doctor`**: Chequeo local de Node/npm/Pi.
-* **`pi list`**: Lista extensiones instaladas.
-* **`pi install <paquete>`**: Instala una extensión opcional bajo demanda.
-* **`pi`**: Inicia el agente autónomo de código en terminal.
+Para evitar la desincronización y duplicación de tablas, los atajos y aliases se consultan al instante directamente desde la terminal o a través de la web oficial:
 
-### 2. Terminal, Runtimes y Búsqueda
-* **`cheat`** / **`ayuda`**: Alias de `omc` para abrir la ayuda de la CLI.
-* **`mise use -g <lang>@<ver>`**: Gestor universal de versiones (Node, Python, Go, Rust, Java).
-* **`rg <patron>`**: Búsqueda ultrarrápida de texto en todo el proyecto (Ripgrep).
-* **`fd <nombre>`**: Búsqueda moderna de archivos y carpetas (reemplazo de `find`).
-* **`sd 'viejo' 'nuevo'`**: Reemplazo de texto directo y seguro en archivos (reemplazo de `sed`).
-* **`cd <carpeta>`** / **`zi`**: Salto inteligente con Zoxide / selector interactivo FZF.
-* **`Ctrl + r`**: Historial SQLite con tiempos y buscador difuso (Atuin).
-* **`Ctrl + t`** / **`Alt + c`**: Búsqueda difusa de archivos / carpetas con FZF.
-* **`y`**: Administrador de archivos Yazi (salta al directorio al salir con `q`).
-* **`ls`** / **`ll`** / **`tree`**: Listados visuales con íconos vía Eza.
-* **`cat <archivo>`**: Visor con sintaxis coloreada Static Noise vía Bat.
-* **`btm`** / **`du`**: Monitor de sistema (Bottom) / Uso visual de disco (Dust).
-* **`procs --port <p>`**: Visor de procesos y puertos.
-* **`xh`** / **`jqp`**: Cliente HTTP para APIs / Playground interactivo JQ.
-* **`tokei`**: Conteo de líneas de código y estadísticas del proyecto.
-
-### 3. Editor Neovim (`<Space>` = Leader)
-* **`v`** / **`v <archivo>`**: Abrir Neovim con tema Static Noise.
-* **`<Space> + e`**: Abrir / Ocultar explorador de archivos lateral.
-* **`Ctrl + h/j/k/l`**: Moverse fluidamente entre divisiones de Neovim.
-* **`Shift + l`** / **`Shift + h`**: Pestaña siguiente / anterior.
-* **`Ctrl + s`**: Guardar archivo actual en cualquier modo (normal o inserción).
-* **`p`** (en modo visual): Pegar del sistema sin sobreescribir lo copiado.
-* **`<Space> + s`**: **Buscar** (`sf` archivos, `sg` texto live grep, `sw` palabra bajo cursor, `ss` símbolos, `sb` buffers).
-* **`<Space> + r`**: **Reemplazar** (`rp` en proyecto con Grug-Far, `rw` palabra actual, `rb` en archivo con confirmación).
-* **`<Space> + c`**: **Código** (`ca` Quick Fix, `cr` renombrar símbolo, `cf` formatear, `cd` error de línea, `cn` docstring).
-* **`<Space> + w`**: Menú de ventanas y divisiones (splits: horizontal, vertical, cerrar).
-* **`s` + 2 letras**: Salto instantáneo a cualquier palabra en pantalla (Flash).
-* **`gd`** / **`K`**: Ir a definición / Ver documentación flotante (LSP).
-* **`<Space> + px`**: Menú interactivo `:LazyExtras` para activar/desactivar lenguajes con `x`.
-
-### 4. Multiplexor Zellij (`zj`)
-* **`Alt + h/j/k/l`**: Mover foco entre paneles (se ilumina en Cyan hacia izquierda, abajo, arriba, derecha).
-* **`Alt + [`** / **`Alt + ]`**: Pestaña anterior / siguiente al instante.
-* **`Alt + 1` .. `Alt + 9`**: Saltar directo a la pestaña número N.
-* **`Alt + n`**: Crear nuevo panel directamente.
-* **`Alt + f`**: Maximizar / Restaurar panel activo (Pantalla completa).
-* **`Alt + w`**: Alternar paneles flotantes (Floating Panes).
-* **`Alt + m`**: **Modo Mover** para intercambiar físicamente la posición de paneles (`h/j/k/l` o `Tab`).
-* **`Alt + p`** (Paneles) / **`Alt + Shift + t`** (Pestañas) / **`Alt + s`** (Scroll e historial) / **`Alt + z`** (Resize).
-
-### 5. Git y Control de Versiones
-* **`gs`** (`git status`), **`gaa`** (`git add .`), **`gc`** (`git commit`), **`gp`** (`git push`).
-* **`gl`** / **`glog`**: Árboles visuales de commits coloreados con Static Noise.
-* **`glp`**: Historial detallado con diffs interactivos en Git-Delta.
-* **`lg`**: Interfaz visual completa de Lazygit.
-* **`of`**: Radiografía visual con telemetría del repositorio vía Onefetch.
+* **En la Terminal (Búsqueda difusa ultrarrápida):**
+  ```bash
+  ./omc cheatsheet         # Abre el buscador interactivo con gum filter
+  ./omc cheatsheet git     # Filtra directamente por herramienta o comando
+  ```
+* **En la Web (Tabla maestra interactiva con buscador):**
+  👉 **[Ver Tabla Maestra de Atajos Online](https://hcastillaq.github.io/OhMyConfig/cheatsheet)**
 
 ---
 
-## 🚀 Publicación Web Automática
+## 🛠️ Comandos Esenciales de `omc`
 
-La documentación completa de este repositorio se compila y publica automáticamente en **GitHub Pages** mediante **Astro + Starlight** a través de GitHub Actions:
-
-```text
-[Repositorio Local] ──(Push en documentation/ o src/)──► [GitHub Actions CI/CD] ──► [GitHub Pages Web]
-```
-
-Accedé a la documentación interactiva:  
-👉 **`https://hcastillaq.github.io/OhMyConfig/`**
+| Comando | Acción |
+| :--- | :--- |
+| `./omc install` | Instalador interactivo TUI con selección de módulos |
+| `./omc install --all --link` | Instalación total en modo symlink (recomendado) |
+| `./omc doctor` | Diagnóstico de salud del entorno, paquetes y symlinks |
+| `./omc update` | Actualiza fórmulas de Homebrew y el binario base de Pi |
+| `./omc dev status` | Muestra el estado del agente autónomo Pi y sus paquetes |
+| `./omc docs dev` | Inicia el servidor local de desarrollo de la web en Astro |
+| `./omc docs build` | Compila el sitio estático de documentación en `apps/docs/dist/` |
+| `./omc cheatsheet [query]` | Buscador difuso interactivo de atajos en consola |
 
 ---
 
-## 📄 Licencia
 
-Publicado bajo la licencia [MIT](./LICENSE) — Libre para uso personal y modificaciones.

@@ -101,52 +101,22 @@ EOF
 }
 
 get_module_configs() {
-    case "$1" in
-        core)
-            cat << 'EOF'
-fish/config.fish
-fish/functions
-starship/starship.toml
-atuin/config.toml
-EOF
-            ;;
-        terminal)
-            cat << 'EOF'
-ghostty/config
-zellij/config.kdl
-zellij/layouts/default.kdl
-zellij/plugins/zjstatus.wasm
-EOF
-            ;;
-        editor)
-            cat << 'EOF'
-nvim
-lazygit/config.yml
-git/delta.gitconfig
-EOF
-            ;;
-        cli)
-            cat << 'EOF'
-bottom/bottom.toml
-EOF
-            ;;
-        ai)
-            cat << 'EOF'
-pi/themes/ohmyconfig-static-noise.json
-pi/extensions/ohmyconfig-header.ts
-pi/extensions/model-policy/index.ts
-pi/extensions/model-policy/types.ts
-pi/extensions/model-policy/models.ts
-pi/extensions/model-policy/classifier.ts
-pi/extensions/model-policy/pricing.ts
-pi/extensions/model-policy/breaker.ts
-EOF
-            ;;
-        search|devops)
-            echo ""
-            ;;
-        *)
-            echo ""
-            ;;
-    esac
+    local mod="$1"
+    local dotfiles_dir
+    dotfiles_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+    local mod_dir="$dotfiles_dir/modules/$mod"
+    [ ! -d "$mod_dir" ] && return 0
+
+    for tool_dir in "$mod_dir"/*; do
+        [ ! -d "$tool_dir" ] && continue
+        local manifest="$tool_dir/manifest.sh"
+        if [ -f "$manifest" ]; then
+            local MODULE_TARGETS=()
+            source "$manifest"
+            for target in "${MODULE_TARGETS[@]}"; do
+                [ -z "$target" ] && continue
+                echo "${target#*:}"
+            done
+        fi
+    done
 }

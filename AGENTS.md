@@ -14,87 +14,60 @@ This document provides system architecture, design invariants, configuration str
 
 ```
 OhMyConfig/
-├── Brewfile                     # Homebrew bundle (CLI tools, GUI apps, Nerd Fonts)
+├── Brewfile                     # Homebrew bundle centralizado (CLI tools, GUI apps, Nerd Fonts)
 ├── omc                          # Single executable CLI entry point (Bash 3.2+ & Gum TUI)
 ├── cli/                         # Modular CLI implementation in pure Bash
 │   ├── commands/
 │   │   ├── install.sh           # Interactive & automated module installer
 │   │   ├── doctor.sh            # Environment diagnostic & version reporting
 │   │   ├── update.sh            # Centralized updater (Brew + Casks + AI npm packages)
-│   │   └── dev.sh               # AI/Pi ecosystem manager (install pi, status, update)
+│   │   ├── dev.sh               # AI/Pi ecosystem manager (install pi, status, update)
+│   │   ├── docs.sh              # Astro Starlight documentation website manager (dev, build, preview)
+│   │   └── cheatsheet.sh        # Terminal-first fuzzy shortcut search powered by gum/fzf
 │   └── lib/
 │       ├── brew.sh              # Homebrew detection, verification & helpers
 │       ├── catalog.sh           # Granular module & package definitions
-│       ├── deploy.sh            # Safe symlink/copy file deployment engine
+│       ├── deploy.sh            # Safe symlink/copy file deployment engine (modules/ resolution)
 │       └── ui.sh                # Shared Static Noise styling & Gum UI primitives
 ├── README.md                    # Concise user manual, quick overview and documentation hub
 ├── AGENTS.md                    # AI Agent architectural context and guidelines
 ├── CONCEPTS.md                  # Vocabulario compartido del proyecto para orientar discusiones de dominio
-├── .gitignore                   # Ignored files (.atl/, .DS_Store, dist/, .astro/)
-├── package.json                 # Documentation site dependencies (Astro + Starlight)
-├── astro.config.mjs             # Astro Starlight configuration (base: /OhMyConfig/, overrides)
-├── tsconfig.json                # TypeScript configuration for Astro & Starlight
-├── src/                         # Documentation website source
-│   ├── content.config.ts        # Content Layer mapping documentation/*.md
-│   ├── styles/
-│   │   └── custom.css           # Static Noise theme & Expressive Code styling
-│   └── components/
-│       ├── CosmicAtmosphere.astro  # Dynamic cosmic canvas (60fps, calibrated light/particles/grain)
-│       └── CosmicPageFrame.astro   # Starlight PageFrame component override
+├── .gitignore                   # Ignored files (.atl/, .DS_Store, dist/, .astro/, node_modules/)
 ├── .github/
 │   └── workflows/
-│       └── docs.yml             # GitHub Actions CI/CD to build & deploy docs to GitHub Pages
+│       └── docs.yml             # GitHub Actions CI/CD to build & deploy docs (working-dir: apps/docs)
 ├── .compound-engineering/
 │   ├── config.yaml              # Compound Engineering repo config (docs_root -> .compound-engineering/artifacts)
 │   ├── config.example.yaml      # Current commented template for team defaults
 │   └── artifacts/               # CE-owned outputs: plans, brainstorms, solutions, explainers, reports
-│       └── solutions/           # Casos resueltos buscables por categoría y frontmatter (module, tags, problem_type), relevantes al implementar o depurar áreas documentadas
-├── documentation/               # Modular Markdown Documentation (Pure MD without bloat)
-│   ├── index.md                 # Documentation landing page
-│   ├── instalacion.md           # Installation & Brewfile guide
-│   ├── ai.md                    # AI ecosystem guide (pi base + recommended extensions)
-│   ├── neovim.md                # Master Neovim guide
-│   ├── zellij.md                # Master Zellij guide
-│   ├── git.md                   # Git, Lazygit & Delta guide
-│   ├── terminal.md              # Ghostty, Fish, Starship & Atuin guide
-│   ├── herramientas.md          # Modern CLI/TUI tools guide
-│   ├── colores.md               # Static Noise palette reference
-│   └── cheatsheet.md            # Master Alias & Keymap Cheatsheet
-└── config/                      # Source configuration directory (mirrors ~/.config/)
-    ├── fish/
-    │   ├── config.fish          # Shell aliases, wrappers, PATH, FZF/Atuin inits
-    ├── ghostty/
-    │   └── config               # GPU terminal config (font, theme, window blur)
-    ├── starship/
-    │   └── starship.toml        # Fast prompt theme with git/runtime/k8s modules
-    ├── zellij/
-    │   ├── config.kdl           # Zellij multiplexer settings & Static Noise palette
-    │   ├── layouts/
-    │   │   └── default.kdl      # 1-line layout powered by local zjstatus.wasm
-    │   └── plugins/
-    │       └── zjstatus.wasm    # Pre-packaged local WASM status-bar plugin
-    ├── lazygit/
-    │   └── config.yml           # Git TUI config, Static Noise theme & Delta integration
-    ├── bottom/
-    │   └── bottom.toml          # System & process monitor theme/layout
-    ├── atuin/
-    │   └── config.toml          # Intelligent shell history SQLite database config
-    ├── git/
-    │   └── delta.gitconfig      # Modular Delta & alias configuration (included via include.path)
-    └── nvim/                    # Modular Neovim Lua IDE configuration (LazyVim Core)
-        ├── init.lua             # Core entry point (options, keymaps, lazy bootstrap)
-        ├── lazyvim.json         # LazyExtras enabled modules (TypeScript, Python, Docker, etc.)
-        └── lua/
-            ├── config/
-            │   ├── options.lua  # User vim.opt settings (hybrid numbers, undo, tabs)
-            │   ├── keymaps.lua  # User navigation & split mappings (<leader> = Space)
-            │   ├── autocmds.lua # User event triggers and hooks
-            │   └── lazy.lua     # LazyVim core bootstrap & plugin setup
-            └── plugins/
-                ├── colorscheme.lua # Static Noise theme with adaptive blur/transparency
-                ├── neo-tree.lua    # Clean Git status symbols without empty boxes
-                ├── neogen.lua      # Intelligent docstring generator (JSDoc, TSDoc, Google)
-                └── which-key.lua   # Static Noise-styled Which-Key v3 specs & Spanish groups
+│       └── solutions/           # Casos resueltos buscables por categoría y frontmatter
+├── apps/                        # Decoupled web applications
+│   └── docs/                    # Astro Starlight documentation portal (fully isolated web app)
+│       ├── package.json         # Documentation site dependencies (Astro + Starlight)
+│       ├── astro.config.mjs     # Astro Starlight configuration (base: /OhMyConfig/, overrides)
+│       ├── tsconfig.json        # TypeScript configuration for Astro & Starlight
+│       └── src/
+│           ├── content.config.ts # Content Layer configuration
+│           ├── content/docs/    # Pure Markdown documentation (canonical SSOT)
+│           ├── styles/
+│           │   └── custom.css   # Static Noise theme & Expressive Code styling
+│           └── components/      # Cosmic Atmosphere & Starlight component overrides
+└── modules/                     # Modular co-located dotfile packages with manifest.sh
+    ├── core/
+    │   ├── fish/                # Shell aliases, wrappers, PATH, inits + manifest.sh
+    │   ├── starship/            # Fast prompt theme + manifest.sh
+    │   └── atuin/               # Shell history SQLite config + manifest.sh
+    ├── terminal/
+    │   ├── ghostty/             # GPU terminal config + manifest.sh
+    │   └── zellij/              # Multiplexer config, layouts, local zjstatus.wasm + manifest.sh
+    ├── editor/
+    │   ├── nvim/                # Modular Neovim Lua IDE (LazyVim Core) + manifest.sh
+    │   ├── git/                 # Modular Delta & alias configuration + manifest.sh
+    │   └── lazygit/             # Git TUI config, Static Noise theme + manifest.sh
+    ├── cli/
+    │   └── bottom/              # System & process monitor config + manifest.sh
+    └── ai/
+        └── pi/                  # Pi themes, header, model-policy extensions + manifest.sh
 ```
 
 ---
@@ -102,10 +75,10 @@ OhMyConfig/
 ## 3. Core Subsystems & Components
 
 ### 3.1 CLI & Deployment Engine (`./omc` & `cli/`)
-- **Single Entry Point (`./omc`)**: Written in pure Bash 3.2+ with Gum TUI, providing subcommands: `install`, `doctor`, `update`, `dev`, and flags `--version` (`-v`), `--help` (`-h`). Cero dependencias de shells externas.
-- **Idempotency & Safety (`cli/lib/deploy.sh`)**: Compares source and destination with `cmp -s`. Creates timestamped backups (`${dest}.bak_YYYYMMDD_HHMMSS`) before overwriting modified files.
-- **Symlink Mode (`--link` / `-l`)**: Replaces configuration copies with direct symbolic links pointing to this repository.
-- **Homebrew Automation (`cli/lib/brew.sh`)**: Automatically verifies and installs Homebrew and Gum if missing, then orchestrates formula and cask installations per module.
+- **Single Entry Point (`./omc`)**: Written in pure Bash 3.2+ with Gum TUI, providing subcommands: `install`, `doctor`, `update`, `dev`, `docs`, `cheatsheet`, and flags `--version` (`-v`), `--help` (`-h`). Cero dependencias de shells externas.
+- **Idempotency & Safety (`cli/lib/deploy.sh`)**: Compares source and destination with `cmp -s`. Creates timestamped backups (`${dest}.bak_YYYYMMDD_HHMMSS`) before overwriting modified files. Resolves dynamic sources from `modules/<domain>/<tool>/manifest.sh`.
+- **Symlink Mode (`--link` / `-l`)**: Replaces configuration copies with direct symbolic links pointing to this repository (`modules/`).
+- **Homebrew Automation (`cli/lib/brew.sh`)**: Automatically verifies and installs Homebrew and Gum if missing, then orchestrates formula and cask installations per module via `brew bundle`.
 - **State Profile (`.omc-profile`)**: Persists active modules and deployment mode for non-destructive incremental updates and diagnostics.
 
 ### 3.2 Terminal & Shell Layer
@@ -147,7 +120,7 @@ OhMyConfig/
 - **Optional Pi Packages**: Add capabilities only when needed with `pi install <package>` and inspect the current environment with `pi list`.
   - Current optional examples in this setup include `pi-subagents`, `pi-ask-user`, `pi-web-access`, `pi-hermes-memory`, `@ff-labs/pi-fff`, `@narumitw/pi-lsp`, `pi-antigravity`, `pi-smart-compact`, `pi-skill-dollar`, and `git:github.com/EveryInc/compound-engineering-plugin`.
 - **Lifecycle Commands**: `omc dev` manages the Pi base CLI (`install`, `status`, `update`, `doctor`, `remove`). Optional packages are managed by native Pi commands (`pi list`, `pi install`, `pi remove`).
-- **Project-Local Pi Config**: OhMyConfig selects a native Static Noise theme and custom TUI header from `.pi/settings.json`, loading resources stored under `config/pi/themes/` and `config/pi/extensions/` via paths relative to `.pi/` (`../config/pi/...`). Run `pi --approve` or `/trust` to load them.
+- **Project-Local Pi Config**: OhMyConfig selects a native Static Noise theme and custom TUI header from `.pi/settings.json`, loading resources stored under `modules/ai/pi/themes/` and `modules/ai/pi/extensions/` via paths relative to `.pi/` (`../modules/ai/pi/...`). Run `pi --approve` or `/trust` to load them.
 
 ---
 
@@ -158,9 +131,9 @@ OhMyConfig/
    - Primary Foreground: `#E6E2D6`
    - Accents: Blue (`#83BFFF`), Cyan (`#72EAD5`), Green (`#A3D98B`), Magenta/Purple (`#C2A7FF` / `#F08BC2`), Yellow/Orange (`#EDD071` / `#F3A261`), Red (`#EF7785`), Dim/Comments (`#9299AE` / `#62697B`).
 2. **Pure Documentation Principle**:
-   - The `documentation/` directory contains **only pure Markdown files** without framework config bloat.
-   - Documentation platform is built on **Astro + Starlight** with zero JavaScript on reader content, styled with the Static Noise palette and a calibrated cosmic atmosphere canvas.
-   - CI/CD in `.github/workflows/docs.yml` verifies compilation with `npm run build` on PRs and deploys to GitHub Pages exclusively upon version tag releases (`v*`) or manual dispatch.
+   - The documentation Markdown files reside in `apps/docs/src/content/docs/` as **pure Markdown files** without framework config bloat.
+   - Documentation platform is built on **Astro + Starlight** inside `apps/docs/` with zero JavaScript on reader content, styled with the Static Noise palette and a calibrated cosmic atmosphere canvas.
+   - CI/CD in `.github/workflows/docs.yml` verifies compilation with `npm run build` inside `apps/docs/` on PRs and deploys to GitHub Pages exclusively upon version tag releases (`v*`) or manual dispatch.
    - Compound Engineering artifacts are separated from user docs under `.compound-engineering/artifacts/` via `.compound-engineering/config.yaml` (`docs_root`).
 3. **Zero-Friction Offline Execution**: Avoid dynamic external downloads inside runtime configs; bundle or locally cache required binaries/WASM plugins within the repo.
 4. **Non-Destructive Overwrites**: Configuration installers must never silently discard user files without `.bak_` backups or user consent.
