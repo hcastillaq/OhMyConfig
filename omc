@@ -6,19 +6,17 @@
 #   ./omc install              Interactive installer with module selection
 #   ./omc install --all        Install all modules non-interactively
 #   ./omc install --all --link Install all in symlink mode
-#   ./omc doctor               Diagnose installed tools and versions
-#   ./omc update               Update brew formulas + npm globals
-#   ./omc dev                  Install pi coding agent and view recommended extensions
-#   ./omc dev status           Show pi version and extensions status
-#   ./omc dev update           Update pi to latest
+#   ./omc doctor               Diagnose installed tools, packages, and symlinks
+#   ./omc update               Update brew formulas + casks + global npm packages
+#   ./omc --version            Show version (from VERSION file)
 #   ./omc --help               Show this help
 # ==============================================================================
 
 set -e
 
-OMC_VERSION="1.0.0"
-export OMC_VERSION
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+OMC_VERSION="$(tr -d ' \n\r' < "$DOTFILES_DIR/VERSION" 2>/dev/null || echo "1.0.0")"
+export OMC_VERSION
 CMD="${1:-}"
 
 # Source core libs
@@ -56,24 +54,6 @@ case "$CMD" in
         cmd_update
         ;;
 
-    dev)
-        source "$DOTFILES_DIR/cli/commands/dev.sh"
-        shift || true
-        cmd_dev "$@"
-        ;;
-
-    docs)
-        source "$DOTFILES_DIR/cli/commands/docs.sh"
-        shift || true
-        cmd_docs "$@"
-        ;;
-
-    cheatsheet|cheat)
-        source "$DOTFILES_DIR/cli/commands/cheatsheet.sh"
-        shift || true
-        cmd_cheatsheet "$@"
-        ;;
-
     --help|-h|help|"")
         echo ""
         echo "⚡ OhMyConfig CLI — omc v$OMC_VERSION"
@@ -87,16 +67,9 @@ case "$CMD" in
         echo "    install --all        Instala todos los módulos sin preguntar"
         echo "    install --all --link Instala todo en modo symlink (desarrollo de dotfiles)"
         echo ""
-        echo "    doctor               Diagnóstico completo del entorno y versiones"
+        echo "    doctor               Diagnóstico completo del entorno, paquetes y symlinks"
         echo ""
-        echo "    update               Actualiza Homebrew + pi (npm global)"
-        echo ""
-        echo "    dev                  Instala pi (Coding Agent) y muestra extensiones"
-        echo "    dev status           Versión instalada de pi y estado de extensiones"
-        echo "    dev update           Actualiza pi a latest"
-        echo ""
-        echo "    docs [dev|build]     Gestiona el sitio web de documentación Astro Starlight"
-        echo "    cheatsheet [filtro]  Buscador difuso interactivo de atajos en consola"
+        echo "    update               Actualiza Homebrew + herramientas globales (Pi)"
         echo ""
         echo "    --version, -v        Muestra la versión de OhMyConfig"
         echo "    --help, -h           Muestra esta ayuda"

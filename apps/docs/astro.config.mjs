@@ -1,13 +1,16 @@
+import { readFileSync } from 'node:fs';
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+
+const version = readFileSync(new URL('../../VERSION', import.meta.url), 'utf-8').trim();
 
 export default defineConfig({
   site: 'https://hcastillaq.github.io',
   base: '/OhMyConfig/',
   integrations: [
     starlight({
-      title: 'OhMyConfig',
-      description: 'Dotfiles y Entorno de Desarrollo Moderno para macOS (Static Noise)',
+      title: `OhMyConfig v${version}`,
+      description: `Dotfiles y Entorno de Desarrollo Moderno para macOS (Static Noise) — v${version}`,
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/hcastillaq/OhMyConfig' },
       ],

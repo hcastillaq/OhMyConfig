@@ -52,7 +52,7 @@ cmd_update() {
                 gum style --foreground "$COLOR_OK" "$(printf "    ✅  %-18s %s → %s" "$label" "$current" "$latest")"
             fi
         else
-            ui_dim "$(printf "    —   %-18s no instalado, omitiendo (omc dev install)" "$label")"
+            ui_dim "$(printf "    —   %-18s no instalado, omitiendo (omc install ai)" "$label")"
         fi
         echo ""
     fi

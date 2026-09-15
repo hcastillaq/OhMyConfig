@@ -14,16 +14,14 @@ This document provides system architecture, design invariants, configuration str
 
 ```
 OhMyConfig/
+├── VERSION                      # Single Source of Truth for project version (SemVer)
 ├── Brewfile                     # Homebrew bundle centralizado (CLI tools, GUI apps, Nerd Fonts)
 ├── omc                          # Single executable CLI entry point (Bash 3.2+ & Gum TUI)
 ├── cli/                         # Modular CLI implementation in pure Bash
 │   ├── commands/
 │   │   ├── install.sh           # Interactive & automated module installer
 │   │   ├── doctor.sh            # Environment diagnostic & version reporting
-│   │   ├── update.sh            # Centralized updater (Brew + Casks + AI npm packages)
-│   │   ├── dev.sh               # AI/Pi ecosystem manager (install pi, status, update)
-│   │   ├── docs.sh              # Astro Starlight documentation website manager (dev, build, preview)
-│   │   └── cheatsheet.sh        # Terminal-first fuzzy shortcut search powered by gum/fzf
+│   │   └── update.sh            # Centralized updater (Brew + Casks + AI npm packages)
 │   └── lib/
 │       ├── brew.sh              # Homebrew detection, verification & helpers
 │       ├── catalog.sh           # Granular module & package definitions
@@ -75,7 +73,7 @@ OhMyConfig/
 ## 3. Core Subsystems & Components
 
 ### 3.1 CLI & Deployment Engine (`./omc` & `cli/`)
-- **Single Entry Point (`./omc`)**: Written in pure Bash 3.2+ with Gum TUI, providing subcommands: `install`, `doctor`, `update`, `dev`, `docs`, `cheatsheet`, and flags `--version` (`-v`), `--help` (`-h`). Cero dependencias de shells externas.
+- **Single Entry Point (`./omc`)**: Written in pure Bash 3.2+ with Gum TUI, providing subcommands: `install`, `doctor`, `update`, and flags `--version` (`-v`), `--help` (`-h`). Cero dependencias de shells externas.
 - **Idempotency & Safety (`cli/lib/deploy.sh`)**: Compares source and destination with `cmp -s`. Creates timestamped backups (`${dest}.bak_YYYYMMDD_HHMMSS`) before overwriting modified files. Resolves dynamic sources from `modules/<domain>/<tool>/manifest.sh`.
 - **Symlink Mode (`--link` / `-l`)**: Replaces configuration copies with direct symbolic links pointing to this repository (`modules/`).
 - **Homebrew Automation (`cli/lib/brew.sh`)**: Automatically verifies and installs Homebrew and Gum if missing, then orchestrates formula and cask installations per module via `brew bundle`.
@@ -114,12 +112,12 @@ OhMyConfig/
   - `keymaps.lua` & `options.lua`: Seamless `Ctrl + hjkl` window navigation, persistent undo, hybrid line numbers, universal `<C-s>` saving, system clipboard integration.
   - `lazyvim.json`: Dynamic module toggling via `:LazyExtras` (`<leader>px`).
 
-### 3.6 AI Ecosystem & Coding Agents (`cli/commands/dev.sh` & `documentation/ai.md`)
+### 3.6 AI Ecosystem & Coding Agents (`modules/ai/pi/` & `apps/docs/src/content/docs/ai.md`)
 - **Pi Coding Agent (`pi`)**: High-performance autonomous terminal agent for code exploration, editing, testing, and execution (`@earendil-works/pi-coding-agent`).
-- **Minimal Base Install**: `omc dev install` installs only the Pi CLI base. It does not bulk-install the LazyPi catalog or optional extensions.
+- **Minimal Base Install**: Managed homogeneously as the `ai` module (`./omc install ai` or `./omc install --all`).
 - **Optional Pi Packages**: Add capabilities only when needed with `pi install <package>` and inspect the current environment with `pi list`.
   - Current optional examples in this setup include `pi-subagents`, `pi-ask-user`, `pi-web-access`, `pi-hermes-memory`, `@ff-labs/pi-fff`, `@narumitw/pi-lsp`, `pi-antigravity`, `pi-smart-compact`, `pi-skill-dollar`, and `git:github.com/EveryInc/compound-engineering-plugin`.
-- **Lifecycle Commands**: `omc dev` manages the Pi base CLI (`install`, `status`, `update`, `doctor`, `remove`). Optional packages are managed by native Pi commands (`pi list`, `pi install`, `pi remove`).
+- **Lifecycle Commands**: `./omc update` automatically checks and updates `@earendil-works/pi-coding-agent`. Optional packages are managed by native Pi commands (`pi list`, `pi install`, `pi remove`).
 - **Project-Local Pi Config**: OhMyConfig selects a native Static Noise theme and custom TUI header from `.pi/settings.json`, loading resources stored under `modules/ai/pi/themes/` and `modules/ai/pi/extensions/` via paths relative to `.pi/` (`../modules/ai/pi/...`). Run `pi --approve` or `/trust` to load them.
 
 ---
@@ -140,9 +138,9 @@ OhMyConfig/
 5. **Platform Scope**: Tailored for macOS (Apple Silicon `/opt/homebrew` and Intel `/usr/local`), supporting fish shell syntax.
 6. **Semantic Versioning & Release Policy (`SemVer`)**:
    - **Baseline**: Starts at `v1.0.0` as the first stable public release.
-   - **Single Source of Truth**: `OMC_VERSION="X.Y.Z"` in `./omc` and `"version": "X.Y.Z"` in `package.json`. Keep both strictly synchronized.
+   - **Single Source of Truth**: The `VERSION` plain file at the repository root. Both `./omc` and `apps/docs/` consume it directly.
    - **Patch (`1.0.x`)**: Bug fixes in bash/fish scripts, design/CSS tweaks in documentation, dependency updates, or broken link repairs.
-   - **Minor (`1.x.0`)**: New CLI tools added to the catalog, new optional dotfiles modules, or new capabilities/subcommands in `./omc` without breaking existing installations.
+   - **Minor (`1.x.0`)**: New CLI tools added to the catalog, new optional dotfiles modules, or new capabilities in `./omc` without breaking existing installations.
    - **Major (`x.0.0`)**: Breaking architectural changes (e.g. folder structure changes that break symlinks, replacing core tools like Neovim or Fish, or updates requiring manual user migrations).
    - **Git Tags**: Releases must be marked with annotated git tags (e.g. `git tag -a v1.0.0 -m "Release v1.0.0"`).
 
