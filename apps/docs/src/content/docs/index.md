@@ -30,7 +30,7 @@ hero:
       Agente Pi en terminal con instalación base mínima. Sin bloatware: sumás extensiones para Compound Engineering, subagentes en paralelo y memoria persistente solo cuando las necesitás.
     </p>
     <div class="card-footer">
-      <code>omc dev status</code>
+      <code>omc doctor</code>
       <span class="card-arrow">→</span>
     </div>
   </a>
@@ -122,5 +122,5 @@ OhMyConfig nació con una idea muy simple: **un entorno para macOS rápido, pred
 ### Los 3 pilares del proyecto
 
 1. **Rendimiento real con Rust y Go:** Sustituí las utilidades tradicionales de Unix por equivalentes modernos (`eza`, `bat`, `ripgrep`, `dust`, `zoxide`, `zellij`). Responden en microsegundos y aprovechan la aceleración de hardware.
-2. **Tema visual Static Noise:** Cero incoherencia visual. Neovim, Zellij, Ghostty, Lazygit y el agente Pi comparten exactamente los mismos tokens cromáticos de alto contraste: negros profundos neutrales (`#0B0D13` y `#11141D`) y acentos en Cyan (`#72EAD5`), Azul (`#83BFFF`) y Púrpura (`#C2A7FF`).
+2. **Tema visual Static Noise:** Cero incoherencia visual. Neovim, Zellij, Ghostty, Lazygit y el agente Pi comparten exactamente los mismos tokens cromáticos de alto contraste: negros profundos neutrales (`#0F1117` y `#141720`) y acentos en Cyan (`#72EAD5`), Azul (`#83BFFF`) y Púrpura (`#C2A7FF`).
 3. **Despliegue seguro e idempotente:** La CLI `omc` está escrita en Bash nativo de macOS (3.2+) para no depender de que tengas Fish o Zsh configurados previamente. Compara tus archivos locales con `cmp -s`, genera copias de seguridad con timestamp antes de modificar nada y te da la opción de usar enlaces simbólicos directos para que cualquier cambio en este repo impacte al momento en tu sistema.

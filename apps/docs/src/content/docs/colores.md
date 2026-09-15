@@ -5,7 +5,7 @@ description: "Especificación completa de tokens, roles y colores canónicos de 
 
 Armé el tema visual **Static Noise** porque estaba cansado de tener un entorno donde cada herramienta usaba una paleta distinta: el editor con un tema, la terminal con otro y las utilidades CLI con colores estándar que chocaban entre sí.
 
-Static Noise es el **sistema cromático y tema visual oficial** de OhMyConfig. Diseñado específicamente para programar muchas horas sin fatiga visual en macOS: fondos abisales neutrales (`#0B0D13` y `#11141D`), texto nítido en marfil frío (`#EDEDEA`) y acentos eléctricos de alto contraste en Cyan (`#72EAD5`), Azul (`#83BFFF`) y Púrpura (`#C2A7FF`).
+Static Noise es el **sistema cromático y tema visual oficial** de OhMyConfig. Diseñado específicamente para programar muchas horas sin fatiga visual en macOS: fondos abisales neutrales (`#0F1117` y `#141720`), texto nítido en marfil frío (`#EDEDEA`) y acentos eléctricos de alto contraste en Cyan (`#72EAD5`), Azul (`#83BFFF`) y Púrpura (`#C2A7FF`).
 
 ---
 
@@ -17,10 +17,10 @@ Static Noise es el **sistema cromático y tema visual oficial** de OhMyConfig. D
 |---|---:|---|
 | `void` | `#0F1117` | Fondo más profundo, barras de estado y chrome exterior |
 | `base` | `#141720` | Fondo principal neutral para terminal, editor y ventanas |
-| `raised` | `#1B1F2A` | Paneles secundarios, popups, menús y cajas flotantes |
-| `overlay` | `#202532` | Ventanas flotantes modales y elementos elevados |
-| `selection` | `#252A38` | Fondo de selección inactiva, búsqueda y línea activa |
-| `border` | `#343A4A` | Bordes inactivos, divisores y separadores tenues |
+| `raised` | `#1A1E2B` | Paneles secundarios, popups, menús y cajas flotantes |
+| `overlay` | `#222738` | Ventanas flotantes modales y elementos elevados |
+| `selection` | `#242B3D` | Fondo de selección inactiva, búsqueda y línea activa |
+| `border` | `#272C3E` | Bordes inactivos, divisores y separadores tenues |
 | `borderFocus` | `#72EAD5` | Borde del panel activo, cursor y foco dominante |
 | `text` | `#E6E2D6` | Texto principal cálido (papel marfil frío) |
 | `textSoft` | `#C9C8C2` | Texto secundario de lectura continua |
@@ -107,10 +107,10 @@ Para integraciones web (Astro, Starlight, CSS) o herramientas compatibles con va
   /* Superficies */
   --sn-void: #0F1117;
   --sn-base: #141720;
-  --sn-raised: #1B1F2A;
-  --sn-overlay: #202532;
-  --sn-selection: #252A38;
-  --sn-border: #343A4A;
+  --sn-raised: #1A1E2B;
+  --sn-overlay: #222738;
+  --sn-selection: #242B3D;
+  --sn-border: #272C3E;
   --sn-border-focus: #72EAD5;
 
   /* Tipografía */

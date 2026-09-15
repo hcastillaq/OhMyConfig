@@ -11,8 +11,6 @@ Para resolverlo de forma definitiva, en OhMyConfig elegí construir sobre el mot
 config/nvim/
 ├── init.lua                      # Entrada principal (Bootstrap de LazyVim)
 ├── lazyvim.json                  # Registro de módulos y lenguajes activos (LazyExtras)
-├── colors/
-│   └── static-noise.lua           # Esquema de color propio
 └── lua/
     ├── config/
     │   ├── options.lua           # Opciones nativas (números híbridos, undo persistente, tabs)
@@ -20,11 +18,26 @@ config/nvim/
     │   ├── autocmds.lua          # Eventos y hooks personalizados
     │   └── lazy.lua              # Bootstrap de LazyVim y carga de módulos
     └── plugins/
-        ├── colorscheme.lua       # Carga el esquema Static Noise
+        ├── colorscheme.lua       # Instala static-noise.nvim y carga Static Noise
         ├── neo-tree.lua          # Símbolos limpios de estado de Git en el explorador
         ├── neogen.lua            # Generador de docstrings estructurados (JSDoc, TSDoc, LuaDoc)
         └── which-key.lua         # Grupos y etiquetas de atajos
 ```
+
+### Tema Static Noise
+
+OhMyConfig no mantiene una copia local de los colores de Neovim. LazyVim instala directamente el plugin oficial:
+
+```lua
+{
+  "hcastillaq/static-noise.nvim",
+  lazy = false,
+  priority = 1000,
+  opts = { transparent = true },
+}
+```
+
+La paleta canónica vive en [`hcastillaq/static-noise`](https://github.com/hcastillaq/static-noise) y el plugin de Neovim publica la implementación compatible con `lazy.nvim`.
 
 ---
 
