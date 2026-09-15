@@ -118,7 +118,7 @@ OhMyConfig/
 - **Optional Pi Packages**: Add capabilities only when needed with `pi install <package>` and inspect the current environment with `pi list`.
   - Current optional examples in this setup include `pi-subagents`, `pi-ask-user`, `pi-web-access`, `pi-hermes-memory`, `@ff-labs/pi-fff`, `@narumitw/pi-lsp`, `pi-antigravity`, `pi-smart-compact`, `pi-skill-dollar`, and `git:github.com/EveryInc/compound-engineering-plugin`.
 - **Lifecycle Commands**: `./omc update` automatically checks and updates `@earendil-works/pi-coding-agent`. Optional packages are managed by native Pi commands (`pi list`, `pi install`, `pi remove`).
-- **Project-Local Pi Config**: OhMyConfig selects a native Static Noise theme and custom TUI header from `.pi/settings.json`, loading resources stored under `modules/ai/pi/themes/` and `modules/ai/pi/extensions/` via paths relative to `.pi/` (`../modules/ai/pi/...`). Run `pi --approve` or `/trust` to load them.
+- **Project-Local Pi Resources**: `.pi/` contains only the repository-specific skills under `.pi/skills/`. The `ai` module deploys the Static Noise theme, custom TUI header, and model policy globally under `~/.pi/agent/`; project settings must not override those global resources. Run `pi --approve` or `/trust` to load the local skills.
 
 ---
 

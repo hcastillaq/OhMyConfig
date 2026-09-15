@@ -1,5 +1,0 @@
-{
-  "theme": "ohmyconfig-static-noise",
-  "themes": ["modules/ai/pi/themes"],
-  "extensions": ["modules/ai/pi/extensions/ohmyconfig-header.ts"]
-}
