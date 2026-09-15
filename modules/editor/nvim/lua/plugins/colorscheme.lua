@@ -3,7 +3,14 @@
 -- ==============================================================================
 
 return {
-  -- Indicar a LazyVim que use static-noise como tema por defecto
+  {
+    "hcastillaq/static-noise.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      transparent = true,
+    },
+  },
   {
     "LazyVim/LazyVim",
     opts = {

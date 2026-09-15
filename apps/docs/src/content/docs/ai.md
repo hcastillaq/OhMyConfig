@@ -14,7 +14,7 @@ La filosofía acá es la misma que con el resto del setup: **cero bloat**. No me
 Instalás el CLI base directamente con nuestro gestor:
 
 ```bash
-./omc dev install
+./omc install
 ```
 
 Por debajo, este comando instala únicamente el paquete oficial:
@@ -46,7 +46,7 @@ Estas son las extensiones que uso y recomiendo para transformar a Pi en un verda
 | Extensión | Instalación | Por qué la recomiendo |
 | :--- | :--- | :--- |
 | **`pi-subagents`** | `pi install npm:pi-subagents` | Permite a Pi delegar tareas a subagentes en paralelo, ejecutar code reviews estructuradas y aislar cambios en worktrees temporales de Git. Fundamental para tareas complejas. |
-| **`pi-model-policy`** | Incluida en `config/pi/extensions/` | Enrutador inteligente para subagentes. Asigna automáticamente el modelo y nivel de *thinking* óptimo según la tarea (FAST, RESEARCH, BUILD, REASON, ARCHITECT, ORACLE), desempatando por menor costo por token y protegiendo cuotas sin escalado ascendente. Ver [guía completa de Pi Model Policy](/OhMyConfig/model-policy/). |
+| **`pi-model-policy`** | Incluida en `modules/ai/pi/extensions/` | Enrutador inteligente para subagentes. Asigna automáticamente el modelo y nivel de *thinking* óptimo según la tarea (FAST, RESEARCH, BUILD, REASON, ARCHITECT, ORACLE), desempatando por menor costo por token y protegiendo cuotas sin escalado ascendente. Ver [guía completa de Pi Model Policy](/OhMyConfig/model-policy/). |
 | **`pi-ask-user`** | `pi install npm:pi-ask-user` | Interfaz interactiva de preguntas. Hace que el agente te consulte opciones antes de tomar decisiones arquitectónicas o ejecutar cambios destructivos. |
 | **`pi-model-council`** | `pi install npm:@bramburn/pi-model-council` | Consulta a varios modelos en paralelo (Claude, GPT, Gemini) cuando necesitás una segunda opinión sobre un refactor o un bug elusivo. |
 | **`compound-engineering-plugin`** | `pi install git:github.com/EveryInc/compound-engineering-plugin` | Suite de ingeniería continua: planificación de features (`ce-plan`), ejecución guiada (`ce-work`), reviews y handoffs entre sesiones. |
@@ -81,13 +81,17 @@ Estas son las extensiones que uso y recomiendo para transformar a Pi en un verda
 
 ## 4. Estilo visual: tema Static Noise en Pi
 
-Para que la ventana de Pi no desentone con Ghostty y Neovim, OhMyConfig incluye un tema visual propio almacenado en `config/pi/`:
+Para que la ventana de Pi no desentone con Ghostty y Neovim, OhMyConfig descarga el tema generado desde [`static-noise`](https://github.com/hcastillaq/static-noise) durante `omc install` y `omc update`.
 
-* **`config/pi/themes/ohmyconfig-static-noise.json`:** Aplica los colores oficiales de Static Noise (fondos abisales `#141720`, texto marfil `#E6E2D6`, cursor y foco en Cyan `#72EAD5`).
-* **`config/pi/extensions/ohmyconfig-header.ts`:** Sustituye el encabezado genérico por una barra limpia con el símbolo `π` y metadatos sutiles.
-* **`config/pi/extensions/model-policy.ts`:** Enrutador dinámico de modelos para subagentes. Intercepta llamadas en vuelo y asigna automáticamente el modelo más económico y adecuado para cada tarea, con comandos `/model-policy status` y `/model-policy explain <agente>`.
+El artefacto se instala en:
 
-Para activar este tema en tu entorno, abrí una sesión de Pi en este repositorio y confirmá los recursos locales:
+```text
+~/.pi/agent/themes/static-noise.json
+```
+
+El encabezado y la política de modelos siguen siendo extensiones propias de OhMyConfig. El tema no se edita manualmente en este repositorio.
+
+Para activar los recursos locales de Pi, abrí una sesión y confirmá la confianza del proyecto:
 
 ```bash
 pi
@@ -103,17 +107,16 @@ pi --approve
 
 ---
 
-## 5. Comandos de mantenimiento rápido con `omc`
+## 5. Comandos de mantenimiento rápido
 
-Desde la raíz del proyecto podés chequear y actualizar la base de Pi con:
+Desde la raíz del proyecto:
 
 ```bash
-./omc dev status    # Revisa la versión del binario y qué extensiones tenés instaladas
-./omc dev update    # Actualiza el paquete global @earendil-works/pi-coding-agent
-./omc dev doctor    # Verifica que Node, npm y el entorno de Pi estén en orden
+./omc doctor       # Diagnostica herramientas y dependencias
+./omc update       # Actualiza Pi, herramientas y artefactos Static Noise
 ```
 
-Y para desinstalar o limpiar extensiones que ya no uses:
+Las extensiones opcionales se gestionan con los comandos nativos de Pi. Para desinstalar o limpiar extensiones que ya no uses:
 
 ```bash
 pi remove <nombre-de-extension>

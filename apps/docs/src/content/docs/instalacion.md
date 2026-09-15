@@ -84,16 +84,17 @@ Actualiza Homebrew, todas las fórmulas de terminal, las aplicaciones de escrito
 ./omc update
 ```
 
-### `omc dev` — Administrador del agente Pi
+### Static Noise — tema compartido
 
-Gestiona el ciclo de vida del agente Pi sin meterte en scripts de npm:
+Durante `install` y `update`, `omc` descarga los artefactos generados desde [`hcastillaq/static-noise`](https://github.com/hcastillaq/static-noise) y los guarda en:
 
-```bash
-./omc dev install   # Instala el CLI oficial @earendil-works/pi-coding-agent
-./omc dev status    # Revisa la versión actual y qué extensiones tenés activas
-./omc dev update    # Actualiza Pi a la versión más reciente
-./omc dev doctor    # Verifica Node, npm y el entorno de Pi
+```text
+~/.cache/ohmyconfig/static-noise/
 ```
+
+Los módulos de Ghostty, Zellij, Fish, Starship, Bottom, Lazygit, Delta y Pi consumen esos artefactos. Neovim instala [`static-noise.nvim`](https://github.com/hcastillaq/static-noise.nvim) mediante LazyVim.
+
+`omc` no compila ni mantiene colores localmente. En esta etapa beta usa la rama `main` de Static Noise.
 
 ---
 

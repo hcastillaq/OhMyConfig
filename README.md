@@ -28,7 +28,7 @@ cd ~/Codigos/OhMyConfig
 ./omc install
 ```
 
-* **CLI `omc`**: Herramienta unificada TUI (vía Gum) que gestiona la instalación de módulos, dependencias de Homebrew, enlaces simbólicos a `~/.config/`, diagnóstico (`./omc doctor`), actualizaciones (`./omc update`), el agente de IA Pi (`./omc dev`), la gestión de documentación (`./omc docs`) y el buscador interactivo de atajos en consola (`./omc cheatsheet`).
+* **CLI `omc`**: Gestor e instalador de entorno para macOS (vía Gum y Bash 3.2+). Centraliza la instalación modular (`./omc install`), el diagnóstico de herramientas (`./omc doctor`) y la actualización del sistema (`./omc update`).
 
 ---
 
@@ -66,33 +66,37 @@ OhMyConfig/
 
 ---
 
-## ⚡ Consulta Rápida de Atajos en Terminal
+## ⚡ Consulta de Atajos y Comandos
 
-Para evitar la desincronización y duplicación de tablas, los atajos y aliases se consultan al instante directamente desde la terminal o a través de la web oficial:
+Para evitar desincronización y duplicación de datos, los atajos y aliases de consola se consultan de forma centralizada y con buscador en la web oficial:
 
-* **En la Terminal (Búsqueda difusa ultrarrápida):**
-  ```bash
-  ./omc cheatsheet         # Abre el buscador interactivo con gum filter
-  ./omc cheatsheet git     # Filtra directamente por herramienta o comando
-  ```
-* **En la Web (Tabla maestra interactiva con buscador):**
-  👉 **[Ver Tabla Maestra de Atajos Online](https://hcastillaq.github.io/OhMyConfig/cheatsheet)**
+👉 **[Ver Tabla Maestra de Atajos Online](https://hcastillaq.github.io/OhMyConfig/cheatsheet)**
 
 ---
 
-## 🛠️ Comandos Esenciales de `omc`
+## 🛠️ Comandos de `omc`
 
 | Comando | Acción |
 | :--- | :--- |
-| `./omc install` | Instalador interactivo TUI con selección de módulos |
-| `./omc install --all --link` | Instalación total en modo symlink (recomendado) |
+| `./omc install` | Instalador interactivo TUI con selección modular |
+| `./omc install --all --link` | Instalación completa en modo symlink (recomendado) |
 | `./omc doctor` | Diagnóstico de salud del entorno, paquetes y symlinks |
-| `./omc update` | Actualiza fórmulas de Homebrew y el binario base de Pi |
-| `./omc dev status` | Muestra el estado del agente autónomo Pi y sus paquetes |
-| `./omc docs dev` | Inicia el servidor local de desarrollo de la web en Astro |
-| `./omc docs build` | Compila el sitio estático de documentación en `apps/docs/dist/` |
-| `./omc cheatsheet [query]` | Buscador difuso interactivo de atajos en consola |
+| `./omc update` | Actualiza fórmulas/casks de Homebrew y paquetes de IA (Pi) |
+| `./omc --version` | Muestra la versión actual desde el archivo `VERSION` |
+| `./omc --help` | Muestra la ayuda de comandos |
 
 ---
 
+## 💻 Desarrollo de la Documentación Web
+
+La aplicación web de documentación reside en `apps/docs/` y se gestiona con herramientas estándar de Node:
+
+```bash
+cd apps/docs
+npm install        # Instala dependencias del portal Astro Starlight
+npm run dev        # Inicia el servidor local en http://localhost:4321/OhMyConfig/
+npm run build      # Compila el sitio estático en apps/docs/dist/
+```
+
+---
 

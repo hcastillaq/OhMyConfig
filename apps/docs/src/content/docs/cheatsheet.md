@@ -151,16 +151,13 @@ Esta es la hoja de trucos de cabecera de OhMyConfig. Si recién instalás el ent
 
 | Comando / Atajo | Contexto | Descripción |
 | :--- | :--- | :--- |
-| **`./omc dev`** | Terminal | Instalar sólo el CLI base de Pi |
-| **`./omc dev install`** | Terminal | Instalar sólo el CLI base de Pi |
-| **`./omc dev status`** | Terminal | Ver versión de `pi` y paquetes actuales con `pi list` |
-| **`./omc dev update`** | Terminal | Actualizar sólo el binario base de `pi` |
-| **`./omc dev doctor`** | Terminal | Diagnóstico local de Node/npm/Pi |
-| **`./omc dev remove`** | Terminal | Ayuda para remover extensiones con `pi remove` |
+| **`./omc install`** | Terminal | Instalar módulos, Pi y artefactos Static Noise |
+| **`./omc doctor`** | Terminal | Diagnosticar herramientas y dependencias |
+| **`./omc update`** | Terminal | Actualizar herramientas, Pi y Static Noise |
 | **`pi`** | Terminal | Iniciar sesión interactiva del agente de codificación |
 | **`pi list`** | Terminal | Listar paquetes/extensiones instaladas |
 | **`pi install <paquete>`** | Terminal | Instalar herramientas opcionales bajo demanda |
 | **`pi remove <paquete>`** | Terminal | Desinstalar una extensión opcional |
 | **`/council <pregunta>`** | Pi Session | Consejo consultivo si está instalado `pi-model-council` |
 | **`$skill-name`** | Pi Session | Mención difusa si está instalado `pi-skill-dollar` |
-| **`./omc update`** | Terminal | Actualización completa del entorno; AI actualiza sólo Pi base |
+| **`./omc update`** | Terminal | Actualización completa del entorno y artefactos Static Noise |

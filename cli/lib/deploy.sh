@@ -132,7 +132,10 @@ deploy_module() {
                 local src_rel="${target%%:*}"
                 local dest_rel="${target#*:}"
                 local src
-                if [ "$src_rel" = "." ] || [ -z "$src_rel" ]; then
+                if [[ "$src_rel" == @static-noise/* ]]; then
+                    # Artefacto generado remoto; STATIC_NOISE_CACHE lo prepara install/update.
+                    src="$STATIC_NOISE_CACHE/${src_rel#@static-noise/}"
+                elif [ "$src_rel" = "." ] || [ -z "$src_rel" ]; then
                     src="$tool_dir"
                 else
                     src="$tool_dir/$src_rel"

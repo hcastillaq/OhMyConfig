@@ -79,10 +79,10 @@ cmd_doctor() {
                         else
                             if command -v gum >/dev/null 2>&1; then
                                 gum style --foreground "$COLOR_ERR" "$(printf "    ❌  %-22s NO INSTALADO" "$display")"
-                                gum style --foreground "$COLOR_DIM" "         → omc dev install"
+                                gum style --foreground "$COLOR_DIM" "         → omc install ai"
                             else
                                 printf "    ❌  %-22s NO INSTALADO\n" "$display"
-                                echo "         → omc dev install"
+                                echo "         → omc install ai"
                             fi
                             total_missing=$((total_missing + 1))
                         fi

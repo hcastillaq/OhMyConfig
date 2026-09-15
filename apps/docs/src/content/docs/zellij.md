@@ -18,7 +18,7 @@ Zellij está escrito en **Rust**, vuela en rendimiento y en OhMyConfig lo config
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-* **Foco de alto contraste:** El panel donde estás parado se ilumina con bordes en **Cyan Static Noise (`#72EAD5`)** y cabecera en **Azul (`#83BFFF`)**, mientras los paneles inactivos quedan en un gris oscuro discreto (`#343A4A`).
+* **Foco de alto contraste:** El panel donde estás parado se ilumina con bordes en **Cyan Static Noise (`#72EAD5`)** y cabecera en **Azul (`#83BFFF`)**, mientras los paneles inactivos quedan en un gris oscuro discreto (`#272C3E`).
 * **Selección clara:** Listas, menús y scrollback usan contraste estricto sobre fondos atenuados (`#193C3B`) para que siempre sepas qué estás seleccionando.
 
 ---
