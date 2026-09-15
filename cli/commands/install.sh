@@ -11,6 +11,7 @@ cmd_install() {
     source "$dotfiles_dir/cli/lib/brew.sh"
     source "$dotfiles_dir/cli/lib/catalog.sh"
     source "$dotfiles_dir/cli/lib/deploy.sh"
+    source "$dotfiles_dir/cli/lib/static_noise.sh"
 
     brew_ensure
     gum_ensure
@@ -28,6 +29,9 @@ cmd_install() {
     ui_header
     ui_divider
     ui_title "Instalador de Entorno de Desarrollo"
+
+    ui_dim "Sincronizando artefactos de Static Noise desde GitHub..."
+    static_noise_prepare || return 1
     ui_divider
     echo ""
 

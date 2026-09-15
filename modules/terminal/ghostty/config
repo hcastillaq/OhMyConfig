@@ -8,33 +8,9 @@ font-family = "JetBrains Mono"
 font-size = 15
 font-feature = ["liga", "calt"]
 
-# --- TEMA Y PALETA (STATIC NOISE CANÓNICO) ---
-background = "#141720"
-foreground = "#E6E2D6"
-
-# ANSI 0-7 (Normal)
-palette = 0=#0F1117
-palette = 1=#CF6471
-palette = 2=#86B876
-palette = 3=#C9AE5F
-palette = 4=#699DD0
-palette = 5=#C276A3
-palette = 6=#5BC2B3
-palette = 7=#C9C8C2
-
-# ANSI 8-15 (Brillante)
-palette = 8=#62697B
-palette = 9=#EF7785
-palette = 10=#A3D98B
-palette = 11=#EDD071
-palette = 12=#83BFFF
-palette = 13=#F08BC2
-palette = 14=#72EAD5
-palette = 15=#E6E2D6
-
-# --- SELECCIÓN DE TEXTO ---
-selection-background = "#253A43"
-selection-foreground = "#E6E2D6"
+# --- TEMA ---
+# El archivo se instala desde static-noise en ~/.config/ghostty/themes/.
+theme = "static-noise"
 
 # --- VENTANA Y EFECTOS VISUALES ---
 window-decoration = false
@@ -43,11 +19,9 @@ window-padding-y = 10
 background-opacity = 0.90
 background-blur-radius = 20
 
-# --- CURSOR (FOCO CIAN ESTÁTICO) ---
+# --- CURSOR ---
 cursor-style = "block"
 cursor-style-blink = false
-cursor-color = "#72EAD5"
-cursor-text = "#0F1117"
 
 # --- TECLADO Y MODIFICADORES (MACOS) ---
 # Permite que la tecla Option emita secuencias Alt/Escape reales en terminal para Zellij

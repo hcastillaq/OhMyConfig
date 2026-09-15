@@ -9,6 +9,7 @@ cmd_update() {
 
     source "$dotfiles_dir/cli/lib/ui.sh"
     source "$dotfiles_dir/cli/lib/brew.sh"
+    source "$dotfiles_dir/cli/lib/static_noise.sh"
 
     brew_ensure
     gum_ensure
@@ -17,6 +18,12 @@ cmd_update() {
     ui_divider
     ui_title "⚡ OhMyConfig — Actualizando entorno"
     ui_divider
+    echo ""
+
+    # ── Static Noise ───────────────────────────────────────────────────────────
+    ui_title "Static Noise"
+    static_noise_prepare
+    ui_success "Artefactos de Static Noise actualizados"
     echo ""
 
     # ── Homebrew ──────────────────────────────────────────────────────────────
