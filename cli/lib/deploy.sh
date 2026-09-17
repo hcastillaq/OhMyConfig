@@ -11,9 +11,9 @@ deploy_file() {
 
     if [ ! -e "$src" ]; then
         if command -v gum >/dev/null 2>&1; then
-            gum style --foreground "$COLOR_WARN" "    ⚠️  Origen no encontrado: $src"
+            gum style --foreground "$COLOR_WARN" "    [WARN] Origen no encontrado: $src"
         else
-            echo "    ⚠️  Origen no encontrado: $src"
+            echo "    [WARN] Origen no encontrado: $src"
         fi
         return 1
     fi
@@ -27,9 +27,9 @@ deploy_file() {
         # Check if already a symlink pointing to the same source
         if [ -L "$dest" ] && [ "$(readlink "$dest")" = "$src" ]; then
             if command -v gum >/dev/null 2>&1; then
-                gum style --foreground "$COLOR_OK" "    🔗 $(basename "$dest") (enlace ya activo)"
+                gum style --foreground "$COLOR_OK" "    [LINK] $(basename "$dest") (enlace ya activo)"
             else
-                echo "    🔗 $(basename "$dest") (enlace ya activo)"
+                echo "    [LINK] $(basename "$dest") (enlace ya activo)"
             fi
             return 0
         fi
@@ -39,9 +39,9 @@ deploy_file() {
             local backup="${dest}.bak_$(date +%Y%m%d_%H%M%S)"
             mv "$dest" "$backup"
             if command -v gum >/dev/null 2>&1; then
-                gum style --foreground "$COLOR_WARN" "    📦 Respaldo creado: $(basename "$backup")"
+                gum style --foreground "$COLOR_WARN" "    [BACKUP] Respaldo creado: $(basename "$backup")"
             else
-                echo "    📦 Respaldo creado: $(basename "$backup")"
+                echo "    [BACKUP] Respaldo creado: $(basename "$backup")"
             fi
         elif [ -L "$dest" ]; then
             rm -f "$dest"
@@ -49,9 +49,9 @@ deploy_file() {
 
         ln -sf "$src" "$dest"
         if command -v gum >/dev/null 2>&1; then
-            gum style --foreground "$COLOR_OK" "    🔗 $(basename "$dest") → $src"
+            gum style --foreground "$COLOR_OK" "    [LINK] $(basename "$dest") -> $src"
         else
-            echo "    🔗 $(basename "$dest") → $src"
+            echo "    [LINK] $(basename "$dest") -> $src"
         fi
 
     elif [ "$mode" = "copy" ]; then
@@ -60,9 +60,9 @@ deploy_file() {
                 local backup="${dest}.bak_$(date +%Y%m%d_%H%M%S)"
                 mv "$dest" "$backup"
                 if command -v gum >/dev/null 2>&1; then
-                    gum style --foreground "$COLOR_WARN" "    📦 Respaldo creado: $(basename "$backup")"
+                    gum style --foreground "$COLOR_WARN" "    [BACKUP] Respaldo creado: $(basename "$backup")"
                 else
-                    echo "    📦 Respaldo creado: $(basename "$backup")"
+                    echo "    [BACKUP] Respaldo creado: $(basename "$backup")"
                 fi
             elif [ -L "$dest" ]; then
                 rm -f "$dest"
@@ -71,9 +71,9 @@ deploy_file() {
             mkdir -p "$dest"
             cp -R "$src/"* "$dest/" 2>/dev/null || true
             if command -v gum >/dev/null 2>&1; then
-                gum style --foreground "$COLOR_OK" "    📁 $(basename "$dest")/ (copiado)"
+                gum style --foreground "$COLOR_OK" "    [COPY] $(basename "$dest")/ (copiado)"
             else
-                echo "    📁 $(basename "$dest")/ (copiado)"
+                echo "    [COPY] $(basename "$dest")/ (copiado)"
             fi
 
         else
@@ -81,18 +81,18 @@ deploy_file() {
             if [ -f "$dest" ] && [ ! -L "$dest" ]; then
                 if cmp -s "$src" "$dest"; then
                     if command -v gum >/dev/null 2>&1; then
-                        gum style --foreground "$COLOR_OK" "    📄 $(basename "$dest") (sin cambios)"
+                        gum style --foreground "$COLOR_OK" "    [OK] $(basename "$dest") (sin cambios)"
                     else
-                        echo "    📄 $(basename "$dest") (sin cambios)"
+                        echo "    [OK] $(basename "$dest") (sin cambios)"
                     fi
                     return 0
                 fi
                 local backup="${dest}.bak_$(date +%Y%m%d_%H%M%S)"
                 cp "$dest" "$backup"
                 if command -v gum >/dev/null 2>&1; then
-                    gum style --foreground "$COLOR_WARN" "    📦 Respaldo creado: $(basename "$backup")"
+                    gum style --foreground "$COLOR_WARN" "    [BACKUP] Respaldo creado: $(basename "$backup")"
                 else
-                    echo "    📦 Respaldo creado: $(basename "$backup")"
+                    echo "    [BACKUP] Respaldo creado: $(basename "$backup")"
                 fi
             elif [ -L "$dest" ]; then
                 rm -f "$dest"
@@ -100,12 +100,50 @@ deploy_file() {
 
             cp "$src" "$dest"
             if command -v gum >/dev/null 2>&1; then
-                gum style --foreground "$COLOR_OK" "    📄 $(basename "$dest") (desplegado)"
+                gum style --foreground "$COLOR_OK" "    [DEPLOY] $(basename "$dest") (desplegado)"
             else
-                echo "    📄 $(basename "$dest") (desplegado)"
+                echo "    [DEPLOY] $(basename "$dest") (desplegado)"
             fi
         fi
     fi
+}
+
+# Deploy only generated Static Noise artifacts for a module. This lets `omc update`
+# refresh copied themes without overwriting unrelated user configuration.
+deploy_static_noise_artifacts() {
+    local mod="$1"
+    local mode="$2"
+    local dotfiles_dir="$3"
+    local config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
+    local mod_dir="$dotfiles_dir/modules/$mod"
+
+    [ ! -d "$mod_dir" ] && return 0
+
+    for tool_dir in "$mod_dir"/*; do
+        [ -d "$tool_dir" ] || continue
+        local manifest="$tool_dir/manifest.sh"
+        [ -f "$manifest" ] || continue
+
+        local MODULE_NAME=""
+        local MODULE_DESC=""
+        local MODULE_TARGETS=()
+        source "$manifest"
+
+        for target in "${MODULE_TARGETS[@]}"; do
+            local src_rel="${target%%:*}"
+            [ "${src_rel#@static-noise/}" != "$src_rel" ] || continue
+
+            local dest_rel="${target#*:}"
+            local src="$STATIC_NOISE_CACHE/${src_rel#@static-noise/}"
+            local dest
+            if [[ "$dest_rel" == pi/* ]]; then
+                dest="$HOME/.pi/agent/${dest_rel#pi/}"
+            else
+                dest="$config_home/$dest_rel"
+            fi
+            deploy_file "$src" "$dest" "$mode"
+        done
+    done
 }
 
 # Deploy all configuration files associated with a module

@@ -20,7 +20,7 @@ static_noise_prepare() {
     local artifact tmp
 
     command -v curl >/dev/null 2>&1 || {
-        echo "❌ curl es necesario para descargar Static Noise desde GitHub."
+        echo "[ERROR] curl es necesario para descargar Static Noise desde GitHub."
         return 1
     }
 
@@ -29,9 +29,31 @@ static_noise_prepare() {
         tmp="$STATIC_NOISE_CACHE/$artifact.tmp"
         if ! curl -fsSL "$STATIC_NOISE_RAW_BASE/$artifact" -o "$tmp"; then
             rm -f "$tmp"
-            echo "❌ No se pudo descargar Static Noise: $artifact"
+            echo "[ERROR] No se pudo descargar Static Noise: $artifact"
             return 1
         fi
         mv "$tmp" "$STATIC_NOISE_CACHE/$artifact"
     done
+}
+
+static_noise_update_neovim() {
+    local config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
+    local nvim_config="$config_home/nvim/lua/plugins/colorscheme.lua"
+
+    [ -f "$nvim_config" ] || return 0
+
+    if ! command -v nvim >/dev/null 2>&1; then
+        echo "[WARN] Neovim no está instalado; no se pudo actualizar static-noise.nvim."
+        return 0
+    fi
+
+    # lazy.nvim persists plugin revisions in lazy-lock.json. Updating this plugin
+    # explicitly keeps Static Noise on the latest commit from its main branch.
+    # Its output is suppressed so the omc TUI never leaks raw ANSI control codes.
+    if ! nvim --headless '+Lazy! update static-noise.nvim' +qa >/dev/null 2>&1; then
+        echo "[WARN] No se pudo actualizar static-noise.nvim mediante lazy.nvim."
+        return 1
+    fi
+
+    return 0
 }

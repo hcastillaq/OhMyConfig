@@ -22,18 +22,18 @@ ui_header() {
             --padding "0 2" \
             --bold \
             --foreground "$COLOR_HEAD" \
-            "⚡ OhMyConfig CLI"
+            "OhMyConfig CLI"
     else
         echo ""
-        echo "⚡ OhMyConfig CLI"
+        echo "OhMyConfig CLI"
     fi
 }
 
 ui_divider() {
     if command -v gum >/dev/null 2>&1; then
-        gum style --foreground "$COLOR_DIM" "────────────────────────────────────────────────────────────────────────"
+        printf '%s\n' "------------------------------------------------------------------------" | gum style --foreground "$COLOR_DIM"
     else
-        echo "────────────────────────────────────────────────────────────────────────"
+        echo "------------------------------------------------------------------------"
     fi
 }
 
@@ -49,27 +49,27 @@ ui_title() {
 ui_success() {
     local text="$1"
     if command -v gum >/dev/null 2>&1; then
-        gum style --foreground "$COLOR_OK" "    ✅ $text"
+        gum style --foreground "$COLOR_OK" "    [OK] $text"
     else
-        echo "    ✅ $text"
+        echo "    [OK] $text"
     fi
 }
 
 ui_warn() {
     local text="$1"
     if command -v gum >/dev/null 2>&1; then
-        gum style --foreground "$COLOR_WARN" "    ⚠️  $text"
+        gum style --foreground "$COLOR_WARN" "    [!] $text"
     else
-        echo "    ⚠️  $text"
+        echo "    [!] $text"
     fi
 }
 
 ui_error() {
     local text="$1"
     if command -v gum >/dev/null 2>&1; then
-        gum style --foreground "$COLOR_ERR" "    ❌ $text"
+        gum style --foreground "$COLOR_ERR" "    [ERROR] $text"
     else
-        echo "    ❌ $text"
+        echo "    [ERROR] $text"
     fi
 }
 
