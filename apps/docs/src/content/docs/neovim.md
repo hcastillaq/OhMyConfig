@@ -26,18 +26,19 @@ config/nvim/
 
 ### Tema Static Noise
 
-OhMyConfig no mantiene una copia local de los colores de Neovim. LazyVim instala directamente el plugin oficial:
+Neovim es la única herramienta de OhMyConfig que usa un adaptador oficial. LazyVim instala la última release estable de `static-noise.nvim`:
 
 ```lua
 {
   "hcastillaq/static-noise.nvim",
+  version = "*",
   lazy = false,
   priority = 1000,
   opts = { transparent = true },
 }
 ```
 
-La paleta canónica vive en [`hcastillaq/static-noise`](https://github.com/hcastillaq/static-noise) y el plugin de Neovim publica la implementación compatible con `lazy.nvim`.
+Las configuraciones de color de las herramientas viven como snapshots versionados dentro de `modules/`; `static-noise.nvim` mantiene únicamente la adaptación específica para Neovim.
 
 ---
 

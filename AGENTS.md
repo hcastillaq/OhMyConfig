@@ -137,12 +137,12 @@ OhMyConfig/
 4. **Non-Destructive Overwrites**: Configuration installers must never silently discard user files without `.bak_` backups or user consent.
 5. **Platform Scope**: Tailored for macOS (Apple Silicon `/opt/homebrew` and Intel `/usr/local`), supporting fish shell syntax.
 6. **Semantic Versioning & Release Policy (`SemVer`)**:
-   - **Baseline**: Starts at `v1.0.0` as the first stable public release.
+   - **Baseline**: Starts at `v0.0.1` as the reset baseline for the current single-user project.
    - **Single Source of Truth**: The `VERSION` plain file at the repository root. Both `./omc` and `apps/docs/` consume it directly.
-   - **Patch (`1.0.x`)**: Bug fixes in bash/fish scripts, design/CSS tweaks in documentation, dependency updates, or broken link repairs.
-   - **Minor (`1.x.0`)**: New CLI tools added to the catalog, new optional dotfiles modules, or new capabilities in `./omc` without breaking existing installations.
+   - **Patch (`0.0.x`)**: Bug fixes in bash/fish scripts, design/CSS tweaks in documentation, dependency updates, or broken link repairs.
+   - **Minor (`0.x.0`)**: New CLI tools added to the catalog, new optional dotfiles modules, or new capabilities in `./omc` without preserving legacy compatibility.
    - **Major (`x.0.0`)**: Breaking architectural changes (e.g. folder structure changes that break symlinks, replacing core tools like Neovim or Fish, or updates requiring manual user migrations).
-   - **Git Tags**: Releases must be marked with annotated git tags (e.g. `git tag -a v1.0.0 -m "Release v1.0.0"`).
+   - **Git Tags**: Releases must be marked with annotated git tags (e.g. `git tag -a v0.0.1 -m "Release v0.0.1"`).
 
 <!-- BEGIN COMPOUND PI TOOL MAP -->
 ## Compound Engineering (Pi compatibility)

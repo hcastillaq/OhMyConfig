@@ -9,8 +9,8 @@ set -gx XDG_CONFIG_HOME $HOME/.config                       # Directorio base de
 set -gx BAT_THEME "ansi"                                    # Hereda la paleta ANSI de Ghostty (Static Noise)
 set -gx EDITOR "nvim"                                       # Editor de texto predeterminado
 
-# Static Noise se descarga desde el repositorio canónico durante omc install/update.
-set -l static_noise_colors "$HOME/.cache/ohmyconfig/static-noise/fish/static-noise-colors.fish"
+# Static Noise se mantiene localmente en OhMyConfig.
+set -l static_noise_colors "$XDG_CONFIG_HOME/fish/static-noise-colors.fish"
 if test -f "$static_noise_colors"
     source "$static_noise_colors"
 end

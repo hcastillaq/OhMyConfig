@@ -30,8 +30,7 @@ cmd_install() {
     ui_divider
     ui_title "Instalador de Entorno de Desarrollo"
 
-    ui_dim "Sincronizando artefactos de Static Noise desde GitHub..."
-    static_noise_prepare || return 1
+    ui_dim "Usando configuraciones Static Noise locales de OhMyConfig."
     ui_divider
     echo ""
 

@@ -21,13 +21,9 @@ cmd_update() {
     ui_divider
     echo ""
 
-    # ── Static Noise ───────────────────────────────────────────────────────────
+    # ── Local configuration refresh ───────────────────────────────────────────
     ui_title "Static Noise"
-    if ! static_noise_prepare; then
-        ui_error "No se pudieron actualizar los artefactos de Static Noise."
-        return 1
-    fi
-    ui_success "Artefactos de Static Noise actualizados"
+    ui_success "Configuraciones locales Static Noise listas para desplegar"
 
     local profile_file="$dotfiles_dir/.omc-profile"
     if [ -f "$profile_file" ]; then
@@ -39,11 +35,11 @@ cmd_update() {
             return 1
         fi
         for mod in $modules; do
-            deploy_static_noise_artifacts "$mod" "$deploy_mode" "$dotfiles_dir"
+            deploy_module "$mod" "$deploy_mode" "$dotfiles_dir"
         done
-        ui_success "Temas Static Noise desplegados"
+        ui_success "Configuraciones locales desplegadas"
     else
-        ui_warn "No hay perfil de instalación; se actualizó solo la caché de Static Noise."
+        ui_warn "No hay perfil de instalación; se actualizará solo Neovim si está disponible."
     fi
 
     if static_noise_update_neovim; then

@@ -15,7 +15,7 @@
 set -e
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-OMC_VERSION="$(tr -d ' \n\r' < "$DOTFILES_DIR/VERSION" 2>/dev/null || echo "1.0.0")"
+OMC_VERSION="$(tr -d ' \n\r' < "$DOTFILES_DIR/VERSION" 2>/dev/null || echo "0.0.1")"
 export OMC_VERSION
 CMD="${1:-}"
 
