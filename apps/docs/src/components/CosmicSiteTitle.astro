@@ -1,5 +1,7 @@
 ---
 // Cosmic Site Title & Logo — OhMyConfig
+import { PROJECT_VERSION } from '../config/version.mjs';
+
 const href = import.meta.env.BASE_URL;
 ---
 
@@ -12,7 +14,7 @@ const href = import.meta.env.BASE_URL;
   <div class="brand-text">
     <span class="brand-primary">OhMy</span><span class="brand-accent">Config</span>
   </div>
-  <span class="brand-tag">v1.0</span>
+  <span class="brand-tag">v{PROJECT_VERSION}</span>
 </a>
 
 <style>
