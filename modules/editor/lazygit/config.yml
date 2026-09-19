@@ -1,29 +1,30 @@
-# ==============================================================================
-# CONFIGURACIÓN DE LAZYGIT (TEMA STATIC NOISE & DELTA INTEGRATION)
-# ==============================================================================
+# Static Noise theme for lazygit (0.64+)
+# Generated from palette.json. Do not edit generated output manually.
 
 gui:
   theme:
     activeBorderColor:
-      - '#72EAD5' # Cyan dominante para el panel enfocado
+      - '#72EAD5'
       - bold
     inactiveBorderColor:
-      - '#343A4A' # Borde border tenue y discreto para paneles inactivos
+      - '#6E7588'
     searchingActiveBorderColor:
-      - '#F3A261' # Orange para búsqueda activa
+      - '#F3A261'
       - bold
     optionsTextColor:
       - '#72EAD5'
     selectedLineBgColor:
-      - '#193C3B' # cyanDim de alto contraste para selección activa
+      - '#193C3B'
+    inactiveViewSelectedLineBgColor:
+      - '#242B3D'
     cherryPickedCommitBgColor:
-      - '#332B4D' # purpleDim para commits cherry-pick
+      - '#332B4D'
     cherryPickedCommitFgColor:
       - '#72EAD5'
     unstagedChangesColor:
-      - '#EF7785' # Red para cambios sin staged
+      - '#EF7785'
     defaultFgColor:
-      - '#E6E2D6' # Text
+      - '#E6E2D6'
   showIcons: true
   nerdFontsVersion: "3"
 git:

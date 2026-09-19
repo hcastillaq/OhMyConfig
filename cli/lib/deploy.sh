@@ -108,44 +108,6 @@ deploy_file() {
     fi
 }
 
-# Deploy only generated Static Noise artifacts for a module. This lets `omc update`
-# refresh copied themes without overwriting unrelated user configuration.
-deploy_static_noise_artifacts() {
-    local mod="$1"
-    local mode="$2"
-    local dotfiles_dir="$3"
-    local config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
-    local mod_dir="$dotfiles_dir/modules/$mod"
-
-    [ ! -d "$mod_dir" ] && return 0
-
-    for tool_dir in "$mod_dir"/*; do
-        [ -d "$tool_dir" ] || continue
-        local manifest="$tool_dir/manifest.sh"
-        [ -f "$manifest" ] || continue
-
-        local MODULE_NAME=""
-        local MODULE_DESC=""
-        local MODULE_TARGETS=()
-        source "$manifest"
-
-        for target in "${MODULE_TARGETS[@]}"; do
-            local src_rel="${target%%:*}"
-            [ "${src_rel#@static-noise/}" != "$src_rel" ] || continue
-
-            local dest_rel="${target#*:}"
-            local src="$STATIC_NOISE_CACHE/${src_rel#@static-noise/}"
-            local dest
-            if [[ "$dest_rel" == pi/* ]]; then
-                dest="$HOME/.pi/agent/${dest_rel#pi/}"
-            else
-                dest="$config_home/$dest_rel"
-            fi
-            deploy_file "$src" "$dest" "$mode"
-        done
-    done
-}
-
 # Deploy all configuration files associated with a module
 deploy_module() {
     local mod="$1"
@@ -170,10 +132,7 @@ deploy_module() {
                 local src_rel="${target%%:*}"
                 local dest_rel="${target#*:}"
                 local src
-                if [[ "$src_rel" == @static-noise/* ]]; then
-                    # Artefacto generado remoto; STATIC_NOISE_CACHE lo prepara install/update.
-                    src="$STATIC_NOISE_CACHE/${src_rel#@static-noise/}"
-                elif [ "$src_rel" = "." ] || [ -z "$src_rel" ]; then
+                if [ "$src_rel" = "." ] || [ -z "$src_rel" ]; then
                     src="$tool_dir"
                 else
                     src="$tool_dir/$src_rel"

@@ -81,15 +81,15 @@ Estas son las extensiones que uso y recomiendo para transformar a Pi en un verda
 
 ## 4. Estilo visual: tema Static Noise en Pi
 
-Para que la ventana de Pi no desentone con Ghostty y Neovim, OhMyConfig descarga el tema generado desde [`static-noise`](https://github.com/hcastillaq/static-noise) durante `omc install` y `omc update`.
+Para que la ventana de Pi no desentone con Ghostty y Neovim, OhMyConfig mantiene el tema Static Noise como configuración local versionada dentro del módulo Pi.
 
-El artefacto se instala en:
+El archivo se instala en:
 
 ```text
 ~/.pi/agent/themes/static-noise.json
 ```
 
-El encabezado y la política de modelos siguen siendo extensiones propias de OhMyConfig. El tema no se edita manualmente en este repositorio.
+El encabezado y la política de modelos siguen siendo extensiones propias de OhMyConfig. El tema local conserva la apariencia vigente y podrá reemplazarse cuando exista un adaptador independiente de Pi.
 
 Para activar los recursos locales de Pi, abrí una sesión y confirmá la confianza del proyecto:
 
@@ -113,7 +113,7 @@ Desde la raíz del proyecto:
 
 ```bash
 ./omc doctor       # Diagnostica herramientas y dependencias
-./omc update       # Actualiza Pi, herramientas y artefactos Static Noise
+./omc update       # Actualiza Pi y herramientas; usa temas locales
 ```
 
 Las extensiones opcionales se gestionan con los comandos nativos de Pi. Para desinstalar o limpiar extensiones que ya no uses:

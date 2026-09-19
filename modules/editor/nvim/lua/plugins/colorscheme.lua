@@ -5,6 +5,7 @@
 return {
   {
     "hcastillaq/static-noise.nvim",
+    version = "*",
     lazy = false,
     priority = 1000,
     opts = {

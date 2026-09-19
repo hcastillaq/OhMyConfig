@@ -1,279 +1,283 @@
 ---
-title: Static Noise Theme - Plan
-type: feat
-date: 2026-09-09
-topic: static-noise-theme
+title: Static Noise integrations and Neovim release - Plan
+type: refactor
+date: 2026-09-19
 artifact_contract: ce-unified-plan/v1
-artifact_readiness: implementation-ready
 product_contract_source: ce-brainstorm
 execution: code
 ---
 
 ## Goal Capsule
 
-- **Objective:** Todas las herramientas configuradas por OhMyConfig presentan una identidad visual única, legible y semánticamente consistente bajo el tema Static Noise.
-- **Means:** Reemplazar Tokyonight por Static Noise y centralizar sus tokens y reglas semánticas en `documentation/colores.md`.
-- **Product authority:** La fuente canónica será `documentation/colores.md`; `ohmyconfig-static-noise.md` sirve como guía de diseño de partida.
-- **Open blockers:** Ninguno para la definición de requisitos.
+- **Objective:** OhMyConfig conserva la apariencia visual actual de sus herramientas y actualiza Neovim mediante el único adaptador oficial disponible.
+- **Means:** Versionar localmente las configuraciones visuales que antes llegaban desde artefactos remotos de Static Noise y gestionar `static-noise.nvim` mediante su última release estable compatible.
+- **Product authority:** El alcance revisado por el usuario prevalece sobre el contrato anterior cuando limita la adaptación a Neovim.
+- **Stop conditions:** No se crean adaptadores nuevos para otras herramientas ni se rediseñan sus colores actuales.
+- **Release posture:** El reinicio fija OhMyConfig en `0.0.1` y no conserva compatibilidad con instalaciones anteriores.
+- **Who finishes:** La implementación debe dejar el flujo de instalación/actualización, el módulo Neovim y la documentación coherentes con esta separación.
+
+---
 
 ## Product Contract
 
 ### Summary
 
-Static Noise será el único tema oficial de OhMyConfig para terminal, editor, multiplexer, TUIs, agente Pi y documentación. La fuente canónica definirá tokens cromáticos y reglas semánticas, mientras cada herramienta aplicará esa semántica según su propio formato.
+Este plan conserva como réplica local la configuración visual vigente de cada herramienta de OhMyConfig porque `static-noise` ya no genera configuraciones por herramienta. Neovim es la única excepción: usará `static-noise.nvim` como adaptador y seguirá la última release estable publicada.
 
 ### Problem Frame
 
-El repositorio mezcla valores Tokyonight base, variantes high-contrast y colores personalizados entre Ghostty, Fish, Neovim, Zellij y otras herramientas. Esa mezcla dificulta predecir qué significa foco, selección, éxito, advertencia, cambio o error al pasar de una interfaz a otra.
+El diseño actual de OhMyConfig descarga durante `install` y `update` una caché de archivos generados desde `hcastillaq/static-noise`, pero el repositorio fuente ahora publica un contrato de tokens y no mantiene esos artefactos por herramienta. La caché puede dejar de existir o divergir sin que OhMyConfig tenga control sobre el contenido que instala.
 
-La guía `ohmyconfig-static-noise.md` propone una identidad visual nueva, pero todavía no es la referencia versionada ni está aplicada de forma uniforme. Mantener dos referencias cromáticas permitiría que futuras configuraciones vuelvan a divergir.
+Neovim ya tiene una integración funcional con `static-noise.nvim`, pero su especificación no expresa que deba consumir releases estables y el lockfile todavía apunta a una revisión anterior de `main`. Además, la documentación describe un flujo remoto que dejará de ser válido para el resto de herramientas.
 
 ### Key Decisions
 
-- **Propiedad y secuenciación clara para `documentation/ai.md`** (session-settled: user-directed — U5 es dueña de las rutas y especificaciones técnicas de Pi en `documentation/ai.md`; U6 depende explícitamente de U5 y actualiza la prosa general respetando las rutas ya migradas).
-- **Jerarquía de estados combinados definida en el contrato canónico** (session-settled: user-directed — el foco activo siempre domina mediante acento cian y texto iluminado; selecciones inactivas usan fondo atenuado neutral; estados críticos como error o advertencia preservan su color en texto/símbolo mientras la selección se aplica exclusivamente al fondo para nunca opacar la alerta).
-- **VitePress responsive aprovecha el sistema nativo con inyección de variables Static Noise** (session-settled: user-directed — preserva los breakpoints estándar de VitePress de 960px, navegación colapsable y modal de búsqueda nativos; mapea el cajón lateral y navbar a superficies neutras, mantiene un área táctil mínima de 44px para controles clave y garantiza scroll horizontal en bloques de código sin rotura de sintaxis).
-- **Git Delta utiliza `syntax-theme = ansi`** (session-settled: user-directed — la sintaxis de los diffs hereda la paleta ANSI calibrada de Ghostty para total coherencia con Static Noise, sin temas externos ni discrepancias cromáticas).
-- **Bat hereda la paleta ANSI de Ghostty** (session-settled: user-directed — se configura `BAT_THEME="ansi"` en `config/fish/config.fish` aprovechando la paleta de 16 colores calibrada en Ghostty, evitando dependencias de `.tmTheme` compilados o `bat cache`).
-- **Neovim implementa Static Noise mediante un módulo Lua propio del repositorio** (session-settled: user-directed — elegido sobre un tema base con overrides para garantizar cero dependencias externas y control total sobre los highlights de editor, sintaxis, float, diagnósticos y Git).
-- **Zjstatus adopta Static Noise directamente en el layout** (`config/zellij/layouts/default.kdl`): los formatos de tabs, modos e indicadores de la barra consumen tokens canónicos inline, mientras que el binario WASM se audita únicamente como superficie sin controles cromáticos propios independientes.
-- **Static Noise reemplaza completamente a Tokyonight** (session-settled: user-directed — elegido sobre una capa de compatibilidad porque el objetivo es que no exista Tokyonight operativo). La mención de Tokyonight en esta fuente canónica es únicamente histórica y explica la sustitución; no constituye una referencia operativa.
-- **`documentation/colores.md` será la única fuente canónica** (session-settled: user-directed — elegido sobre un archivo separado porque ya es la página de referencia cromática del proyecto).
-- **La fuente canónica contendrá tokens y reglas semánticas, no bloques específicos de cada herramienta** (session-settled: user-directed — elegido sobre tokens más especificaciones para evitar duplicar configuraciones y crear otra superficie de divergencia).
-- **La migración priorizará semántica y legibilidad sobre la reproducción literal de valores heredados**, usando la guía Static Noise como base de diseño.
+- **La configuración visual actual se conserva sin rediseño para herramientas sin adaptador** (session-settled: user-directed — elegida sobre recalibrar la paleta o crear adaptadores temporales: el objetivo inmediato es preservar el estado visual conocido mientras se escriben adaptadores independientes).
+- **Neovim es la única herramienta que adopta un adaptador en esta revisión** (session-settled: user-directed — elegido sobre migrar también las demás herramientas: `static-noise.nvim` ya existe y las otras integraciones aún no están escritas).
+- **Las configuraciones no-Neovim pasan a ser archivos locales versionados** (session-settled: user-directed — elegido sobre continuar descargando artefactos o generar una caché interna: OhMyConfig debe controlar exactamente lo que despliega).
+- **La fuente de actualización de Neovim será la última release estable de `static-noise.nvim`** (session-settled: user-directed — elegido sobre seguir `main`: una release publicada ofrece una revisión estable y trazable).
+- **OhMyConfig se reinicia en versión `0.0.1` sin compatibilidad hacia atrás** (session-settled: user-directed — elegido sobre una migración conservadora: la herramienta solo tiene un usuario y permite limpiar el diseño sin preservar instalaciones previas).
 
 ### Requirements
 
-**Fuente canónica del tema**
+**Integración local de herramientas**
 
-- R1. `documentation/colores.md` debe documentar la identidad visual de Static Noise y declarar que reemplaza a Tokyonight como tema oficial.
-- R2. La fuente debe definir tokens primitivos para superficies, texto, bordes, foco, estados y acentos atenuados, con nombre, valor hexadecimal y uso previsto.
-- R3. La fuente debe definir roles semánticos independientes de la herramienta para foco, selección, estructura, éxito, advertencia, modificación, error, información y elementos desactivados.
-- R4. La fuente debe establecer reglas de contraste, jerarquía de superficies, uso de acentos, cursivas, glow y combinación de color con símbolos o etiquetas.
-- R5. La fuente debe incluir variables portables y un checklist breve para evaluar futuras herramientas sin añadir configuraciones específicas de Ghostty, Neovim, Zellij, Pi u otra herramienta.
+- R1. Las herramientas que actualmente consumen artefactos remotos conservarán una réplica local de su configuración visual vigente.
+- R2. La réplica local debe mantener los valores, roles y comportamiento visual actuales, sin introducir una recalibración de color en este plan.
+- R3. Los manifests deben resolver esas configuraciones desde `modules/` y no desde una caché remota o una descarga durante la instalación.
 
-**Aplicación transversal**
+**Adaptador de Neovim**
 
-- R6. Todas las configuraciones activas de Ghostty, Fish/FZF, Starship, Neovim, Zellij/zjstatus, Lazygit, Bottom, Git Delta, Gum/omc, Pi y VitePress deben adoptar Static Noise mediante equivalencias compatibles con cada formato.
-- R7. Cada herramienta debe conservar la semántica global del tema: el foco debe usar el rol de foco, los estados deben conservar sus roles de éxito/advertencia/modificación/error y las selecciones deben seguir las reglas de selección definidas en R4.
-- R8. Las configuraciones no deben introducir colores nuevos que compitan con los tokens canónicos, salvo una necesidad técnica documentada y compatible con la semántica de Static Noise.
-- R9. La migración debe eliminar nombres de tema, comentarios y referencias operativas a Tokyonight en configuraciones y documentación activa.
+- R4. Neovim debe continuar cargando `hcastillaq/static-noise.nvim` como su colorscheme.
+- R5. La especificación de Neovim debe seleccionar la última release estable compatible del adaptador, excluyendo commits de desarrollo y prereleases.
+- R6. El lockfile debe registrar la revisión exacta instalada después de actualizar el adaptador.
+- R7. La configuración debe seguir funcionando con la versión estable actual de Neovim y con las APIs usadas por el adaptador.
 
-**Mantenimiento y legibilidad**
+**CLI, mantenimiento y documentación**
 
-- R10. La documentación del proyecto debe enlazar o referenciar `documentation/colores.md` como autoridad cromática cuando describa colores, temas o estilos.
-- R11. Los estados críticos deben combinar color con un símbolo o etiqueta para no depender únicamente de la percepción cromática.
-- R12. La aplicación debe reservar los fondos grandes para superficies neutrales y variantes atenuadas; los acentos brillantes deben quedar limitados a texto, iconos, cursores y bordes activos.
-
-### Key Flows
-
-No se incluye una sección de flujos porque el trabajo define un sistema visual y una migración de configuraciones, no un comportamiento interactivo con recorridos de usuario.
-
-### Visualizations
-
-La siguiente relación representa el contrato de fuente única y sus superficies derivadas.
-
-```mermaid
-flowchart TB
-  A[documentation/colores.md\nTokens y reglas semánticas] --> B[Ghostty]
-  A --> C[Fish y FZF]
-  A --> D[Starship]
-  A --> E[Neovim]
-  A --> F[Zellij y zjstatus]
-  A --> G[Lazygit, Bottom y Git Delta]
-  A --> H[Pi]
-  A --> I[VitePress]
-  A --> J[Gum / omc]
-```
-
-### Acceptance Examples
-
-- AE1. **Dado** cualquier configuración activa que aún identifique Tokyonight, **cuando** se complete la migración, **entonces** usa Static Noise y no conserva una referencia operativa a Tokyonight.
-- AE2. **Dado** un estado de éxito, advertencia, modificación o error en una herramienta, **cuando** se renderiza, **entonces** usa el rol semántico correspondiente y un indicador no cromático cuando el estado sea crítico.
-- AE3. **Dado** un elemento con foco y otro inactivo, **cuando** se muestran juntos, **entonces** el foco se distingue mediante el token de foco y el elemento inactivo no compite visualmente con él.
-- AE4. **Dado** una nueva herramienta que se quiera añadir al catálogo, **cuando** se consulte `documentation/colores.md`, **entonces** se pueden elegir tokens y roles sin inventar una paleta paralela ni copiar una especificación de otra herramienta.
+- R8. `omc install` y `omc update` no deben depender de `static_noise_prepare` ni desplegar artefactos generados remotos para las herramientas no-Neovim.
+- R9. La actualización de Neovim debe permanecer integrada en el flujo de instalación y actualización del módulo editor.
+- R10. La documentación debe distinguir el contrato de tokens de Static Noise, las configuraciones locales de OhMyConfig y el adaptador independiente de Neovim.
+- R11. La auditoría final no debe dejar referencias activas que afirmen que Static Noise genera o distribuye configuraciones para todas las herramientas.
+- R12. La versión del proyecto y de la documentación debe reiniciarse a `0.0.1` como nueva base operativa.
+- R13. La implementación no debe mantener rutas de migración, compatibilidad o recuperación específicas para la versión anterior.
 
 ### Success Criteria
 
-- La búsqueda de referencias operativas a `Tokyonight` en configuraciones y documentación activa no devuelve resultados no justificados.
-- `documentation/colores.md` permite identificar cada token, su función semántica y sus restricciones sin consultar una configuración concreta.
-- Las herramientas incluidas en R6 muestran una apariencia coherente: superficies oscuras neutrales, foco cian, estructura azul/púrpura/rosa y estados verde/amarillo/naranja/rojo.
-- La documentación de VitePress se compila correctamente y no introduce enlaces rotos después de la actualización.
-- Un revisor puede verificar la migración comparando cada configuración con la fuente canónica, sin tener que resolver qué versión de Tokyonight prevalece.
+- Una instalación limpia obtiene las configuraciones visuales no-Neovim únicamente desde el repositorio de OhMyConfig.
+- Una actualización no necesita descargar `dist/` ni una caché de Static Noise para desplegar Ghostty, Zellij, Starship, Bottom, Lazygit, Delta o Pi.
+- Neovim se instala con la release estable más reciente de `static-noise.nvim` disponible al actualizar y el lockfile refleja esa revisión.
+- La apariencia de cada herramienta no-Neovim permanece igual a la configuración vigente antes de la migración.
+- La documentación no promete artefactos generados que el repositorio `static-noise` ya no publica.
 
 ### Scope Boundaries
 
-- No se creará un generador automático de configuraciones.
-- No se mantendrán alias ni una capa de compatibilidad Tokyonight.
-- No se añadirá una especificación por herramienta dentro de `documentation/colores.md`.
-- La migración cubre las herramientas y superficies ya identificadas en R6; incorporar nuevas herramientas será trabajo posterior y deberá seguir R5.
+- No se crean adaptadores para Ghostty, Zellij, Starship, Fish, Bottom, Lazygit, Delta, Pi, Atuin, Gum ni la documentación.
+- No se rediseñan ni recalibran los colores actuales de las herramientas no-Neovim.
+- No se construye un generador interno de configuraciones a partir de `palette.json`.
+- No se modifica el contrato de tokens en el repositorio externo `static-noise`.
+- No se mantiene compatibilidad con perfiles, cachés o destinos generados por versiones anteriores de OhMyConfig.
+
+#### Deferred to Follow-Up Work
+
+- Escribir adaptadores independientes para cada herramienta cuando el proyecto Static Noise defina el contrato y el mantenimiento correspondientes.
+- Automatizar la sincronización de snapshots del contrato de tokens con procedencia y validación por adaptador.
 
 ### Dependencies / Assumptions
 
-- Las herramientas mantienen sus propias sintaxis y limitaciones de color; Static Noise define significado y selección de tokens, no un formato universal de configuración.
-- Las configuraciones actuales listadas en `documentation/colores.md`, `AGENTS.md` y el catálogo de Pi representan el inventario inicial que debe auditarse.
-- La accesibilidad se evaluará mediante contraste visual y redundancia semántica; las herramientas que no soporten undercurl, símbolos o todos los colores deberán conservar la intención con las capacidades disponibles.
-
-### Outstanding Questions
-
-- **Deferred to Planning:** determinar la traducción exacta de cada token a la sintaxis y capacidades de cada herramienta.
-- **Deferred to Planning:** decidir si alguna configuración necesita una variante técnica de un token por limitaciones de ANSI, transparencia o temas nativos.
+- La configuración actual desplegada por los artefactos remotos está disponible en el árbol de trabajo, en la caché local o en el historial suficiente para reproducirla sin reinterpretar sus colores.
+- `static-noise.nvim` mantiene tags SemVer y su release estable actual es compatible con Neovim 0.9 o superior; la compatibilidad concreta con la versión instalada debe comprobarse durante la implementación.
+- `lazy.nvim` permite solicitar la última release estable con una restricción SemVer y continúa registrando la revisión resuelta en `lazy-lock.json`.
 
 ### Sources / Research
 
-- `ohmyconfig-static-noise.md` — guía de diseño base con tokens, semántica, ANSI y principios de uso.
-- `documentation/colores.md` — referencia cromática existente que será reemplazada.
-- `AGENTS.md` — invariantes de paleta, documentación y despliegue del proyecto.
-- `config/ghostty/config`, `config/fish/config.fish`, `config/starship/starship.toml`, `config/nvim/lua/plugins/colorscheme.lua`, `config/zellij/config.kdl`, `config/lazygit/config.yml`, `config/bottom/bottom.toml`, `config/git/delta.gitconfig`, `.pi/settings.json` y `config/pi/themes/ohmyconfig-tokyonight.json` — superficies de configuración identificadas para la migración.
+- `hcastillaq/static-noise` README y `docs/consumers.md`: el repositorio publica `palette.json`, no configuraciones por herramienta; cada adaptador debe mantener su snapshot, conversión, compatibilidad y release.
+- `hcastillaq/static-noise` `RELEASING.md`: los consumidores deben registrar tag y commit del contrato; al momento de la investigación existe el tag `v0.0.1`, pero no una GitHub Release publicada.
+- `hcastillaq/static-noise.nvim` README, `VERSION` y workflow de release: la release vigente es `v0.0.1`, con soporte declarado para Neovim 0.9+ y publicación por tag.
+- `modules/editor/nvim/lua/plugins/colorscheme.lua`: integración existente con `static-noise.nvim` y `colorscheme = "static-noise"`.
+- `modules/editor/nvim/lazy-lock.json`: el adaptador está bloqueado actualmente a una revisión anterior de `main`.
+- `cli/lib/static_noise.sh`, `cli/lib/deploy.sh`, `cli/commands/install.sh` y `cli/commands/update.sh`: puntos actuales de descarga, caché, despliegue y actualización de Neovim.
+- `folke/lazy.nvim` documentación de versionado: `version = "*"` selecciona la última release SemVer estable y excluye prereleases; el lockfile conserva la revisión instalada.
+
+---
 
 ## Planning Contract
 
 ### Product Contract Preservation
 
-Product Contract unchanged. Planning adds implementation sequencing and verification without changing the settled product scope or R-IDs.
+Product Contract revised by explicit user direction: R1-R11 reemplazan el alcance anterior que trataba a Static Noise como generador de configuraciones para todas las herramientas. Se conserva la intención visual de preservar Static Noise, pero se limita la implementación de adaptadores a Neovim.
 
 ### Key Technical Decisions
 
-- KTD1. **Use explicit Static Noise values in each native configuration** — preserves tool-native syntax and avoids introducing a generator that would become a second build system (Governs R2, R3, R6, R8).
-- KTD2. **Remove Tokyonight dependencies and names rather than aliasing them** — satisfies the zero-operational-Tokyonight criterion and prevents future drift (Governs R1, R9).
-- KTD3. **Treat tools without color controls as inventory-only surfaces** — Atuin and the Pi header are validated for compatibility but do not receive invented color settings (Governs R6, R8).
-- KTD4. **Use smoke and syntax validation instead of unit tests for configuration-only changes** — the primary failure modes are invalid syntax, unsupported keys, stale paths and runtime load errors (Governs R6, R7, R10).
+- KTD1. **Convertir los targets `@static-noise/*` en archivos locales del módulo correspondiente** — preserva exactamente la configuración visual vigente y elimina la dependencia runtime de un repositorio externo (Governs R1, R2, R3, R8).
+- KTD2. **Eliminar la ruta de preparación y despliegue de artefactos remotos no-Neovim** — evita mantener una caché cuyo proveedor ya no ofrece esos artefactos (Governs R3, R8, R11).
+- KTD3. **Solicitar la release estable de `static-noise.nvim` mediante SemVer y conservar el commit resuelto en el lockfile** — combina actualización automática hacia la última release con instalaciones reproducibles entre actualizaciones (Governs R4, R5, R6).
+- KTD4. **Mantener la actualización del adaptador dentro del flujo existente de `omc`** — evita que el módulo editor quede actualizado solo cuando el usuario conoce comandos internos de LazyVim (Governs R7, R9).
+- KTD5. **Tratar el snapshot local como configuración temporal, no como adaptador** — evita que una réplica de valores actuales se convierta accidentalmente en una nueva API de sincronización antes de que exista un adaptador mantenible.
+- KTD6. **Reiniciar la base de versión y limpiar compatibilidad anterior** — reduce el alcance del cambio y evita conservar código de migración que no aporta valor para el único usuario actual (Governs R12, R13).
 
 ### High-Level Technical Design
 
-Static Noise fans out from one semantic contract into native tool configurations. The source document owns meaning; implementation files own syntax and capability-specific translation.
-
 ```mermaid
 flowchart TB
-  S[documentation/colores.md\nStatic Noise tokens + semantic rules] --> T[Terminal and CLI\nGhostty · Fish/FZF · Gum · Starship]
-  S --> U[Developer TUIs\nZellij · zjstatus · Lazygit · Bottom · Delta]
-  S --> N[Editor\nNeovim custom highlights]
-  S --> P[Agent\nPi theme + project header]
-  S --> D[Docs\nVitePress CSS + active Markdown]
-  D --> C[GitHub Pages workflow]
+  A[OhMyConfig modules/] --> B[Ghostty, Zellij, Starship, Bottom, Lazygit, Delta, Pi]
+  A --> C[Neovim plugin spec]
+  C --> D[lazy.nvim latest stable static-noise.nvim]
+  D --> E[lazy-lock.json exact revision]
+  F[static-noise palette contract] -. future adapters only .-> B
 ```
+
+OhMyConfig será la fuente de despliegue para las herramientas no-Neovim. El repositorio externo `static-noise` queda como referencia conceptual y fuente futura para adaptadores, no como dependencia de instalación. Neovim mantiene una dependencia externa explícita porque su adaptador ya existe y tiene release propia.
 
 ### System-Wide Impact
 
-- Runtime configuration changes affect shell startup, CLI output, editor rendering, terminal multiplexing, Git workflows, Pi sessions and published documentation.
-- The `ai` catalog and `.pi/settings.json` must remain path-consistent after the Pi theme rename.
-- `.github/workflows/docs.yml` must watch `documentation/**`, because the repository's VitePress source directory is `documentation` rather than `docs`.
-- Atuin has no color controls in `config/atuin/config.toml`; it remains documented as inheriting terminal appearance rather than receiving unsupported settings.
+- El instalador deja de requerir conectividad con `static-noise` para completar módulos visuales no-Neovim.
+- El modo `copy` y el modo `symlink` deben producir el mismo resultado a partir de fuentes locales.
+- `omc update` conserva la actualización del plugin de Neovim, pero deja de actualizar o desplegar una caché de colores.
+- La documentación de instalación, Neovim y las referencias de Static Noise deben explicar dos responsabilidades distintas: configuración local de OhMyConfig y adaptador publicado para Neovim.
 
 ### Risks & Dependencies
 
-- Neovim currently depends on `folke/tokyonight.nvim`; removing it requires a complete replacement for the highlights it currently supplies before the lock entry is deleted.
-- Zellij has colors in both `config/zellij/config.kdl` and inline in `config/zellij/layouts/default.kdl`; migrating only one leaves visible Tokyonight remnants.
-- Fish and FZF accept different color formats, so shared token names must be translated without copying syntax between them.
-- VitePress currently lacks a custom theme entry and CSS; its visual migration is a real configuration addition, not only a metadata rename.
-- The untracked `ohmyconfig-static-noise.md` must be incorporated and then removed or clearly marked historical so it cannot become a second authority.
+- Los artefactos remotos pueden no tener una copia idéntica dentro del repositorio; antes de implementar se debe recuperar su contenido desde la caché, historial o última respuesta válida y registrar cualquier diferencia como bloqueo.
+- Cambiar la resolución de manifests puede dejar archivos obsoletos desplegados en instalaciones anteriores; la implementación debe decidir cómo retirar targets remotos sin borrar configuraciones de usuario fuera de la política de backups.
+- `version = "*"` depende de que `static-noise.nvim` publique tags SemVer válidos; si la release más reciente rompe la compatibilidad con la versión instalada de Neovim, la implementación debe registrar el bloqueo en lugar de seleccionar `main` silenciosamente.
+- El lockfile cambiará potencialmente por la actualización del adaptador y puede incluir revisiones transitivas de LazyVim; debe revisarse para distinguir cambios necesarios de ruido no relacionado.
 
-### Documentation / Operational Notes
+### Assumptions
 
-- Update `AGENTS.md`, `README.md`, `.vitepress/config.mjs`, `documentation/ai.md`, `documentation/cheatsheet.md`, `documentation/git.md`, `documentation/herramientas.md`, `documentation/neovim.md`, `documentation/terminal.md`, `documentation/zellij.md` and any active references found by the repository-wide audit.
-- Update the VitePress workflow path filter and retain the existing `srcDir: "documentation"` arrangement.
-- Keep per-tool syntax and mapping details in the configurations or tool-specific guides; `documentation/colores.md` remains token- and rule-focused.
+- La réplica local representa el estado visual vigente solicitado por el usuario, no una nueva calibración contra el `palette.json` actual.
+- La frase “última release” para Neovim se interpreta como la última release estable de `static-noise.nvim`, no como un seguimiento de commits de desarrollo.
+- El reinicio de versión es intencional y permite eliminar compatibilidad con el estado anterior porque no existen consumidores externos que deban migrarse.
+
+---
 
 ## Implementation Units
 
-### U1. Establish the Static Noise contract
+### U1. Consolidar las configuraciones visuales locales
 
-- **Goal:** Replace the Tokyonight reference page with the canonical Static Noise token and semantic-rule contract.
-- **Requirements:** R1, R2, R3, R4, R5, R10.
+- **Goal:** Reemplazar cada target remoto por la réplica local exacta de la configuración visual vigente.
+- **Requirements:** R1, R2, R3.
 - **Dependencies:** None.
-- **Files:** `documentation/colores.md`, `ohmyconfig-static-noise.md`.
-- **Approach:** Consolidate the guide's reviewed palette, clarify primitive versus semantic roles, document selection versus `cyanDim`, define hierarchical priority for combined states (active focus with radiant cyan vs inactive selection with dimmed background; critical error/warning states retain foreground color while selection only styles the background), define accessibility and state rules, add portable variables and the new-tool checklist, then remove the duplicate untracked guide or mark it explicitly as historical outside the authority path.
-- **Test scenarios:** Test expectation: none — this unit produces documentation; verify every token has a value and semantic role, and no per-tool configuration block remains in the canonical page.
-- **Verification:** A reader can select a token from `documentation/colores.md` without consulting another theme file. Record minimum contrast targets, allowed exceptions, required foreground/background pairs, and an automated check covering normal and large text, UI controls, focus indicators, selections, code blocks and alerts.
+- **Files:** `modules/terminal/ghostty/manifest.sh`, `modules/terminal/ghostty/themes/static-noise`, `modules/terminal/zellij/manifest.sh`, `modules/terminal/zellij/themes/static-noise.kdl`, `modules/terminal/zellij/layouts/default.kdl`, `modules/core/starship/manifest.sh`, `modules/core/starship/starship.toml`, `modules/cli/bottom/manifest.sh`, `modules/cli/bottom/bottom.toml`, `modules/editor/lazygit/manifest.sh`, `modules/editor/lazygit/config.yml`, `modules/editor/git/manifest.sh`, `modules/editor/git/static-noise.gitconfig`, `modules/ai/pi/manifest.sh`, `modules/ai/pi/themes/static-noise.json`.
+- **Approach:**
+  1. Recuperar cada contenido vigente desde la caché, historial o fuente actualmente desplegada.
+  2. Guardarlo bajo el módulo que ya lo consume.
+  3. Cambiar cada manifest para apuntar al archivo local equivalente.
+  4. Mantener Fish y cualquier configuración que ya sea local sin cambios visuales.
+- **Patterns to follow:** Manifests existentes y despliegue no destructivo de `cli/lib/deploy.sh`.
+- **Test scenarios:**
+  - Para cada módulo, la fuente local produce el mismo contenido que el artefacto vigente antes de la migración.
+  - En modo symlink, el destino apunta al archivo local de OhMyConfig y no a la caché.
+  - En modo copy, el destino se actualiza desde la fuente local sin sobrescribir silenciosamente cambios del usuario.
+- **Verification:** La búsqueda de `@static-noise/` no encuentra targets activos en manifests y el diff de cada archivo local demuestra que no hubo recalibración visual.
 
-### U2. Migrate terminal, shell and CLI surfaces
+### U2. Retirar la dependencia runtime de artefactos remotos
 
-- **Goal:** Apply Static Noise to the terminal, shell completion/search interfaces and `omc` Gum output.
-- **Requirements:** R6, R7, R8, R9, R11, R12.
+- **Goal:** Simplificar instalación y actualización para que Static Noise no sea una descarga obligatoria para herramientas no-Neovim.
+- **Requirements:** R3, R8, R9, R11.
 - **Dependencies:** U1.
-- **Files:** `config/ghostty/config`, `config/fish/config.fish`, `config/starship/starship.toml`, `cli/lib/ui.sh`.
-- **Approach:** Replace the native Ghostty theme with explicit Static Noise values (including full 16-color ANSI palette), configure `BAT_THEME="ansi"` in Fish so `bat` seamlessly inherits the Ghostty ANSI palette without binary theme caches, translate tokens to Fish's no-`#` syntax and FZF's full-hex syntax, map Starship segments by semantic role, and align Gum's exported `COLOR_*` roles with the same state grammar.
-- **Test scenarios:** Test expectation: none — configuration-only unit; syntax-check Fish and Bash, inspect `omc --help`, and confirm no Tokyonight name or value remains in these files.
-- **Verification:** Shell startup, FZF selection, Starship prompt and `omc` output use neutral surfaces, cian focus and the agreed state colors without syntax errors.
+- **Files:** `cli/lib/static_noise.sh`, `cli/lib/deploy.sh`, `cli/commands/install.sh`, `cli/commands/update.sh`, `cli/lib/catalog.sh`.
+- **Approach:**
+  1. Retirar la preparación de caché y el recorrido especial de targets remotos.
+  2. Conservar solo la responsabilidad necesaria para actualizar `static-noise.nvim`.
+  3. Mantener el flujo existente de módulos y perfiles sin una fase de descarga de colores.
+  4. Actualizar mensajes de éxito, warning y error para describir fuentes locales.
+- **Execution note:** Es una migración de instalación y configuración; priorizar pruebas de sintaxis y smoke tests del CLI antes de cualquier ajuste cosmético.
+- **Patterns to follow:** Separación actual entre `deploy_module` y acciones posteriores de instalación.
+- **Test scenarios:**
+  - `omc install` completa los módulos seleccionados sin `curl` ni caché de Static Noise.
+  - `omc update` no falla cuando no existe conectividad con GitHub para el núcleo de Static Noise.
+  - Un perfil existente en modo copy o symlink continúa desplegando las fuentes locales.
+  - La actualización de Neovim conserva su warning controlado cuando Neovim no está instalado.
+- **Verification:** `bash -n` pasa para los scripts modificados, los mensajes no mencionan artefactos generados no existentes y no quedan llamadas activas a `static_noise_prepare` ni `deploy_static_noise_artifacts`.
 
-### U3. Migrate developer TUIs and Git presentation
+### U3. Actualizar Neovim al adaptador estable vigente
 
-- **Goal:** Apply Static Noise to Zellij, zjstatus, Lazygit, Bottom and Git Delta.
-- **Requirements:** R6, R7, R8, R9, R11, R12.
-- **Dependencies:** U1.
-- **Files:** `config/zellij/config.kdl`, `config/zellij/layouts/default.kdl`, `config/lazygit/config.yml`, `config/bottom/bottom.toml`, `config/git/delta.gitconfig`.
-- **Approach:** Migrate both Zellij color surfaces (palette tokens in `config.kdl` and full status-bar ANSI/KDL tokens in `layouts/default.kdl` so zjstatus maintains complete visual alignment with Static Noise), set `syntax-theme = ansi` in `config/git/delta.gitconfig` to inherit Ghostty's calibrated ANSI palette for syntax highlighting in diffs, use `Dim` variants for diff and selection backgrounds, preserve active/inactive focus hierarchy, keep critical states symbol-backed, and retain the existing Git/Delta integration behavior.
-- **Test scenarios:** Test expectation: none — configuration-only unit; parse each supported configuration where tooling permits and smoke-test Zellij, Lazygit, Bottom and Delta when installed.
-- **Verification:** Active panes and selections are visually dominant, inactive borders remain subordinate, diffs use subdued backgrounds, and Git states retain their semantic colors.
+- **Goal:** Instalar y bloquear la última release estable de `static-noise.nvim` compatible con la versión actual de Neovim.
+- **Requirements:** R4, R5, R6, R7, R9.
+- **Dependencies:** None.
+- **Files:** `modules/editor/nvim/lua/plugins/colorscheme.lua`, `modules/editor/nvim/lazy-lock.json`, `modules/editor/nvim/lua/config/lazy.lua`, `apps/docs/src/content/docs/neovim.md`.
+- **Approach:**
+  1. Expresar en la especificación del plugin la política de última release estable, excluyendo `main` y prereleases.
+  2. Actualizar el lockfile a la revisión correspondiente a la release estable vigente.
+  3. Revisar la configuración contra la versión estable actual de Neovim y las APIs usadas por el adaptador.
+  4. Mantener transparencia, prioridad de carga y `colorscheme = "static-noise"` salvo incompatibilidad comprobada.
+- **Patterns to follow:** Lockfile versionado de LazyVim y especificación existente del colorscheme.
+- **Test scenarios:**
+  - Con una release estable disponible, la resolución selecciona el tag estable más reciente y no un commit de `main`.
+  - Neovim arranca en modo headless con el plugin bloqueado y carga el colorscheme sin errores Lua.
+  - La configuración sigue funcionando con `termguicolors`, transparencia y los plugins visuales existentes.
+  - Una futura release estable actualiza el lockfile al ejecutar la actualización sin convertir el plugin en una dependencia no versionada.
+- **Verification:** El lockfile contiene la revisión de la release adoptada, Neovim reporta la versión soportada por el plan y no quedan instrucciones que recomienden seguir la rama mutable para este adaptador.
 
-### U4. Replace the Neovim theme implementation
+### U4. Sincronizar la documentación con el nuevo modelo
 
-- **Goal:** Remove the Tokyonight Neovim dependency and provide Static Noise highlights with equivalent editor usability.
-- **Requirements:** R6, R7, R8, R9, R11, R12.
-- **Dependencies:** U1.
-- **Files:** `config/nvim/lua/plugins/colorscheme.lua`, `config/nvim/lua/config/lazy.lua`, `config/nvim/lazy-lock.json`.
-- **Approach:** Replace the Tokyonight plugin configuration with a repository-owned Lua colorscheme module (`config/nvim/lua/plugins/colorscheme.lua`) implementing Static Noise directly via native Neovim highlights (`nvim_set_hl`), remove `tokyonight-night` from the LazyVim install fallback in `config/nvim/lua/config/lazy.lua`, preserve transparency and focus behavior where compatible, and remove the obsolete plugin lock entry only after the replacement covers editor, float, selection, diagnostic, syntax and Git roles.
-- **Test scenarios:** Test expectation: none — configuration-only unit; launch Neovim headless with the deployed configuration and verify it loads without plugin-resolution or Lua errors.
-- **Verification:** Neovim starts without Tokyonight, syntax and diagnostics remain distinguishable, and the active line, visual selection, cursor and floats follow Static Noise roles.
+- **Goal:** Documentar con precisión qué vive localmente en OhMyConfig y qué se actualiza desde un adaptador externo.
+- **Requirements:** R10, R11.
+- **Dependencies:** U1, U2, U3.
+- **Files:** `apps/docs/src/content/docs/instalacion.md`, `apps/docs/src/content/docs/neovim.md`, `apps/docs/src/content/docs/ai.md`, `apps/docs/src/content/docs/terminal.md`, `apps/docs/src/content/docs/git.md`, `apps/docs/src/content/docs/zellij.md`, `README.md`, `AGENTS.md`.
+- **Approach:** Eliminar la afirmación de que `static-noise` genera y descarga configuraciones para todas las herramientas; explicar que las réplicas no-Neovim se mantienen en el repositorio; describir `static-noise.nvim` como el único adaptador activo y registrar su política de release.
+- **Patterns to follow:** Documentación canónica bajo `apps/docs/src/content/docs/` y separación entre configuración y guía de instalación.
+- **Test scenarios:**
+  - La documentación de instalación no promete una caché o `dist/` remoto para herramientas no-Neovim.
+  - La documentación de Neovim identifica el adaptador y su política de release estable.
+  - Las páginas de herramientas continúan describiendo su apariencia actual sin introducir colores nuevos.
+- **Verification:** La búsqueda de afirmaciones sobre artefactos generados remotos devuelve solo referencias históricas justificadas o ninguna referencia activa.
 
-### U5. Rename and migrate the Pi theme
+### U5. Auditar instalación, compatibilidad y drift
 
-- **Goal:** Make Pi use a Static Noise theme while keeping its local header and catalog paths functional.
-- **Requirements:** R6, R7, R8, R9, R10.
-- **Dependencies:** U1.
-- **Files:** `.pi/settings.json`, `config/pi/themes/ohmyconfig-tokyonight.json`, `config/pi/themes/ohmyconfig-static-noise.json`, `config/pi/extensions/ohmyconfig-header.ts`, `cli/lib/catalog.sh`, `documentation/ai.md`.
-- **Approach:** Rename the theme file and internal theme name, translate its existing `vars` and semantic role mappings to Static Noise, update settings and catalog references, and validate that the header consumes supported semantic roles rather than hardcoded Tokyonight names.
-- **Test scenarios:** Test expectation: none — JSON and extension configuration unit; validate JSON syntax, inspect settings-to-theme paths, and smoke-test Pi with project-local theme loading when installed.
-- **Verification:** Pi loads the renamed theme and header through `.pi/settings.json`, and the catalog deploys the same path that settings reference.
+- **Goal:** Cerrar la migración demostrando que la configuración local conserva el comportamiento y que Neovim es la única integración versionada externamente.
+- **Requirements:** R1-R11.
+- **Dependencies:** U1, U2, U3, U4.
+- **Files:** `cli/lib/static_noise.sh`, `cli/lib/deploy.sh`, `modules/*/*/manifest.sh`, `modules/editor/nvim/lazy-lock.json`, `apps/docs/src/content/docs/`.
+- **Approach:** Auditar manifests, referencias remotas, nombres de temas, procedencia del lockfile y documentación; comparar los archivos locales con las configuraciones vigentes; validar que no se haya añadido una adaptación visual accidental.
+- **Test scenarios:**
+  - La búsqueda de `@static-noise/` no devuelve targets activos.
+  - La búsqueda de frases que atribuyen generación de configuraciones a `static-noise` no devuelve documentación activa incorrecta.
+  - Cada herramienta no-Neovim conserva su archivo local esperado y cada destino del manifest existe.
+  - Neovim carga el adaptador releaseado y el lockfile identifica su revisión exacta.
+  - La instalación funciona sin la caché remota y la actualización sigue intentando actualizar únicamente el adaptador de Neovim.
+- **Verification:** Se completan validaciones de Bash, JSON, TOML/KDL/YAML donde haya parsers disponibles, smoke tests de `omc` y Neovim, y build de la documentación sin enlaces rotos.
 
-### U6. Apply Static Noise to VitePress and active documentation
+### U6. Reiniciar la versión pública de OhMyConfig
 
-- **Goal:** Make the published documentation visually use Static Noise and remove active Tokyonight messaging.
-- **Requirements:** R6, R9, R10, R12.
-- **Dependencies:** U1, U5.
-- **Files:** `.vitepress/config.mjs`, `.vitepress/theme/index.js`, `.vitepress/theme/custom.css`, `.github/workflows/docs.yml`, `README.md`, `AGENTS.md`, `documentation/ai.md`, `documentation/cheatsheet.md`, `documentation/git.md`, `documentation/herramientas.md`, `documentation/neovim.md`, `documentation/terminal.md`, `documentation/zellij.md`, `documentation/instalacion.md`, `documentation/index.md`.
-- **Approach:** Add the smallest VitePress theme entry and CSS needed to map page, navigation, code, link, selection and alert roles; explicitly define `:focus-visible`, hover, current/visited links, active sidebar items, skip links, mobile navigation (respecting native 960px breakpoint with 44px touch targets and horizontal scroll for code blocks), search input/modal/no-results, code-copy success/error, alerts, semantic HTML/ARIA preservation and reduced-motion behavior; update metadata and prose to Static Noise; correct the workflow path filter; preserve pure Markdown under `documentation/`.
-- **Test scenarios:** Test expectation: none — documentation/configuration unit; build VitePress and verify every documented color reference uses Static Noise terminology or an intentional historical note.
-- **Verification:** VitePress renders the Static Noise surfaces, the Pages workflow responds to changes under `documentation/**`, and active docs no longer instruct users to use Tokyonight.
+- **Goal:** Establecer `0.0.1` como nueva base del proyecto y retirar la obligación de soportar la versión anterior.
+- **Requirements:** R12, R13.
+- **Dependencies:** U2, U4.
+- **Files:** `VERSION`, `apps/docs/package.json`, `apps/docs/package-lock.json`, `omc`, `cli/commands/doctor.sh`, `README.md`, `AGENTS.md`.
+- **Approach:** Actualizar la fuente única de versión y cualquier metadata derivada; revisar mensajes, documentación y políticas que todavía describan la versión anterior; eliminar referencias a compatibilidad o migración que ya no sean necesarias; no preservar perfiles o cachés antiguos dentro del flujo nuevo.
+- **Test scenarios:**
+  - `./omc --version` muestra `v0.0.1` y no usa un fallback de la versión anterior.
+  - El build de documentación muestra `0.0.1` en sus metadatos derivados.
+  - Un entorno limpio instala la nueva base sin ejecutar una migración de perfiles o cachés antiguos.
+- **Verification:** El árbol activo usa `0.0.1` como versión del proyecto, las referencias a la versión anterior quedan limitadas a historial o planes, y no existe una ruta de compatibilidad activa.
 
-### U7. Audit unsupported and residual surfaces
-
-- **Goal:** Close the migration by checking all active references and documenting surfaces that cannot receive colors.
-- **Requirements:** R6, R8, R9, R10.
-- **Dependencies:** U2, U3, U4, U5, U6.
-- **Files:** `config/atuin/config.toml`, `config/pi/extensions/ohmyconfig-header.ts`, `config/nvim/lazyvim.json`, `config/zellij/plugins/zjstatus.wasm`.
-- **Approach:** Confirm Atuin and the WASM plugin do not expose independent palette controls, validate the Pi header and LazyVim extras do not retain stale theme references, and run a repository-wide case-insensitive Tokyonight audit excluding intentional historical or plan content.
-- **Test scenarios:** Test expectation: none — audit unit; record each surface as migrated, inherited, unsupported or intentionally historical, with no unclassified active reference left behind.
-- **Verification:** The final audit produces no unjustified `tokyonight` or `tokyo night` reference in active configuration or documentation.
+---
 
 ## Verification Contract
 
 | Check | Applies to | Done signal |
 |---|---|---|
-| Repository-wide theme audit | U1–U7 | No unjustified Tokyonight reference remains in active files. Historical replacement mentions are explicitly allowed only in the canonical contract. |
-| Markdown and diff hygiene | U1, U6 | `git diff --check` passes and Markdown remains pure. |
-| Fish syntax | U2 | `fish -n config/fish/config.fish` passes. |
-| Bash syntax | U2 | `bash -n omc cli/commands/*.sh cli/lib/*.sh` passes. |
-| JSON validity | U5 | `jq empty .pi/settings.json config/pi/themes/*.json` passes. |
-| VitePress build | U6 | `npx vitepress build` completes without Rollup or broken-link errors. |
-| Runtime smoke checks | U2–U6 | Available binaries load their updated configuration: `./omc --help`, Neovim headless, Zellij, Bottom, Lazygit, Delta and Pi. |
+| Manifest/source audit | U1, U5 | No active manifest usa `@static-noise/*`; cada target local existe. |
+| Bash syntax | U2, U5 | `bash -n omc cli/commands/*.sh cli/lib/*.sh` pasa. |
+| Local configuration parity | U1, U5 | Los archivos locales coinciden con la configuración visual vigente registrada antes de la migración. |
+| Neovim adapter resolution | U3 | Lazy.nvim resuelve la última release estable de `static-noise.nvim` y `lazy-lock.json` registra su commit. |
+| Neovim headless smoke | U3, U5 | Neovim inicia y carga Static Noise sin errores Lua o de plugin. |
+| Configuration syntax | U1, U5 | Los formatos soportados de Ghostty, Zellij, Starship, Bottom, Lazygit, Delta y Pi se validan cuando existe parser o binario disponible. |
+| Documentation build | U4, U5 | `npm run build` dentro de `apps/docs` termina sin errores ni enlaces rotos. |
+| Runtime install/update smoke | U2, U5 | `./omc --help`, instalación y actualización no dependen de `static-noise` remoto para las herramientas no-Neovim. |
+| Version reset | U6 | `./omc --version` y los metadatos de documentación reportan `0.0.1`, sin migración de la versión anterior. |
 
-Add a lightweight canonical-token drift check to the audit: read the token values from `documentation/colores.md` and reject stale or unapproved values in migrated surfaces without generating native configuration files. The repository has no `package.json`; VitePress verification may use the existing ephemeral install workflow rather than introducing a JavaScript dependency manifest unless implementation finds a maintenance reason to add one.
-
-## Implementation Obligations
-
-None remaining. All architectural contradictions, tool mechanisms, and dependency boundaries have been incorporated into the unified plan.
-
-## Deferred / Open Questions
-
-None. All 7 review decisions (zjstatus layout integration, Neovim repository-owned Lua module, Bat ANSI inheritance, Delta ANSI syntax, VitePress native responsive variables, combined state hierarchy, and U5/U6 sequence) have been settled and captured in Key Decisions and Implementation Units.
+---
 
 ## Definition of Done
 
-- `documentation/colores.md` is the only canonical Static Noise source and contains tokens, semantic roles, rules, variables and the new-tool checklist.
-- All surfaces in R6 are migrated or explicitly documented as lacking color controls.
-- Tokyonight is absent from active configuration, documentation and runtime names; any retained historical mention is clearly non-operational.
-- Neovim and Pi no longer depend on or reference Tokyonight assets.
-- VitePress and its GitHub Pages workflow reflect the actual `documentation/` source directory.
-- Syntax checks, VitePress build, available runtime smoke checks and repository-wide audit pass.
-- No duplicate theme guide or abandoned experimental file remains in the final diff.
+- Las configuraciones visuales actuales de Ghostty, Zellij, Starship, Bottom, Lazygit, Delta y Pi están versionadas localmente en sus módulos.
+- Los manifests ya no dependen de targets `@static-noise/*`.
+- `omc install` y `omc update` no descargan ni despliegan una caché de artefactos Static Noise para herramientas no-Neovim.
+- Neovim usa únicamente el adaptador `static-noise.nvim` como integración externa y queda actualizado a la última release estable compatible, con lockfile actualizado.
+- La documentación diferencia claramente contrato de tokens, configuración local y adaptador de Neovim.
+- Las pruebas de sintaxis, paridad, smoke tests y build documental pasan.
+- OhMyConfig y la documentación quedan en versión `0.0.1`.
+- No queda código de compatibilidad, migración o recuperación específico de la versión anterior.
+- No queda código abandonado de la ruta remota ni una configuración experimental sin uso.
