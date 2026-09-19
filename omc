@@ -15,7 +15,16 @@
 set -e
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-OMC_VERSION="$(tr -d ' \n\r' < "$DOTFILES_DIR/VERSION" 2>/dev/null || echo "0.0.1")"
+VERSION_FILE="$DOTFILES_DIR/VERSION"
+if [ ! -r "$VERSION_FILE" ]; then
+    printf '%s\n' "[ERROR] Missing project version file: $VERSION_FILE" >&2
+    exit 1
+fi
+OMC_VERSION="$(tr -d ' \n\r' < "$VERSION_FILE")"
+if [ -z "$OMC_VERSION" ]; then
+    printf '%s\n' "[ERROR] Project version file is empty: $VERSION_FILE" >&2
+    exit 1
+fi
 export OMC_VERSION
 CMD="${1:-}"
 

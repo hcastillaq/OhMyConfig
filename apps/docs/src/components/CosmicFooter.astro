@@ -1,5 +1,6 @@
 ---
 import Pagination from 'virtual:starlight/components/Pagination';
+import { PROJECT_VERSION } from '../config/version.mjs';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
@@ -77,7 +78,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       </div>
       <div class="footer-status">
         <span class="status-indicator"></span>
-        <span class="status-text">OhMyConfig v1.0.0</span>
+        <span class="status-text">OhMyConfig v{PROJECT_VERSION}</span>
       </div>
     </div>
   </div>
