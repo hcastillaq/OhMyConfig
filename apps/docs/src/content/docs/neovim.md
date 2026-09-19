@@ -38,7 +38,7 @@ Neovim es la única herramienta de OhMyConfig que usa un adaptador oficial. Lazy
 }
 ```
 
-La paleta canónica vive en [`hcastillaq/static-noise`](https://github.com/hcastillaq/static-noise), mientras que el plugin mantiene la conversión específica para Neovim.
+Las configuraciones de color de las herramientas viven como snapshots versionados dentro de `modules/`; `static-noise.nvim` mantiene únicamente la adaptación específica para Neovim.
 
 ---
 
