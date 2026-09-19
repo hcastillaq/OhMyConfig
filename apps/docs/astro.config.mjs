@@ -1,8 +1,8 @@
-import { readFileSync } from 'node:fs';
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import { PROJECT_VERSION } from './src/config/version.mjs';
 
-const version = readFileSync(new URL('../../VERSION', import.meta.url), 'utf-8').trim();
+const version = PROJECT_VERSION;
 
 export default defineConfig({
   site: 'https://hcastillaq.github.io',
