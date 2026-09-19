@@ -30,8 +30,7 @@ cmd_install() {
     ui_divider
     ui_title "Instalador de Entorno de Desarrollo"
 
-    ui_dim "Sincronizando artefactos de Static Noise desde GitHub..."
-    static_noise_prepare || return 1
+    ui_dim "Usando configuraciones Static Noise locales de OhMyConfig."
     ui_divider
     echo ""
 
@@ -197,6 +196,13 @@ cmd_install() {
             mkdir -p "$HOME/.config/nvim"
             echo '{"extras":[]}' > "$lazyvim_starter"
         fi
+
+        ui_dim "Actualizando static-noise.nvim a la última versión..."
+        if static_noise_update_neovim; then
+            ui_success "static-noise.nvim actualizado"
+        else
+            ui_warn "No se pudo actualizar static-noise.nvim; ejecutá :Lazy update static-noise.nvim"
+        fi
     fi
 
     # ── Step 5: Save Profile ──────────────────────────────────────────────────
@@ -205,7 +211,7 @@ cmd_install() {
     cat > "$profile_file" << EOF
 # .omc-profile — generado por omc install
 deploy_mode=$deploy_mode
-modules=$mods_str
+modules="$mods_str"
 EOF
 
     ui_divider

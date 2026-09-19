@@ -1,37 +1,23 @@
 #!/usr/bin/env bash
-# STATIC NOISE — Remote generated theme artifacts consumed by OhMyConfig
+# Static Noise — Neovim adapter update helper
 
-STATIC_NOISE_RAW_BASE="https://raw.githubusercontent.com/hcastillaq/static-noise/main/dist"
-STATIC_NOISE_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/ohmyconfig/static-noise"
+static_noise_update_neovim() {
+    local config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
+    local nvim_config="$config_home/nvim/lua/plugins/colorscheme.lua"
 
-static_noise_prepare() {
-    local artifacts=(
-        "fish/static-noise-colors.fish"
-        "starship/static-noise-palette.toml"
-        "starship/starship.toml"
-        "bottom/static-noise-colors.toml"
-        "lazygit/static-noise-theme.yml"
-        "delta/static-noise.gitconfig"
-        "pi/static-noise-theme.json"
-        "ghostty/static-noise"
-        "zellij/static-noise.kdl"
-        "zellij/layouts/default.kdl"
-    )
-    local artifact tmp
+    [ -f "$nvim_config" ] || return 0
 
-    command -v curl >/dev/null 2>&1 || {
-        echo "❌ curl es necesario para descargar Static Noise desde GitHub."
+    if ! command -v nvim >/dev/null 2>&1; then
+        echo "[WARN] Neovim no está instalado; no se pudo actualizar static-noise.nvim."
+        return 0
+    fi
+
+    # The plugin spec selects the latest stable SemVer release. lazy.nvim keeps
+    # the exact resolved revision in lazy-lock.json for reproducible installs.
+    if ! nvim --headless '+Lazy! update static-noise.nvim' +qa >/dev/null 2>&1; then
+        echo "[WARN] No se pudo actualizar static-noise.nvim mediante lazy.nvim."
         return 1
-    }
+    fi
 
-    for artifact in "${artifacts[@]}"; do
-        mkdir -p "$STATIC_NOISE_CACHE/$(dirname "$artifact")"
-        tmp="$STATIC_NOISE_CACHE/$artifact.tmp"
-        if ! curl -fsSL "$STATIC_NOISE_RAW_BASE/$artifact" -o "$tmp"; then
-            rm -f "$tmp"
-            echo "❌ No se pudo descargar Static Noise: $artifact"
-            return 1
-        fi
-        mv "$tmp" "$STATIC_NOISE_CACHE/$artifact"
-    done
+    return 0
 }

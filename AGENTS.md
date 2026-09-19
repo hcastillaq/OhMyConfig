@@ -118,7 +118,7 @@ OhMyConfig/
 - **Optional Pi Packages**: Add capabilities only when needed with `pi install <package>` and inspect the current environment with `pi list`.
   - Current optional examples in this setup include `pi-subagents`, `pi-ask-user`, `pi-web-access`, `pi-hermes-memory`, `@ff-labs/pi-fff`, `@narumitw/pi-lsp`, `pi-antigravity`, `pi-smart-compact`, `pi-skill-dollar`, and `git:github.com/EveryInc/compound-engineering-plugin`.
 - **Lifecycle Commands**: `./omc update` automatically checks and updates `@earendil-works/pi-coding-agent`. Optional packages are managed by native Pi commands (`pi list`, `pi install`, `pi remove`).
-- **Project-Local Pi Config**: OhMyConfig selects a native Static Noise theme and custom TUI header from `.pi/settings.json`, loading resources stored under `modules/ai/pi/themes/` and `modules/ai/pi/extensions/` via paths relative to `.pi/` (`../modules/ai/pi/...`). Run `pi --approve` or `/trust` to load them.
+- **Project-Local Pi Resources**: `.pi/` contains only the repository-specific skills under `.pi/skills/`. The `ai` module deploys the Static Noise theme, custom TUI header, and model policy globally under `~/.pi/agent/`; project settings must not override those global resources. Run `pi --approve` or `/trust` to load the local skills.
 
 ---
 
@@ -137,12 +137,12 @@ OhMyConfig/
 4. **Non-Destructive Overwrites**: Configuration installers must never silently discard user files without `.bak_` backups or user consent.
 5. **Platform Scope**: Tailored for macOS (Apple Silicon `/opt/homebrew` and Intel `/usr/local`), supporting fish shell syntax.
 6. **Semantic Versioning & Release Policy (`SemVer`)**:
-   - **Baseline**: Starts at `v1.0.0` as the first stable public release.
+   - **Baseline**: Starts at `v0.0.1` as the reset baseline for the current single-user project.
    - **Single Source of Truth**: The `VERSION` plain file at the repository root. Both `./omc` and `apps/docs/` consume it directly.
-   - **Patch (`1.0.x`)**: Bug fixes in bash/fish scripts, design/CSS tweaks in documentation, dependency updates, or broken link repairs.
-   - **Minor (`1.x.0`)**: New CLI tools added to the catalog, new optional dotfiles modules, or new capabilities in `./omc` without breaking existing installations.
+   - **Patch (`0.0.x`)**: Bug fixes in bash/fish scripts, design/CSS tweaks in documentation, dependency updates, or broken link repairs.
+   - **Minor (`0.x.0`)**: New CLI tools added to the catalog, new optional dotfiles modules, or new capabilities in `./omc` without preserving legacy compatibility.
    - **Major (`x.0.0`)**: Breaking architectural changes (e.g. folder structure changes that break symlinks, replacing core tools like Neovim or Fish, or updates requiring manual user migrations).
-   - **Git Tags**: Releases must be marked with annotated git tags (e.g. `git tag -a v1.0.0 -m "Release v1.0.0"`).
+   - **Git Tags**: Releases must be marked with annotated git tags (e.g. `git tag -a v0.0.1 -m "Release v0.0.1"`).
 
 <!-- BEGIN COMPOUND PI TOOL MAP -->
 ## Compound Engineering (Pi compatibility)

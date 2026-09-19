@@ -37,7 +37,6 @@ export default defineConfig({
           items: [
             { label: 'Herramientas CLI / TUI', slug: 'herramientas' },
             { label: 'Tabla Maestra de Atajos', slug: 'cheatsheet' },
-            { label: 'Paleta Static Noise', slug: 'colores' },
           ],
         },
       ],

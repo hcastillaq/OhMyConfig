@@ -11,9 +11,9 @@ deploy_file() {
 
     if [ ! -e "$src" ]; then
         if command -v gum >/dev/null 2>&1; then
-            gum style --foreground "$COLOR_WARN" "    ⚠️  Origen no encontrado: $src"
+            gum style --foreground "$COLOR_WARN" "    [WARN] Origen no encontrado: $src"
         else
-            echo "    ⚠️  Origen no encontrado: $src"
+            echo "    [WARN] Origen no encontrado: $src"
         fi
         return 1
     fi
@@ -27,9 +27,9 @@ deploy_file() {
         # Check if already a symlink pointing to the same source
         if [ -L "$dest" ] && [ "$(readlink "$dest")" = "$src" ]; then
             if command -v gum >/dev/null 2>&1; then
-                gum style --foreground "$COLOR_OK" "    🔗 $(basename "$dest") (enlace ya activo)"
+                gum style --foreground "$COLOR_OK" "    [LINK] $(basename "$dest") (enlace ya activo)"
             else
-                echo "    🔗 $(basename "$dest") (enlace ya activo)"
+                echo "    [LINK] $(basename "$dest") (enlace ya activo)"
             fi
             return 0
         fi
@@ -39,9 +39,9 @@ deploy_file() {
             local backup="${dest}.bak_$(date +%Y%m%d_%H%M%S)"
             mv "$dest" "$backup"
             if command -v gum >/dev/null 2>&1; then
-                gum style --foreground "$COLOR_WARN" "    📦 Respaldo creado: $(basename "$backup")"
+                gum style --foreground "$COLOR_WARN" "    [BACKUP] Respaldo creado: $(basename "$backup")"
             else
-                echo "    📦 Respaldo creado: $(basename "$backup")"
+                echo "    [BACKUP] Respaldo creado: $(basename "$backup")"
             fi
         elif [ -L "$dest" ]; then
             rm -f "$dest"
@@ -49,9 +49,9 @@ deploy_file() {
 
         ln -sf "$src" "$dest"
         if command -v gum >/dev/null 2>&1; then
-            gum style --foreground "$COLOR_OK" "    🔗 $(basename "$dest") → $src"
+            gum style --foreground "$COLOR_OK" "    [LINK] $(basename "$dest") -> $src"
         else
-            echo "    🔗 $(basename "$dest") → $src"
+            echo "    [LINK] $(basename "$dest") -> $src"
         fi
 
     elif [ "$mode" = "copy" ]; then
@@ -60,9 +60,9 @@ deploy_file() {
                 local backup="${dest}.bak_$(date +%Y%m%d_%H%M%S)"
                 mv "$dest" "$backup"
                 if command -v gum >/dev/null 2>&1; then
-                    gum style --foreground "$COLOR_WARN" "    📦 Respaldo creado: $(basename "$backup")"
+                    gum style --foreground "$COLOR_WARN" "    [BACKUP] Respaldo creado: $(basename "$backup")"
                 else
-                    echo "    📦 Respaldo creado: $(basename "$backup")"
+                    echo "    [BACKUP] Respaldo creado: $(basename "$backup")"
                 fi
             elif [ -L "$dest" ]; then
                 rm -f "$dest"
@@ -71,9 +71,9 @@ deploy_file() {
             mkdir -p "$dest"
             cp -R "$src/"* "$dest/" 2>/dev/null || true
             if command -v gum >/dev/null 2>&1; then
-                gum style --foreground "$COLOR_OK" "    📁 $(basename "$dest")/ (copiado)"
+                gum style --foreground "$COLOR_OK" "    [COPY] $(basename "$dest")/ (copiado)"
             else
-                echo "    📁 $(basename "$dest")/ (copiado)"
+                echo "    [COPY] $(basename "$dest")/ (copiado)"
             fi
 
         else
@@ -81,18 +81,18 @@ deploy_file() {
             if [ -f "$dest" ] && [ ! -L "$dest" ]; then
                 if cmp -s "$src" "$dest"; then
                     if command -v gum >/dev/null 2>&1; then
-                        gum style --foreground "$COLOR_OK" "    📄 $(basename "$dest") (sin cambios)"
+                        gum style --foreground "$COLOR_OK" "    [OK] $(basename "$dest") (sin cambios)"
                     else
-                        echo "    📄 $(basename "$dest") (sin cambios)"
+                        echo "    [OK] $(basename "$dest") (sin cambios)"
                     fi
                     return 0
                 fi
                 local backup="${dest}.bak_$(date +%Y%m%d_%H%M%S)"
                 cp "$dest" "$backup"
                 if command -v gum >/dev/null 2>&1; then
-                    gum style --foreground "$COLOR_WARN" "    📦 Respaldo creado: $(basename "$backup")"
+                    gum style --foreground "$COLOR_WARN" "    [BACKUP] Respaldo creado: $(basename "$backup")"
                 else
-                    echo "    📦 Respaldo creado: $(basename "$backup")"
+                    echo "    [BACKUP] Respaldo creado: $(basename "$backup")"
                 fi
             elif [ -L "$dest" ]; then
                 rm -f "$dest"
@@ -100,9 +100,9 @@ deploy_file() {
 
             cp "$src" "$dest"
             if command -v gum >/dev/null 2>&1; then
-                gum style --foreground "$COLOR_OK" "    📄 $(basename "$dest") (desplegado)"
+                gum style --foreground "$COLOR_OK" "    [DEPLOY] $(basename "$dest") (desplegado)"
             else
-                echo "    📄 $(basename "$dest") (desplegado)"
+                echo "    [DEPLOY] $(basename "$dest") (desplegado)"
             fi
         fi
     fi
@@ -132,10 +132,7 @@ deploy_module() {
                 local src_rel="${target%%:*}"
                 local dest_rel="${target#*:}"
                 local src
-                if [[ "$src_rel" == @static-noise/* ]]; then
-                    # Artefacto generado remoto; STATIC_NOISE_CACHE lo prepara install/update.
-                    src="$STATIC_NOISE_CACHE/${src_rel#@static-noise/}"
-                elif [ "$src_rel" = "." ] || [ -z "$src_rel" ]; then
+                if [ "$src_rel" = "." ] || [ -z "$src_rel" ]; then
                     src="$tool_dir"
                 else
                     src="$tool_dir/$src_rel"

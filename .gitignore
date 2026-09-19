@@ -1,13 +1,8 @@
 # Local Pi runtime state
 .atl/
 .pi/*
-!.pi/settings.json
 !.pi/skills/
 !.pi/skills/**
-!.pi/themes/
-!.pi/themes/**
-!.pi/extensions/
-!.pi/extensions/**
 .DS_Store
 
 # Astro & Starlight build output & cache

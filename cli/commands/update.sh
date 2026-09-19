@@ -10,6 +10,7 @@ cmd_update() {
     source "$dotfiles_dir/cli/lib/ui.sh"
     source "$dotfiles_dir/cli/lib/brew.sh"
     source "$dotfiles_dir/cli/lib/static_noise.sh"
+    source "$dotfiles_dir/cli/lib/deploy.sh"
 
     brew_ensure
     gum_ensure
@@ -20,10 +21,32 @@ cmd_update() {
     ui_divider
     echo ""
 
-    # ── Static Noise ───────────────────────────────────────────────────────────
+    # ── Local configuration refresh ───────────────────────────────────────────
     ui_title "Static Noise"
-    static_noise_prepare
-    ui_success "Artefactos de Static Noise actualizados"
+    ui_success "Configuraciones locales Static Noise listas para desplegar"
+
+    local profile_file="$dotfiles_dir/.omc-profile"
+    if [ -f "$profile_file" ]; then
+        local deploy_mode modules mod
+        deploy_mode="$(grep '^deploy_mode=' "$profile_file" | head -n 1 | cut -d= -f2-)"
+        modules="$(grep '^modules=' "$profile_file" | head -n 1 | cut -d= -f2-)"
+        if [ "$deploy_mode" != "copy" ] && [ "$deploy_mode" != "symlink" ]; then
+            ui_error "El perfil tiene un modo de despliegue inválido."
+            return 1
+        fi
+        for mod in $modules; do
+            deploy_module "$mod" "$deploy_mode" "$dotfiles_dir"
+        done
+        ui_success "Configuraciones locales desplegadas"
+    else
+        ui_warn "No hay perfil de instalación; se actualizará solo Neovim si está disponible."
+    fi
+
+    if static_noise_update_neovim; then
+        ui_success "static-noise.nvim actualizado a la última versión"
+    else
+        ui_warn "No se pudo actualizar static-noise.nvim; ejecutá :Lazy update static-noise.nvim"
+    fi
     echo ""
 
     # ── Homebrew ──────────────────────────────────────────────────────────────

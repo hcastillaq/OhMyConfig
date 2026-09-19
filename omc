@@ -15,7 +15,7 @@
 set -e
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-OMC_VERSION="$(tr -d ' \n\r' < "$DOTFILES_DIR/VERSION" 2>/dev/null || echo "1.0.0")"
+OMC_VERSION="$(tr -d ' \n\r' < "$DOTFILES_DIR/VERSION" 2>/dev/null || echo "0.0.1")"
 export OMC_VERSION
 CMD="${1:-}"
 
@@ -34,7 +34,7 @@ esac
 
 case "$CMD" in
     --version|-v|version)
-        echo "⚡ OhMyConfig (omc) v$OMC_VERSION"
+        echo "OhMyConfig (omc) v$OMC_VERSION"
         exit 0
         ;;
 
@@ -56,7 +56,7 @@ case "$CMD" in
 
     --help|-h|help|"")
         echo ""
-        echo "⚡ OhMyConfig CLI — omc v$OMC_VERSION"
+        echo "OhMyConfig CLI - omc v$OMC_VERSION"
         echo ""
         echo "  Instalador interactivo, diagnóstico y gestor de herramientas"
         echo "  del entorno de desarrollo OhMyConfig."
