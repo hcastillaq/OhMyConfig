@@ -21,25 +21,42 @@ cmd_update() {
     ui_divider
     echo ""
 
-    # ── Local configuration refresh ───────────────────────────────────────────
+    # ── Static Noise configuration and adapters ───────────────────────────────
     ui_title "Static Noise"
-    ui_success "Configuraciones locales Static Noise listas para desplegar"
+    ui_success "Configuraciones locales listas para desplegar"
+
+    local config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
+    local should_update_ghostty=false
 
     local profile_file="$dotfiles_dir/.omc-profile"
     if [ -f "$profile_file" ]; then
         local deploy_mode modules mod
         deploy_mode="$(grep '^deploy_mode=' "$profile_file" | head -n 1 | cut -d= -f2-)"
-        modules="$(grep '^modules=' "$profile_file" | head -n 1 | cut -d= -f2-)"
+        modules="$(grep '^modules=' "$profile_file" | head -n 1 | cut -d= -f2- | tr -d "\"'")"
         if [ "$deploy_mode" != "copy" ] && [ "$deploy_mode" != "symlink" ]; then
             ui_error "El perfil tiene un modo de despliegue inválido."
             return 1
         fi
         for mod in $modules; do
             deploy_module "$mod" "$deploy_mode" "$dotfiles_dir"
+            if [ "$mod" = "terminal" ]; then
+                should_update_ghostty=true
+            fi
         done
         ui_success "Configuraciones locales desplegadas"
     else
-        ui_warn "No hay perfil de instalación; se actualizará solo Neovim si está disponible."
+        ui_warn "No hay perfil de instalación; se actualizarán los adaptadores configurados."
+        if [ -f "$config_home/ghostty/config" ]; then
+            should_update_ghostty=true
+        fi
+    fi
+
+    if [ "$should_update_ghostty" = true ]; then
+        if static_noise_update_ghostty; then
+            ui_success "static-noise.ghostty actualizado a la última release"
+        else
+            ui_warn "No se pudo actualizar static-noise.ghostty; se conservó el tema anterior"
+        fi
     fi
 
     if static_noise_update_neovim; then

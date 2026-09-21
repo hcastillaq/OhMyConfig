@@ -30,7 +30,7 @@ cmd_install() {
     ui_divider
     ui_title "Instalador de Entorno de Desarrollo"
 
-    ui_dim "Usando configuraciones Static Noise locales de OhMyConfig."
+    ui_dim "Usando configuraciones locales y adaptadores oficiales de Static Noise."
     ui_divider
     echo ""
 
@@ -184,12 +184,23 @@ cmd_install() {
     done
 
     # ── Step 4: Post-Install Actions ──────────────────────────────────────────
-    # Neovim LazyVim setup
+    local has_terminal=0
     local has_editor=0
     for m in "${selected_modules[@]}"; do
+        [ "$m" = "terminal" ] && has_terminal=1
         [ "$m" = "editor" ] && has_editor=1
     done
 
+    if [ "$has_terminal" -eq 1 ]; then
+        ui_dim "Descargando la última release de static-noise.ghostty..."
+        if static_noise_update_ghostty; then
+            ui_success "static-noise.ghostty actualizado"
+        else
+            ui_warn "No se pudo actualizar static-noise.ghostty; se conservó el tema anterior"
+        fi
+    fi
+
+    # Neovim LazyVim setup
     if [ "$has_editor" -eq 1 ]; then
         local lazyvim_starter="$HOME/.config/nvim/lazyvim.json"
         if [ ! -f "$lazyvim_starter" ]; then

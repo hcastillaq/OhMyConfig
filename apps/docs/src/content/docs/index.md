@@ -122,5 +122,5 @@ OhMyConfig nació con una idea muy simple: **un entorno para macOS rápido, pred
 ### Los 3 pilares del proyecto
 
 1. **Rendimiento real con Rust y Go:** Sustituí las utilidades tradicionales de Unix por equivalentes modernos (`eza`, `bat`, `ripgrep`, `dust`, `zoxide`, `zellij`). Responden en microsegundos y aprovechan la aceleración de hardware.
-2. **Tema visual Static Noise:** Cero incoherencia visual. Neovim, Zellij, Ghostty, Lazygit y el agente Pi comparten una identidad visual de alto contraste mediante configuraciones versionadas junto a cada módulo.
+2. **Tema visual Static Noise:** Neovim y Ghostty consumen sus adaptadores publicados; Zellij, Lazygit y Pi mantienen configuraciones versionadas en sus módulos. Todas las integraciones comparten la misma identidad visual de alto contraste.
 3. **Despliegue seguro e idempotente:** La CLI `omc` está escrita en Bash nativo de macOS (3.2+) para no depender de que tengas Fish o Zsh configurados previamente. Compara tus archivos locales con `cmp -s`, genera copias de seguridad con timestamp antes de modificar nada y te da la opción de usar enlaces simbólicos directos para que cualquier cambio en este repo impacte al momento en tu sistema.

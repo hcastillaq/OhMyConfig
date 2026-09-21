@@ -19,7 +19,7 @@ Emulador de terminal nativo para macOS con aceleración por GPU (Metal):
 * **Desenfoque y Transparencia:** Configurado con *blur radius 20*, opacidad al 0.90 y sin marcos de ventana de macOS.
 * **Tipografía:** JetBrains Mono Nerd Font con ligaduras de código habilitadas.
 * **Cursor:** Estilo bloque en color Cyan Static Noise (`#72EAD5`).
-* **Selección:** Fondo atenuado de alto contraste (`#253A43`) con texto marfil (`#E6E2D6`). Los colores se mantienen junto a cada configuración dentro de `modules/`.
+* **Selección:** Fondo atenuado de alto contraste con texto marfil (`#E6E2D6`). La paleta llega desde la última release de [`static-noise.ghostty`](https://github.com/hcastillaq/static-noise.ghostty), instalada por `omc` en `~/.config/ghostty/themes/static-noise`.
 
 ---
 

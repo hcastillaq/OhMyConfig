@@ -78,7 +78,7 @@ case "$CMD" in
         echo ""
         echo "    doctor               Diagnóstico completo del entorno, paquetes y symlinks"
         echo ""
-        echo "    update               Actualiza Homebrew + herramientas globales (Pi)"
+        echo "    update               Actualiza Homebrew, Pi y adaptadores Static Noise"
         echo ""
         echo "    --version, -v        Muestra la versión de OhMyConfig"
         echo "    --help, -h           Muestra esta ayuda"

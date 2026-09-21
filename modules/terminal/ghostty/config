@@ -9,7 +9,7 @@ font-size = 15
 font-feature = ["liga", "calt"]
 
 # --- TEMA ---
-# El archivo se instala desde static-noise en ~/.config/ghostty/themes/.
+# omc descarga la última release de static-noise.ghostty en ~/.config/ghostty/themes/.
 theme = "static-noise"
 
 # --- VENTANA Y EFECTOS VISUALES ---
