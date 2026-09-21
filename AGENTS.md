@@ -144,6 +144,17 @@ OhMyConfig/
    - **Major (`x.0.0`)**: Breaking architectural changes (e.g. folder structure changes that break symlinks, replacing core tools like Neovim or Fish, or updates requiring manual user migrations).
    - **Git Tags**: Releases must be marked with annotated git tags (e.g. `git tag -a v0.0.1 -m "Release v0.0.1"`).
 
+---
+
+## 5. Branching & Release Workflow
+
+- **Stable branch (`main`)**: Contains only release-ready code. Changes reach `main` through a release or hotfix pull request; version tags are created only after the corresponding release PR is merged.
+- **Integration branch (`develop`)**: Collects completed, unreleased work for the next version. It must remain buildable and must not receive direct commits.
+- **Feature branches (`feature/<name>`)**: All new functionality and planned improvements use the full `feature/` prefix and open PRs against `develop`. The shortened `feat/` branch prefix is not allowed; `feat` remains valid only as a Conventional Commit type.
+- **Fix branches (`fix/<name>`)**: Non-emergency fixes branch from `develop` and return to `develop`. Production hotfixes branch from `main`, merge into `main`, and are then synchronized back into `develop`.
+- **Release branches (`release/X.Y.Z`)**: Branch from `develop` only after the release scope is complete. The root `VERSION` file is updated on this branch, never directly on `develop` or `main`. Release branches accept only version metadata, documentation synchronization, and stabilization fixes, then open a PR against `main`.
+- **Release completion**: After merging `release/X.Y.Z` into `main`, create and push the annotated `vX.Y.Z` tag from the resulting `main` commit. Then merge or fast-forward `main` back into `develop` so version metadata and release fixes remain synchronized.
+
 <!-- BEGIN COMPOUND PI TOOL MAP -->
 ## Compound Engineering (Pi compatibility)
 
