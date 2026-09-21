@@ -86,9 +86,11 @@ Actualiza Homebrew, todas las fórmulas de terminal, las aplicaciones de escrito
 
 ### Static Noise — tema compartido
 
-Las configuraciones visuales de Ghostty, Zellij, Fish, Starship, Bottom, Lazygit, Delta y Pi viven como archivos versionados dentro de `modules/` y se despliegan directamente desde OhMyConfig. `omc install` y `omc update` no dependen de una caché ni de artefactos generados por [`hcastillaq/static-noise`](https://github.com/hcastillaq/static-noise).
+Las configuraciones visuales de Zellij, Fish, Starship, Bottom, Lazygit, Delta y Pi viven como archivos versionados dentro de `modules/` y se despliegan directamente desde OhMyConfig.
 
-Neovim es la única integración que usa un adaptador externo: instala [`static-noise.nvim`](https://github.com/hcastillaq/static-noise.nvim) mediante LazyVim y sigue su última release estable compatible.
+Ghostty usa el adaptador publicado [`static-noise.ghostty`](https://github.com/hcastillaq/static-noise.ghostty). Cuando instalás el módulo `terminal`, `omc install` descarga la última release en `~/.config/ghostty/themes/static-noise`; `omc update` la vuelve a consultar y conserva una copia de respaldo si el archivo cambia.
+
+Neovim instala [`static-noise.nvim`](https://github.com/hcastillaq/static-noise.nvim) mediante LazyVim y sigue su última release estable compatible.
 
 ---
 
