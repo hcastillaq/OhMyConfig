@@ -81,7 +81,7 @@ Para evitar desincronización y duplicación de datos, los atajos y aliases de c
 | `./omc install` | Instalador interactivo TUI con selección modular |
 | `./omc install --all --link` | Instalación completa en modo symlink (recomendado) |
 | `./omc doctor` | Diagnóstico de salud del entorno, paquetes y symlinks |
-| `./omc update` | Actualiza fórmulas/casks de Homebrew y paquetes de IA (Pi) |
+| `./omc update` | Actualiza fórmulas/casks, Pi y adaptadores publicados de Static Noise |
 | `./omc --version` | Muestra la versión actual desde el archivo `VERSION` |
 | `./omc --help` | Muestra la ayuda de comandos |
 

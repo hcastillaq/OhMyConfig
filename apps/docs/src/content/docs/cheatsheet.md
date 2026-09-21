@@ -151,13 +151,13 @@ Esta es la hoja de trucos de cabecera de OhMyConfig. Si recién instalás el ent
 
 | Comando / Atajo | Contexto | Descripción |
 | :--- | :--- | :--- |
-| **`./omc install`** | Terminal | Instalar módulos, Pi y configuraciones Static Noise locales |
+| **`./omc install`** | Terminal | Instalar módulos, Pi y adaptadores Static Noise |
 | **`./omc doctor`** | Terminal | Diagnosticar herramientas y dependencias |
-| **`./omc update`** | Terminal | Actualizar herramientas y Pi; conserva temas locales |
+| **`./omc update`** | Terminal | Actualizar herramientas, Pi y adaptadores Static Noise |
 | **`pi`** | Terminal | Iniciar sesión interactiva del agente de codificación |
 | **`pi list`** | Terminal | Listar paquetes/extensiones instaladas |
 | **`pi install <paquete>`** | Terminal | Instalar herramientas opcionales bajo demanda |
 | **`pi remove <paquete>`** | Terminal | Desinstalar una extensión opcional |
 | **`/council <pregunta>`** | Pi Session | Consejo consultivo si está instalado `pi-model-council` |
 | **`$skill-name`** | Pi Session | Mención difusa si está instalado `pi-skill-dollar` |
-| **`./omc update`** | Terminal | Actualización completa del entorno con configuraciones locales |
+| **`./omc update`** | Terminal | Actualización completa del entorno y sus temas publicados |

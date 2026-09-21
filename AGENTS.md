@@ -80,7 +80,7 @@ OhMyConfig/
 - **State Profile (`.omc-profile`)**: Persists active modules and deployment mode for non-destructive incremental updates and diagnostics.
 
 ### 3.2 Terminal & Shell Layer
-- **Ghostty**: Modern GPU-accelerated terminal emulator configured with JetBrains Mono Nerd Font, font ligatures, window blur, and Static Noise styling.
+- **Ghostty**: Modern GPU-accelerated terminal emulator configured with JetBrains Mono Nerd Font, font ligatures, window blur, and the published `static-noise.ghostty` release adapter.
 - **Fish Shell (`config/fish/config.fish`)**:
   - Environment variables: `STARSHIP_CONFIG`, `BAT_THEME`, `XDG_CONFIG_HOME`, `EDITOR`.
   - FZF Integration: Complete Static Noise color mapping with `fd` file/directory providers.
@@ -133,7 +133,7 @@ OhMyConfig/
    - Documentation platform is built on **Astro + Starlight** inside `apps/docs/` with zero JavaScript on reader content, styled with the Static Noise palette and a calibrated cosmic atmosphere canvas.
    - CI/CD in `.github/workflows/docs.yml` verifies compilation with `npm run build` inside `apps/docs/` on PRs and deploys to GitHub Pages exclusively upon version tag releases (`v*`) or manual dispatch.
    - Compound Engineering artifacts are separated from user docs under `.compound-engineering/artifacts/` via `.compound-engineering/config.yaml` (`docs_root`).
-3. **Zero-Friction Offline Execution**: Avoid dynamic external downloads inside runtime configs; bundle or locally cache required binaries/WASM plugins within the repo.
+3. **Zero-Friction Runtime Execution**: Runtime configs must not download assets dynamically. Published theme adapters may be refreshed explicitly by `omc install` or `omc update`; failed refreshes must preserve the previously installed file.
 4. **Non-Destructive Overwrites**: Configuration installers must never silently discard user files without `.bak_` backups or user consent.
 5. **Platform Scope**: Tailored for macOS (Apple Silicon `/opt/homebrew` and Intel `/usr/local`), supporting fish shell syntax.
 6. **Semantic Versioning & Release Policy (`SemVer`)**:
