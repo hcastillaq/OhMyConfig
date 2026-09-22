@@ -1,7 +1,9 @@
 name: Test macOS
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - feature/go-cli-rewrite
 
 jobs:
   test:
