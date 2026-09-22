@@ -29,6 +29,7 @@ jobs:
             exit 1
           fi
 
-    echo "Homebrew no está instalado"
+          echo "Homebrew no está instalado"
+
       - name: Install
         run: ./dist/omc install
