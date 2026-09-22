@@ -55,5 +55,11 @@ jobs:
 
           echo "Homebrew no está instalado"
 
-      - name: Install
-        run: ./dist/omc install
+      - name: Install should fail
+        run: |
+          if ./dist/omc install; then
+            echo "OMC no falló como se esperaba"
+            exit 1
+          fi
+
+          echo "OMC falló correctamente"
