@@ -19,5 +19,16 @@ jobs:
       - name: Build
         run: go build -o dist/omc ./cmd/omc
 
+      - name: Remove Homebrew
+        run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)" -- --force
+
+      - name: Verify Homebrew is not installed
+        run: |
+          if command -v brew >/dev/null 2>&1; then
+            echo "Homebrew todavía está instalado"
+            exit 1
+          fi
+
+    echo "Homebrew no está instalado"
       - name: Install
         run: ./dist/omc install
